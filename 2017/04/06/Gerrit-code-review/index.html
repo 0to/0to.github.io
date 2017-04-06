@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Jenkins常用插件 - Just Do IT</title>
+    <title>Gerrit code review - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,22 +15,48 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="build-user-vars-pluginhttps://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin用途：获取构建的执行人信息需要在job配置中勾选Set jenkins user build variables
+    <meta name="description" content="背景
+公司使用Gerrit作为代码托管平台。 Gerrit除了设置项目权限外，还提供了很好的code review功能。 下面分别简单介绍普通Git用法和code review用法
 
-gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
+普通Git使用方法：
+
+如上图所示：
+Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；
+绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；
+
+12">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Jenkins常用插件">
-<meta property="og:url" content="https://0to.github.io/2017/01/24/jenkins插件/index.html">
+<meta property="og:title" content="Gerrit code review">
+<meta property="og:url" content="https://0to.github.io/2017/04/06/Gerrit-code-review/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="build-user-vars-pluginhttps://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin用途：获取构建的执行人信息需要在job配置中勾选Set jenkins user build variables
+<meta property="og:description" content="背景
+公司使用Gerrit作为代码托管平台。 Gerrit除了设置项目权限外，还提供了很好的code review功能。 下面分别简单介绍普通Git用法和code review用法
 
-gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
-<meta property="og:updated_time" content="2017-01-24T11:06:40.000Z">
+普通Git使用方法：
+
+如上图所示：
+Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；
+绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；
+
+12">
+<meta property="og:image" content="https://0to.github.io/2017/04/06/Gerrit-code-review/git_test.png">
+<meta property="og:image" content="https://0to.github.io/2017/04/06/Gerrit-code-review/gerrit_test.png">
+<meta property="og:image" content="https://0to.github.io/2017/04/06/Gerrit-code-review/code_review.png">
+<meta property="og:image" content="https://0to.github.io/2017/04/06/Gerrit-code-review/patch.png">
+<meta property="og:updated_time" content="2017-04-06T08:54:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jenkins常用插件">
-<meta name="twitter:description" content="build-user-vars-pluginhttps://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin用途：获取构建的执行人信息需要在job配置中勾选Set jenkins user build variables
+<meta name="twitter:title" content="Gerrit code review">
+<meta name="twitter:description" content="背景
+公司使用Gerrit作为代码托管平台。 Gerrit除了设置项目权限外，还提供了很好的code review功能。 下面分别简单介绍普通Git用法和code review用法
 
-gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
+普通Git使用方法：
+
+如上图所示：
+Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；
+绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；
+
+12">
+<meta name="twitter:image" content="https://0to.github.io/2017/04/06/Gerrit-code-review/git_test.png">
     
     
         
@@ -235,13 +261,13 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            Jenkins常用插件
+            Gerrit code review
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T18:18:19+08:00">
+    <time itemprop="datePublished" datetime="2017-04-06T15:07:45+08:00">
 	
-		    Jan 24, 2017
+		    Apr 06, 2017
     	
     </time>
     
@@ -257,26 +283,34 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <ul>
-<li><p>build-user-vars-plugin<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin</a><br>用途：获取构建的执行人信息<br>需要在job配置中勾选Set jenkins user build variables</p>
-</li>
-<li><p>gerrit-trigger<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger</a><br>用途：打通gerit和jenkins<br>主要用于：gerrit事件触发jenkins job，jenkins job执行结果反写回gerrit</p>
-</li>
-<li><p>thinBackup<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/thinBackup" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/thinBackup</a><br>用途：备份jenkins配置和job配置</p>
-</li>
-<li><p>saferestart<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin</a><br>用途：提供一个按钮来安全重启jenkins<br>点击后，如果有job正在执行那么等job执行完毕后会重启jenkins，点击后再加进来的job会等待重启完成后执行。</p>
-</li>
-<li><p>jobConfigHistory<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin</a><br>用途：记录每次job配置变更，支持查找历史版本和回滚</p>
-</li>
-<li><p>rebuild<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin</a><br>用途：增加rebuild按钮用来使用相同的参数再次执行构建<br>gerrit触发的job 要使用  Retrigger 而不是rebuild</p>
-</li>
-<li><p>jenkins-multijob-plugin<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin</a><br>用途：多个job组成工作流<br>优点：比其它组job流的插件多了最终收集结果功能，而且界面配置简单，功能强大</p>
-</li>
-<li><p>multiple-scms<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin</a><br>用途：job支持多个git工程 并且可以配置下载代码到指定目录</p>
-</li>
-<li><p>Copy Artifact Plugin<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin</a><br>用途：拷贝其它job的指定产出物</p>
-</li>
-</ul>
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
+<p>公司使用Gerrit作为代码托管平台。 Gerrit除了设置项目权限外，还提供了很好的code review功能。 下面分别简单介绍普通Git用法和code review用法</p>
+</blockquote>
+<h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/2017/04/06/Gerrit-code-review/git_test.png" alt="logo"></p>
+<blockquote>
+<p>如上图所示：</p>
+<p>Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；</p>
+<p>绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone :克隆一个远端git仓库到本地</div><div class="line">git fetch：获取远端git仓库变化到本地仓库，并不会更改当前工作区文件</div><div class="line">git pull：这个命令相当于：先执行git fetch 然后执行git merge变化到当前工作区</div><div class="line">git push：将本地仓库的变化推送到远端git服务器</div></pre></td></tr></table></figure>
+<h2 id="Code-Review使用方法："><a href="#Code-Review使用方法：" class="headerlink" title="Code Review使用方法："></a>Code Review使用方法：</h2><p><img src="/2017/04/06/Gerrit-code-review/gerrit_test.png" alt="logo"></p>
+<blockquote>
+<p>如上图所示：</p>
+<p>使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；</p>
+<p>本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；</p>
+<p><img src="/2017/04/06/Gerrit-code-review/code_review.png" alt="logo"></p>
+<p>管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。</p>
+<p>PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）</p>
+</blockquote>
+<h2 id="原理解析："><a href="#原理解析：" class="headerlink" title="原理解析："></a>原理解析：</h2><blockquote>
+<p>为了实现上面所说的功能，gerrit引入了change_id和for空间；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">我们执行git push到for空间；</div><div class="line">    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：</div><div class="line">    git push origin HEAD:refs/heads/master</div><div class="line">    推送当前本地最新代码到远端（origin）master分支</div><div class="line"></div><div class="line">    使用code review的话执行git push完整命令是：</div><div class="line">    git push origin HEAD:refs/for/master</div><div class="line">    推送当前本地最新代码到for空间的master分支供gerrit识别</div><div class="line"></div><div class="line">    PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Gerrit根据change-Id识别你的patch；</div><div class="line">    我们需要引入commit-msg钩子文件到本地代码库:</div><div class="line">        （这个是gerrit原生提供的通过scp命令实现）</div><div class="line">        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可</div><div class="line">        gitdir=$(git rev-parse --git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg $&#123;gitdir&#125;/hooks/</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">commit-msg钩子的作用和使用：</div><div class="line"></div><div class="line">1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id</div><div class="line">        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548</div><div class="line"></div><div class="line">2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit --amend</div><div class="line">        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）</div><div class="line">    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</div><div class="line"></div><div class="line">PS：建议合并最新版本代码到本地：使用git pull --rebase</div><div class="line">    如果使用git pull： merge点不自动产生change-id！！！</div></pre></td></tr></table></figure>
+<p><img src="/2017/04/06/Gerrit-code-review/patch.png" alt="logo"></p>
+<h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：</div><div class="line">1.git clone远端代码库到本地</div><div class="line">2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</div><div class="line">3.每次都要本地git commit后执行git push origin HEAD:refs/for/master</div><div class="line">4.去gerrit上面添加code reviewers</div><div class="line">这并不是我想要的生活。。。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">一劳永逸方法：</div><div class="line">1.git clone远端代码库到本地</div><div class="line">2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</div><div class="line">3.修改本地代码库config   vi .git/config增加下面内容</div><div class="line">[remote &quot;review_master&quot;]</div><div class="line">     url = 代码库地址</div><div class="line">     push = HEAD:refs/for/master%r=weilong.wang@memblaze.com,r=dev1@memblaze.com</div><div class="line">4.本地git commit后执行git push review_master即可</div><div class="line">会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</div><div class="line">PS：     remote &quot;review_master&quot; 这个可以换成你喜欢的其他字符串；假如改成remote &quot;haha&quot; 那么最终push的时候执行 git push haha</div><div class="line">PS：     pushurl这个请自行替换成各位执行git clone的地址</div><div class="line">PS：     自动添加code reviewers请自行替换成各位项目的同事</div></pre></td></tr></table></figure>
 
             
         </div>
@@ -286,7 +320,7 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Jenkins/">Jenkins</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Gerrit/">Gerrit</a>
 
             </div>
         
@@ -295,7 +329,7 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/"  data-tooltip="使用Jenkins_Gerrit搭建持续集成">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -303,7 +337,7 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/31/Git-tips-one/" data-tooltip="Git tips one">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -318,17 +352,17 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -376,7 +410,7 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/"  data-tooltip="使用Jenkins_Gerrit搭建持续集成">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -384,7 +418,7 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/31/Git-tips-one/" data-tooltip="Git tips one">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -399,17 +433,17 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -435,17 +469,17 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/2017/01/24/jenkins插件/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/2017/04/06/Gerrit-code-review/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
@@ -608,9 +642,9 @@ gerrit-triggerhttps://wiki.jenkins-ci.org/display/JEN">
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/2017/01/24/jenkins插件/';
+                 this.page.url = 'https://0to.github.io/2017/04/06/Gerrit-code-review/';
                  
-                    this.page.identifier = '2017/01/24/jenkins插件/';
+                    this.page.identifier = '2017/04/06/Gerrit-code-review/';
                  
              };
             (function() {

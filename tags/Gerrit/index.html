@@ -231,6 +231,81 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2017/04/06/Gerrit-code-review/">
+                            Gerrit code review
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-04-06T15:07:45+08:00">
+	
+		    Apr 06, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
+<p>公司使用Gerrit作为代码托管平台。 Gerrit除了设置项目权限外，还提供了很好的code review功能。 下面分别简单介绍普通Git用法和code review用法</p>
+</blockquote>
+<h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/2017/04/06/Gerrit-code-review/git_test.png" alt="logo"></p>
+<blockquote>
+<p>如上图所示：</p>
+<p>Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；</p>
+<p>绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone :克隆一个远端git仓库到本地</div><div class="line">git fetch：获取远端git仓库变化到本地仓库，并不会更改当前工作区文件</div><div class="line">git pull：这个命令相当于：先执行git fetch 然后执行git merge变化到当前工作区</div><div class="line">git push：将本地仓库的变化推送到远端git服务器</div></pre></td></tr></table></figure>
+<h2 id="Code-Review使用方法："><a href="#Code-Review使用方法：" class="headerlink" title="Code Review使用方法："></a>Code Review使用方法：</h2><p><img src="/2017/04/06/Gerrit-code-review/gerrit_test.png" alt="logo"></p>
+<blockquote>
+<p>如上图所示：</p>
+<p>使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；</p>
+<p>本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；</p>
+<p><img src="/2017/04/06/Gerrit-code-review/code_review.png" alt="logo"></p>
+<p>管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。</p>
+<p>PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）</p>
+</blockquote>
+<h2 id="原理解析："><a href="#原理解析：" class="headerlink" title="原理解析："></a>原理解析：</h2><blockquote>
+<p>为了实现上面所说的功能，gerrit引入了change_id和for空间；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">我们执行git push到for空间；</div><div class="line">    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：</div><div class="line">    git push origin HEAD:refs/heads/master</div><div class="line">    推送当前本地最新代码到远端（origin）master分支</div><div class="line"></div><div class="line">    使用code review的话执行git push完整命令是：</div><div class="line">    git push origin HEAD:refs/for/master</div><div class="line">    推送当前本地最新代码到for空间的master分支供gerrit识别</div><div class="line"></div><div class="line">    PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Gerrit根据change-Id识别你的patch；</div><div class="line">    我们需要引入commit-msg钩子文件到本地代码库:</div><div class="line">        （这个是gerrit原生提供的通过scp命令实现）</div><div class="line">        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可</div><div class="line">        gitdir=$(git rev-parse --git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg $&#123;gitdir&#125;/hooks/</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">commit-msg钩子的作用和使用：</div><div class="line"></div><div class="line">1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id</div><div class="line">        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548</div><div class="line"></div><div class="line">2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit --amend</div><div class="line">        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）</div><div class="line">    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</div><div class="line"></div><div class="line">PS：建议合并最新版本代码到本地：使用git pull --rebase</div><div class="line">    如果使用git pull： merge点不自动产生change-id！！！</div></pre></td></tr></table></figure>
+<p><img src="/2017/04/06/Gerrit-code-review/patch.png" alt="logo"></p>
+<h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：</div><div class="line">1.git clone远端代码库到本地</div><div class="line">2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</div><div class="line">3.每次都要本地git commit后执行git push origin HEAD:refs/for/master</div><div class="line">4.去gerrit上面添加code reviewers</div><div class="line">这并不是我想要的生活。。。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">一劳永逸方法：</div><div class="line">1.git clone远端代码库到本地</div><div class="line">2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</div><div class="line">3.修改本地代码库config   vi .git/config增加下面内容</div><div class="line">[remote &quot;review_master&quot;]</div><div class="line">     url = 代码库地址</div><div class="line">     push = HEAD:refs/for/master%r=weilong.wang@memblaze.com,r=dev1@memblaze.com</div><div class="line">4.本地git commit后执行git push review_master即可</div><div class="line">会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</div><div class="line">PS：     remote &quot;review_master&quot; 这个可以换成你喜欢的其他字符串；假如改成remote &quot;haha&quot; 那么最终push的时候执行 git push haha</div><div class="line">PS：     pushurl这个请自行替换成各位执行git clone的地址</div><div class="line">PS：     自动添加code reviewers请自行替换成各位项目的同事</div></pre></td></tr></table></figure>
+
+                    
+                        
+                    
+                    
+                        <p>
+                            <a href="/2017/04/06/Gerrit-code-review/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/">
                             使用Jenkins_Gerrit搭建持续集成
                         </a>
@@ -507,6 +582,25 @@
                     <hr>
                 </div>
                 
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://0to.github.io/2017/04/06/Gerrit-code-review/">
+                            <h3 class="media-heading">Gerrit code review</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Apr 6, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
             </div>
         </div>
         <div class="modal-footer">
@@ -514,7 +608,7 @@
                 data-message-zero="no post found"
                 data-message-one="1 post found"
                 data-message-other="{n} posts found">
-                3 posts found
+                4 posts found
             </p>
         </div>
     </div>
