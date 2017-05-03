@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2017-04-06T08:54:21.000Z</updated>
+  <updated>2017-05-03T08:16:35.000Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -16,46 +16,156 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>分支策略</title>
+    <link href="https://0to.github.io/posts/52695/"/>
+    <id>https://0to.github.io/posts/52695/</id>
+    <published>2017-04-25T11:37:40.000Z</published>
+    <updated>2017-05-03T08:16:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
+<p>为了更好的支持产品研发过程，我们需要设计符合公司研发的分支策略。<br>无论多复杂或者简单的策略都可以归类为以下两种：</p>
+<blockquote>
+<p>1.主干开发，分支发布<br>2.分支开发，主干发布</p>
+</blockquote>
+<p>PS：我们约定：</p>
+<blockquote>
+<p>主干（master/git  trunk/svn）<br>    分支（branch）<br>    标签（tag）<br>如果从版本控制工具实现上来看：<br>        svn： trunk、branch、tag 没有差别<br>        git： master、branch、轻量级tag 没有差别<br>        为了更好的区分和管理，人为的从逻辑上进行区分<br>        tag的作用：里程碑记录，方便回溯（发布回滚等）</p>
+</blockquote>
+</blockquote>
+<h1 id="主干开发，分支发布："><a href="#主干开发，分支发布：" class="headerlink" title="主干开发，分支发布："></a>主干开发，分支发布：</h1><p><img src="/posts/52695/zhugan.png" alt="logo"></p>
+<ul>
+<li>优点：<ol>
+<li>较少的分支存在，大家专注在主干开发</li>
+</ol>
+</li>
+<li>适用于：<ol>
+<li>敏捷开发模式，每个迭代都很快</li>
+<li>维护型项目，较少需求变更，基本没有并行开发的需要</li>
+<li>个人项目</li>
+</ol>
+</li>
+<li>常用方式：<ol>
+<li>所有dev在主干上面进行开发</li>
+<li>需要发布的时候从指定版本拉出发布分支，进行测试<ul>
+<li>如果成功：那么打出tag，进行发布</li>
+<li>如果不成功：那么继续在发布分支上面进行修改，然后测试；<br>  测试成功后，打tag，合并发布分支修改到主干；</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="分支开发，主干发布："><a href="#分支开发，主干发布：" class="headerlink" title="分支开发，主干发布："></a>分支开发，主干发布：</h1><p><img src="/posts/52695/fenzhi.png" alt="logo"></p>
+<ul>
+<li>优点：<ol>
+<li>对并行开发支持很好</li>
+</ol>
+</li>
+<li>适用于：<ol>
+<li>并行开发很频繁的项目</li>
+</ol>
+</li>
+<li>常用方式：<ol>
+<li>根据项目发布排期拉出并行开发分支</li>
+<li>不同or相同的dev分别在分支上面进行开发</li>
+<li>测试通过后，打tag进行发布，合并分支修改到主干</li>
+<li>后发布的分支需要合并最新的主干代码</li>
+</ol>
+</li>
+<li>注意点：<ol>
+<li>所有分支都从主干拉出；</li>
+<li>发布时候要检查 tag是否包含最新的主干代码；</li>
+<li>后发布的分支在合并最新主干代码后，注意测试范围扩大（除了测试本分支功能外，合并过来的功能也需要覆盖到！！！）</li>
+</ol>
+</li>
+</ul>
+<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><p>本文只是简单介绍下基础的分支策略，各位需根据自身团队、业务来综合定制适合的分支策略。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景：&quot;&gt;&lt;a href=&quot;#背景：&quot; class=&quot;headerlink&quot; title=&quot;背景：&quot;&gt;&lt;/a&gt;背景：&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;为了更好的支持产品研发过程，我们需要设计符合公司研发的分支策略。&lt;br&gt;无论多复杂或者简单的策略都可以归类
+    
+    </summary>
+    
+      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
+    
+    
+      <category term="Git" scheme="https://0to.github.io/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Gerrit code review</title>
-    <link href="https://0to.github.io/2017/04/06/Gerrit-code-review/"/>
-    <id>https://0to.github.io/2017/04/06/Gerrit-code-review/</id>
+    <link href="https://0to.github.io/posts/2248/"/>
+    <id>https://0to.github.io/posts/2248/</id>
     <published>2017-04-06T07:07:45.000Z</published>
-    <updated>2017-04-06T08:54:21.000Z</updated>
+    <updated>2017-04-06T11:30:24.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
-<p>公司使用Gerrit作为代码托管平台。 Gerrit除了设置项目权限外，还提供了很好的code review功能。 下面分别简单介绍普通Git用法和code review用法</p>
+<p>公司使用Gerrit作为代码托管平台。<br>Gerrit除了设置项目权限外，还提供了很好的code review功能。<br>下面分别简单介绍普通Git用法和code review用法</p>
 </blockquote>
-<h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/2017/04/06/Gerrit-code-review/git_test.png" alt="logo"></p>
+<h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/posts/2248/git_test.png" alt="logo"></p>
 <blockquote>
 <p>如上图所示：</p>
 <p>Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；</p>
 <p>绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone :克隆一个远端git仓库到本地</div><div class="line">git fetch：获取远端git仓库变化到本地仓库，并不会更改当前工作区文件</div><div class="line">git pull：这个命令相当于：先执行git fetch 然后执行git merge变化到当前工作区</div><div class="line">git push：将本地仓库的变化推送到远端git服务器</div></pre></td></tr></table></figure>
-<h2 id="Code-Review使用方法："><a href="#Code-Review使用方法：" class="headerlink" title="Code Review使用方法："></a>Code Review使用方法：</h2><p><img src="/2017/04/06/Gerrit-code-review/gerrit_test.png" alt="logo"></p>
+<h2 id="Code-Review使用方法："><a href="#Code-Review使用方法：" class="headerlink" title="Code Review使用方法："></a>Code Review使用方法：</h2><p><img src="/posts/2248/gerrit_test.png" alt="logo"></p>
 <blockquote>
-<p>如上图所示：</p>
-<p>使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；</p>
-<p>本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；</p>
-<p><img src="/2017/04/06/Gerrit-code-review/code_review.png" alt="logo"></p>
-<p>管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。</p>
+<p>如上图所示：<br>    使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；<br>    本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；<br>    <img src="/posts/2248/code_review.png" alt="logo"><br>    管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。</p>
+<blockquote>
 <p>PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）</p>
 </blockquote>
+</blockquote>
+<a id="more"></a>
 <h2 id="原理解析："><a href="#原理解析：" class="headerlink" title="原理解析："></a>原理解析：</h2><blockquote>
 <p>为了实现上面所说的功能，gerrit引入了change_id和for空间；</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">我们执行git push到for空间；</div><div class="line">    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：</div><div class="line">    git push origin HEAD:refs/heads/master</div><div class="line">    推送当前本地最新代码到远端（origin）master分支</div><div class="line"></div><div class="line">    使用code review的话执行git push完整命令是：</div><div class="line">    git push origin HEAD:refs/for/master</div><div class="line">    推送当前本地最新代码到for空间的master分支供gerrit识别</div><div class="line"></div><div class="line">    PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Gerrit根据change-Id识别你的patch；</div><div class="line">    我们需要引入commit-msg钩子文件到本地代码库:</div><div class="line">        （这个是gerrit原生提供的通过scp命令实现）</div><div class="line">        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可</div><div class="line">        gitdir=$(git rev-parse --git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg $&#123;gitdir&#125;/hooks/</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">commit-msg钩子的作用和使用：</div><div class="line"></div><div class="line">1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id</div><div class="line">        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548</div><div class="line"></div><div class="line">2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit --amend</div><div class="line">        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）</div><div class="line">    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</div><div class="line"></div><div class="line">PS：建议合并最新版本代码到本地：使用git pull --rebase</div><div class="line">    如果使用git pull： merge点不自动产生change-id！！！</div></pre></td></tr></table></figure>
-<p><img src="/2017/04/06/Gerrit-code-review/patch.png" alt="logo"></p>
-<h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：</div><div class="line">1.git clone远端代码库到本地</div><div class="line">2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</div><div class="line">3.每次都要本地git commit后执行git push origin HEAD:refs/for/master</div><div class="line">4.去gerrit上面添加code reviewers</div><div class="line">这并不是我想要的生活。。。</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">一劳永逸方法：</div><div class="line">1.git clone远端代码库到本地</div><div class="line">2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</div><div class="line">3.修改本地代码库config   vi .git/config增加下面内容</div><div class="line">[remote &quot;review_master&quot;]</div><div class="line">     url = 代码库地址</div><div class="line">     push = HEAD:refs/for/master%r=weilong.wang@memblaze.com,r=dev1@memblaze.com</div><div class="line">4.本地git commit后执行git push review_master即可</div><div class="line">会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</div><div class="line">PS：     remote &quot;review_master&quot; 这个可以换成你喜欢的其他字符串；假如改成remote &quot;haha&quot; 那么最终push的时候执行 git push haha</div><div class="line">PS：     pushurl这个请自行替换成各位执行git clone的地址</div><div class="line">PS：     自动添加code reviewers请自行替换成各位项目的同事</div></pre></td></tr></table></figure>
+<p>&gt;<br>我们执行git push到for空间；<br>    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：<br>    git push origin HEAD:refs/heads/master<br>    推送当前本地最新代码到远端（origin）master分支</p>
+<blockquote>
+<p>  使用code review的话执行git push完整命令是：<br>    git push origin HEAD:refs/for/master<br>    推送当前本地最新代码到for空间的master分支供gerrit识别</p>
+<blockquote>
+<p>PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</p>
+</blockquote>
+</blockquote>
+<p>&gt;<br>Gerrit根据change-Id识别你的patch；<br>    我们需要引入commit-msg钩子文件到本地代码库:<br>        （这个是gerrit原生提供的通过scp命令实现）<br>        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可<br>        gitdir=$(git rev-parse –git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg ${gitdir}/hooks/</p>
+<blockquote>
+<p>commit-msg钩子的作用和使用：<br>1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id<br>        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548<br>2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit –amend<br>        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）<br>    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</p>
+<blockquote>
+<p>PS：建议合并最新版本代码到本地：使用git pull –rebase<br>        如果使用git pull： merge点不自动产生change-id！！！</p>
+</blockquote>
+</blockquote>
+<p><img src="/posts/2248/patch.png" alt="logo"></p>
+<h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><p>&gt;<br>根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：<br>1.git clone远端代码库到本地<br>2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录<br>3.每次都要本地git commit后执行git push origin HEAD:refs/for/master<br>4.去gerrit上面添加code reviewers<br>这并不是我想要的生活。。。</p>
+<p>&gt;<br>一劳永逸方法：<br>1.git clone远端代码库到本地<br>2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录<br>3.修改本地代码库config   vi .git/config增加下面内容<br>[remote “review_master”]<br>     url = 代码库地址<br>     push = HEAD:refs/for/master%r=weilong.wang@memblaze.com,r=dev1@memblaze.com<br>4.本地git commit后执行git push review_master即可<br>会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</p>
+<blockquote>
+<blockquote>
+<p>PS：     remote “review_master” 这个可以换成你喜欢的其他字符串；假如改成remote “haha” 那么最终push的时候执行 git push haha<br>PS：     pushurl这个请自行替换成各位执行git clone的地址<br>PS：     自动添加code reviewers请自行替换成各位项目的同事</p>
+</blockquote>
+</blockquote>
 ]]></content>
     
     <summary type="html">
     
       &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;公司使用Gerrit作为代码托管平台。 Gerrit除了设置项目权限外，还提供了很好的code review功能。
+&lt;p&gt;公司使用Gerrit作为代码托管平台。&lt;br&gt;Gerrit除了设置项目权限外，还提供了很好的code review功能。&lt;br&gt;下面分别简单介绍普通Git用法和code review用法&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;普通Git使用方法：&quot;&gt;&lt;a href=&quot;#普通Git使用方法：&quot; class=&quot;headerlink&quot; title=&quot;普通Git使用方法：&quot;&gt;&lt;/a&gt;普通Git使用方法：&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/posts/2248/git_test.png&quot; alt=&quot;logo&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如上图所示：&lt;/p&gt;
+&lt;p&gt;Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；&lt;/p&gt;
+&lt;p&gt;绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;git clone :克隆一个远端git仓库到本地&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;git fetch：获取远端git仓库变化到本地仓库，并不会更改当前工作区文件&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;git pull：这个命令相当于：先执行git fetch 然后执行git merge变化到当前工作区&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;git push：将本地仓库的变化推送到远端git服务器&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;Code-Review使用方法：&quot;&gt;&lt;a href=&quot;#Code-Review使用方法：&quot; class=&quot;headerlink&quot; title=&quot;Code Review使用方法：&quot;&gt;&lt;/a&gt;Code Review使用方法：&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/posts/2248/gerrit_test.png&quot; alt=&quot;logo&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如上图所示：&lt;br&gt;    使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；&lt;br&gt;    本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；&lt;br&gt;    &lt;img src=&quot;/posts/2248/code_review.png&quot; alt=&quot;logo&quot;&gt;&lt;br&gt;    管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -68,24 +178,27 @@
   
   <entry>
     <title>Git tips one</title>
-    <link href="https://0to.github.io/2017/03/31/Git-tips-one/"/>
-    <id>https://0to.github.io/2017/03/31/Git-tips-one/</id>
+    <link href="https://0to.github.io/posts/60120/"/>
+    <id>https://0to.github.io/posts/60120/</id>
     <published>2017-03-31T06:40:12.000Z</published>
-    <updated>2017-04-05T11:02:38.000Z</updated>
+    <updated>2017-04-06T11:22:07.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git version 2.10.1</div></pre></td></tr></table></figure>
 <h1 id="Git克隆单个分支："><a href="#Git克隆单个分支：" class="headerlink" title="Git克隆单个分支："></a>Git克隆单个分支：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ git clone 地址 —branch br1 —single-branch dir</div><div class="line">        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。</div><div class="line">原理：</div><div class="line">$ git remote -v</div><div class="line">        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1</div><div class="line">恢复完整代码库：</div><div class="line">$ git config remote.origin.fetch &quot;+refs/heads/*:refs/remotes/origin/*&quot;</div><div class="line">    然后执行</div><div class="line">    $ git pull</div></pre></td></tr></table></figure>
 <h1 id="Git对-gitignore文件处理："><a href="#Git对-gitignore文件处理：" class="headerlink" title="Git对.gitignore文件处理："></a>Git对.gitignore文件处理：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">已经增加到.gitignore文件里面的目录or文件会被git忽略。</div><div class="line">如果本次需要修改一个忽略文件：</div><div class="line">$ git status --ignored</div><div class="line">            --ignored   -- show ignored files as well</div><div class="line">$ git add -f</div><div class="line">            --force   -f   -- allow adding otherwise ignored files</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <h1 id="Git-commit相关："><a href="#Git-commit相关：" class="headerlink" title="Git commit相关："></a>Git commit相关：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># 空提交,只在特殊情况下使用（产生一个新的commit点）</div><div class="line">$ git commit</div><div class="line">    On branch master</div><div class="line">    Your branch is up-to-date with &apos;origin/master&apos;.</div><div class="line">    nothing to commit, working tree clean</div><div class="line"># 解决方法</div><div class="line">$ git commit -m &quot;empty commit&quot; --allow-empty</div><div class="line"></div><div class="line"></div><div class="line"># 不带message提交（慎用,message很重要）</div><div class="line">$ git commit</div><div class="line">    Aborting commit due to empty commit message.</div><div class="line"># 解决方法</div><div class="line">$ git commit --allow-empty-message</div><div class="line"></div><div class="line"></div><div class="line">把暂存区的变更合并到最新的版本里面，不会产生新的版本(同时可以更新log message)；</div><div class="line">$ git commit --amend</div><div class="line">PS：已经进远端代码库的版本不允许使用--amend进行修改!!!</div></pre></td></tr></table></figure>
-<h1 id="Git-merge相关："><a href="#Git-merge相关：" class="headerlink" title="Git merge相关："></a>Git merge相关：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">conflict处理：</div><div class="line"># 使用自己/他人的文件替换冲突文件</div><div class="line">$ git checkout --ours conflict.file</div><div class="line">$ git checkout --theirs conflict.file</div><div class="line"># 增加冲突文件到版本库</div><div class="line">$ git add conflict.file</div><div class="line">$ git commit</div><div class="line"></div><div class="line"></div><div class="line">查看merge commit点已经解决的冲突文件：</div><div class="line">$ git log --cc</div><div class="line">        --cc    -- combined diff format for merge commits</div><div class="line"></div><div class="line"></div><div class="line">分支直接合并建议使用：git merge</div><div class="line">同一分支dev合并 or Temp分支合并建议使用：git rebase 或者 git cherry-pick</div><div class="line">    PS：以上两种都可以合并代码workspace最终文件一样，但是对git来说有不同：merge是环形，rebase和cherry-pick是直线</div><div class="line">    PS：需要注意的是rebase会是自己和他人角色发生反转，解决conflict file的时候需要留心。</div></pre></td></tr></table></figure>
+<h2 id="Git-merge相关："><a href="#Git-merge相关：" class="headerlink" title="Git merge相关："></a>Git merge相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">conflict处理：</div><div class="line"># 使用自己/他人的文件替换冲突文件</div><div class="line">$ git checkout --ours conflict.file</div><div class="line">$ git checkout --theirs conflict.file</div><div class="line"># 增加冲突文件到版本库</div><div class="line">$ git add conflict.file</div><div class="line">$ git commit</div><div class="line"></div><div class="line"></div><div class="line">查看merge commit点已经解决的冲突文件：</div><div class="line">$ git log --cc</div><div class="line">        --cc    -- combined diff format for merge commits</div><div class="line"></div><div class="line"></div><div class="line">分支直接合并建议使用：git merge</div><div class="line">同一分支dev合并 or Temp分支合并建议使用：git rebase 或者 git cherry-pick</div><div class="line">    PS：以上两种都可以合并代码workspace最终文件一样，但是对git来说有不同：merge是环形，rebase和cherry-pick是直线</div><div class="line">    PS：需要注意的是rebase会是自己和他人角色发生反转，解决conflict file的时候需要留心。</div></pre></td></tr></table></figure>
 <h2 id="Git-rm相关："><a href="#Git-rm相关：" class="headerlink" title="Git rm相关："></a>Git rm相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git rm weilong.txt</div><div class="line">删除workspace和index里面的weilong.txt文件</div><div class="line"></div><div class="line">$ git rm --cached weilong.txt</div><div class="line">删除index里面的weilong.txt文件，workspace里面的文件保留</div></pre></td></tr></table></figure>
 <h2 id="Git-log相关："><a href="#Git-log相关：" class="headerlink" title="Git log相关："></a>Git log相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">$ git log -5</div><div class="line">查看最新的5次版本</div><div class="line"></div><div class="line">$ git log --author=weilong.wang</div><div class="line">查看weilong.wang提交的版本</div><div class="line"></div><div class="line">$ git log --oneline</div><div class="line">一行显示一个版本信息（简化显示版本信息）</div><div class="line"></div><div class="line">$ git log -p</div><div class="line">显示每个版本的具体修改</div><div class="line"></div><div class="line">$ git log --numstat</div><div class="line">显示每个版本 修改文件的行数（5       1       weilong.txt    这个文件本次增加了5行同时也删除了1行）</div><div class="line"></div><div class="line">$ git log --since=&quot;1 month ago&quot;</div><div class="line">显示最近一个月的日志</div><div class="line">$ git log --after=&quot;2016-07-01&quot;</div><div class="line">显示7月1号至今的日志</div><div class="line">$ git log --before=&quot;2 days&quot;</div><div class="line">显示2天之前的日志</div><div class="line">$ git log --until=&quot;2016-07-10T14:30&quot;</div><div class="line">显示7月10号14：30之前的日志</div><div class="line"></div><div class="line"></div><div class="line">$ git log --graph</div><div class="line">图状显示版本 （正常提交时线形的，merge是环形的）</div><div class="line"></div><div class="line">可用于判断分支是否合并：</div><div class="line">$ git log br1 ^master</div><div class="line">显示只在分支br1不在master上的commit点</div><div class="line">$ git log master ^br1</div><div class="line">显示只在分支master不在br1分支上的commit点</div></pre></td></tr></table></figure>
-<p><img src="/2017/03/31/Git-tips-one/Git-Cheat-Sheet.png" alt="logo"></p>
+<p><img src="/posts/60120/Git-Cheat-Sheet.png" alt="logo"></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;软件版本：&quot;&gt;&lt;a href=&quot;#软件版本：&quot; class=&quot;headerlink&quot; title=&quot;软件版本：&quot;&gt;&lt;/a&gt;软件版本：&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
+      &lt;h1 id=&quot;软件版本：&quot;&gt;&lt;a href=&quot;#软件版本：&quot; class=&quot;headerlink&quot; title=&quot;软件版本：&quot;&gt;&lt;/a&gt;软件版本：&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;git version 2.10.1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h1 id=&quot;Git克隆单个分支：&quot;&gt;&lt;a href=&quot;#Git克隆单个分支：&quot; class=&quot;headerlink&quot; title=&quot;Git克隆单个分支：&quot;&gt;&lt;/a&gt;Git克隆单个分支：&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ git clone 地址 —branch br1 —single-branch dir&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;原理：&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ git remote -v&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;恢复完整代码库：&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ git config remote.origin.fetch &amp;quot;+refs/heads/*:refs/remotes/origin/*&amp;quot;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    然后执行&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    $ git pull&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h1 id=&quot;Git对-gitignore文件处理：&quot;&gt;&lt;a href=&quot;#Git对-gitignore文件处理：&quot; class=&quot;headerlink&quot; title=&quot;Git对.gitignore文件处理：&quot;&gt;&lt;/a&gt;Git对.gitignore文件处理：&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;已经增加到.gitignore文件里面的目录or文件会被git忽略。&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;如果本次需要修改一个忽略文件：&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ git status --ignored&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            --ignored   -- show ignored files as well&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ git add -f&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            --force   -f   -- allow adding otherwise ignored files&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -98,15 +211,15 @@
   
   <entry>
     <title>使用Jenkins_Gerrit搭建持续集成</title>
-    <link href="https://0to.github.io/2017/03/31/%E4%BD%BF%E7%94%A8Jenkins-Gerrit%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
-    <id>https://0to.github.io/2017/03/31/使用Jenkins-Gerrit搭建持续集成/</id>
+    <link href="https://0to.github.io/posts/32389/"/>
+    <id>https://0to.github.io/posts/32389/</id>
     <published>2017-03-31T02:46:37.000Z</published>
-    <updated>2017-03-31T05:59:18.000Z</updated>
+    <updated>2017-04-06T11:28:09.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
 <p>公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。</p>
 </blockquote>
-<h2 id="流程设计："><a href="#流程设计：" class="headerlink" title="流程设计："></a>流程设计：</h2><p><img src="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/CI.png" alt="logo"></p>
+<h2 id="流程设计："><a href="#流程设计：" class="headerlink" title="流程设计："></a>流程设计：</h2><p><img src="/posts/32389/CI.png" alt="logo"></p>
 <ol>
 <li><p>Dev本地开发，然后上传patch到gerrit：</p>
 <ul>
@@ -116,8 +229,7 @@
 </li>
 <li><p>再上述都成功的基础上，reviewer点击+2：</p>
 <ul>
-<li><p>同时触发Jenkins Submit_Job来做build和test：</p>
-<ul>
+<li>同时触发Jenkins Submit_Job来做build和test：<ul>
 <li>如果成功，自动合并本次patch到代码库</li>
 <li>如果失败，返回-1</li>
 </ul>
@@ -130,6 +242,7 @@
 </ul>
 </li>
 </ol>
+<a id="more"></a>
 <blockquote>
 <p>测试分级：</p>
 <ul>
@@ -196,11 +309,11 @@
 </tbody>
 </table>
 <h2 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h2><ol>
-<li>安装配置Jenkins Gerrit Trigger插件： <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">官方wiki</a> <img src="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/Gerrit_Trigger.png" alt="logo"></li>
-<li>安装Jenkins Multijob plugin： <a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">官方wiki</a> <img src="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/multi_jobs.png" alt="logo"></li>
-<li>配置CR_Job: <img src="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/CR_Job.png" alt="logo"></li>
-<li>配置Submit_job: <img src="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/submit_job.png" alt="logo"></li>
-<li>配置Nightly_Job: <img src="/2017/03/31/使用Jenkins-Gerrit搭建持续集成/nightly_job.png" alt="logo"></li>
+<li>安装配置Jenkins Gerrit Trigger插件：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">官方wiki</a><br> <img src="/posts/32389/Gerrit_Trigger.png" alt="logo"></li>
+<li>安装Jenkins Multijob plugin：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">官方wiki</a><br> <img src="/posts/32389/multi_jobs.png" alt="logo"></li>
+<li>配置CR_Job:<br> <img src="/posts/32389/CR_Job.png" alt="logo"></li>
+<li>配置Submit_job:<br> <img src="/posts/32389/submit_job.png" alt="logo"></li>
+<li>配置Nightly_Job:<br> <img src="/posts/32389/nightly_job.png" alt="logo"></li>
 </ol>
 <h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><ol>
 <li>以上内容都是基于公司研发现状定制的，建议各位根据自己的情况进行定制。</li>
@@ -211,7 +324,31 @@
     <summary type="html">
     
       &lt;h1 id=&quot;背景：&quot;&gt;&lt;a href=&quot;#背景：&quot; class=&quot;headerlink&quot; title=&quot;背景：&quot;&gt;&lt;/a&gt;背景：&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持
+&lt;p&gt;公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;流程设计：&quot;&gt;&lt;a href=&quot;#流程设计：&quot; class=&quot;headerlink&quot; title=&quot;流程设计：&quot;&gt;&lt;/a&gt;流程设计：&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/posts/32389/CI.png&quot; alt=&quot;logo&quot;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Dev本地开发，然后上传patch到gerrit：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;同时触发Jenkins CR_Job来做build&lt;/li&gt;
+&lt;li&gt;增加Code reviewers来做review&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;再上述都成功的基础上，reviewer点击+2：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;同时触发Jenkins Submit_Job来做build和test：&lt;ul&gt;
+&lt;li&gt;如果成功，自动合并本次patch到代码库&lt;/li&gt;
+&lt;li&gt;如果失败，返回-1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Nightly test Job：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每晚20:00触发，获取当前最新的代码进行build和test&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
     
     </summary>
     
@@ -226,37 +363,37 @@
   
   <entry>
     <title>Jenkins常用插件</title>
-    <link href="https://0to.github.io/2017/01/24/jenkins%E6%8F%92%E4%BB%B6/"/>
-    <id>https://0to.github.io/2017/01/24/jenkins插件/</id>
+    <link href="https://0to.github.io/posts/51385/"/>
+    <id>https://0to.github.io/posts/51385/</id>
     <published>2017-01-24T10:18:19.000Z</published>
-    <updated>2017-01-24T11:06:40.000Z</updated>
+    <updated>2017-04-06T11:21:05.000Z</updated>
     
-    <content type="html"><![CDATA[<ul>
-<li><p>build-user-vars-plugin<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin</a><br>用途：获取构建的执行人信息<br>需要在job配置中勾选Set jenkins user build variables</p>
+    <content type="html"><![CDATA[<h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jenkins 1.567</div></pre></td></tr></table></figure>
+<ul>
+<li><p>build-user-vars-plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin</a><br>  用途：获取构建的执行人信息 需要在job配置中勾选Set jenkins user build variables</p>
 </li>
-<li><p>gerrit-trigger<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger</a><br>用途：打通gerit和jenkins<br>主要用于：gerrit事件触发jenkins job，jenkins job执行结果反写回gerrit</p>
+<li><p>gerrit-trigger<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger</a><br>  用途：打通gerit和jenkins 主要用于：gerrit事件触发jenkins job，jenkins job执行结果反写回gerrit</p>
 </li>
-<li><p>thinBackup<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/thinBackup" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/thinBackup</a><br>用途：备份jenkins配置和job配置</p>
+<li><p>thinBackup<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/thinBackup" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/thinBackup</a><br>  用途：备份jenkins配置和job配置</p>
 </li>
-<li><p>saferestart<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin</a><br>用途：提供一个按钮来安全重启jenkins<br>点击后，如果有job正在执行那么等job执行完毕后会重启jenkins，点击后再加进来的job会等待重启完成后执行。</p>
+<li><p>saferestart<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin</a><br>  用途：提供一个按钮来安全重启jenkins 点击后，如果有job正在执行那么等job执行完毕后会重启jenkins，点击后再加进来的job会等待重启完成后执行。</p>
 </li>
-<li><p>jobConfigHistory<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin</a><br>用途：记录每次job配置变更，支持查找历史版本和回滚</p>
+<li><p>jobConfigHistory<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin</a><br>  用途：记录每次job配置变更，支持查找历史版本和回滚</p>
 </li>
-<li><p>rebuild<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin</a><br>用途：增加rebuild按钮用来使用相同的参数再次执行构建<br>gerrit触发的job 要使用  Retrigger 而不是rebuild</p>
+<li><p>rebuild<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin</a><br>  用途：增加rebuild按钮用来使用相同的参数再次执行构建 gerrit触发的job 要使用 Retrigger 而不是rebuild</p>
 </li>
-<li><p>jenkins-multijob-plugin<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin</a><br>用途：多个job组成工作流<br>优点：比其它组job流的插件多了最终收集结果功能，而且界面配置简单，功能强大</p>
+<li><p>jenkins-multijob-plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin</a><br>  用途：多个job组成工作流 优点：比其它组job流的插件多了最终收集结果功能，而且界面配置简单，功能强大</p>
 </li>
-<li><p>multiple-scms<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin</a><br>用途：job支持多个git工程 并且可以配置下载代码到指定目录</p>
+<li><p>multiple-scms<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin</a><br>  用途：job支持多个git工程 并且可以配置下载代码到指定目录</p>
 </li>
-<li><p>Copy Artifact Plugin<br><a href="https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin</a><br>用途：拷贝其它job的指定产出物</p>
+<li><p>Copy Artifact Plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin</a><br>  用途：拷贝其它job的指定产出物</p>
 </li>
 </ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;build-user-vars-plugin&lt;br&gt;&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin&quot; target=&quot;_blank&quot; rel=&quot;exte
+      &lt;h1 id=&quot;软件版本：&quot;&gt;&lt;a href=&quot;#软件版本：&quot; class=&quot;headerlink&quot; title=&quot;软件版本：&quot;&gt;&lt;/a&gt;软件版本：&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
     
     </summary>
     

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Archives - Just Do IT</title>
+    <title>Gerrit code review - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,15 +15,48 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="小弟读过两年书，尘世中一个迷途小书童">
+    <meta name="description" content="背景
+公司使用Gerrit作为代码托管平台。Gerrit除了设置项目权限外，还提供了很好的code review功能。下面分别简单介绍普通Git用法和code review用法
+
+普通Git使用方法：
+
+如上图所示：
+Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；
+绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；
+
+1234">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Just Do IT">
-<meta property="og:url" content="https://0to.github.io/archives/index.html">
+<meta property="og:title" content="Gerrit code review">
+<meta property="og:url" content="https://0to.github.io/posts/2248/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="小弟读过两年书，尘世中一个迷途小书童">
+<meta property="og:description" content="背景
+公司使用Gerrit作为代码托管平台。Gerrit除了设置项目权限外，还提供了很好的code review功能。下面分别简单介绍普通Git用法和code review用法
+
+普通Git使用方法：
+
+如上图所示：
+Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；
+绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；
+
+1234">
+<meta property="og:image" content="https://0to.github.io/posts/2248/git_test.png">
+<meta property="og:image" content="https://0to.github.io/posts/2248/gerrit_test.png">
+<meta property="og:image" content="https://0to.github.io/posts/2248/code_review.png">
+<meta property="og:image" content="https://0to.github.io/posts/2248/patch.png">
+<meta property="og:updated_time" content="2017-04-06T11:30:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Just Do IT">
-<meta name="twitter:description" content="小弟读过两年书，尘世中一个迷途小书童">
+<meta name="twitter:title" content="Gerrit code review">
+<meta name="twitter:description" content="背景
+公司使用Gerrit作为代码托管平台。Gerrit除了设置项目权限外，还提供了很好的code review功能。下面分别简单介绍普通Git用法和code review用法
+
+普通Git使用方法：
+
+如上图所示：
+Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；
+绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；
+
+1234">
+<meta name="twitter:image" content="https://0to.github.io/posts/2248/git_test.png">
     
     
         
@@ -74,7 +107,7 @@
         
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">Just Do IT</a>
@@ -98,7 +131,7 @@
         
     
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -218,129 +251,20 @@
 </nav>
 
                         
-                            <div id="main" data-behavior="2" class="
+                            <div id="main" data-behavior="5" class="
                         hasCoverMetaIn
                         ">
                                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/52695/">
-                            分支策略
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-04-25T19:37:40+08:00">
-	
-		    Apr 25, 2017
-    	
-    </time>
+        <div class="post-header main-content-wrap text-left">
     
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
+        <h1 class="post-title" itemprop="headline">
+            Gerrit code review
+        </h1>
     
-</div>
-
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
-<p>为了更好的支持产品研发过程，我们需要设计符合公司研发的分支策略。<br>无论多复杂或者简单的策略都可以归类为以下两种：</p>
-<blockquote>
-<p>1.主干开发，分支发布<br>2.分支开发，主干发布</p>
-</blockquote>
-<p>PS：我们约定：</p>
-<blockquote>
-<p>主干（master/git  trunk/svn）<br>    分支（branch）<br>    标签（tag）<br>如果从版本控制工具实现上来看：<br>        svn： trunk、branch、tag 没有差别<br>        git： master、branch、轻量级tag 没有差别<br>        为了更好的区分和管理，人为的从逻辑上进行区分<br>        tag的作用：里程碑记录，方便回溯（发布回滚等）</p>
-</blockquote>
-</blockquote>
-<h1 id="主干开发，分支发布："><a href="#主干开发，分支发布：" class="headerlink" title="主干开发，分支发布："></a>主干开发，分支发布：</h1><p><img src="/posts/52695/zhugan.png" alt="logo"></p>
-<ul>
-<li>优点：<ol>
-<li>较少的分支存在，大家专注在主干开发</li>
-</ol>
-</li>
-<li>适用于：<ol>
-<li>敏捷开发模式，每个迭代都很快</li>
-<li>维护型项目，较少需求变更，基本没有并行开发的需要</li>
-<li>个人项目</li>
-</ol>
-</li>
-<li>常用方式：<ol>
-<li>所有dev在主干上面进行开发</li>
-<li>需要发布的时候从指定版本拉出发布分支，进行测试<ul>
-<li>如果成功：那么打出tag，进行发布</li>
-<li>如果不成功：那么继续在发布分支上面进行修改，然后测试；<br>  测试成功后，打tag，合并发布分支修改到主干；</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h1 id="分支开发，主干发布："><a href="#分支开发，主干发布：" class="headerlink" title="分支开发，主干发布："></a>分支开发，主干发布：</h1><p><img src="/posts/52695/fenzhi.png" alt="logo"></p>
-<ul>
-<li>优点：<ol>
-<li>对并行开发支持很好</li>
-</ol>
-</li>
-<li>适用于：<ol>
-<li>并行开发很频繁的项目</li>
-</ol>
-</li>
-<li>常用方式：<ol>
-<li>根据项目发布排期拉出并行开发分支</li>
-<li>不同or相同的dev分别在分支上面进行开发</li>
-<li>测试通过后，打tag进行发布，合并分支修改到主干</li>
-<li>后发布的分支需要合并最新的主干代码</li>
-</ol>
-</li>
-<li>注意点：<ol>
-<li>所有分支都从主干拉出；</li>
-<li>发布时候要检查 tag是否包含最新的主干代码；</li>
-<li>后发布的分支在合并最新主干代码后，注意测试范围扩大（除了测试本分支功能外，合并过来的功能也需要覆盖到！！！）</li>
-</ol>
-</li>
-</ul>
-<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><p>本文只是简单介绍下基础的分支策略，各位需根据自身团队、业务来综合定制适合的分支策略。</p>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/posts/52695/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/2248/">
-                            Gerrit code review
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+    <div class="post-meta">
     <time itemprop="datePublished" datetime="2017-04-06T15:07:45+08:00">
 	
 		    Apr 06, 2017
@@ -355,10 +279,11 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
 <p>公司使用Gerrit作为代码托管平台。<br>Gerrit除了设置项目权限外，还提供了很好的code review功能。<br>下面分别简单介绍普通Git用法和code review用法</p>
 </blockquote>
 <h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/posts/2248/git_test.png" alt="logo"></p>
@@ -375,208 +300,114 @@
 <p>PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）</p>
 </blockquote>
 </blockquote>
-                    
-                        <a href="/posts/2248/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/60120/">
-                            Git tips one
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-03-31T14:40:12+08:00">
-	
-		    Mar 31, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git version 2.10.1</div></pre></td></tr></table></figure>
-<h1 id="Git克隆单个分支："><a href="#Git克隆单个分支：" class="headerlink" title="Git克隆单个分支："></a>Git克隆单个分支：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ git clone 地址 —branch br1 —single-branch dir</div><div class="line">        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。</div><div class="line">原理：</div><div class="line">$ git remote -v</div><div class="line">        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1</div><div class="line">恢复完整代码库：</div><div class="line">$ git config remote.origin.fetch &quot;+refs/heads/*:refs/remotes/origin/*&quot;</div><div class="line">    然后执行</div><div class="line">    $ git pull</div></pre></td></tr></table></figure>
-<h1 id="Git对-gitignore文件处理："><a href="#Git对-gitignore文件处理：" class="headerlink" title="Git对.gitignore文件处理："></a>Git对.gitignore文件处理：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">已经增加到.gitignore文件里面的目录or文件会被git忽略。</div><div class="line">如果本次需要修改一个忽略文件：</div><div class="line">$ git status --ignored</div><div class="line">            --ignored   -- show ignored files as well</div><div class="line">$ git add -f</div><div class="line">            --force   -f   -- allow adding otherwise ignored files</div></pre></td></tr></table></figure>
-                    
-                        <a href="/posts/60120/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/32389/">
-                            使用Jenkins_Gerrit搭建持续集成
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-03-31T10:46:37+08:00">
-	
-		    Mar 31, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
-<p>公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。</p>
+<a id="more"></a>
+<h2 id="原理解析："><a href="#原理解析：" class="headerlink" title="原理解析："></a>原理解析：</h2><blockquote>
+<p>为了实现上面所说的功能，gerrit引入了change_id和for空间；</p>
 </blockquote>
-<h2 id="流程设计："><a href="#流程设计：" class="headerlink" title="流程设计："></a>流程设计：</h2><p><img src="/posts/32389/CI.png" alt="logo"></p>
-<ol>
-<li><p>Dev本地开发，然后上传patch到gerrit：</p>
-<ul>
-<li>同时触发Jenkins CR_Job来做build</li>
-<li>增加Code reviewers来做review</li>
-</ul>
-</li>
-<li><p>再上述都成功的基础上，reviewer点击+2：</p>
-<ul>
-<li>同时触发Jenkins Submit_Job来做build和test：<ul>
-<li>如果成功，自动合并本次patch到代码库</li>
-<li>如果失败，返回-1</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Nightly test Job：</p>
-<ul>
-<li>每晚20:00触发，获取当前最新的代码进行build和test</li>
-</ul>
-</li>
-</ol>
-                    
-                        <a href="/posts/32389/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
+<p>&gt;<br>我们执行git push到for空间；<br>    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：<br>    git push origin HEAD:refs/heads/master<br>    推送当前本地最新代码到远端（origin）master分支</p>
+<blockquote>
+<p>  使用code review的话执行git push完整命令是：<br>    git push origin HEAD:refs/for/master<br>    推送当前本地最新代码到for空间的master分支供gerrit识别</p>
+<blockquote>
+<p>PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</p>
+</blockquote>
+</blockquote>
+<p>&gt;<br>Gerrit根据change-Id识别你的patch；<br>    我们需要引入commit-msg钩子文件到本地代码库:<br>        （这个是gerrit原生提供的通过scp命令实现）<br>        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可<br>        gitdir=$(git rev-parse –git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg ${gitdir}/hooks/</p>
+<blockquote>
+<p>commit-msg钩子的作用和使用：<br>1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id<br>        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548<br>2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit –amend<br>        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）<br>    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</p>
+<blockquote>
+<p>PS：建议合并最新版本代码到本地：使用git pull –rebase<br>        如果使用git pull： merge点不自动产生change-id！！！</p>
+</blockquote>
+</blockquote>
+<p><img src="/posts/2248/patch.png" alt="logo"></p>
+<h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><p>&gt;<br>根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：<br>1.git clone远端代码库到本地<br>2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录<br>3.每次都要本地git commit后执行git push origin HEAD:refs/for/master<br>4.去gerrit上面添加code reviewers<br>这并不是我想要的生活。。。</p>
+<p>&gt;<br>一劳永逸方法：<br>1.git clone远端代码库到本地<br>2.从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录<br>3.修改本地代码库config   vi .git/config增加下面内容<br>[remote “review_master”]<br>     url = 代码库地址<br>     push = HEAD:refs/for/master%r=weilong.wang@memblaze.com,r=dev1@memblaze.com<br>4.本地git commit后执行git push review_master即可<br>会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</p>
+<blockquote>
+<blockquote>
+<p>PS：     remote “review_master” 这个可以换成你喜欢的其他字符串；假如改成remote “haha” 那么最终push的时候执行 git push haha<br>PS：     pushurl这个请自行替换成各位执行git clone的地址<br>PS：     自动添加code reviewers请自行替换成各位项目的同事</p>
+</blockquote>
+</blockquote>
+
             
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/51385/">
-                            Jenkins常用插件
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T18:18:19+08:00">
-	
-		    Jan 24, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Gerrit/">Gerrit</a>
 
             </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/52695/"  data-tooltip="分支策略">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/60120/" data-tooltip="Git tips one">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/2248/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/2248/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/2248/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jenkins 1.567</div></pre></td></tr></table></figure>
-<ul>
-<li><p>build-user-vars-plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin</a><br>  用途：获取构建的执行人信息 需要在job配置中勾选Set jenkins user build variables</p>
-</li>
-<li><p>gerrit-trigger<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger</a><br>  用途：打通gerit和jenkins 主要用于：gerrit事件触发jenkins job，jenkins job执行结果反写回gerrit</p>
-</li>
-<li><p>thinBackup<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/thinBackup" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/thinBackup</a><br>  用途：备份jenkins配置和job配置</p>
-</li>
-<li><p>saferestart<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin</a><br>  用途：提供一个按钮来安全重启jenkins 点击后，如果有job正在执行那么等job执行完毕后会重启jenkins，点击后再加进来的job会等待重启完成后执行。</p>
-</li>
-<li><p>jobConfigHistory<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin</a><br>  用途：记录每次job配置变更，支持查找历史版本和回滚</p>
-</li>
-<li><p>rebuild<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin</a><br>  用途：增加rebuild按钮用来使用相同的参数再次执行构建 gerrit触发的job 要使用 Retrigger 而不是rebuild</p>
-</li>
-<li><p>jenkins-multijob-plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin</a><br>  用途：多个job组成工作流 优点：比其它组job流的插件多了最终收集结果功能，而且界面配置简单，功能强大</p>
-</li>
-<li><p>multiple-scms<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin</a><br>  用途：job支持多个git工程 并且可以配置下载代码到指定目录</p>
-</li>
-<li><p>Copy Artifact Plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin</a><br>  用途：拷贝其它job的指定产出物</p>
-</li>
-</ul>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/posts/51385/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
+                <a class="post-action-btn btn btn--default" href="#">
             
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">page 1 of 1</li>
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
 
 
 
@@ -588,6 +419,90 @@
 
             </div>
             
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/52695/"  data-tooltip="分支策略">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/60120/" data-tooltip="Git tips one">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/2248/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/2248/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/2248/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/2248/">
+                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/2248/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/2248/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+                    
                         </div>
                         
 
@@ -800,6 +715,25 @@
                                     <!--SCRIPTS-->
 <script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
 <!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://0to.github.io/posts/2248/';
+                 
+                    this.page.identifier = 'posts/2248/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = '0to0';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
 
 
 
