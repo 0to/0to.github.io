@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Git tips one - Just Do IT</title>
+    <title>持续代码质量平台Sonar-1搭建 - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,21 +15,52 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="软件版本：1git version 2.10.1
-Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-branch dir        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。原理：$ git remote -v        remote.origin.fetch=+refs/heads/b">
+    <meta name="description" content="参考链接：
+下载地址：官方网站
+软硬件需求：官方文档
+安装方法：官方文档
+
+PS：
+
+Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。
+Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。
+
+搭建环境
+OS：">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Git tips one">
-<meta property="og:url" content="https://0to.github.io/posts/60120/index.html">
+<meta property="og:title" content="持续代码质量平台Sonar-1搭建">
+<meta property="og:url" content="https://0to.github.io/posts/60810/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="软件版本：1git version 2.10.1
-Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-branch dir        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。原理：$ git remote -v        remote.origin.fetch=+refs/heads/b">
-<meta property="og:image" content="https://0to.github.io/posts/60120/Git-Cheat-Sheet.png">
-<meta property="og:updated_time" content="2017-05-03T08:23:00.000Z">
+<meta property="og:description" content="参考链接：
+下载地址：官方网站
+软硬件需求：官方文档
+安装方法：官方文档
+
+PS：
+
+Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。
+Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。
+
+搭建环境
+OS：">
+<meta property="og:image" content="https://0to.github.io/posts/60810/Service.jpeg">
+<meta property="og:image" content="https://0to.github.io/posts/60810/AdminService.jpeg">
+<meta property="og:updated_time" content="2017-07-12T08:26:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git tips one">
-<meta name="twitter:description" content="软件版本：1git version 2.10.1
-Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-branch dir        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。原理：$ git remote -v        remote.origin.fetch=+refs/heads/b">
-<meta name="twitter:image" content="https://0to.github.io/posts/60120/Git-Cheat-Sheet.png">
+<meta name="twitter:title" content="持续代码质量平台Sonar-1搭建">
+<meta name="twitter:description" content="参考链接：
+下载地址：官方网站
+软硬件需求：官方文档
+安装方法：官方文档
+
+PS：
+
+Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。
+Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。
+
+搭建环境
+OS：">
+<meta name="twitter:image" content="https://0to.github.io/posts/60810/Service.jpeg">
     
     
         
@@ -234,13 +265,13 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            Git tips one
+            持续代码质量平台Sonar-1搭建
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-03-31T14:40:12+08:00">
+    <time itemprop="datePublished" datetime="2017-06-20T16:33:00+08:00">
 	
-		    Mar 31, 2017
+		    Jun 20, 2017
     	
     </time>
     
@@ -256,14 +287,84 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git version 2.10.1</div></pre></td></tr></table></figure>
-<h1 id="Git克隆单个分支："><a href="#Git克隆单个分支：" class="headerlink" title="Git克隆单个分支："></a>Git克隆单个分支：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ git clone 地址 —branch br1 —single-branch dir</div><div class="line">        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。</div><div class="line">原理：</div><div class="line">$ git remote -v</div><div class="line">        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1</div><div class="line">恢复完整代码库：</div><div class="line">$ git config remote.origin.fetch &quot;+refs/heads/*:refs/remotes/origin/*&quot;</div><div class="line">    然后执行</div><div class="line">    $ git pull</div></pre></td></tr></table></figure>
-<h1 id="Git对-gitignore文件处理："><a href="#Git对-gitignore文件处理：" class="headerlink" title="Git对.gitignore文件处理："></a>Git对.gitignore文件处理：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">已经增加到.gitignore文件里面的目录or文件会被git忽略。</div><div class="line">如果本次需要修改一个忽略文件：</div><div class="line">$ git status --ignored</div><div class="line">            --ignored   -- show ignored files as well</div><div class="line">$ git add -f</div><div class="line">            --force   -f   -- allow adding otherwise ignored files</div></pre></td></tr></table></figure>
-<h1 id="Git-commit相关："><a href="#Git-commit相关：" class="headerlink" title="Git commit相关："></a>Git commit相关：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># 空提交,只在特殊情况下使用（产生一个新的commit点）</div><div class="line">$ git commit</div><div class="line">    On branch master</div><div class="line">    Your branch is up-to-date with &apos;origin/master&apos;.</div><div class="line">    nothing to commit, working tree clean</div><div class="line"># 解决方法</div><div class="line">$ git commit -m &quot;empty commit&quot; --allow-empty</div><div class="line"></div><div class="line"></div><div class="line"># 不带message提交（慎用,message很重要）</div><div class="line">$ git commit</div><div class="line">    Aborting commit due to empty commit message.</div><div class="line"># 解决方法</div><div class="line">$ git commit --allow-empty-message</div><div class="line"></div><div class="line"></div><div class="line">把暂存区的变更合并到最新的版本里面，不会产生新的版本(同时可以更新log message)；</div><div class="line">$ git commit --amend</div><div class="line">PS：已经进远端代码库的版本不允许使用--amend进行修改!!!</div></pre></td></tr></table></figure>
-<h2 id="Git-merge相关："><a href="#Git-merge相关：" class="headerlink" title="Git merge相关："></a>Git merge相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">conflict处理：</div><div class="line"># 使用自己/他人的文件替换冲突文件</div><div class="line">$ git checkout --ours conflict.file</div><div class="line">$ git checkout --theirs conflict.file</div><div class="line"># 增加冲突文件到版本库</div><div class="line">$ git add conflict.file</div><div class="line">$ git commit</div><div class="line"></div><div class="line"></div><div class="line">查看merge commit点已经解决的冲突文件：</div><div class="line">$ git log --cc</div><div class="line">        --cc    -- combined diff format for merge commits</div><div class="line"></div><div class="line"></div><div class="line">分支直接合并建议使用：git merge</div><div class="line">同一分支dev合并 or Temp分支合并建议使用：git rebase 或者 git cherry-pick</div><div class="line">    PS：以上两种都可以合并代码workspace最终文件一样，但是对git来说有不同：merge是环形，rebase和cherry-pick是直线</div><div class="line">    PS：需要注意的是rebase会是自己和他人角色发生反转，解决conflict file的时候需要留心。</div></pre></td></tr></table></figure>
-<h2 id="Git-rm相关："><a href="#Git-rm相关：" class="headerlink" title="Git rm相关："></a>Git rm相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git rm weilong.txt</div><div class="line">删除workspace和index里面的weilong.txt文件</div><div class="line"></div><div class="line">$ git rm --cached weilong.txt</div><div class="line">删除index里面的weilong.txt文件，workspace里面的文件保留</div></pre></td></tr></table></figure>
-<h2 id="Git-log相关："><a href="#Git-log相关：" class="headerlink" title="Git log相关："></a>Git log相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">$ git log -5</div><div class="line">查看最新的5次版本</div><div class="line"></div><div class="line">$ git log --author=weilong.wang</div><div class="line">查看weilong.wang提交的版本</div><div class="line"></div><div class="line">$ git log --oneline</div><div class="line">一行显示一个版本信息（简化显示版本信息）</div><div class="line"></div><div class="line">$ git log -p</div><div class="line">显示每个版本的具体修改</div><div class="line"></div><div class="line">$ git log --numstat</div><div class="line">显示每个版本 修改文件的行数（5       1       weilong.txt    这个文件本次增加了5行同时也删除了1行）</div><div class="line"></div><div class="line">$ git log --since=&quot;1 month ago&quot;</div><div class="line">显示最近一个月的日志</div><div class="line">$ git log --after=&quot;2016-07-01&quot;</div><div class="line">显示7月1号至今的日志</div><div class="line">$ git log --before=&quot;2 days&quot;</div><div class="line">显示2天之前的日志</div><div class="line">$ git log --until=&quot;2016-07-10T14:30&quot;</div><div class="line">显示7月10号14：30之前的日志</div><div class="line"></div><div class="line"></div><div class="line">$ git log --graph</div><div class="line">图状显示版本 （正常提交时线形的，merge是环形的）</div><div class="line"></div><div class="line">可用于判断分支是否合并：</div><div class="line">$ git log br1 ^master</div><div class="line">显示只在分支br1不在master上的commit点</div><div class="line">$ git log master ^br1</div><div class="line">显示只在分支master不在br1分支上的commit点</div></pre></td></tr></table></figure>
-<p><img src="/posts/60120/Git-Cheat-Sheet.png" alt="logo"></p>
+            <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li>下载地址：<a href="https://www.sonarqube.org/downloads/" target="_blank" rel="external">官方网站</a></li>
+<li>软硬件需求：<a href="https://docs.sonarqube.org/display/SONAR/Requirements#Requirements-Requirements-SupportedPlatforms" target="_blank" rel="external">官方文档</a></li>
+<li>安装方法：<a href="https://docs.sonarqube.org/display/SONAR/Installing+the+Server" target="_blank" rel="external">官方文档</a></li>
+</ul>
+<p>PS：</p>
+<ul>
+<li>Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。</li>
+<li>Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。</li>
+</ul>
+<h1 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h1><ul>
+<li>OS：      Windows Server 2012 R2</li>
+<li>JDK:      1.8.0_71</li>
+<li>DB:       Mysql 5.6.26</li>
+<li>Sonar:    6.3.1</li>
+</ul>
+<h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><ol>
+<li><p>安装JDK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">C:\Users\Administrator&gt;java -version</div><div class="line">java version &quot;1.8.0_71&quot;</div><div class="line">Java(TM) SE Runtime Environment (build 1.8.0_71-b15)</div><div class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.71-b15, mixed mode)</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装Mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">C:\Users\Administrator&gt;mysql -V</div><div class="line">mysql  Ver 14.14 Distrib 5.6.26, for Win64 (x86_64)</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建数据库和用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 创建sonar数据库</div><div class="line">CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;</div><div class="line"># 创建sonar用户</div><div class="line">CREATE USER &apos;sonar&apos; IDENTIFIED BY &apos;passwd&apos;;</div><div class="line"># 赋予sonar用户对sonar数据库权限</div><div class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;%&apos; IDENTIFIED BY &apos;passwd&apos;;</div><div class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;passwd&apos;;</div><div class="line">FLUSH PRIVILEGES;</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装Sonarqube</p>
+<ul>
+<li>解压缩sonarqube-6.3.1.zip到D:\scm\sonarqube-6.3.1</li>
+<li><p>修改配置D:\scm\sonarqube-6.3.1\conf\sonar.properties</p>
+<ul>
+<li>sonar.jdbc.username=sonar</li>
+<li>sonar.jdbc.password=passwd</li>
+<li>sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance</li>
+<li>sonar.web.host=本机IP</li>
+<li>sonar.web.context=</li>
+<li>sonar.web.port=9000</li>
+<li>sonar.web.http.maxThreads=500</li>
+</ul>
+</li>
+<li><p>配置Sonarqube windows服务</p>
+<ol>
+<li>以管理员身份运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\InstallNTService.bat创建服务<br><img src="/posts/60810/Service.jpeg" alt="logo"></li>
+<li>配置Administrator账户运行Sonarqube服务<br><img src="/posts/60810/AdminService.jpeg" alt="logo"></li>
+<li>启动Sonarqube服务<ul>
+<li>建议使用上面配置的windows service启动</li>
+<li>也可以直接运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\StartSonar.bat</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>网页端登陆配置Sonarqube</p>
+<ul>
+<li><a href="http://搭建机器ip:9000" target="_blank" rel="external">http://搭建机器ip:9000</a></li>
+<li>用户名/密码：admin</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="PS1："><a href="#PS1：" class="headerlink" title="PS1："></a>PS1：</h3><p>在安装的过程中遇到问题：</p>
+<ul>
+<li>运行InstallNTService.bat生成系统服务的时候没有使用管理员身份；</li>
+<li><p>Sonarqube服务创建成功，但是启动的时候失败；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.C.[.[.[/]] Exception sending context initialized event to listener instance of class org.sonar.server.platform.web.PlatformServletContextListener</div><div class="line">org.sonar.api.utils.MessageException: Current version is too old. Please upgrade to Long Term Support version firstly.</div><div class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] One or more listeners failed to start. Full details will be found in the appropriate container log file</div><div class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] Context [] startup failed due to previous errors</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看发现mysql数据库sonar已经有了很多表；</p>
+</li>
+</ul>
+<p>解决方法：</p>
+<ol>
+<li>删除sonar数据库里面的表，删除Sonarqube服务</li>
+<li>安装上面过程：先以管理员身份运行InstallNTService.bat，然后配置Administrator账户运行Sonarqube服务</li>
+<li>重新启动Sonarqube服务即可。</li>
+</ol>
+<hr>
+<h3 id="PS2"><a href="#PS2" class="headerlink" title="PS2:"></a>PS2:</h3><p>如果Mysql数据库启用了binarylog的话，请设置为row格式。否则在启动Sonarqube的时候创建数据库表会报下面错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Error updating database.  Cause: java.sql.SQLException: Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.</div></pre></td></tr></table></figure></p>
 
             
         </div>
@@ -273,7 +374,7 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Git/">Git</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Sonar/">Sonar</a>
 
             </div>
         
@@ -282,7 +383,7 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/2248/"  data-tooltip="Gerrit code review">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -290,7 +391,7 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/32389/" data-tooltip="使用Jenkins_Gerrit搭建持续集成">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/33032/" data-tooltip="Java static code analysis">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -305,17 +406,17 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60120/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60120/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60120/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -363,7 +464,7 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/2248/"  data-tooltip="Gerrit code review">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -371,7 +472,7 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/32389/" data-tooltip="使用Jenkins_Gerrit搭建持续集成">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/33032/" data-tooltip="Java static code analysis">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -386,17 +487,17 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60120/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60120/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60120/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -422,17 +523,17 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60120/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/">
                 <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60120/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60120/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
@@ -652,9 +753,9 @@ Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-bran
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/posts/60120/';
+                 this.page.url = 'https://0to.github.io/posts/60810/';
                  
-                    this.page.identifier = 'posts/60120/';
+                    this.page.identifier = 'posts/60810/';
                  
              };
             (function() {
