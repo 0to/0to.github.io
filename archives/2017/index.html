@@ -231,6 +231,83 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/posts/7875/">
+                            持续代码质量平台Sonar-4Android
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-07-18T18:51:03+08:00">
+	
+		    Jul 18, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li>Analyzing with SonarQube Scanner for Gradle：<a href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle" target="_blank" rel="external">官方文档</a></li>
+<li>Gradle sonarqube插件：<a href="https://plugins.gradle.org/plugin/org.sonarqube" target="_blank" rel="external">官方文档</a></li>
+<li>Sonarqube Android Lint plugin：<a href="https://github.com/ofields/sonar-android" target="_blank" rel="external">Github</a></li>
+</ul>
+<h1 id="系统环境："><a href="#系统环境：" class="headerlink" title="系统环境："></a>系统环境：</h1><ul>
+<li>Gradle:       2.10</li>
+<li>Sonarqube:    6.3.1</li>
+</ul>
+<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">公司使用java语言开发Android项目，使用Gradle作为构建工具。</div><div class="line">默认的Sonarway java规则也可以进行静态代码扫描。</div><div class="line">希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="Sonarqube-安装-Android-lint插件"><a href="#Sonarqube-安装-Android-lint插件" class="headerlink" title="Sonarqube 安装 Android lint插件"></a>Sonarqube 安装 Android lint插件</h3><p><img src="/posts/7875/Android_lint.png" alt="logo"><br>点击Quality Profiles查看Android Lint规则<br><img src="/posts/7875/lint.png" alt="logo"></p>
+<hr>
+<h3 id="Sonarqube-配置Android项目扫描规则"><a href="#Sonarqube-配置Android项目扫描规则" class="headerlink" title="Sonarqube 配置Android项目扫描规则"></a>Sonarqube 配置Android项目扫描规则</h3><p>我们配置一个新的Quality Profiles／java用于Android项目扫描。</p>
+<p>新规则 包含Java Sonar way的Bugs、Vulnerabilities 和 Android Lint的Code Smells<br><img src="/posts/7875/Android.png" alt="logo"><br><img src="/posts/7875/new.png" alt="logo"><br><img src="/posts/7875/change.png" alt="logo"><br><img src="/posts/7875/next1.png" alt="logo"><br><img src="/posts/7875/next2.png" alt="logo"><br><img src="/posts/7875/code_smell.png" alt="logo"><br><img src="/posts/7875/done.png" alt="logo"></p>
+<hr>
+<h3 id="本地配置使用"><a href="#本地配置使用" class="headerlink" title="本地配置使用"></a>本地配置使用</h3><ul>
+<li>配置系统gradle.properties增加下面内容 （～/.gradle/gradle.properties）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemProp.sonar.host.url=http://ip:9000</div><div class="line">#----- Security (when &apos;sonar.forceAuthentication&apos; is set to &apos;true&apos;)</div><div class="line">systemProp.sonar.login=个人token</div></pre></td></tr></table></figure>
+<ul>
+<li>修改项目build.gradle 相应位置增加下面配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">apply plugin: &quot;org.sonarqube&quot;</div><div class="line">buildscript &#123;</div><div class="line">    repositories &#123;</div><div class="line">        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;</div><div class="line">    &#125;</div><div class="line">    dependencies &#123;</div><div class="line">        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">sonarqube &#123;</div><div class="line">    androidVariant &apos;fullDebug&apos;</div><div class="line">	properties &#123;</div><div class="line">        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;</div><div class="line">        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;</div><div class="line">        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;</div><div class="line">        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;</div><div class="line">        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;</div><div class="line">        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>执行gradle lintDebug    生成lint-results-debug.xml</p>
+</li>
+<li><p>执行gradle Sonarqube    构建、分析、上传</p>
+</li>
+</ul>
+
+                    
+                        
+                    
+                    
+                        <p>
+                            <a href="/posts/7875/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/posts/19471/">
                             持续代码质量平台Sonar-3使用
                         </a>
@@ -281,7 +358,7 @@
 </ol>
 <hr>
 <h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>点击：<a href="http://ip:9000/web_api/" target="_blank" rel="external">http://ip:9000/web_api/</a> ，查看Sonarqube支持的web_api。</p>
-<p>以Python2.7 为例简单介绍api使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">#! /usr/bin/env python</div><div class="line"># -*- coding: utf-8 -*-</div><div class="line">import requests</div><div class="line"></div><div class="line">s = requests.session()</div><div class="line">user_info = &#123;&apos;login&apos;: &apos;username&apos;, &apos;password&apos;: &apos;pass&apos;&#125;</div><div class="line">api_url = &apos;http://ip:9000/api&apos;</div><div class="line">res_login = s.post(</div><div class="line">    &apos;%s/authentication/login&apos; % api_url, data=user_info)</div><div class="line">res_bugs = s.get(</div><div class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500&#125;)</div><div class="line">total_bugs = res_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</div><div class="line">res_new_bugs = s.get(</div><div class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500, &apos;sinceLeakPeriod&apos;: &apos;true&apos;&#125;)</div><div class="line">new_bugs = res_new_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</div><div class="line">res_logout = s.post(</div><div class="line">    &apos;%s/authentication/logout&apos; % api_url)</div></pre></td></tr></table></figure></p>
+<p>以Python2.7 为例简单介绍api使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">#! /usr/bin/env python</div><div class="line"># -*- coding: utf-8 -*-</div><div class="line">import requests</div><div class="line"></div><div class="line">s = requests.session()</div><div class="line">user_info = &#123;&apos;login&apos;: &apos;username&apos;, &apos;password&apos;: &apos;pass&apos;&#125;</div><div class="line">api_url = &apos;http://ip:9000/api&apos;</div><div class="line"># 登录</div><div class="line">res_login = s.post(</div><div class="line">    &apos;%s/authentication/login&apos; % api_url, data=user_info)</div><div class="line"># 获取指定项目未解决Bugs详情</div><div class="line">res_bugs = s.get(</div><div class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500&#125;)</div><div class="line"># 解析结果获取未解决bugs总数</div><div class="line">total_bugs = res_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</div><div class="line"># 获取指定项目新增未解决Bugs详情</div><div class="line">res_new_bugs = s.get(</div><div class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500, &apos;sinceLeakPeriod&apos;: &apos;true&apos;&#125;)</div><div class="line"># 解析结果获取新增bugs总数</div><div class="line">new_bugs = res_new_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</div><div class="line"># 登出</div><div class="line">res_logout = s.post(</div><div class="line">    &apos;%s/authentication/logout&apos; % api_url)</div></pre></td></tr></table></figure></p>
 
                     
                         
@@ -1446,6 +1523,25 @@
                     <hr>
                 </div>
                 
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://0to.github.io/posts/7875/">
+                            <h3 class="media-heading">持续代码质量平台Sonar-4Android</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jul 18, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
             </div>
         </div>
         <div class="modal-footer">
@@ -1453,7 +1549,7 @@
                 data-message-zero="no post found"
                 data-message-one="1 post found"
                 data-message-other="{n} posts found">
-                9 posts found
+                10 posts found
             </p>
         </div>
     </div>
