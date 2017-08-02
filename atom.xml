@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2017-07-18T11:57:26.000Z</updated>
+  <updated>2017-08-02T06:54:39.000Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -14,6 +14,68 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>持续代码质量平台Sonar-5审计</title>
+    <link href="https://0to.github.io/posts/54025/"/>
+    <id>https://0to.github.io/posts/54025/</id>
+    <published>2017-08-02T03:22:16.000Z</published>
+    <updated>2017-08-02T06:54:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><pre><code>Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。
+</code></pre><hr>
+<p>PS：</p>
+<ol>
+<li>Sonarqube根据Key来唯一标示项目。</li>
+<li>Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：<ul>
+<li>如果一个问题本次标记为False Positive 或者 Won’t fix</li>
+<li>以后此项目进行分析时此问题自动标记。</li>
+<li>其他项目(Key不同)还是会报此问题。<br><img src="/posts/54025/resolutions.png" alt="logo"><br><img src="/posts/54025/resolution2.png" alt="logo"></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。</p>
+<ol>
+<li>主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：<ul>
+<li>例如：修改maven pom文件 artifactId增加 master/admin/scm 后缀</li>
+</ul>
+</li>
+<li>更新Dev开发过程项目标记规则到主干。</li>
+</ol>
+<hr>
+<h2 id="同步不同项目标记规则："><a href="#同步不同项目标记规则：" class="headerlink" title="同步不同项目标记规则："></a>同步不同项目标记规则：</h2><ol>
+<li>安装Issue resolver插件：<ul>
+<li>Export and import resolved issues (false-positive and won’t fix) from SonarQube projects.</li>
+</ul>
+</li>
+<li>更新dev项目标记规则到主干项目：<ul>
+<li>web端操作方法：<br><img src="/posts/54025/biaoji1.png" alt="logo"><br><img src="/posts/54025/biaoji2.png" alt="logo"></li>
+</ul>
+<hr>
+<ul>
+<li>Api调用方法：<ul>
+<li>查看：<a href="http://ip:9000/web_api/api/issueresolver" target="_blank" rel="external">http://ip:9000/web_api/api/issueresolver</a><br><img src="/posts/54025/api.png" alt="logo"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景：&quot;&gt;&lt;a href=&quot;#背景：&quot; class=&quot;headerlink&quot; title=&quot;背景：&quot;&gt;&lt;/a&gt;背景：&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。
+&lt;/code&gt;&lt;/pr
+    
+    </summary>
+    
+      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
+    
+    
+      <category term="Sonar" scheme="https://0to.github.io/tags/Sonar/"/>
+    
+  </entry>
   
   <entry>
     <title>持续代码质量平台Sonar-4Android</title>
