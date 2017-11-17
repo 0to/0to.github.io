@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Archives: 2017/4 - Just Do IT</title>
+    <title>Tag: nexus - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -18,7 +18,7 @@
     <meta name="description" content="小弟读过两年书，尘世中一个迷途小书童">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Just Do IT">
-<meta property="og:url" content="https://0to.github.io/archives/2017/04/index.html">
+<meta property="og:url" content="https://0to.github.io/tags/nexus/index.html">
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="小弟读过两年书，尘世中一个迷途小书童">
 <meta name="twitter:card" content="summary">
@@ -231,15 +231,15 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/posts/52695/">
-                            分支策略
+                        <a class="link-unstyled" href="/posts/28954/">
+                            Nexus3搭建配置
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-04-25T19:37:40+08:00">
+    <time itemprop="datePublished" datetime="2017-11-17T14:39:35+08:00">
 	
-		    Apr 25, 2017
+		    Nov 17, 2017
     	
     </time>
     
@@ -254,184 +254,97 @@
             </div>
             
                 <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
-<p>为了更好的支持产品研发过程，我们需要设计符合公司研发的分支策略。<br>无论多复杂或者简单的策略都可以归类为以下两种：</p>
-<blockquote>
-<p>1.主干开发，分支发布<br>2.分支开发，主干发布</p>
-</blockquote>
-<p>PS：我们约定：</p>
-<blockquote>
-<p>主干（master/git  trunk/svn）<br>    分支（branch）<br>    标签（tag）<br>如果从版本控制工具实现上来看：<br>        svn： trunk、branch、tag 没有差别<br>        git： master、branch、轻量级tag 没有差别<br>        为了更好的区分和管理，人为的从逻辑上进行区分<br>        tag的作用：里程碑记录，方便回溯（发布回滚等）</p>
-</blockquote>
-</blockquote>
-<h1 id="主干开发，分支发布："><a href="#主干开发，分支发布：" class="headerlink" title="主干开发，分支发布："></a>主干开发，分支发布：</h1><p><img src="/posts/52695/zhugan.png" alt="logo"></p>
+                    <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li>下载地址：<a href="https://www.sonatype.com/nexus-repository-oss" target="_blank" rel="external">官方网站</a></li>
+<li>软硬件需求：<a href="https://help.sonatype.com/display/NXRM3/System+Requirements" target="_blank" rel="external">官方文档</a></li>
+<li>安装方法：<a href="https://help.sonatype.com/display/NXRM3/Installation" target="_blank" rel="external">官方文档</a></li>
+</ul>
+<p>PS:</p>
 <ul>
-<li>优点：<ol>
-<li>较少的分支存在，大家专注在主干开发</li>
-</ol>
+<li>nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版)</li>
+<li>主要使用版本：2.x和3.x</li>
+<li>版本区别：<a href="https://help.sonatype.com/display/NXRM3/Repository+Manager+Feature+Matrix#RepositoryManagerFeatureMatrix-OBR" target="_blank" rel="external">官方文档</a></li>
+</ul>
+<h1 id="JAVA项目依赖管理方法："><a href="#JAVA项目依赖管理方法：" class="headerlink" title="JAVA项目依赖管理方法："></a>JAVA项目依赖管理方法：</h1><ol>
+<li>所有依赖jar包都上传提交到代码库里面：<ul>
+<li>优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小项目)</li>
+<li>缺点：<ul>
+<li>依赖包体积很大，导致代码获取推送太耗时和占用带宽；</li>
+<li>基础框架依赖包每个代码库都要存放一份(空间浪费)；</li>
+<li>当前依赖包版本不明确。</li>
+</ul>
 </li>
-<li>适用于：<ol>
-<li>敏捷开发模式，每个迭代都很快</li>
-<li>维护型项目，较少需求变更，基本没有并行开发的需要</li>
-<li>个人项目</li>
-</ol>
+</ul>
 </li>
-<li>常用方式：<ol>
-<li>所有dev在主干上面进行开发</li>
-<li>需要发布的时候从指定版本拉出发布分支，进行测试<ul>
-<li>如果成功：那么打出tag，进行发布</li>
-<li>如果不成功：那么继续在发布分支上面进行修改，然后测试；<br>  测试成功后，打tag，合并发布分支修改到主干；</li>
+<li>依赖包编译过程中下载，不上传到代码库：<ul>
+<li>优点：<ul>
+<li>代码库干净，体积小；</li>
+<li>项目显性配置依赖包版本和引用阶段清晰明了。</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
-</li>
+<h1 id="私服的优点："><a href="#私服的优点：" class="headerlink" title="私服的优点："></a>私服的优点：</h1><ol>
+<li>统一服务器代理外部依赖（节省外网带宽）；</li>
+<li>项目下载依赖通过内部网络的进行（更快）；</li>
+<li>托管内部项目依赖（协作更方便）；</li>
+<li>托管第三方依赖（例如：合作伙伴的依赖包）<br><img src="/posts/28954/nexus0.png" alt="logo"></li>
+</ol>
+<h1 id="搭建环境版本："><a href="#搭建环境版本：" class="headerlink" title="搭建环境版本："></a>搭建环境版本：</h1><ul>
+<li>OS：        Windows Server 2012 R2</li>
+<li>JDK：       1.8.0_71</li>
+<li>nexus-repository-oss 3.6.0-02</li>
 </ul>
-<h1 id="分支开发，主干发布："><a href="#分支开发，主干发布：" class="headerlink" title="分支开发，主干发布："></a>分支开发，主干发布：</h1><p><img src="/posts/52695/fenzhi.png" alt="logo"></p>
+<h1 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h1><ol>
+<li>安装JDK</li>
+<li>官网下载：nexus-3.6.0-02-win64.zip,解压缩</li>
+<li><p>配置windows服务：<a href="https://help.sonatype.com/display/NXRM3/Run+as+a+Service" target="_blank" rel="external">官方文档</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$install-dir/bin/nexus.exe /install &lt;optional-service-name&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nexus.exe /start &lt;optional-service-name&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>网页端登陆配置Nexus</p>
 <ul>
-<li>优点：<ol>
-<li>对并行开发支持很好</li>
-</ol>
-</li>
-<li>适用于：<ol>
-<li>并行开发很频繁的项目</li>
-</ol>
-</li>
-<li>常用方式：<ol>
-<li>根据项目发布排期拉出并行开发分支</li>
-<li>不同or相同的dev分别在分支上面进行开发</li>
-<li>测试通过后，打tag进行发布，合并分支修改到主干</li>
-<li>后发布的分支需要合并最新的主干代码</li>
-</ol>
-</li>
-<li>注意点：<ol>
-<li>所有分支都从主干拉出；</li>
-<li>发布时候要检查 tag是否包含最新的主干代码；</li>
-<li>后发布的分支在合并最新主干代码后，注意测试范围扩大（除了测试本分支功能外，合并过来的功能也需要覆盖到！！！）</li>
-</ol>
-</li>
+<li><a href="http://搭建机器ip:8081" target="_blank" rel="external">http://搭建机器ip:8081</a></li>
+<li>用户名/密码：admin/admin123</li>
 </ul>
-<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><p>本文只是简单介绍下基础的分支策略，各位需根据自身团队、业务来综合定制适合的分支策略。</p>
+</li>
+</ol>
+<h1 id="后台配置："><a href="#后台配置：" class="headerlink" title="后台配置："></a>后台配置：</h1><ol>
+<li><p>data目录修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$install-dir/bin/nexus.vmoptions</div><div class="line"></div><div class="line">-Dkaraf.data=../sonatype-work/nexus3</div><div class="line">-Djava.io.tmpdir=../sonatype-work/nexus3/tmp</div><div class="line">-XX:LogFile=../sonatype-work/nexus3/log/jvm.log</div></pre></td></tr></table></figure>
+</li>
+<li><p>服务端口号修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$data-dir/etc/nexus.properties</div><div class="line"></div><div class="line"># Jetty section</div><div class="line">application-port=8081</div></pre></td></tr></table></figure>
+</li>
+<li><p>jvm性能调优：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$install-dir/bin/nexus.vmoptions</div><div class="line"></div><div class="line">-Xms4G</div><div class="line">-Xmx4G</div><div class="line">-XX:MaxDirectMemorySize=4014M</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上修改都需要重启服务生效。</p>
+<h1 id="前台配置："><a href="#前台配置：" class="headerlink" title="前台配置："></a>前台配置：</h1><p>使用管理员admin账号登陆</p>
+<h2 id="配置邮箱"><a href="#配置邮箱" class="headerlink" title="配置邮箱"></a>配置邮箱</h2><p><img src="/posts/28954/nexus_email.jpg" alt="logo"></p>
+<h2 id="配置LDAP"><a href="#配置LDAP" class="headerlink" title="配置LDAP"></a>配置LDAP</h2><p><img src="/posts/28954/nexus_ldap1.png" alt="logo"><br><img src="/posts/28954/nexus_ldap2.png" alt="logo"><br><img src="/posts/28954/nexus_ldap3.png" alt="logo"></p>
+<h2 id="配置权限"><a href="#配置权限" class="headerlink" title="配置权限"></a>配置权限</h2><p><img src="/posts/28954/nexus_role1.png" alt="logo"><br><img src="/posts/28954/nexus_role2.png" alt="logo"><br><img src="/posts/28954/nexus_role3.png" alt="logo"></p>
+<h2 id="配置repositories"><a href="#配置repositories" class="headerlink" title="配置repositories"></a>配置repositories</h2><p>repositories分为三个种类：</p>
+<ol>
+<li>proxy    代理远端仓库</li>
+<li>hosted   本地内部仓库</li>
+<li>group    组合仓库<br><img src="/posts/28954/nexus_res.png" alt="logo"></li>
+</ol>
+<h1 id="Maven依赖私服配置"><a href="#Maven依赖私服配置" class="headerlink" title="Maven依赖私服配置"></a>Maven依赖私服配置</h1><p>修改~/.m2/settings.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">&lt;settings&gt;</div><div class="line">  &lt;servers&gt;</div><div class="line">    &lt;server&gt;</div><div class="line">      &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">      &lt;username&gt;用户名&lt;/username&gt;</div><div class="line">      &lt;password&gt;密码&lt;/password&gt;</div><div class="line">    &lt;/server&gt;</div><div class="line">  &lt;/servers&gt;</div><div class="line">  &lt;mirrors&gt;</div><div class="line">    &lt;mirror&gt;</div><div class="line">    &lt;!--This sends everything else to /public --&gt;</div><div class="line">    &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</div><div class="line">    &lt;url&gt;http://$ip:8081/repository/maven-public/&lt;/url&gt;</div><div class="line">    &lt;/mirror&gt;</div><div class="line">  &lt;/mirrors&gt;</div><div class="line">  &lt;profiles&gt;</div><div class="line">    &lt;profile&gt;</div><div class="line">    &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">    &lt;!--Enable snapshots for the built in central repo to direct --&gt;</div><div class="line">    &lt;!--all requests to nexus via the mirror --&gt;</div><div class="line">    &lt;repositories&gt;</div><div class="line">        &lt;repository&gt;</div><div class="line">        &lt;id&gt;central&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://central&lt;/url&gt;</div><div class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</div><div class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</div><div class="line">        &lt;/repository&gt;</div><div class="line">    &lt;/repositories&gt;</div><div class="line">    &lt;pluginRepositories&gt;</div><div class="line">        &lt;pluginRepository&gt;</div><div class="line">        &lt;id&gt;central&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://central&lt;/url&gt;</div><div class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</div><div class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</div><div class="line">        &lt;/pluginRepository&gt;</div><div class="line">    &lt;/pluginRepositories&gt;</div><div class="line">    &lt;/profile&gt;</div><div class="line">  &lt;/profiles&gt;</div><div class="line">  &lt;activeProfiles&gt;</div><div class="line">    &lt;!--make the profile active all the time --&gt;</div><div class="line">    &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</div><div class="line">  &lt;/activeProfiles&gt;</div><div class="line">&lt;/settings&gt;</div></pre></td></tr></table></figure></p>
+<h1 id="内部项目上传jar包："><a href="#内部项目上传jar包：" class="headerlink" title="内部项目上传jar包："></a>内部项目上传jar包：</h1><p>修改项目pom.xml文件增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;distributionManagement&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">      &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">      &lt;name&gt;Releases&lt;/name&gt;</div><div class="line">      &lt;url&gt;http://$ip:8081/repository/maven-releases&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">    &lt;snapshotRepository&gt;</div><div class="line">      &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">      &lt;name&gt;Snapshot&lt;/name&gt;</div><div class="line">      &lt;url&gt;http://$ip:8081/repository/maven-snapshots&lt;/url&gt;</div><div class="line">    &lt;/snapshotRepository&gt;</div><div class="line">&lt;/distributionManagement&gt;</div></pre></td></tr></table></figure></p>
+<p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn clean deploy</div></pre></td></tr></table></figure></p>
+<h1 id="上传第三方jar包："><a href="#上传第三方jar包：" class="headerlink" title="上传第三方jar包："></a>上传第三方jar包：</h1><p>nexus3不能使用web端来上传第三方jar包，只能使用命令行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -Dfile=$path/XX.jar -Durl=http://$ip:8081/repository/$hosted_3rd/ -DrepositoryId=nexus</div></pre></td></tr></table></figure></p>
 
                     
                         
                     
                     
                         <p>
-                            <a href="/posts/52695/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/2248/">
-                            Gerrit code review
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-04-06T15:07:45+08:00">
-	
-		    Apr 06, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
-<p>公司使用Gerrit作为代码托管平台。<br>Gerrit除了设置项目权限外，还提供了很好的code review功能。<br>下面分别简单介绍普通Git用法和code review用法</p>
-</blockquote>
-<h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/posts/2248/git_test.png" alt="logo"></p>
-<blockquote>
-<p>如上图所示：</p>
-<p>Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；</p>
-<p>绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone :克隆一个远端git仓库到本地</div><div class="line">git fetch：获取远端git仓库变化到本地仓库，并不会更改当前工作区文件</div><div class="line">git pull：这个命令相当于：先执行git fetch 然后执行git merge变化到当前工作区</div><div class="line">git push：将本地仓库的变化推送到远端git服务器</div></pre></td></tr></table></figure>
-<h2 id="Code-Review使用方法："><a href="#Code-Review使用方法：" class="headerlink" title="Code Review使用方法："></a>Code Review使用方法：</h2><p><img src="/posts/2248/gerrit_test.png" alt="logo"></p>
-<blockquote>
-<p>如上图所示：<br>    使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；<br>    本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；<br>    <img src="/posts/2248/code_review.png" alt="logo"><br>    管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。</p>
-<blockquote>
-<p>PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）</p>
-</blockquote>
-</blockquote>
-<h2 id="原理解析："><a href="#原理解析：" class="headerlink" title="原理解析："></a>原理解析：</h2><blockquote>
-<p>为了实现上面所说的功能，gerrit引入了change_id和for空间；</p>
-<blockquote>
-<p>我们执行git push到for空间；<br>    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：<br>    git push origin HEAD:refs/heads/master<br>    推送当前本地最新代码到远端（origin）master分支</p>
-</blockquote>
-</blockquote>
-<hr>
-<blockquote>
-<blockquote>
-<p>  使用code review的话执行git push完整命令是：<br>    git push origin HEAD:refs/for/master<br>    推送当前本地最新代码到for空间的master分支供gerrit识别</p>
-<p>PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</p>
-</blockquote>
-</blockquote>
-<hr>
-<blockquote>
-<p>Gerrit根据change-Id识别你的patch；</p>
-<blockquote>
-<p>我们需要引入commit-msg钩子文件到本地代码库:<br>        （这个是gerrit原生提供的通过scp命令实现）<br>        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可<br>        gitdir=$(git rev-parse –git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg ${gitdir}/hooks/</p>
-</blockquote>
-</blockquote>
-<hr>
-<blockquote>
-<p>commit-msg钩子的作用和使用：<br>1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id<br>        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548<br>2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit –amend<br>        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）<br>    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</p>
-<blockquote>
-<p>PS：建议合并最新版本代码到本地：使用git pull –rebase<br>        如果使用git pull： merge点不自动产生change-id！！！</p>
-</blockquote>
-</blockquote>
-<p><img src="/posts/2248/patch.png" alt="logo"></p>
-<h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><blockquote>
-<p>根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：</p>
-<ol>
-<li>git clone远端代码库到本地</li>
-<li>从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</li>
-<li>每次都要本地git commit后执行git push origin HEAD:refs/for/master</li>
-<li>去gerrit上面添加code reviewers<br>这并不是我想要的生活。。。</li>
-</ol>
-</blockquote>
-<hr>
-<blockquote>
-<p>一劳永逸方法：</p>
-<ol>
-<li>git clone远端代码库到本地</li>
-<li>从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</li>
-<li>修改本地代码库config   vi .git/config增加下面内容<br>[remote “review_master”]<br>  url = 代码库地址<br>  push = HEAD:refs/for/master%r=weilong.wang@memblaze.com,r=dev1@memblaze.com</li>
-<li>本地git commit后执行git push review_master即可<br>会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</li>
-</ol>
-<blockquote>
-<p>PS：     remote “review_master” 这个可以换成你喜欢的其他字符串；假如改成remote “haha” 那么最终push的时候执行 git push haha<br>PS：     pushurl这个请自行替换成各位执行git clone的地址<br>PS：     自动添加code reviewers请自行替换成各位项目的同事</p>
-</blockquote>
-</blockquote>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/posts/2248/#post-footer" class="postShorten-excerpt_link link">
+                            <a href="/posts/28954/#post-footer" class="postShorten-excerpt_link link">
                                 Comment and share
                             </a>
                         </p>
@@ -451,7 +364,6 @@
 </div>
 
 </section>
-
 
 
                                     <footer id="footer" class="main-content-wrap">
