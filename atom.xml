@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2017-11-27T09:13:30.563Z</updated>
+  <updated>2017-11-27T09:26:41.082Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://0to.github.io/posts/61445/"/>
     <id>https://0to.github.io/posts/61445/</id>
     <published>2017-11-27T08:08:37.000Z</published>
-    <updated>2017-11-27T09:13:30.563Z</updated>
+    <updated>2017-11-27T09:26:41.082Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。</p>
 <h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ol>
@@ -99,7 +99,7 @@
 </ol>
 <h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><ol>
 <li>OpenGrok还支持文件类型查询过滤等功能，各位可以自行尝试使用；</li>
-<li>除了数据库表查询以外，常见的还包含api调用查询；</li>
+<li>除了数据库表查询以外，常见的还有api调用查询；</li>
 <li>这种方案是后置的，如果能在系统设计之初和迭代过程积极维护开发文档，形成系统整体调度架构图形的话，会另我们开发更加自信；</li>
 <li>借此机会推动开发团队规范开发文档和产出系统调度架构图形。</li>
 </ol>
@@ -115,7 +115,7 @@
       <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
     
     
-      <category term="nexus" scheme="https://0to.github.io/tags/nexus/"/>
+      <category term="OpenGrok" scheme="https://0to.github.io/tags/OpenGrok/"/>
     
   </entry>
   
@@ -1130,9 +1130,9 @@
       <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
     
     
-      <category term="Gerrit" scheme="https://0to.github.io/tags/Gerrit/"/>
-    
       <category term="Jenkins" scheme="https://0to.github.io/tags/Jenkins/"/>
+    
+      <category term="Gerrit" scheme="https://0to.github.io/tags/Gerrit/"/>
     
   </entry>
   
