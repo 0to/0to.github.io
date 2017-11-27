@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2017-11-21T11:35:08.784Z</updated>
+  <updated>2017-11-27T09:13:30.563Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -16,11 +16,115 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>使用OpenGrok查询涉及关键字代码库</title>
+    <link href="https://0to.github.io/posts/61445/"/>
+    <id>https://0to.github.io/posts/61445/</id>
+    <published>2017-11-27T08:08:37.000Z</published>
+    <updated>2017-11-27T09:13:30.563Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。</p>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ol>
+<li>查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。<ul>
+<li>难点：<ul>
+<li>并不是所有服务都会实时连接数据库，可能会漏掉；</li>
+<li>服务器上面部署的服务太多，还需要再做过滤。</li>
+</ul>
+</li>
+<li>综上，这个思路否定。</li>
+</ul>
+</li>
+<li>直接通过关键字查询代码库源码来定位。<ul>
+<li>难点：<ul>
+<li>需要拥有大范围的代码库权限</li>
+<li>多目录文件查询涉及关键字文件</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>作为公司SCM权限不是问题</li>
+<li>使用OpenGrok来做关键字查询</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li>OpenGrok：<a href="http://opengrok.github.io/OpenGrok/" target="_blank" rel="external">官方网站</a></li>
+</ul>
+<h2 id="实施步骤："><a href="#实施步骤：" class="headerlink" title="实施步骤："></a>实施步骤：</h2><ol>
+<li><p>搭建OpenGrok：</p>
+<ul>
+<li>安装jdk-1.8</li>
+<li>安装tomcat-8</li>
+<li><p>安装Exuberant Ctags <a href="http://ctags.sourceforge.net/" target="_blank" rel="external">下载地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ tar zxvf ctags-5.8.tar.gz</div><div class="line">$ cd ctags-5.8/</div><div class="line">$ ./configure</div><div class="line">$ make</div><div class="line">$ make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装opengrok <a href="https://github.com/OpenGrok/OpenGrok/releases" target="_blank" rel="external">下载地址</a>  | <a href="https://github.com/OpenGrok/OpenGrok/wiki/How-to-install-OpenGrok" target="_blank" rel="external">安装使用wiki</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ tar zxvf opengrok-1.1-rc16.tar.gz</div><div class="line">$ cd opengrok-1.1-rc16/bin/</div><div class="line">$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>下载代码</p>
+<ul>
+<li><p>创建一个公共代码库存放目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p /root/wwl/code/svn</div><div class="line">$ mkdir -p /root/wwl/code/git</div></pre></td></tr></table></figure>
+</li>
+<li><p>根据需要下载svn代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd /root/wwl/code/svn</div><div class="line">$ svn checkout svn_urls</div></pre></td></tr></table></figure>
+</li>
+<li><p>根据需要下载git代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd /root/wwl/code/git</div><div class="line">$ git clone git_urls</div></pre></td></tr></table></figure>
+</li>
+<li><p>PS:如果要想查询所有分支代码</p>
+<ul>
+<li>svn：直接checkout 包含branches目录url即可；</li>
+<li>git：需要clone多次git_url到不同目录，然后cd到各自目录执行git checkout branch_name；</li>
+<li>建议只下载master/trunk和最新dev分支即可。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>加载OpenGrok索引</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ./OpenGrok index &lt;absolute_path_to_your_SRC_ROOT&gt;</div><div class="line">例如：</div><div class="line">    ./OpenGrok index /root/wwl/code</div></pre></td></tr></table></figure>
+<p> PS：如果代码文件很多的话，加载索引会很久。晚上执行第二天来看结果吧。</p>
+</li>
+<li><p>关键字查询</p>
+<ul>
+<li><p>web端登陆:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;HOST&gt;:&lt;PORT&gt;/source</div></pre></td></tr></table></figure>
+</li>
+<li><p>执行查询:<br><img src="/posts/61445/OpenGrok.png" alt="logo"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><ol>
+<li>OpenGrok还支持文件类型查询过滤等功能，各位可以自行尝试使用；</li>
+<li>除了数据库表查询以外，常见的还包含api调用查询；</li>
+<li>这种方案是后置的，如果能在系统设计之初和迭代过程积极维护开发文档，形成系统整体调度架构图形的话，会另我们开发更加自信；</li>
+<li>借此机会推动开发团队规范开发文档和产出系统调度架构图形。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景：&quot;&gt;&lt;a href=&quot;#背景：&quot; class=&quot;headerlink&quot; title=&quot;背景：&quot;&gt;&lt;/a&gt;背景：&lt;/h1&gt;&lt;p&gt;dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。&lt;/p&gt;
+&lt;h2 id=&quot;思路：&quot;&gt;&lt;
+    
+    </summary>
+    
+      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
+    
+    
+      <category term="nexus" scheme="https://0to.github.io/tags/nexus/"/>
+    
+  </entry>
+  
+  <entry>
     <title>nexus2.x迁移repository到nexus3.x</title>
     <link href="https://0to.github.io/posts/7037/"/>
     <id>https://0to.github.io/posts/7037/</id>
     <published>2017-11-21T07:58:15.000Z</published>
-    <updated>2017-11-21T11:35:08.784Z</updated>
+    <updated>2017-11-21T11:35:36.479Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>公司之前使用nexus2.13.0版本的nexus，管理毕竟混乱。现搭建nexus3.6.0版本进行规范统一管理。</p>
 <p>上篇记录nexus3搭建配置过程，本篇记录迁移nexus2.13.0版本库到nexus3.6.0版本过程。</p>
