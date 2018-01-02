@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Archives: 2017/3 - Just Do IT</title>
+    <title>gitlab psql: undefined symbol: PQconnectdbParams - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,15 +15,40 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="小弟读过两年书，尘世中一个迷途小书童">
+    <meta name="description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。
+搭建环境：
+centos6.5
+gitlab8.8.5
+
+搭建方法：
+Omnibus package installation
+
+遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Just Do IT">
-<meta property="og:url" content="https://0to.github.io/archives/2017/03/index.html">
+<meta property="og:title" content="gitlab psql: undefined symbol: PQconnectdbParams">
+<meta property="og:url" content="https://0to.github.io/posts/35560/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="小弟读过两年书，尘世中一个迷途小书童">
+<meta property="og:description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。
+搭建环境：
+centos6.5
+gitlab8.8.5
+
+搭建方法：
+Omnibus package installation
+
+遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
+<meta property="og:updated_time" content="2018-01-02T07:14:21.188Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Just Do IT">
-<meta name="twitter:description" content="小弟读过两年书，尘世中一个迷途小书童">
+<meta name="twitter:title" content="gitlab psql: undefined symbol: PQconnectdbParams">
+<meta name="twitter:description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。
+搭建环境：
+centos6.5
+gitlab8.8.5
+
+搭建方法：
+Omnibus package installation
+
+遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
     
     
         
@@ -74,7 +99,7 @@
         
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">Just Do IT</a>
@@ -98,7 +123,7 @@
         
     
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -218,28 +243,23 @@
 </nav>
 
                         
-                            <div id="main" data-behavior="2" class="
+                            <div id="main" data-behavior="5" class="
                         hasCoverMetaIn
                         ">
                                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/60120/">
-                            Git tips one
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-03-31T14:40:12+08:00">
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            gitlab psql: undefined symbol: PQconnectdbParams
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-01-02T14:48:04+08:00">
 	
-		    Mar 31, 2017
+		    Jan 02, 2018
     	
     </time>
     
@@ -251,192 +271,109 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git version 2.10.1</div></pre></td></tr></table></figure>
-<h1 id="Git克隆单个分支："><a href="#Git克隆单个分支：" class="headerlink" title="Git克隆单个分支："></a>Git克隆单个分支：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ git clone 地址 —branch br1 —single-branch dir</div><div class="line">        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。</div><div class="line">原理：</div><div class="line">$ git remote -v</div><div class="line">        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1</div><div class="line">恢复完整代码库：</div><div class="line">$ git config remote.origin.fetch &quot;+refs/heads/*:refs/remotes/origin/*&quot;</div><div class="line">    然后执行</div><div class="line">    $ git pull</div></pre></td></tr></table></figure>
-<h1 id="Git对-gitignore文件处理："><a href="#Git对-gitignore文件处理：" class="headerlink" title="Git对.gitignore文件处理："></a>Git对.gitignore文件处理：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">已经增加到.gitignore文件里面的目录or文件会被git忽略。</div><div class="line">如果本次需要修改一个忽略文件：</div><div class="line">$ git status --ignored</div><div class="line">            --ignored   -- show ignored files as well</div><div class="line">$ git add -f</div><div class="line">            --force   -f   -- allow adding otherwise ignored files</div></pre></td></tr></table></figure>
-<h1 id="Git-commit相关："><a href="#Git-commit相关：" class="headerlink" title="Git commit相关："></a>Git commit相关：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># 空提交,只在特殊情况下使用（产生一个新的commit点）</div><div class="line">$ git commit</div><div class="line">    On branch master</div><div class="line">    Your branch is up-to-date with &apos;origin/master&apos;.</div><div class="line">    nothing to commit, working tree clean</div><div class="line"># 解决方法</div><div class="line">$ git commit -m &quot;empty commit&quot; --allow-empty</div><div class="line"></div><div class="line"></div><div class="line"># 不带message提交（慎用,message很重要）</div><div class="line">$ git commit</div><div class="line">    Aborting commit due to empty commit message.</div><div class="line"># 解决方法</div><div class="line">$ git commit --allow-empty-message</div><div class="line"></div><div class="line"></div><div class="line">把暂存区的变更合并到最新的版本里面，不会产生新的版本(同时可以更新log message)；</div><div class="line">$ git commit --amend</div><div class="line">PS：已经进远端代码库的版本不允许使用--amend进行修改!!!</div></pre></td></tr></table></figure>
-<h2 id="Git-merge相关："><a href="#Git-merge相关：" class="headerlink" title="Git merge相关："></a>Git merge相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">conflict处理：</div><div class="line"># 使用自己/他人的文件替换冲突文件</div><div class="line">$ git checkout --ours conflict.file</div><div class="line">$ git checkout --theirs conflict.file</div><div class="line"># 增加冲突文件到版本库</div><div class="line">$ git add conflict.file</div><div class="line">$ git commit</div><div class="line"></div><div class="line"></div><div class="line">查看merge commit点已经解决的冲突文件：</div><div class="line">$ git log --cc</div><div class="line">        --cc    -- combined diff format for merge commits</div><div class="line"></div><div class="line"></div><div class="line">分支直接合并建议使用：git merge</div><div class="line">同一分支dev合并 or Temp分支合并建议使用：git rebase 或者 git cherry-pick</div><div class="line">    PS：以上两种都可以合并代码workspace最终文件一样，但是对git来说有不同：merge是环形，rebase和cherry-pick是直线</div><div class="line">    PS：需要注意的是rebase会是自己和他人角色发生反转，解决conflict file的时候需要留心。</div></pre></td></tr></table></figure>
-<h2 id="Git-rm相关："><a href="#Git-rm相关：" class="headerlink" title="Git rm相关："></a>Git rm相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git rm weilong.txt</div><div class="line">删除workspace和index里面的weilong.txt文件</div><div class="line"></div><div class="line">$ git rm --cached weilong.txt</div><div class="line">删除index里面的weilong.txt文件，workspace里面的文件保留</div></pre></td></tr></table></figure>
-<h2 id="Git-log相关："><a href="#Git-log相关：" class="headerlink" title="Git log相关："></a>Git log相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">$ git log -5</div><div class="line">查看最新的5次版本</div><div class="line"></div><div class="line">$ git log --author=weilong.wang</div><div class="line">查看weilong.wang提交的版本</div><div class="line"></div><div class="line">$ git log --oneline</div><div class="line">一行显示一个版本信息（简化显示版本信息）</div><div class="line"></div><div class="line">$ git log -p</div><div class="line">显示每个版本的具体修改</div><div class="line"></div><div class="line">$ git log --numstat</div><div class="line">显示每个版本 修改文件的行数（5       1       weilong.txt    这个文件本次增加了5行同时也删除了1行）</div><div class="line"></div><div class="line">$ git log --since=&quot;1 month ago&quot;</div><div class="line">显示最近一个月的日志</div><div class="line">$ git log --after=&quot;2016-07-01&quot;</div><div class="line">显示7月1号至今的日志</div><div class="line">$ git log --before=&quot;2 days&quot;</div><div class="line">显示2天之前的日志</div><div class="line">$ git log --until=&quot;2016-07-10T14:30&quot;</div><div class="line">显示7月10号14：30之前的日志</div><div class="line"></div><div class="line"></div><div class="line">$ git log --graph</div><div class="line">图状显示版本 （正常提交时线形的，merge是环形的）</div><div class="line"></div><div class="line">可用于判断分支是否合并：</div><div class="line">$ git log br1 ^master</div><div class="line">显示只在分支br1不在master上的commit点</div><div class="line">$ git log master ^br1</div><div class="line">显示只在分支master不在br1分支上的commit点</div></pre></td></tr></table></figure>
-<p><img src="/posts/60120/Git-Cheat-Sheet.png" alt="logo"></p>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/posts/60120/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/32389/">
-                            使用Jenkins_Gerrit搭建持续集成
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-03-31T10:46:37+08:00">
-	
-		    Mar 31, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
 </div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司拆分子公司，需要把现有Gitlab也分离出来。</p>
+<h4 id="搭建环境："><a href="#搭建环境：" class="headerlink" title="搭建环境："></a>搭建环境：</h4><ul>
+<li>centos6.5</li>
+<li>gitlab8.8.5</li>
+</ul>
+<h3 id="搭建方法："><a href="#搭建方法：" class="headerlink" title="搭建方法："></a>搭建方法：</h3><ul>
+<li>Omnibus package installation</li>
+</ul>
+<h3 id="遇到问题："><a href="#遇到问题：" class="headerlink" title="遇到问题："></a>遇到问题：</h3><p>安装完成，执行 #gitlab-ctl reconfigure 报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</div><div class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</div><div class="line"></div><div class="line">================================================================================</div><div class="line">Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;</div><div class="line">================================================================================</div><div class="line"></div><div class="line">Mixlib::ShellOut::ShellCommandFailed</div><div class="line">------------------------------------</div><div class="line">Expected process to exit with [0], but received &apos;127&apos;</div><div class="line">---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</div><div class="line">STDOUT:</div><div class="line">STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</div><div class="line">---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</div><div class="line">Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127</div></pre></td></tr></table></figure></p>
+<h3 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h3><p>因为我的centos服务器上面默认装了pgsql的8.4.18版本；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@gitlab0 ~]# rpm -qa|grep postgres</div><div class="line">postgresql-8.4.18-1.el6_4.x86_64</div><div class="line">postgresql-devel-8.4.18-1.el6_4.x86_64</div><div class="line">postgresql-libs-8.4.18-1.el6_4.x86_64</div></pre></td></tr></table></figure></p>
+<p>使用/opt/gitlab/embedded/bin/psql的时候找不到对应的lib（/opt/gitlab/embedded/lib/postgresql）。</p>
+<h3 id="解决方法1"><a href="#解决方法1" class="headerlink" title="解决方法1:"></a>解决方法1:</h3><p>卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。</p>
+<p>卸载gitlab方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo gitlab-ctl stop</div><div class="line">sudo gitlab-ctl uninstall</div><div class="line">sudo gitlab-ctl cleanse</div><div class="line">sudo rm -rf /opt/gitlab</div></pre></td></tr></table></figure></p>
+<h3 id="解决方法2"><a href="#解决方法2" class="headerlink" title="解决方法2:"></a>解决方法2:</h3><p>增加gitlab带的psql所需lib路径到$LD_LIBRARY_PATH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># vi /etc/profile</div><div class="line"></div><div class="line">export LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......</div><div class="line"></div><div class="line"># source /etc/profile</div><div class="line"></div><div class="line"># echo $LD_LIBRARY_PATH</div><div class="line"></div><div class="line">/opt/gitlab/embedded/lib:/tmp/product.......</div></pre></td></tr></table></figure></p>
+<p>然后再执行#gitlab-ctl reconfigure，即可成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gitlab Reconfigured!</div></pre></td></tr></table></figure></p>
+<p>查看postgresql版本:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --version</div><div class="line">psql (PostgreSQL) 9.2.16</div><div class="line">[root@gitlab0 ~]# psql --version</div><div class="line">psql (PostgreSQL) 8.4.18</div></pre></td></tr></table></figure></p>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="http://dreamlikes.cn/archives/78" target="_blank" rel="external">http://dreamlikes.cn/archives/78</a></p>
 
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
-<p>公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。</p>
-</blockquote>
-<h2 id="流程设计："><a href="#流程设计：" class="headerlink" title="流程设计："></a>流程设计：</h2><p><img src="/posts/32389/CI.png" alt="logo"></p>
-<ol>
-<li><p>Dev本地开发，然后上传patch到gerrit：</p>
-<ul>
-<li>同时触发Jenkins CR_Job来做build</li>
-<li>增加Code reviewers来做review</li>
-</ul>
-</li>
-<li><p>再上述都成功的基础上，reviewer点击+2：</p>
-<ul>
-<li>同时触发Jenkins Submit_Job来做build和test：<ul>
-<li>如果成功，自动合并本次patch到代码库</li>
-<li>如果失败，返回-1</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Nightly test Job：</p>
-<ul>
-<li>每晚20:00触发，获取当前最新的代码进行build和test</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>测试分级：</p>
-<ul>
-<li><p>CR_Job:</p>
-<ul>
-<li>获取触发patch的代码，合并最新分支代码，进行build</li>
-<li>快速反馈，主要检查patch合并是否有冲突和build是否能跑通</li>
-</ul>
-</li>
-<li><p>Submit_Job：</p>
-<ul>
-<li>获取触发patch的代码，合并最新的分支代码，进行build和测试</li>
-<li>根据每天代码提交次数来确定时间和test cases</li>
-</ul>
-</li>
-<li><p>Nightly_Job：</p>
-<ul>
-<li>获取当前最新代码进行build和test</li>
-<li>一般跑12h，第二天早上出测试报告邮件</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<h2 id="软件环境："><a href="#软件环境：" class="headerlink" title="软件环境："></a>软件环境：</h2><table>
-<thead>
-<tr>
-<th>软件</th>
-<th>版本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Jenkins</td>
-<td>1.567</td>
-</tr>
-<tr>
-<td>Gerrit</td>
-<td>2.8.6</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Jenkins插件：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>插件名</th>
-<th>版本</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Multijob plugin</td>
-<td>2.11.1</td>
-<td>定义pipeline</td>
-</tr>
-<tr>
-<td>Gerrit Trigger</td>
-<td>1.13</td>
-<td>监控Gerrit event</td>
-</tr>
-</tbody>
-</table>
-<h2 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h2><ol>
-<li>安装配置Jenkins Gerrit Trigger插件：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">官方wiki</a><br> <img src="/posts/32389/Gerrit_Trigger.png" alt="logo"></li>
-<li>安装Jenkins Multijob plugin：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">官方wiki</a><br> <img src="/posts/32389/multi_jobs.png" alt="logo"></li>
-<li>配置CR_Job:<br> <img src="/posts/32389/CR_Job.png" alt="logo"></li>
-<li>配置Submit_job:<br> <img src="/posts/32389/submit_job.png" alt="logo"></li>
-<li>配置Nightly_Job:<br> <img src="/posts/32389/nightly_job.png" alt="logo"></li>
-</ol>
-<h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><ol>
-<li>以上内容都是基于公司研发现状定制的，建议各位根据自己的情况进行定制。</li>
-<li>因为历史遗留原因，当前使用的版本比较旧。 例如如果升级到jenkins2.x版本的话pipeline就不需要借助插件来实现了。</li>
-</ol>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/posts/32389/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
             
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Gitlab/">Gitlab</a>
+
+            </div>
         
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
         
-        <li class="pagination-number">page 1 of 1</li>
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
 
 
 
@@ -448,6 +385,90 @@
 
             </div>
             
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
+                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+                    
                         </div>
                         
 
@@ -712,6 +733,25 @@
                                     <!--SCRIPTS-->
 <script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
 <!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://0to.github.io/posts/35560/';
+                 
+                    this.page.identifier = 'posts/35560/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = '0to0';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
 
 
 

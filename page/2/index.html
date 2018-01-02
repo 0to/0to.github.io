@@ -230,6 +230,110 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/posts/52695/">
+                            分支策略
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-04-25T19:37:40+08:00">
+	
+		    Apr 25, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
+<p>为了更好的支持产品研发过程，我们需要设计符合公司研发的分支策略。<br>无论多复杂或者简单的策略都可以归类为以下两种：</p>
+<blockquote>
+<p>1.主干开发，分支发布<br>2.分支开发，主干发布</p>
+</blockquote>
+<p>PS：我们约定：</p>
+<blockquote>
+<p>主干（master/git  trunk/svn）<br>    分支（branch）<br>    标签（tag）<br>如果从版本控制工具实现上来看：<br>        svn： trunk、branch、tag 没有差别<br>        git： master、branch、轻量级tag 没有差别<br>        为了更好的区分和管理，人为的从逻辑上进行区分<br>        tag的作用：里程碑记录，方便回溯（发布回滚等）</p>
+</blockquote>
+</blockquote>
+<h1 id="主干开发，分支发布："><a href="#主干开发，分支发布：" class="headerlink" title="主干开发，分支发布："></a>主干开发，分支发布：</h1><p><img src="/posts/52695/zhugan.png" alt="logo"></p>
+<ul>
+<li>优点：<ol>
+<li>较少的分支存在，大家专注在主干开发</li>
+</ol>
+</li>
+<li>适用于：<ol>
+<li>敏捷开发模式，每个迭代都很快</li>
+<li>维护型项目，较少需求变更，基本没有并行开发的需要</li>
+<li>个人项目</li>
+</ol>
+</li>
+<li>常用方式：<ol>
+<li>所有dev在主干上面进行开发</li>
+<li>需要发布的时候从指定版本拉出发布分支，进行测试<ul>
+<li>如果成功：那么打出tag，进行发布</li>
+<li>如果不成功：那么继续在发布分支上面进行修改，然后测试；<br>  测试成功后，打tag，合并发布分支修改到主干；</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="分支开发，主干发布："><a href="#分支开发，主干发布：" class="headerlink" title="分支开发，主干发布："></a>分支开发，主干发布：</h1><p><img src="/posts/52695/fenzhi.png" alt="logo"></p>
+<ul>
+<li>优点：<ol>
+<li>对并行开发支持很好</li>
+</ol>
+</li>
+<li>适用于：<ol>
+<li>并行开发很频繁的项目</li>
+</ol>
+</li>
+<li>常用方式：<ol>
+<li>根据项目发布排期拉出并行开发分支</li>
+<li>不同or相同的dev分别在分支上面进行开发</li>
+<li>测试通过后，打tag进行发布，合并分支修改到主干</li>
+<li>后发布的分支需要合并最新的主干代码</li>
+</ol>
+</li>
+<li>注意点：<ol>
+<li>所有分支都从主干拉出；</li>
+<li>发布时候要检查 tag是否包含最新的主干代码；</li>
+<li>后发布的分支在合并最新主干代码后，注意测试范围扩大（除了测试本分支功能外，合并过来的功能也需要覆盖到！！！）</li>
+</ol>
+</li>
+</ul>
+<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><p>本文只是简单介绍下基础的分支策略，各位需根据自身团队、业务来综合定制适合的分支策略。</p>
+
+                    
+                        
+                    
+                    
+                        <p>
+                            <a href="/posts/52695/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/posts/2248/">
                             Gerrit code review
                         </a>
@@ -631,7 +735,7 @@
 
                                     <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2017 Weilong. All Rights Reserved.
+        Copyrights &copy; 2018 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -891,7 +995,7 @@
                 data-message-zero="no post found"
                 data-message-one="1 post found"
                 data-message-other="{n} posts found">
-                14 posts found
+                15 posts found
             </p>
         </div>
     </div>
