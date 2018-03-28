@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Archives: 2017/8 - Just Do IT</title>
+    <title>Nexus3批量导入jar包 - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,15 +15,40 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="小弟读过两年书，尘世中一个迷途小书童">
+    <meta name="description" content="参考链接：
+How can I programmatically upload an artifact into Nexus 3?
+Nexus Repository Import Script
+
+
+背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。
+分析：
+Nexus2.x 服务器直接存储jar包
+Nexus3.x 服务器存储的是二进制文件">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Just Do IT">
-<meta property="og:url" content="https://0to.github.io/archives/2017/08/index.html">
+<meta property="og:title" content="Nexus3批量导入jar包">
+<meta property="og:url" content="https://0to.github.io/posts/27558/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="小弟读过两年书，尘世中一个迷途小书童">
+<meta property="og:description" content="参考链接：
+How can I programmatically upload an artifact into Nexus 3?
+Nexus Repository Import Script
+
+
+背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。
+分析：
+Nexus2.x 服务器直接存储jar包
+Nexus3.x 服务器存储的是二进制文件">
+<meta property="og:updated_time" content="2018-03-28T12:39:33.887Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Just Do IT">
-<meta name="twitter:description" content="小弟读过两年书，尘世中一个迷途小书童">
+<meta name="twitter:title" content="Nexus3批量导入jar包">
+<meta name="twitter:description" content="参考链接：
+How can I programmatically upload an artifact into Nexus 3?
+Nexus Repository Import Script
+
+
+背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。
+分析：
+Nexus2.x 服务器直接存储jar包
+Nexus3.x 服务器存储的是二进制文件">
     
     
         
@@ -74,7 +99,7 @@
         
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">Just Do IT</a>
@@ -98,7 +123,7 @@
         
     
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -218,28 +243,23 @@
 </nav>
 
                         
-                            <div id="main" data-behavior="2" class="
+                            <div id="main" data-behavior="5" class="
                         hasCoverMetaIn
                         ">
                                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/posts/54025/">
-                            持续代码质量平台Sonar-5审计
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-08-02T11:22:16+08:00">
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Nexus3批量导入jar包
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-03-28T19:19:17+08:00">
 	
-		    Aug 02, 2017
+		    Mar 28, 2018
     	
     </time>
     
@@ -251,74 +271,138 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><pre><code>Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。
-</code></pre><hr>
-<p>PS：</p>
-<ol>
-<li>Sonarqube根据Key来唯一标示项目。</li>
-<li>Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：<ul>
-<li>如果一个问题本次标记为False Positive 或者 Won’t fix</li>
-<li>以后此项目进行分析时此问题自动标记。</li>
-<li>其他项目(Key不同)还是会报此问题。<br><img src="/posts/54025/resolutions.png" alt="logo"><br><img src="/posts/54025/resolution2.png" alt="logo"></li>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li><a href="https://support.sonatype.com/hc/en-us/articles/115006744008-How-can-I-programmatically-upload-an-artifact-into-Nexus-3-" target="_blank" rel="external">How can I programmatically upload an artifact into Nexus 3?</a></li>
+<li><a href="https://gist.github.com/DarthHater/a4f2738e3bd40d242db22633b59dfd63" target="_blank" rel="external">Nexus Repository Import Script
+</a></li>
 </ul>
-</li>
-</ol>
-<hr>
-<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。</p>
-<ol>
-<li>主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：<ul>
-<li>例如：修改maven pom文件 artifactId增加 master/admin/scm 后缀</li>
+<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。</p>
+<h3 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h3><ul>
+<li>Nexus2.x 服务器直接存储jar包</li>
+<li>Nexus3.x 服务器存储的是二进制文件</li>
+<li>所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。</li>
 </ul>
-</li>
-<li>更新Dev开发过程项目标记规则到主干。</li>
-</ol>
-<hr>
-<h2 id="同步不同项目标记规则："><a href="#同步不同项目标记规则：" class="headerlink" title="同步不同项目标记规则："></a>同步不同项目标记规则：</h2><ol>
-<li>安装Issue resolver插件：<ul>
-<li>Export and import resolved issues (false-positive and won’t fix) from SonarQube projects.</li>
-</ul>
-</li>
-<li>更新dev项目标记规则到主干项目：<ul>
-<li>web端操作方法：<br><img src="/posts/54025/biaoji1.png" alt="logo"><br><img src="/posts/54025/biaoji2.png" alt="logo"></li>
-</ul>
-<hr>
-<ul>
-<li>Api调用方法：<ul>
-<li>查看：<a href="http://ip:9000/web_api/api/issueresolver" target="_blank" rel="external">http://ip:9000/web_api/api/issueresolver</a><br><img src="/posts/54025/api.png" alt="logo"></li>
-</ul>
-</li>
-</ul>
-</li>
+<h3 id="迁移导入方法："><a href="#迁移导入方法：" class="headerlink" title="迁移导入方法："></a>迁移导入方法：</h3><ol>
+<li><p><a href="https://help.sonatype.com/display/NXRM3/Upgrading" target="_blank" rel="external">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：</p>
+<pre><code>- 需要原nexus版本为2.14.x版本
+- 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3
+</code></pre></li>
+<li><p>mvn deploy命令上传<br> 如果原nexus2待迁移的jar包并不多，可以使用这种方式。</p>
+<pre><code>1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）
+mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar
+
+2. 上传jar 和 pom.xml (pom里面有依赖)
+mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar
+</code></pre><p> 需要注意：</p>
+<pre><code>- 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;
+- 写脚本封装上面命令实现批量迁移
+</code></pre></li>
+<li><p>http协议上传<br> 直接使用http put 文件到/repository/$repo-id/$path-of-file</p>
+<pre><code>curl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom
+</code></pre><p> 我们需要上传的文件：jar和pom.xml</p>
+<p> 创建 mavenimport.sh 脚本如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line"># Get command line params</div><div class="line">while getopts &quot;:r:u:p:&quot; opt; do</div><div class="line">    case $opt in</div><div class="line">        r) REPO_URL=&quot;$OPTARG&quot;</div><div class="line">        ;;</div><div class="line">        u) USERNAME=&quot;$OPTARG&quot;</div><div class="line">        ;;</div><div class="line">        p) PASSWORD=&quot;$OPTARG&quot;</div><div class="line">        ;;</div><div class="line">        esac</div><div class="line">done</div><div class="line"></div><div class="line">find . -type f -not -path &apos;*/\.*&apos; -not -path &apos;*/\^archetype\-catalog\.xml*&apos; -not -path &apos;*/\^maven\-metadata\-local*\.xml&apos; -not -path &apos;*/\^maven\-metadata\-deployment*\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</div></pre></td></tr></table></figure>
+<p> 登陆到Nexus2.x服务器执行</p>
+<pre><code>cd $releases_dir
+cp $path/mavenimport.sh .
+sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name
+
+cd $snapshots_dir
+cp $path/mavenimport.sh .
+sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name
+</code></pre><p> 需要注意：</p>
+<pre><code>- 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）
+- 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。
+- 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。
+- 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。
+</code></pre></li>
 </ol>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/posts/54025/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
             
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/nexus/">nexus</a>
+
+            </div>
         
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
         
-        <li class="pagination-number">page 1 of 1</li>
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
 
 
 
@@ -330,6 +414,90 @@
 
             </div>
             
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
+                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+                    
                         </div>
                         
 
@@ -594,6 +762,25 @@
                                     <!--SCRIPTS-->
 <script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
 <!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://0to.github.io/posts/27558/';
+                 
+                    this.page.identifier = 'posts/27558/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = '0to0';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
 
 
 
