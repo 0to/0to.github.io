@@ -1,6 +1,6 @@
 
-    <!DOCTYPE html>
-    <html lang="en,zh-cn,default">
+<!DOCTYPE html>
+<html lang="en,zh-cn,default">
     
 <head>
     <meta charset="UTF-8">
@@ -15,40 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。
-搭建环境：
-centos6.5
-gitlab8.8.5
-
-搭建方法：
-Omnibus package installation
-
-遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"背景公司拆分子公司，需要把现有Gitlab也分离出来。\n搭建环境：\ncentos6.5\ngitlab8.8.5\n\n搭建方法：\nOmnibus package installation\n\n遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams================================================================================Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;================================================================================Mixlib::ShellOut::ShellCommandFailed------------------------------------Expected process to exit with [0], but received &apos;127&apos;---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----STDOUT:STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127\n问题分析：因为我的centos服务器上面已经装了postgresql的8.4.18版本；1234[root@gitlab0 ~]# rpm -qa|grep postgrespostgresql-8.4.18-1.el6_4.x86_64postgresql-devel-8.4.18-1.el6_4.x86_64postgresql-libs-8.4.18-1.el6_4.x86_64\n使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。\n解决方法1:卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。\n卸载gitlab方法如下：1234sudo gitlab-ctl stopsudo gitlab-ctl uninstallsudo gitlab-ctl cleansesudo rm -rf /opt/gitlab\n解决方法2:增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH123456789# vi /etc/profileexport LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......# source /etc/profile# echo $LD_LIBRARY_PATH/opt/gitlab/embedded/lib:/tmp/product.......\nPS：\n\n增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。\n路径之间使用:分隔\n\n然后再执行#gitlab-ctl reconfigure，即可成功。1gitlab Reconfigured!\n查看postgresql版本:1234[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --versionpsql (PostgreSQL) 9.2.16[root@gitlab0 ~]# psql --versionpsql (PostgreSQL) 8.4.18\n参考链接：http://dreamlikes.cn/archives/78\n","dateCreated":"2018-01-02T14:48:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-01-02T14:48:04+08:00","description":"","headline":"gitlab psql: undefined symbol: PQconnectdbParams","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/35560/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/35560/","keywords":"Gitlab"}</script>
+    <meta name="description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。 搭建环境： centos6.5 gitlab8.8.5  搭建方法： Omnibus package installation  遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
+<meta name="keywords" content="Gitlab">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="gitlab psql: undefined symbol: PQconnectdbParams">
 <meta property="og:url" content="https://0to.github.io/posts/35560/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。
-搭建环境：
-centos6.5
-gitlab8.8.5
-
-搭建方法：
-Omnibus package installation
-
-遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
-<meta property="og:updated_time" content="2018-01-02T07:30:51.898Z">
+<meta property="og:description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。 搭建环境： centos6.5 gitlab8.8.5  搭建方法： Omnibus package installation  遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-05-04T07:38:27.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gitlab psql: undefined symbol: PQconnectdbParams">
-<meta name="twitter:description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。
-搭建环境：
-centos6.5
-gitlab8.8.5
-
-搭建方法：
-Omnibus package installation
-
-遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
+<meta name="twitter:description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。 搭建环境： centos6.5 gitlab8.8.5  搭建方法： Omnibus package installation  遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
     
     
         
@@ -60,19 +39,19 @@ Omnibus package installation
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-yrst5vo1nxaxbp2g3v9na2wg1lixlpr3ghbjdvskeixmu79deycecx3rh4bt.min.css">
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-85893233-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-85893233-1', 'auto');
+        ga('send', 'pageview');
     </script>
+
 
     
     <script type="text/javascript">
@@ -87,10 +66,9 @@ Omnibus package installation
 
 </head>
 
-
-        <body>
-            <div id="blog">
-                <!-- Define author's picture -->
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
 
     
@@ -116,7 +94,7 @@ Omnibus package installation
     
 </header>
 
-                    <!-- Define author's picture -->
+            <!-- Define author's picture -->
 
 
 
@@ -144,9 +122,10 @@ Omnibus package installation
                         <a  class="sidebar-button-link "
                              href="/ "
                             
+                            title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -156,9 +135,10 @@ Omnibus package installation
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
+                            title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -168,9 +148,10 @@ Omnibus package installation
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
+                            title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -180,9 +161,10 @@ Omnibus package installation
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
+                            title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
             </li>
@@ -192,9 +174,10 @@ Omnibus package installation
                         <a  class="sidebar-button-link "
                              href="#about"
                             
+                            title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -205,18 +188,18 @@ Omnibus package installation
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank">
+                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank">
+                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
@@ -230,9 +213,10 @@ Omnibus package installation
                         <a  class="sidebar-button-link "
                              href="/atom.xml"
                             
+                            title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -242,22 +226,24 @@ Omnibus package installation
     </div>
 </nav>
 
-                        
-                            <div id="main" data-behavior="5" class="
+            
+            <div id="main" data-behavior="5"
+                 class="
                         hasCoverMetaIn
                         ">
-                                
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+                
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             gitlab psql: undefined symbol: PQconnectdbParams
         </h1>
     
-    <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-01-02T14:48:04+08:00">
+    
+        <div class="post-meta">
+    <time datetime="2018-01-02T14:48:04+08:00">
 	
 		    Jan 02, 2018
     	
@@ -271,9 +257,11 @@ Omnibus package installation
     
 </div>
 
-</div>
     
-    <div class="post-content markdown" itemprop="articleBody">
+</div>
+
+    
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司拆分子公司，需要把现有Gitlab也分离出来。</p>
 <h4 id="搭建环境："><a href="#搭建环境：" class="headerlink" title="搭建环境："></a>搭建环境：</h4><ul>
@@ -283,22 +271,23 @@ Omnibus package installation
 <h3 id="搭建方法："><a href="#搭建方法：" class="headerlink" title="搭建方法："></a>搭建方法：</h3><ul>
 <li>Omnibus package installation</li>
 </ul>
-<h3 id="遇到问题："><a href="#遇到问题：" class="headerlink" title="遇到问题："></a>遇到问题：</h3><p>安装完成，执行 #gitlab-ctl reconfigure 报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</div><div class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</div><div class="line"></div><div class="line">================================================================================</div><div class="line">Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;</div><div class="line">================================================================================</div><div class="line"></div><div class="line">Mixlib::ShellOut::ShellCommandFailed</div><div class="line">------------------------------------</div><div class="line">Expected process to exit with [0], but received &apos;127&apos;</div><div class="line">---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</div><div class="line">STDOUT:</div><div class="line">STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</div><div class="line">---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</div><div class="line">Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127</div></pre></td></tr></table></figure></p>
-<h3 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h3><p>因为我的centos服务器上面已经装了postgresql的8.4.18版本；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@gitlab0 ~]# rpm -qa|grep postgres</div><div class="line">postgresql-8.4.18-1.el6_4.x86_64</div><div class="line">postgresql-devel-8.4.18-1.el6_4.x86_64</div><div class="line">postgresql-libs-8.4.18-1.el6_4.x86_64</div></pre></td></tr></table></figure></p>
+<h3 id="遇到问题："><a href="#遇到问题：" class="headerlink" title="遇到问题："></a>遇到问题：</h3><p>安装完成，执行 #gitlab-ctl reconfigure 报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line"></span><br><span class="line">================================================================================</span><br><span class="line">Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;</span><br><span class="line">================================================================================</span><br><span class="line"></span><br><span class="line">Mixlib::ShellOut::ShellCommandFailed</span><br><span class="line">------------------------------------</span><br><span class="line">Expected process to exit with [0], but received &apos;127&apos;</span><br><span class="line">---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</span><br><span class="line">STDOUT:</span><br><span class="line">STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line">---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</span><br><span class="line">Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127</span><br></pre></td></tr></table></figure></p>
+<h3 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h3><p>因为我的centos服务器上面已经装了postgresql的8.4.18版本；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# rpm -qa|grep postgres</span><br><span class="line">postgresql-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-devel-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-libs-8.4.18-1.el6_4.x86_64</span><br></pre></td></tr></table></figure></p>
 <p>使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。</p>
 <h3 id="解决方法1"><a href="#解决方法1" class="headerlink" title="解决方法1:"></a>解决方法1:</h3><p>卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。</p>
-<p>卸载gitlab方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo gitlab-ctl stop</div><div class="line">sudo gitlab-ctl uninstall</div><div class="line">sudo gitlab-ctl cleanse</div><div class="line">sudo rm -rf /opt/gitlab</div></pre></td></tr></table></figure></p>
-<h3 id="解决方法2"><a href="#解决方法2" class="headerlink" title="解决方法2:"></a>解决方法2:</h3><p>增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># vi /etc/profile</div><div class="line"></div><div class="line">export LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......</div><div class="line"></div><div class="line"># source /etc/profile</div><div class="line"></div><div class="line"># echo $LD_LIBRARY_PATH</div><div class="line"></div><div class="line">/opt/gitlab/embedded/lib:/tmp/product.......</div></pre></td></tr></table></figure></p>
+<p>卸载gitlab方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl uninstall</span><br><span class="line">sudo gitlab-ctl cleanse</span><br><span class="line">sudo rm -rf /opt/gitlab</span><br></pre></td></tr></table></figure></p>
+<h3 id="解决方法2"><a href="#解决方法2" class="headerlink" title="解决方法2:"></a>解决方法2:</h3><p>增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line"></span><br><span class="line">export LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......</span><br><span class="line"></span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line"># echo $LD_LIBRARY_PATH</span><br><span class="line"></span><br><span class="line">/opt/gitlab/embedded/lib:/tmp/product.......</span><br></pre></td></tr></table></figure></p>
 <p>PS：</p>
 <ol>
 <li>增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。</li>
 <li>路径之间使用:分隔</li>
 </ol>
-<p>然后再执行#gitlab-ctl reconfigure，即可成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gitlab Reconfigured!</div></pre></td></tr></table></figure></p>
-<p>查看postgresql版本:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --version</div><div class="line">psql (PostgreSQL) 9.2.16</div><div class="line">[root@gitlab0 ~]# psql --version</div><div class="line">psql (PostgreSQL) 8.4.18</div></pre></td></tr></table></figure></p>
-<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="http://dreamlikes.cn/archives/78" target="_blank" rel="external">http://dreamlikes.cn/archives/78</a></p>
+<p>然后再执行#gitlab-ctl reconfigure，即可成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab Reconfigured!</span><br></pre></td></tr></table></figure></p>
+<p>查看postgresql版本:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --version</span><br><span class="line">psql (PostgreSQL) 9.2.16</span><br><span class="line">[root@gitlab0 ~]# psql --version</span><br><span class="line">psql (PostgreSQL) 8.4.18</span><br></pre></td></tr></table></figure></p>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="http://dreamlikes.cn/archives/78" target="_blank" rel="noopener">http://dreamlikes.cn/archives/78</a></p>
 
             
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -310,66 +299,82 @@ Omnibus package installation
 
             </div>
         
-        <div class="post-actions-wrap">
+        
+            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/"  data-tooltip="svn代码库迁移到git">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="PREVIOUS: svn代码库迁移到git">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库" aria-label="NEXT: 使用OpenGrok查询涉及关键字代码库">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </div>
 
 
+        
         
             
                 <div id="disqus_thread">
@@ -382,7 +387,7 @@ Omnibus package installation
 
 
 
-                                    <footer id="footer" class="main-content-wrap">
+                <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
         Copyrights &copy; 2018 Weilong. All Rights Reserved.
     </span>
@@ -396,55 +401,69 @@ Omnibus package installation
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/"  data-tooltip="svn代码库迁移到git">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="PREVIOUS: svn代码库迁移到git">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库" aria-label="NEXT: 使用OpenGrok查询涉及关键字代码库">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
@@ -453,29 +472,39 @@ Omnibus package installation
 
                 </div>
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
     <ul class="share-options">
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
-                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
-                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
-                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-            </a>
-        </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
     </ul>
 </div>
-<div id="share-options-mask" class="share-options-mask"></div>
 
-                    
-                        </div>
-                        
+            
+        </div>
+        
 
 
     
@@ -512,231 +541,11 @@ Omnibus package installation
     </div>
 </div>
 
-                            <div id="algolia-search-modal" class="modal-container">
-    <div class="modal">
-        <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
-            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
-                <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-            </a>
-            <i class="search-icon fa fa-search"></i>
-            <form id="algolia-search-form">
-                <input type="text" id="algolia-search-input" name="search"
-                    class="form-control input--large search-input" placeholder="Search "
-                    autofocus="autofocus"/>
-            </form>
-        </div>
-        <div class="modal-body">
-            <div class="no-result text-color-light text-center">no post found</div>
-            <div class="results">
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/51385/">
-                            <h3 class="media-heading">Jenkins常用插件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jan 24, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32389/">
-                            <h3 class="media-heading">使用Jenkins_Gerrit搭建持续集成</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60120/">
-                            <h3 class="media-heading">Git tips one</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/2248/">
-                            <h3 class="media-heading">Gerrit code review</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 6, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/52695/">
-                            <h3 class="media-heading">分支策略</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 25, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/33032/">
-                            <h3 class="media-heading">Java static code analysis</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60810/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-1搭建</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32302/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-2配置</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/19471/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-3使用</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/7875/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-4Android</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 18, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-            </div>
-        </div>
-        <div class="modal-footer">
-            <p class="results-count text-medium"
-                data-message-zero="no post found"
-                data-message-one="1 post found"
-                data-message-other="{n} posts found">
-                17 posts found
-            </p>
-        </div>
-    </div>
-</div>
-                                
+        
+        
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-                                    <!--SCRIPTS-->
-<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -760,6 +569,5 @@ Omnibus package installation
 
 
 
-        </body>
-
-    </html>
+    </body>
+</html>

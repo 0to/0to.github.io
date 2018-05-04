@@ -1,6 +1,6 @@
 
-    <!DOCTYPE html>
-    <html lang="en,zh-cn,default">
+<!DOCTYPE html>
+<html lang="en,zh-cn,default">
     
 <head>
     <meta charset="UTF-8">
@@ -15,61 +15,25 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="背景：
-公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。
-
-流程设计：
-
-Dev本地开发，然后上传patch到gerrit：
-
-同时触发Jenkins CR_Job来做build
-增加Code reviewers来做review
-
-
-再上述都成功的基础上，reviewer点击+2：
-
-同时触发Jenkins Submit_Job">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"背景：\n公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。\n\n流程设计：\n\nDev本地开发，然后上传patch到gerrit：\n\n同时触发Jenkins CR_Job来做build\n增加Code reviewers来做review\n\n\n再上述都成功的基础上，reviewer点击+2：\n\n同时触发Jenkins Submit_Job来做build和test：\n如果成功，自动合并本次patch到代码库\n如果失败，返回-1\n\n\n\n\nNightly test Job：\n\n每晚20:00触发，获取当前最新的代码进行build和test\n\n\n\n\n测试分级：\n\nCR_Job:\n获取触发patch的代码，合并最新分支代码，进行build\n快速反馈，主要检查patch合并是否有冲突和build是否能跑通\n\n\n\n\n\n\nSubmit_Job：\n获取触发patch的代码，合并最新的分支代码，进行build和测试\n根据每天代码提交次数来确定时间和test cases\n\n\n\n\n\n\nNightly_Job：\n获取当前最新代码进行build和test\n一般跑12h，第二天早上出测试报告邮件\n\n\n\n\n软件环境：\n\n\n软件\n版本\n\n\n\n\nJenkins\n1.567\n\n\nGerrit\n2.8.6\n\n\n\n\nJenkins插件：\n\n\n\n\n插件名\n版本\n作用\n\n\n\n\nMultijob plugin\n2.11.1\n定义pipeline\n\n\nGerrit Trigger\n1.13\n监控Gerrit event\n\n\n\n搭建步骤：\n安装配置Jenkins Gerrit Trigger插件：官方wiki \n安装Jenkins Multijob plugin：官方wiki \n配置CR_Job: \n配置Submit_job: \n配置Nightly_Job: \n\nPS\n以上内容都是基于公司研发现状定制的，建议各位根据自己的情况进行定制。\n因为历史遗留原因，当前使用的版本比较旧。 例如如果升级到jenkins2.x版本的话pipeline就不需要借助插件来实现了。\n\n","dateCreated":"2017-03-31T10:46:37+08:00","dateModified":"2018-05-04T17:48:43+08:00","datePublished":"2017-03-31T10:46:37+08:00","description":"","headline":"使用Jenkins_Gerrit搭建持续集成","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/32389/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/32389/","keywords":"Gerrit, Jenkins"}</script>
+    <meta name="description" content="背景： 公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。  流程设计：  Dev本地开发，然后上传patch到gerrit：  同时触发Jenkins CR_Job来做build 增加Code reviewers来做review   再上述都成功的基础上，reviewer点击+2：  同时触发Jenkins Submit_Job">
+<meta name="keywords" content="Gerrit,Jenkins">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="使用Jenkins_Gerrit搭建持续集成">
 <meta property="og:url" content="https://0to.github.io/posts/32389/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="背景：
-公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。
-
-流程设计：
-
-Dev本地开发，然后上传patch到gerrit：
-
-同时触发Jenkins CR_Job来做build
-增加Code reviewers来做review
-
-
-再上述都成功的基础上，reviewer点击+2：
-
-同时触发Jenkins Submit_Job">
+<meta property="og:description" content="背景： 公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。  流程设计：  Dev本地开发，然后上传patch到gerrit：  同时触发Jenkins CR_Job来做build 增加Code reviewers来做review   再上述都成功的基础上，reviewer点击+2：  同时触发Jenkins Submit_Job">
+<meta property="og:locale" content="en">
 <meta property="og:image" content="https://0to.github.io/posts/32389/CI.png">
 <meta property="og:image" content="https://0to.github.io/posts/32389/Gerrit_Trigger.png">
 <meta property="og:image" content="https://0to.github.io/posts/32389/multi_jobs.png">
 <meta property="og:image" content="https://0to.github.io/posts/32389/CR_Job.png">
 <meta property="og:image" content="https://0to.github.io/posts/32389/submit_job.png">
 <meta property="og:image" content="https://0to.github.io/posts/32389/nightly_job.png">
-<meta property="og:updated_time" content="2017-05-03T08:23:12.000Z">
+<meta property="og:updated_time" content="2018-05-04T09:48:43.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Jenkins_Gerrit搭建持续集成">
-<meta name="twitter:description" content="背景：
-公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。
-
-流程设计：
-
-Dev本地开发，然后上传patch到gerrit：
-
-同时触发Jenkins CR_Job来做build
-增加Code reviewers来做review
-
-
-再上述都成功的基础上，reviewer点击+2：
-
-同时触发Jenkins Submit_Job">
+<meta name="twitter:description" content="背景： 公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。  流程设计：  Dev本地开发，然后上传patch到gerrit：  同时触发Jenkins CR_Job来做build 增加Code reviewers来做review   再上述都成功的基础上，reviewer点击+2：  同时触发Jenkins Submit_Job">
 <meta name="twitter:image" content="https://0to.github.io/posts/32389/CI.png">
     
     
@@ -82,19 +46,19 @@ Dev本地开发，然后上传patch到gerrit：
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-yrst5vo1nxaxbp2g3v9na2wg1lixlpr3ghbjdvskeixmu79deycecx3rh4bt.min.css">
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-85893233-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-85893233-1', 'auto');
+        ga('send', 'pageview');
     </script>
+
 
     
     <script type="text/javascript">
@@ -109,10 +73,9 @@ Dev本地开发，然后上传patch到gerrit：
 
 </head>
 
-
-        <body>
-            <div id="blog">
-                <!-- Define author's picture -->
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
 
     
@@ -138,7 +101,7 @@ Dev本地开发，然后上传patch到gerrit：
     
 </header>
 
-                    <!-- Define author's picture -->
+            <!-- Define author's picture -->
 
 
 
@@ -166,9 +129,10 @@ Dev本地开发，然后上传patch到gerrit：
                         <a  class="sidebar-button-link "
                              href="/ "
                             
+                            title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -178,9 +142,10 @@ Dev本地开发，然后上传patch到gerrit：
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
+                            title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -190,9 +155,10 @@ Dev本地开发，然后上传patch到gerrit：
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
+                            title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -202,9 +168,10 @@ Dev本地开发，然后上传patch到gerrit：
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
+                            title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
             </li>
@@ -214,9 +181,10 @@ Dev本地开发，然后上传patch到gerrit：
                         <a  class="sidebar-button-link "
                              href="#about"
                             
+                            title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -227,18 +195,18 @@ Dev本地开发，然后上传patch到gerrit：
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank">
+                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank">
+                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
@@ -252,9 +220,10 @@ Dev本地开发，然后上传patch到gerrit：
                         <a  class="sidebar-button-link "
                              href="/atom.xml"
                             
+                            title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -264,22 +233,24 @@ Dev本地开发，然后上传patch到gerrit：
     </div>
 </nav>
 
-                        
-                            <div id="main" data-behavior="5" class="
+            
+            <div id="main" data-behavior="5"
+                 class="
                         hasCoverMetaIn
                         ">
-                                
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+                
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             使用Jenkins_Gerrit搭建持续集成
         </h1>
     
-    <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-03-31T10:46:37+08:00">
+    
+        <div class="post-meta">
+    <time datetime="2017-03-31T10:46:37+08:00">
 	
 		    Mar 31, 2017
     	
@@ -293,9 +264,11 @@ Dev本地开发，然后上传patch到gerrit：
     
 </div>
 
-</div>
     
-    <div class="post-content markdown" itemprop="articleBody">
+</div>
+
+    
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
 <p>公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。</p>
@@ -326,20 +299,25 @@ Dev本地开发，然后上传patch到gerrit：
 <blockquote>
 <p>测试分级：</p>
 <ul>
-<li><p>CR_Job:</p>
-<ul>
+<li>CR_Job:<ul>
 <li>获取触发patch的代码，合并最新分支代码，进行build</li>
 <li>快速反馈，主要检查patch合并是否有冲突和build是否能跑通</li>
 </ul>
 </li>
-<li><p>Submit_Job：</p>
+</ul>
+</blockquote>
+<blockquote>
 <ul>
+<li>Submit_Job：<ul>
 <li>获取触发patch的代码，合并最新的分支代码，进行build和测试</li>
 <li>根据每天代码提交次数来确定时间和test cases</li>
 </ul>
 </li>
-<li><p>Nightly_Job：</p>
+</ul>
+</blockquote>
+<blockquote>
 <ul>
+<li>Nightly_Job：<ul>
 <li>获取当前最新代码进行build和test</li>
 <li>一般跑12h，第二天早上出测试报告邮件</li>
 </ul>
@@ -389,8 +367,8 @@ Dev本地开发，然后上传patch到gerrit：
 </tbody>
 </table>
 <h2 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h2><ol>
-<li>安装配置Jenkins Gerrit Trigger插件：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="external">官方wiki</a><br> <img src="/posts/32389/Gerrit_Trigger.png" alt="logo"></li>
-<li>安装Jenkins Multijob plugin：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="external">官方wiki</a><br> <img src="/posts/32389/multi_jobs.png" alt="logo"></li>
+<li>安装配置Jenkins Gerrit Trigger插件：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="noopener">官方wiki</a><br> <img src="/posts/32389/Gerrit_Trigger.png" alt="logo"></li>
+<li>安装Jenkins Multijob plugin：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="noopener">官方wiki</a><br> <img src="/posts/32389/multi_jobs.png" alt="logo"></li>
 <li>配置CR_Job:<br> <img src="/posts/32389/CR_Job.png" alt="logo"></li>
 <li>配置Submit_job:<br> <img src="/posts/32389/submit_job.png" alt="logo"></li>
 <li>配置Nightly_Job:<br> <img src="/posts/32389/nightly_job.png" alt="logo"></li>
@@ -401,6 +379,7 @@ Dev本地开发，然后上传patch到gerrit：
 </ol>
 
             
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -412,66 +391,82 @@ Dev本地开发，然后上传patch到gerrit：
 
             </div>
         
-        <div class="post-actions-wrap">
+        
+            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/60120/"  data-tooltip="Git tips one">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/60120/" data-tooltip="Git tips one" aria-label="PREVIOUS: Git tips one">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/51385/" data-tooltip="Jenkins常用插件">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/51385/" data-tooltip="Jenkins常用插件" aria-label="NEXT: Jenkins常用插件">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/32389/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/32389/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/32389/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/32389/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/32389/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/32389/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </div>
 
 
+        
         
             
                 <div id="disqus_thread">
@@ -484,7 +479,7 @@ Dev本地开发，然后上传patch到gerrit：
 
 
 
-                                    <footer id="footer" class="main-content-wrap">
+                <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
         Copyrights &copy; 2018 Weilong. All Rights Reserved.
     </span>
@@ -498,55 +493,69 @@ Dev本地开发，然后上传patch到gerrit：
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/60120/"  data-tooltip="Git tips one">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/60120/" data-tooltip="Git tips one" aria-label="PREVIOUS: Git tips one">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/51385/" data-tooltip="Jenkins常用插件">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/51385/" data-tooltip="Jenkins常用插件" aria-label="NEXT: Jenkins常用插件">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/32389/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/32389/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/32389/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/32389/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/32389/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/32389/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
@@ -555,29 +564,39 @@ Dev本地开发，然后上传patch到gerrit：
 
                 </div>
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
     <ul class="share-options">
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/32389/">
-                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/32389/">
-                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/32389/">
-                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-            </a>
-        </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/32389/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/32389/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/32389/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
     </ul>
 </div>
-<div id="share-options-mask" class="share-options-mask"></div>
 
-                    
-                        </div>
-                        
+            
+        </div>
+        
 
 
     
@@ -614,231 +633,11 @@ Dev本地开发，然后上传patch到gerrit：
     </div>
 </div>
 
-                            <div id="algolia-search-modal" class="modal-container">
-    <div class="modal">
-        <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
-            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
-                <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-            </a>
-            <i class="search-icon fa fa-search"></i>
-            <form id="algolia-search-form">
-                <input type="text" id="algolia-search-input" name="search"
-                    class="form-control input--large search-input" placeholder="Search "
-                    autofocus="autofocus"/>
-            </form>
-        </div>
-        <div class="modal-body">
-            <div class="no-result text-color-light text-center">no post found</div>
-            <div class="results">
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/51385/">
-                            <h3 class="media-heading">Jenkins常用插件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jan 24, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32389/">
-                            <h3 class="media-heading">使用Jenkins_Gerrit搭建持续集成</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60120/">
-                            <h3 class="media-heading">Git tips one</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/2248/">
-                            <h3 class="media-heading">Gerrit code review</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 6, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/52695/">
-                            <h3 class="media-heading">分支策略</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 25, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/33032/">
-                            <h3 class="media-heading">Java static code analysis</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60810/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-1搭建</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32302/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-2配置</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/19471/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-3使用</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/7875/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-4Android</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 18, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-            </div>
-        </div>
-        <div class="modal-footer">
-            <p class="results-count text-medium"
-                data-message-zero="no post found"
-                data-message-one="1 post found"
-                data-message-other="{n} posts found">
-                17 posts found
-            </p>
-        </div>
-    </div>
-</div>
-                                
+        
+        
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-                                    <!--SCRIPTS-->
-<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -862,6 +661,5 @@ Dev本地开发，然后上传patch到gerrit：
 
 
 
-        </body>
-
-    </html>
+    </body>
+</html>

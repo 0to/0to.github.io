@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Tag: Gitlab - Just Do IT</title>
+    <title>Tag: talk show - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -19,7 +19,7 @@
     <meta name="description" content="小弟读过两年书，尘世中一个迷途小书童">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Just Do IT">
-<meta property="og:url" content="https://0to.github.io/tags/Gitlab/index.html">
+<meta property="og:url" content="https://0to.github.io/tags/talk-show/index.html">
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="小弟读过两年书，尘世中一个迷途小书童">
 <meta property="og:locale" content="en">
@@ -239,21 +239,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
-                        <a class="link-unstyled" href="/posts/35560/">
-                            gitlab psql: undefined symbol: PQconnectdbParams
+                        <a class="link-unstyled" href="/posts/20481/">
+                            【置顶】交流和反馈
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2018-01-02T14:48:04+08:00">
+    <time datetime="2018-05-04T17:12:24+08:00">
 	
-		    Jan 02, 2018
+		    May 04, 2018
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/SCM/">SCM</a>
+    <a class="category-link" href="/categories/top/">top</a>
 
 
     
@@ -262,28 +262,15 @@
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司拆分子公司，需要把现有Gitlab也分离出来。</p>
-<h4 id="搭建环境："><a href="#搭建环境：" class="headerlink" title="搭建环境："></a>搭建环境：</h4><ul>
-<li>centos6.5</li>
-<li>gitlab8.8.5</li>
-</ul>
-<h3 id="搭建方法："><a href="#搭建方法：" class="headerlink" title="搭建方法："></a>搭建方法：</h3><ul>
-<li>Omnibus package installation</li>
-</ul>
-<h3 id="遇到问题："><a href="#遇到问题：" class="headerlink" title="遇到问题："></a>遇到问题：</h3><p>安装完成，执行 #gitlab-ctl reconfigure 报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line"></span><br><span class="line">================================================================================</span><br><span class="line">Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;</span><br><span class="line">================================================================================</span><br><span class="line"></span><br><span class="line">Mixlib::ShellOut::ShellCommandFailed</span><br><span class="line">------------------------------------</span><br><span class="line">Expected process to exit with [0], but received &apos;127&apos;</span><br><span class="line">---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</span><br><span class="line">STDOUT:</span><br><span class="line">STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line">---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</span><br><span class="line">Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127</span><br></pre></td></tr></table></figure></p>
-<h3 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h3><p>因为我的centos服务器上面已经装了postgresql的8.4.18版本；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# rpm -qa|grep postgres</span><br><span class="line">postgresql-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-devel-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-libs-8.4.18-1.el6_4.x86_64</span><br></pre></td></tr></table></figure></p>
-<p>使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。</p>
-<h3 id="解决方法1"><a href="#解决方法1" class="headerlink" title="解决方法1:"></a>解决方法1:</h3><p>卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。</p>
-<p>卸载gitlab方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl uninstall</span><br><span class="line">sudo gitlab-ctl cleanse</span><br><span class="line">sudo rm -rf /opt/gitlab</span><br></pre></td></tr></table></figure></p>
-<h3 id="解决方法2"><a href="#解决方法2" class="headerlink" title="解决方法2:"></a>解决方法2:</h3><p>增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line"></span><br><span class="line">export LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......</span><br><span class="line"></span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line"># echo $LD_LIBRARY_PATH</span><br><span class="line"></span><br><span class="line">/opt/gitlab/embedded/lib:/tmp/product.......</span><br></pre></td></tr></table></figure></p>
-<p>PS：</p>
-<ol>
-<li>增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。</li>
-<li>路径之间使用:分隔</li>
-</ol>
-<p>然后再执行#gitlab-ctl reconfigure，即可成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab Reconfigured!</span><br></pre></td></tr></table></figure></p>
-<p>查看postgresql版本:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --version</span><br><span class="line">psql (PostgreSQL) 9.2.16</span><br><span class="line">[root@gitlab0 ~]# psql --version</span><br><span class="line">psql (PostgreSQL) 8.4.18</span><br></pre></td></tr></table></figure></p>
-<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="http://dreamlikes.cn/archives/78" target="_blank" rel="noopener">http://dreamlikes.cn/archives/78</a></p>
+                    <h3 id="交流和反馈："><a href="#交流和反馈：" class="headerlink" title="交流和反馈："></a>交流和反馈：</h3><pre><code>- 文章的错误、疑问
+- 讨论遇到的问题
+- 进行技术交流
+</code></pre><h3 id="方向："><a href="#方向：" class="headerlink" title="方向："></a>方向：</h3><pre><code>- 配置管理
+- 持续交付
+- 过程改进
+</code></pre><h3 id="评论："><a href="#评论：" class="headerlink" title="评论："></a>评论：</h3><pre><code>- 本站接入了Disqus评论，欢迎诸君comment。
+- 因为GFW的原因，不翻墙的话没法使用。
+</code></pre><h3 id="联系方式："><a href="#联系方式：" class="headerlink" title="联系方式："></a>联系方式：</h3><p>📧Email📧:<br>国内：<a href="mailto:wwl1991@yeah.net" target="_blank" rel="noopener">wwl1991@yeah.net</a><br>海外：<a href="mailto:wwl199110@gmail.com" target="_blank" rel="noopener">wwl199110@gmail.com</a></p>
 
                     
                         
@@ -291,7 +278,7 @@
                     
                     
                         <p>
-                            <a href="/posts/35560/#post-footer" class="postShorten-excerpt_link link">
+                            <a href="/posts/20481/#post-footer" class="postShorten-excerpt_link link">
                                 Comment and share
                             </a>
                         </p>

@@ -1,6 +1,6 @@
 
-    <!DOCTYPE html>
-    <html lang="en,zh-cn,default">
+<!DOCTYPE html>
+<html lang="en,zh-cn,default">
     
 <head>
     <meta charset="UTF-8">
@@ -15,52 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。
-需求：需要保留所有 branches、主干、tags的历史记录。
-迁移方法：使用git官方提供的git svn命令
-
-参考链接：官方文档
-
-系统环境：
-OS: macOS 10.13.3
-SVN：1.9.4
-GIT：2.16.2
-
-迁移步骤：
-获取指定svn代码库涉及的开发同学名单并转换：svn log $S">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。\n需求：需要保留所有 branches、主干、tags的历史记录。\n迁移方法：使用git官方提供的git svn命令\n\n参考链接：官方文档\n\n系统环境：\nOS: macOS 10.13.3\nSVN：1.9.4\nGIT：2.16.2\n\n迁移步骤：\n获取指定svn代码库涉及的开发同学名单并转换：svn log $SVN_URL --xml | grep author | sort -u | perl -pe &apos;s/.*&gt;(.*?)&lt;.*/$1 = /&apos; &gt; user.txt\nuser.txt内容如下：dev1_name =\ndev2_name =\n因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。修改上述命令得到的user.txt如下：\ndev1_name = dev1_name&lt;dev1_email&gt;\ndev2_name = dev2_name&lt;dev2_email&gt;\n\n使用git svn cloned代码库到本地：git svn clone $SVN_URL --no-metadata --authors-file=user.txt -s\n\n调整本地库目录结构：cd $project_dir\nmv .git/refs/remotes/origin/tags/$tags_name .git/refs/tags/\nmv .git/refs/remotes/origin/$branches_name .git/refs/heads/\nrm -rf .git/refs/remotes/origin\n\n上传本地库到remote仓库：git remote add origin $GIT_URL\ngit push origin --all\ngit push origin --tags\n\n\nPS:\n如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。git svn clone $SVN_URL -r $指定版本:HEAD\n\n较新版本的git都原生带了 git svn命令，如果你使用的git版本没有此命令，建议升级新版git或者单独安装git-svn命令。\ngit clone命令执行时间主要和 原SVN库大小、log多少有关。\nsvn迁移git后需要注意git不支持空目录，需要使用在空目录增加隐藏文件来上传，通常使用.gitkeep文件。\n如果原SVN库结构不是规范的branches、tags、trunk结构git svn clone $SVN_URL --branches=&lt;branches_subdir&gt; --tags=&lt;tags_subdir&gt; --trunk=&lt;trunk_subdir&gt;\n如果没有tags的话--tags可以不写，branches同理；subdir写相对路径即可\n 上面使用的-s参数表示的是–stdlayout适合标准结构的SVN项目。\n\n","dateCreated":"2018-03-07T10:30:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-07T10:30:04+08:00","description":"","headline":"svn代码库迁移到git","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/62558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/62558/","keywords":"Git"}</script>
+    <meta name="description" content="背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。 需求：需要保留所有 branches、主干、tags的历史记录。 迁移方法：使用git官方提供的git svn命令  参考链接：官方文档  系统环境： OS: macOS 10.13.3 SVN：1.9.4 GIT：2.16.2  迁移步骤： 获取指定svn代码库涉及的开发同学名单并转换：svn log $S">
+<meta name="keywords" content="Git">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="svn代码库迁移到git">
 <meta property="og:url" content="https://0to.github.io/posts/62558/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。
-需求：需要保留所有 branches、主干、tags的历史记录。
-迁移方法：使用git官方提供的git svn命令
-
-参考链接：官方文档
-
-系统环境：
-OS: macOS 10.13.3
-SVN：1.9.4
-GIT：2.16.2
-
-迁移步骤：
-获取指定svn代码库涉及的开发同学名单并转换：svn log $S">
-<meta property="og:updated_time" content="2018-03-07T03:27:16.300Z">
+<meta property="og:description" content="背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。 需求：需要保留所有 branches、主干、tags的历史记录。 迁移方法：使用git官方提供的git svn命令  参考链接：官方文档  系统环境： OS: macOS 10.13.3 SVN：1.9.4 GIT：2.16.2  迁移步骤： 获取指定svn代码库涉及的开发同学名单并转换：svn log $S">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-05-04T07:38:27.295Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="svn代码库迁移到git">
-<meta name="twitter:description" content="背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。
-需求：需要保留所有 branches、主干、tags的历史记录。
-迁移方法：使用git官方提供的git svn命令
-
-参考链接：官方文档
-
-系统环境：
-OS: macOS 10.13.3
-SVN：1.9.4
-GIT：2.16.2
-
-迁移步骤：
-获取指定svn代码库涉及的开发同学名单并转换：svn log $S">
+<meta name="twitter:description" content="背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。 需求：需要保留所有 branches、主干、tags的历史记录。 迁移方法：使用git官方提供的git svn命令  参考链接：官方文档  系统环境： OS: macOS 10.13.3 SVN：1.9.4 GIT：2.16.2  迁移步骤： 获取指定svn代码库涉及的开发同学名单并转换：svn log $S">
     
     
         
@@ -72,19 +39,19 @@ GIT：2.16.2
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-yrst5vo1nxaxbp2g3v9na2wg1lixlpr3ghbjdvskeixmu79deycecx3rh4bt.min.css">
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-85893233-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-85893233-1', 'auto');
+        ga('send', 'pageview');
     </script>
+
 
     
     <script type="text/javascript">
@@ -99,10 +66,9 @@ GIT：2.16.2
 
 </head>
 
-
-        <body>
-            <div id="blog">
-                <!-- Define author's picture -->
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
 
     
@@ -128,7 +94,7 @@ GIT：2.16.2
     
 </header>
 
-                    <!-- Define author's picture -->
+            <!-- Define author's picture -->
 
 
 
@@ -156,9 +122,10 @@ GIT：2.16.2
                         <a  class="sidebar-button-link "
                              href="/ "
                             
+                            title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -168,9 +135,10 @@ GIT：2.16.2
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
+                            title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -180,9 +148,10 @@ GIT：2.16.2
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
+                            title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -192,9 +161,10 @@ GIT：2.16.2
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
+                            title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
             </li>
@@ -204,9 +174,10 @@ GIT：2.16.2
                         <a  class="sidebar-button-link "
                              href="#about"
                             
+                            title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -217,18 +188,18 @@ GIT：2.16.2
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank">
+                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank">
+                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
@@ -242,9 +213,10 @@ GIT：2.16.2
                         <a  class="sidebar-button-link "
                              href="/atom.xml"
                             
+                            title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -254,22 +226,24 @@ GIT：2.16.2
     </div>
 </nav>
 
-                        
-                            <div id="main" data-behavior="5" class="
+            
+            <div id="main" data-behavior="5"
+                 class="
                         hasCoverMetaIn
                         ">
-                                
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+                
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             svn代码库迁移到git
         </h1>
     
-    <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-03-07T10:30:04+08:00">
+    
+        <div class="post-meta">
+    <time datetime="2018-03-07T10:30:04+08:00">
 	
 		    Mar 07, 2018
     	
@@ -283,15 +257,17 @@ GIT：2.16.2
     
 </div>
 
-</div>
     
-    <div class="post-content markdown" itemprop="articleBody">
+</div>
+
+    
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。</p>
 <h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><p>需要保留所有 branches、主干、tags的历史记录。</p>
 <h1 id="迁移方法："><a href="#迁移方法：" class="headerlink" title="迁移方法："></a>迁移方法：</h1><p>使用git官方提供的git svn命令</p>
 <ul>
-<li>参考链接：<a href="https://git-scm.com/docs/git-svn" target="_blank" rel="external">官方文档</a></li>
+<li>参考链接：<a href="https://git-scm.com/docs/git-svn" target="_blank" rel="noopener">官方文档</a></li>
 </ul>
 <h3 id="系统环境："><a href="#系统环境：" class="headerlink" title="系统环境："></a>系统环境：</h3><ul>
 <li>OS: macOS 10.13.3</li>
@@ -330,6 +306,7 @@ git push origin --tags
 </ol>
 
             
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -341,66 +318,82 @@ git push origin --tags
 
             </div>
         
-        <div class="post-actions-wrap">
+        
+            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/"  data-tooltip="Nexus3批量导入jar包">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/" data-tooltip="Nexus3批量导入jar包" aria-label="PREVIOUS: Nexus3批量导入jar包">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/35560/" data-tooltip="gitlab psql: undefined symbol: PQconnectdbParams">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/35560/" data-tooltip="gitlab psql: undefined symbol: PQconnectdbParams" aria-label="NEXT: gitlab psql: undefined symbol: PQconnectdbParams">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/62558/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/62558/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/62558/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/62558/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/62558/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/62558/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </div>
 
 
+        
         
             
                 <div id="disqus_thread">
@@ -413,7 +406,7 @@ git push origin --tags
 
 
 
-                                    <footer id="footer" class="main-content-wrap">
+                <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
         Copyrights &copy; 2018 Weilong. All Rights Reserved.
     </span>
@@ -427,55 +420,69 @@ git push origin --tags
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/"  data-tooltip="Nexus3批量导入jar包">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/" data-tooltip="Nexus3批量导入jar包" aria-label="PREVIOUS: Nexus3批量导入jar包">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/35560/" data-tooltip="gitlab psql: undefined symbol: PQconnectdbParams">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/35560/" data-tooltip="gitlab psql: undefined symbol: PQconnectdbParams" aria-label="NEXT: gitlab psql: undefined symbol: PQconnectdbParams">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/62558/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/62558/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/62558/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/62558/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/62558/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/62558/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
@@ -484,29 +491,39 @@ git push origin --tags
 
                 </div>
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
     <ul class="share-options">
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/62558/">
-                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/62558/">
-                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/62558/">
-                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-            </a>
-        </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/62558/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/62558/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/62558/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
     </ul>
 </div>
-<div id="share-options-mask" class="share-options-mask"></div>
 
-                    
-                        </div>
-                        
+            
+        </div>
+        
 
 
     
@@ -543,231 +560,11 @@ git push origin --tags
     </div>
 </div>
 
-                            <div id="algolia-search-modal" class="modal-container">
-    <div class="modal">
-        <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
-            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
-                <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-            </a>
-            <i class="search-icon fa fa-search"></i>
-            <form id="algolia-search-form">
-                <input type="text" id="algolia-search-input" name="search"
-                    class="form-control input--large search-input" placeholder="Search "
-                    autofocus="autofocus"/>
-            </form>
-        </div>
-        <div class="modal-body">
-            <div class="no-result text-color-light text-center">no post found</div>
-            <div class="results">
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/51385/">
-                            <h3 class="media-heading">Jenkins常用插件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jan 24, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32389/">
-                            <h3 class="media-heading">使用Jenkins_Gerrit搭建持续集成</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60120/">
-                            <h3 class="media-heading">Git tips one</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/2248/">
-                            <h3 class="media-heading">Gerrit code review</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 6, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/52695/">
-                            <h3 class="media-heading">分支策略</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 25, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/33032/">
-                            <h3 class="media-heading">Java static code analysis</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60810/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-1搭建</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32302/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-2配置</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/19471/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-3使用</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/7875/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-4Android</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 18, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-            </div>
-        </div>
-        <div class="modal-footer">
-            <p class="results-count text-medium"
-                data-message-zero="no post found"
-                data-message-one="1 post found"
-                data-message-other="{n} posts found">
-                17 posts found
-            </p>
-        </div>
-    </div>
-</div>
-                                
+        
+        
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-                                    <!--SCRIPTS-->
-<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -791,6 +588,5 @@ git push origin --tags
 
 
 
-        </body>
-
-    </html>
+    </body>
+</html>

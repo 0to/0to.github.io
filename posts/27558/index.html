@@ -1,6 +1,6 @@
 
-    <!DOCTYPE html>
-    <html lang="en,zh-cn,default">
+<!DOCTYPE html>
+<html lang="en,zh-cn,default">
     
 <head>
     <meta charset="UTF-8">
@@ -15,40 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="参考链接：
-How can I programmatically upload an artifact into Nexus 3?
-Nexus Repository Import Script
-
-
-背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。
-分析：
-Nexus2.x 服务器直接存储jar包
-Nexus3.x 服务器存储的是二进制文件">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"参考链接：\nHow can I programmatically upload an artifact into Nexus 3?\nNexus Repository Import Script\n\n\n背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。\n分析：\nNexus2.x 服务器直接存储jar包\nNexus3.x 服务器存储的是二进制文件\n所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。\n\n迁移导入方法：\n官方Upgrading 具体实施可以参考上一篇blog。 这种方法有两个小问题：\n- 需要原nexus版本为2.14.x版本\n- 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3\n\nmvn deploy命令上传 如果原nexus2待迁移的jar包并不多，可以使用这种方式。\n1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar\n\n2. 上传jar 和 pom.xml (pom里面有依赖)\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar\n 需要注意：\n- 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;\n- 写脚本封装上面命令实现批量迁移\n\nhttp协议上传 直接使用http put 文件到/repository/$repo-id/$path-of-file\ncurl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom\n 我们需要上传的文件：jar和pom.xml\n 创建 mavenimport.sh 脚本如下\n123456789101112131415#!/bin/bash# Get command line paramswhile getopts &quot;:r:u:p:&quot; opt; do    case $opt in        r) REPO_URL=&quot;$OPTARG&quot;        ;;        u) USERNAME=&quot;$OPTARG&quot;        ;;        p) PASSWORD=&quot;$OPTARG&quot;        ;;        esacdonefind . -type f -not -path &apos;*/\\.*&apos; -not -path &apos;*/\\^archetype\\-catalog\\.xml*&apos; -not -path &apos;*/\\^maven\\-metadata\\-local*\\.xml&apos; -not -path &apos;*/\\^maven\\-metadata\\-deployment*\\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \\;\n 登陆到Nexus2.x服务器执行\ncd $releases_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name\n\ncd $snapshots_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name\n 需要注意：\n- 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）\n- 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。\n- 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。\n- 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。\n\n\n","dateCreated":"2018-03-28T19:19:17+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-28T19:19:17+08:00","description":"","headline":"Nexus3批量导入jar包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/27558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/27558/","keywords":"nexus"}</script>
+    <meta name="description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
+<meta name="keywords" content="nexus">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Nexus3批量导入jar包">
 <meta property="og:url" content="https://0to.github.io/posts/27558/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="参考链接：
-How can I programmatically upload an artifact into Nexus 3?
-Nexus Repository Import Script
-
-
-背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。
-分析：
-Nexus2.x 服务器直接存储jar包
-Nexus3.x 服务器存储的是二进制文件">
-<meta property="og:updated_time" content="2018-03-28T12:39:33.887Z">
+<meta property="og:description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-05-04T07:38:27.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nexus3批量导入jar包">
-<meta name="twitter:description" content="参考链接：
-How can I programmatically upload an artifact into Nexus 3?
-Nexus Repository Import Script
-
-
-背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。
-分析：
-Nexus2.x 服务器直接存储jar包
-Nexus3.x 服务器存储的是二进制文件">
+<meta name="twitter:description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
     
     
         
@@ -60,19 +39,19 @@ Nexus3.x 服务器存储的是二进制文件">
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-yrst5vo1nxaxbp2g3v9na2wg1lixlpr3ghbjdvskeixmu79deycecx3rh4bt.min.css">
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-85893233-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-85893233-1', 'auto');
+        ga('send', 'pageview');
     </script>
+
 
     
     <script type="text/javascript">
@@ -87,10 +66,9 @@ Nexus3.x 服务器存储的是二进制文件">
 
 </head>
 
-
-        <body>
-            <div id="blog">
-                <!-- Define author's picture -->
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
 
     
@@ -116,7 +94,7 @@ Nexus3.x 服务器存储的是二进制文件">
     
 </header>
 
-                    <!-- Define author's picture -->
+            <!-- Define author's picture -->
 
 
 
@@ -144,9 +122,10 @@ Nexus3.x 服务器存储的是二进制文件">
                         <a  class="sidebar-button-link "
                              href="/ "
                             
+                            title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -156,9 +135,10 @@ Nexus3.x 服务器存储的是二进制文件">
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
+                            title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -168,9 +148,10 @@ Nexus3.x 服务器存储的是二进制文件">
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
+                            title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -180,9 +161,10 @@ Nexus3.x 服务器存储的是二进制文件">
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
+                            title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
             </li>
@@ -192,9 +174,10 @@ Nexus3.x 服务器存储的是二进制文件">
                         <a  class="sidebar-button-link "
                              href="#about"
                             
+                            title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -205,18 +188,18 @@ Nexus3.x 服务器存储的是二进制文件">
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank">
+                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank">
+                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
@@ -230,9 +213,10 @@ Nexus3.x 服务器存储的是二进制文件">
                         <a  class="sidebar-button-link "
                              href="/atom.xml"
                             
+                            title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -242,22 +226,24 @@ Nexus3.x 服务器存储的是二进制文件">
     </div>
 </nav>
 
-                        
-                            <div id="main" data-behavior="5" class="
+            
+            <div id="main" data-behavior="5"
+                 class="
                         hasCoverMetaIn
                         ">
-                                
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+                
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             Nexus3批量导入jar包
         </h1>
     
-    <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-03-28T19:19:17+08:00">
+    
+        <div class="post-meta">
+    <time datetime="2018-03-28T19:19:17+08:00">
 	
 		    Mar 28, 2018
     	
@@ -271,13 +257,15 @@ Nexus3.x 服务器存储的是二进制文件">
     
 </div>
 
-</div>
     
-    <div class="post-content markdown" itemprop="articleBody">
+</div>
+
+    
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li><a href="https://support.sonatype.com/hc/en-us/articles/115006744008-How-can-I-programmatically-upload-an-artifact-into-Nexus-3-" target="_blank" rel="external">How can I programmatically upload an artifact into Nexus 3?</a></li>
-<li><a href="https://gist.github.com/DarthHater/a4f2738e3bd40d242db22633b59dfd63" target="_blank" rel="external">Nexus Repository Import Script
+<li><a href="https://support.sonatype.com/hc/en-us/articles/115006744008-How-can-I-programmatically-upload-an-artifact-into-Nexus-3-" target="_blank" rel="noopener">How can I programmatically upload an artifact into Nexus 3?</a></li>
+<li><a href="https://gist.github.com/DarthHater/a4f2738e3bd40d242db22633b59dfd63" target="_blank" rel="noopener">Nexus Repository Import Script
 </a></li>
 </ul>
 <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。</p>
@@ -287,7 +275,7 @@ Nexus3.x 服务器存储的是二进制文件">
 <li>所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。</li>
 </ul>
 <h3 id="迁移导入方法："><a href="#迁移导入方法：" class="headerlink" title="迁移导入方法："></a>迁移导入方法：</h3><ol>
-<li><p><a href="https://help.sonatype.com/display/NXRM3/Upgrading" target="_blank" rel="external">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：</p>
+<li><p><a href="https://help.sonatype.com/display/NXRM3/Upgrading" target="_blank" rel="noopener">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：</p>
 <pre><code>- 需要原nexus版本为2.14.x版本
 - 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3
 </code></pre></li>
@@ -305,7 +293,7 @@ mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$ve
 <pre><code>curl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom
 </code></pre><p> 我们需要上传的文件：jar和pom.xml</p>
 <p> 创建 mavenimport.sh 脚本如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line"># Get command line params</div><div class="line">while getopts &quot;:r:u:p:&quot; opt; do</div><div class="line">    case $opt in</div><div class="line">        r) REPO_URL=&quot;$OPTARG&quot;</div><div class="line">        ;;</div><div class="line">        u) USERNAME=&quot;$OPTARG&quot;</div><div class="line">        ;;</div><div class="line">        p) PASSWORD=&quot;$OPTARG&quot;</div><div class="line">        ;;</div><div class="line">        esac</div><div class="line">done</div><div class="line"></div><div class="line">find . -type f -not -path &apos;*/\.*&apos; -not -path &apos;*/\^archetype\-catalog\.xml*&apos; -not -path &apos;*/\^maven\-metadata\-local*\.xml&apos; -not -path &apos;*/\^maven\-metadata\-deployment*\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Get command line params</span><br><span class="line">while getopts &quot;:r:u:p:&quot; opt; do</span><br><span class="line">    case $opt in</span><br><span class="line">        r) REPO_URL=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        u) USERNAME=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        p) PASSWORD=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">find . -type f -not -path &apos;*/\.*&apos; -not -path &apos;*/\^archetype\-catalog\.xml*&apos; -not -path &apos;*/\^maven\-metadata\-local*\.xml&apos; -not -path &apos;*/\^maven\-metadata\-deployment*\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</span><br></pre></td></tr></table></figure>
 <p> 登陆到Nexus2.x服务器执行</p>
 <pre><code>cd $releases_dir
 cp $path/mavenimport.sh .
@@ -323,6 +311,7 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 </ol>
 
             
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -334,66 +323,82 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 
             </div>
         
-        <div class="post-actions-wrap">
+        
+            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="PREVIOUS: 【置顶】交流和反馈">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="NEXT: svn代码库迁移到git">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </div>
 
 
+        
         
             
                 <div id="disqus_thread">
@@ -406,7 +411,7 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 
 
 
-                                    <footer id="footer" class="main-content-wrap">
+                <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
         Copyrights &copy; 2018 Weilong. All Rights Reserved.
     </span>
@@ -420,55 +425,69 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="PREVIOUS: 【置顶】交流和反馈">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="NEXT: svn代码库迁移到git">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
@@ -477,29 +496,39 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 
                 </div>
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
     <ul class="share-options">
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
-                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
-                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
-                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-            </a>
-        </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
     </ul>
 </div>
-<div id="share-options-mask" class="share-options-mask"></div>
 
-                    
-                        </div>
-                        
+            
+        </div>
+        
 
 
     
@@ -536,231 +565,11 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
     </div>
 </div>
 
-                            <div id="algolia-search-modal" class="modal-container">
-    <div class="modal">
-        <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
-            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
-                <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-            </a>
-            <i class="search-icon fa fa-search"></i>
-            <form id="algolia-search-form">
-                <input type="text" id="algolia-search-input" name="search"
-                    class="form-control input--large search-input" placeholder="Search "
-                    autofocus="autofocus"/>
-            </form>
-        </div>
-        <div class="modal-body">
-            <div class="no-result text-color-light text-center">no post found</div>
-            <div class="results">
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/51385/">
-                            <h3 class="media-heading">Jenkins常用插件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jan 24, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32389/">
-                            <h3 class="media-heading">使用Jenkins_Gerrit搭建持续集成</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60120/">
-                            <h3 class="media-heading">Git tips one</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/2248/">
-                            <h3 class="media-heading">Gerrit code review</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 6, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/52695/">
-                            <h3 class="media-heading">分支策略</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 25, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/33032/">
-                            <h3 class="media-heading">Java static code analysis</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60810/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-1搭建</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32302/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-2配置</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/19471/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-3使用</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/7875/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-4Android</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 18, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-            </div>
-        </div>
-        <div class="modal-footer">
-            <p class="results-count text-medium"
-                data-message-zero="no post found"
-                data-message-one="1 post found"
-                data-message-other="{n} posts found">
-                17 posts found
-            </p>
-        </div>
-    </div>
-</div>
-                                
+        
+        
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-                                    <!--SCRIPTS-->
-<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -784,6 +593,5 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 
 
 
-        </body>
-
-    </html>
+    </body>
+</html>

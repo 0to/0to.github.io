@@ -1,6 +1,6 @@
 
-    <!DOCTYPE html>
-    <html lang="en,zh-cn,default">
+<!DOCTYPE html>
+<html lang="en,zh-cn,default">
     
 <head>
     <meta charset="UTF-8">
@@ -15,38 +15,15 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="参考链接：
-下载地址：官方网站
-软硬件需求：官方文档
-安装方法：官方文档
-
-PS:
-
-nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版)
-主要使用版本：2.x和3.x
-版本区别：官方文档
-
-JAVA项目依赖管理方法：
-所有依赖jar包都上传提交到代码库里面：
-优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"参考链接：\n下载地址：官方网站\n软硬件需求：官方文档\n安装方法：官方文档\n\nPS:\n\nnexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版)\n主要使用版本：2.x和3.x\n版本区别：官方文档\n\nJAVA项目依赖管理方法：\n所有依赖jar包都上传提交到代码库里面：\n优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小项目)\n缺点：\n依赖包体积很大，导致代码获取推送太耗时和占用带宽；\n基础框架依赖包每个代码库都要存放一份(空间浪费)；\n当前依赖包版本不明确。\n\n\n\n\n依赖包编译过程中下载，不上传到代码库：\n优点：\n代码库干净，体积小；\n项目显性配置依赖包版本和引用阶段清晰明了。\n\n\n\n\n\n私服的优点：\n统一服务器代理外部依赖（节省外网带宽）；\n项目下载依赖通过内部网络的进行（更快）；\n托管内部项目依赖（协作更方便）；\n托管第三方依赖（例如：合作伙伴的依赖包）\n\n搭建环境版本：\nOS：        Windows Server 2012 R2\nJDK：       1.8.0_71\nnexus-repository-oss 3.6.0-02\n\n搭建步骤：\n安装JDK\n官网下载：nexus-3.6.0-02-win64.zip,解压缩\n配置windows服务：官方文档\n1$install-dir/bin/nexus.exe /install &lt;optional-service-name&gt;\n\n启动服务：\n1nexus.exe /start &lt;optional-service-name&gt;\n\n网页端登陆配置Nexus\n\nhttp://$ip:8081\n用户名/密码：admin/admin123\n\n\n\n后台配置：\ndata目录修改\n12345$install-dir/bin/nexus.vmoptions-Dkaraf.data=../sonatype-work/nexus3-Djava.io.tmpdir=../sonatype-work/nexus3/tmp-XX:LogFile=../sonatype-work/nexus3/log/jvm.log\n\n服务端口号修改：\n1234$data-dir/etc/nexus.properties# Jetty sectionapplication-port=8081\n\njvm性能调优：\n12345$install-dir/bin/nexus.vmoptions-Xms4G-Xmx4G-XX:MaxDirectMemorySize=4014M\n\n\n以上修改都需要重启服务生效。\n前台配置：使用管理员admin账号登陆\n配置邮箱\n配置LDAP\n配置权限\n配置repositoriesrepositories分为三个种类：\n\nproxy    代理远端仓库\nhosted   本地内部仓库\ngroup    组合仓库\n\nMaven依赖私服配置修改~/.m2/settings.xml1234567891011121314151617181920212223242526272829303132333435363738394041424344&lt;settings&gt;  &lt;servers&gt;    &lt;server&gt;      &lt;id&gt;nexus&lt;/id&gt;      &lt;username&gt;用户名&lt;/username&gt;      &lt;password&gt;密码&lt;/password&gt;    &lt;/server&gt;  &lt;/servers&gt;  &lt;mirrors&gt;    &lt;mirror&gt;    &lt;!--This sends everything else to /public --&gt;    &lt;id&gt;nexus&lt;/id&gt;    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;    &lt;url&gt;http://$ip:8081/repository/maven-public/&lt;/url&gt;    &lt;/mirror&gt;  &lt;/mirrors&gt;  &lt;profiles&gt;    &lt;profile&gt;    &lt;id&gt;nexus&lt;/id&gt;    &lt;!--Enable snapshots for the built in central repo to direct --&gt;    &lt;!--all requests to nexus via the mirror --&gt;    &lt;repositories&gt;        &lt;repository&gt;        &lt;id&gt;central&lt;/id&gt;        &lt;url&gt;http://central&lt;/url&gt;        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;        &lt;/repository&gt;    &lt;/repositories&gt;    &lt;pluginRepositories&gt;        &lt;pluginRepository&gt;        &lt;id&gt;central&lt;/id&gt;        &lt;url&gt;http://central&lt;/url&gt;        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;        &lt;/pluginRepository&gt;    &lt;/pluginRepositories&gt;    &lt;/profile&gt;  &lt;/profiles&gt;  &lt;activeProfiles&gt;    &lt;!--make the profile active all the time --&gt;    &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;  &lt;/activeProfiles&gt;&lt;/settings&gt;\n内部项目上传jar包：修改项目pom.xml文件增加123456789101112&lt;distributionManagement&gt;    &lt;repository&gt;      &lt;id&gt;nexus&lt;/id&gt;      &lt;name&gt;Releases&lt;/name&gt;      &lt;url&gt;http://$ip:8081/repository/maven-releases&lt;/url&gt;    &lt;/repository&gt;    &lt;snapshotRepository&gt;      &lt;id&gt;nexus&lt;/id&gt;      &lt;name&gt;Snapshot&lt;/name&gt;      &lt;url&gt;http://$ip:8081/repository/maven-snapshots&lt;/url&gt;    &lt;/snapshotRepository&gt;&lt;/distributionManagement&gt;\n然后执行：1mvn clean deploy\n上传第三方jar包：nexus3不能使用web端来上传第三方jar包，只能使用命令行：1mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -Dfile=$path/XX.jar -Durl=http://$ip:8081/repository/$hosted_3rd/ -DrepositoryId=nexus\n","dateCreated":"2017-11-17T14:39:35+08:00","dateModified":"2018-05-04T17:50:33+08:00","datePublished":"2017-11-17T14:39:35+08:00","description":"","headline":"Nexus3搭建配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/28954/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/28954/","keywords":"nexus"}</script>
+    <meta name="description" content="参考链接： 下载地址：官方网站 软硬件需求：官方文档 安装方法：官方文档  PS:  nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版) 主要使用版本：2.x和3.x 版本区别：官方文档  JAVA项目依赖管理方法： 所有依赖jar包都上传提交到代码库里面： 优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小">
+<meta name="keywords" content="nexus">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Nexus3搭建配置">
 <meta property="og:url" content="https://0to.github.io/posts/28954/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="参考链接：
-下载地址：官方网站
-软硬件需求：官方文档
-安装方法：官方文档
-
-PS:
-
-nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版)
-主要使用版本：2.x和3.x
-版本区别：官方文档
-
-JAVA项目依赖管理方法：
-所有依赖jar包都上传提交到代码库里面：
-优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小">
+<meta property="og:description" content="参考链接： 下载地址：官方网站 软硬件需求：官方文档 安装方法：官方文档  PS:  nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版) 主要使用版本：2.x和3.x 版本区别：官方文档  JAVA项目依赖管理方法： 所有依赖jar包都上传提交到代码库里面： 优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小">
+<meta property="og:locale" content="en">
 <meta property="og:image" content="https://0to.github.io/posts/28954/nexus0.png">
 <meta property="og:image" content="https://0to.github.io/posts/28954/nexus_email.jpg">
 <meta property="og:image" content="https://0to.github.io/posts/28954/nexus_ldap1.png">
@@ -56,23 +33,10 @@ JAVA项目依赖管理方法：
 <meta property="og:image" content="https://0to.github.io/posts/28954/nexus_role2.png">
 <meta property="og:image" content="https://0to.github.io/posts/28954/nexus_role3.png">
 <meta property="og:image" content="https://0to.github.io/posts/28954/nexus_res.png">
-<meta property="og:updated_time" content="2017-11-17T11:15:56.259Z">
+<meta property="og:updated_time" content="2018-05-04T09:50:33.678Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nexus3搭建配置">
-<meta name="twitter:description" content="参考链接：
-下载地址：官方网站
-软硬件需求：官方文档
-安装方法：官方文档
-
-PS:
-
-nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版)
-主要使用版本：2.x和3.x
-版本区别：官方文档
-
-JAVA项目依赖管理方法：
-所有依赖jar包都上传提交到代码库里面：
-优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小">
+<meta name="twitter:description" content="参考链接： 下载地址：官方网站 软硬件需求：官方文档 安装方法：官方文档  PS:  nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版) 主要使用版本：2.x和3.x 版本区别：官方文档  JAVA项目依赖管理方法： 所有依赖jar包都上传提交到代码库里面： 优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小">
 <meta name="twitter:image" content="https://0to.github.io/posts/28954/nexus0.png">
     
     
@@ -85,19 +49,19 @@ JAVA项目依赖管理方法：
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-yrst5vo1nxaxbp2g3v9na2wg1lixlpr3ghbjdvskeixmu79deycecx3rh4bt.min.css">
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-85893233-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-85893233-1', 'auto');
+        ga('send', 'pageview');
     </script>
+
 
     
     <script type="text/javascript">
@@ -112,10 +76,9 @@ JAVA项目依赖管理方法：
 
 </head>
 
-
-        <body>
-            <div id="blog">
-                <!-- Define author's picture -->
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
 
     
@@ -141,7 +104,7 @@ JAVA项目依赖管理方法：
     
 </header>
 
-                    <!-- Define author's picture -->
+            <!-- Define author's picture -->
 
 
 
@@ -169,9 +132,10 @@ JAVA项目依赖管理方法：
                         <a  class="sidebar-button-link "
                              href="/ "
                             
+                            title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -181,9 +145,10 @@ JAVA项目依赖管理方法：
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
+                            title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -193,9 +158,10 @@ JAVA项目依赖管理方法：
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
+                            title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -205,9 +171,10 @@ JAVA项目依赖管理方法：
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
+                            title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
             </li>
@@ -217,9 +184,10 @@ JAVA项目依赖管理方法：
                         <a  class="sidebar-button-link "
                              href="#about"
                             
+                            title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -230,18 +198,18 @@ JAVA项目依赖管理方法：
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank">
+                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank">
+                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
@@ -255,9 +223,10 @@ JAVA项目依赖管理方法：
                         <a  class="sidebar-button-link "
                              href="/atom.xml"
                             
+                            title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -267,22 +236,24 @@ JAVA项目依赖管理方法：
     </div>
 </nav>
 
-                        
-                            <div id="main" data-behavior="5" class="
+            
+            <div id="main" data-behavior="5"
+                 class="
                         hasCoverMetaIn
                         ">
-                                
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+                
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             Nexus3搭建配置
         </h1>
     
-    <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-11-17T14:39:35+08:00">
+    
+        <div class="post-meta">
+    <time datetime="2017-11-17T14:39:35+08:00">
 	
 		    Nov 17, 2017
     	
@@ -296,20 +267,22 @@ JAVA项目依赖管理方法：
     
 </div>
 
-</div>
     
-    <div class="post-content markdown" itemprop="articleBody">
+</div>
+
+    
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li>下载地址：<a href="https://www.sonatype.com/nexus-repository-oss" target="_blank" rel="external">官方网站</a></li>
-<li>软硬件需求：<a href="https://help.sonatype.com/display/NXRM3/System+Requirements" target="_blank" rel="external">官方文档</a></li>
-<li>安装方法：<a href="https://help.sonatype.com/display/NXRM3/Installation" target="_blank" rel="external">官方文档</a></li>
+<li>下载地址：<a href="https://www.sonatype.com/nexus-repository-oss" target="_blank" rel="noopener">官方网站</a></li>
+<li>软硬件需求：<a href="https://help.sonatype.com/display/NXRM3/System+Requirements" target="_blank" rel="noopener">官方文档</a></li>
+<li>安装方法：<a href="https://help.sonatype.com/display/NXRM3/Installation" target="_blank" rel="noopener">官方文档</a></li>
 </ul>
 <p>PS:</p>
 <ul>
 <li>nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版)</li>
 <li>主要使用版本：2.x和3.x</li>
-<li>版本区别：<a href="https://help.sonatype.com/display/NXRM3/Repository+Manager+Feature+Matrix#RepositoryManagerFeatureMatrix-OBR" target="_blank" rel="external">官方文档</a></li>
+<li>版本区别：<a href="https://help.sonatype.com/display/NXRM3/Repository+Manager+Feature+Matrix#RepositoryManagerFeatureMatrix-OBR" target="_blank" rel="noopener">官方文档</a></li>
 </ul>
 <h1 id="JAVA项目依赖管理方法："><a href="#JAVA项目依赖管理方法：" class="headerlink" title="JAVA项目依赖管理方法："></a>JAVA项目依赖管理方法：</h1><ol>
 <li>所有依赖jar包都上传提交到代码库里面：<ul>
@@ -345,28 +318,28 @@ JAVA项目依赖管理方法：
 <h1 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h1><ol>
 <li>安装JDK</li>
 <li>官网下载：nexus-3.6.0-02-win64.zip,解压缩</li>
-<li><p>配置windows服务：<a href="https://help.sonatype.com/display/NXRM3/Run+as+a+Service" target="_blank" rel="external">官方文档</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$install-dir/bin/nexus.exe /install &lt;optional-service-name&gt;</div></pre></td></tr></table></figure>
+<li><p>配置windows服务：<a href="https://help.sonatype.com/display/NXRM3/Run+as+a+Service" target="_blank" rel="noopener">官方文档</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$install-dir/bin/nexus.exe /install &lt;optional-service-name&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>启动服务：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nexus.exe /start &lt;optional-service-name&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nexus.exe /start &lt;optional-service-name&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>网页端登陆配置Nexus</p>
 <ul>
-<li><a href="http://$ip:8081" target="_blank" rel="external">http://$ip:8081</a></li>
+<li>http://$ip:8081</li>
 <li>用户名/密码：admin/admin123</li>
 </ul>
 </li>
 </ol>
 <h1 id="后台配置："><a href="#后台配置：" class="headerlink" title="后台配置："></a>后台配置：</h1><ol>
 <li><p>data目录修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$install-dir/bin/nexus.vmoptions</div><div class="line"></div><div class="line">-Dkaraf.data=../sonatype-work/nexus3</div><div class="line">-Djava.io.tmpdir=../sonatype-work/nexus3/tmp</div><div class="line">-XX:LogFile=../sonatype-work/nexus3/log/jvm.log</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$install-dir/bin/nexus.vmoptions</span><br><span class="line"></span><br><span class="line">-Dkaraf.data=../sonatype-work/nexus3</span><br><span class="line">-Djava.io.tmpdir=../sonatype-work/nexus3/tmp</span><br><span class="line">-XX:LogFile=../sonatype-work/nexus3/log/jvm.log</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>服务端口号修改：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$data-dir/etc/nexus.properties</div><div class="line"></div><div class="line"># Jetty section</div><div class="line">application-port=8081</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$data-dir/etc/nexus.properties</span><br><span class="line"></span><br><span class="line"># Jetty section</span><br><span class="line">application-port=8081</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>jvm性能调优：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$install-dir/bin/nexus.vmoptions</div><div class="line"></div><div class="line">-Xms4G</div><div class="line">-Xmx4G</div><div class="line">-XX:MaxDirectMemorySize=4014M</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$install-dir/bin/nexus.vmoptions</span><br><span class="line"></span><br><span class="line">-Xms4G</span><br><span class="line">-Xmx4G</span><br><span class="line">-XX:MaxDirectMemorySize=4014M</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>以上修改都需要重启服务生效。</p>
@@ -380,12 +353,13 @@ JAVA项目依赖管理方法：
 <li>hosted   本地内部仓库</li>
 <li>group    组合仓库<br><img src="/posts/28954/nexus_res.png" alt="logo"></li>
 </ol>
-<h1 id="Maven依赖私服配置"><a href="#Maven依赖私服配置" class="headerlink" title="Maven依赖私服配置"></a>Maven依赖私服配置</h1><p>修改~/.m2/settings.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">&lt;settings&gt;</div><div class="line">  &lt;servers&gt;</div><div class="line">    &lt;server&gt;</div><div class="line">      &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">      &lt;username&gt;用户名&lt;/username&gt;</div><div class="line">      &lt;password&gt;密码&lt;/password&gt;</div><div class="line">    &lt;/server&gt;</div><div class="line">  &lt;/servers&gt;</div><div class="line">  &lt;mirrors&gt;</div><div class="line">    &lt;mirror&gt;</div><div class="line">    &lt;!--This sends everything else to /public --&gt;</div><div class="line">    &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</div><div class="line">    &lt;url&gt;http://$ip:8081/repository/maven-public/&lt;/url&gt;</div><div class="line">    &lt;/mirror&gt;</div><div class="line">  &lt;/mirrors&gt;</div><div class="line">  &lt;profiles&gt;</div><div class="line">    &lt;profile&gt;</div><div class="line">    &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">    &lt;!--Enable snapshots for the built in central repo to direct --&gt;</div><div class="line">    &lt;!--all requests to nexus via the mirror --&gt;</div><div class="line">    &lt;repositories&gt;</div><div class="line">        &lt;repository&gt;</div><div class="line">        &lt;id&gt;central&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://central&lt;/url&gt;</div><div class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</div><div class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</div><div class="line">        &lt;/repository&gt;</div><div class="line">    &lt;/repositories&gt;</div><div class="line">    &lt;pluginRepositories&gt;</div><div class="line">        &lt;pluginRepository&gt;</div><div class="line">        &lt;id&gt;central&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://central&lt;/url&gt;</div><div class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</div><div class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</div><div class="line">        &lt;/pluginRepository&gt;</div><div class="line">    &lt;/pluginRepositories&gt;</div><div class="line">    &lt;/profile&gt;</div><div class="line">  &lt;/profiles&gt;</div><div class="line">  &lt;activeProfiles&gt;</div><div class="line">    &lt;!--make the profile active all the time --&gt;</div><div class="line">    &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</div><div class="line">  &lt;/activeProfiles&gt;</div><div class="line">&lt;/settings&gt;</div></pre></td></tr></table></figure></p>
-<h1 id="内部项目上传jar包："><a href="#内部项目上传jar包：" class="headerlink" title="内部项目上传jar包："></a>内部项目上传jar包：</h1><p>修改项目pom.xml文件增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;distributionManagement&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">      &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">      &lt;name&gt;Releases&lt;/name&gt;</div><div class="line">      &lt;url&gt;http://$ip:8081/repository/maven-releases&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">    &lt;snapshotRepository&gt;</div><div class="line">      &lt;id&gt;nexus&lt;/id&gt;</div><div class="line">      &lt;name&gt;Snapshot&lt;/name&gt;</div><div class="line">      &lt;url&gt;http://$ip:8081/repository/maven-snapshots&lt;/url&gt;</div><div class="line">    &lt;/snapshotRepository&gt;</div><div class="line">&lt;/distributionManagement&gt;</div></pre></td></tr></table></figure></p>
-<p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn clean deploy</div></pre></td></tr></table></figure></p>
-<h1 id="上传第三方jar包："><a href="#上传第三方jar包：" class="headerlink" title="上传第三方jar包："></a>上传第三方jar包：</h1><p>nexus3不能使用web端来上传第三方jar包，只能使用命令行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -Dfile=$path/XX.jar -Durl=http://$ip:8081/repository/$hosted_3rd/ -DrepositoryId=nexus</div></pre></td></tr></table></figure></p>
+<h1 id="Maven依赖私服配置"><a href="#Maven依赖私服配置" class="headerlink" title="Maven依赖私服配置"></a>Maven依赖私服配置</h1><p>修改~/.m2/settings.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">  &lt;servers&gt;</span><br><span class="line">    &lt;server&gt;</span><br><span class="line">      &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">      &lt;username&gt;用户名&lt;/username&gt;</span><br><span class="line">      &lt;password&gt;密码&lt;/password&gt;</span><br><span class="line">    &lt;/server&gt;</span><br><span class="line">  &lt;/servers&gt;</span><br><span class="line">  &lt;mirrors&gt;</span><br><span class="line">    &lt;mirror&gt;</span><br><span class="line">    &lt;!--This sends everything else to /public --&gt;</span><br><span class="line">    &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">    &lt;url&gt;http://$ip:8081/repository/maven-public/&lt;/url&gt;</span><br><span class="line">    &lt;/mirror&gt;</span><br><span class="line">  &lt;/mirrors&gt;</span><br><span class="line">  &lt;profiles&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">    &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">    &lt;!--Enable snapshots for the built in central repo to direct --&gt;</span><br><span class="line">    &lt;!--all requests to nexus via the mirror --&gt;</span><br><span class="line">    &lt;repositories&gt;</span><br><span class="line">        &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">        &lt;/repository&gt;</span><br><span class="line">    &lt;/repositories&gt;</span><br><span class="line">    &lt;pluginRepositories&gt;</span><br><span class="line">        &lt;pluginRepository&gt;</span><br><span class="line">        &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">        &lt;/pluginRepository&gt;</span><br><span class="line">    &lt;/pluginRepositories&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">  &lt;/profiles&gt;</span><br><span class="line">  &lt;activeProfiles&gt;</span><br><span class="line">    &lt;!--make the profile active all the time --&gt;</span><br><span class="line">    &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</span><br><span class="line">  &lt;/activeProfiles&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="内部项目上传jar包："><a href="#内部项目上传jar包：" class="headerlink" title="内部项目上传jar包："></a>内部项目上传jar包：</h1><p>修改项目pom.xml文件增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;distributionManagement&gt;</span><br><span class="line">    &lt;repository&gt;</span><br><span class="line">      &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">      &lt;name&gt;Releases&lt;/name&gt;</span><br><span class="line">      &lt;url&gt;http://$ip:8081/repository/maven-releases&lt;/url&gt;</span><br><span class="line">    &lt;/repository&gt;</span><br><span class="line">    &lt;snapshotRepository&gt;</span><br><span class="line">      &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">      &lt;name&gt;Snapshot&lt;/name&gt;</span><br><span class="line">      &lt;url&gt;http://$ip:8081/repository/maven-snapshots&lt;/url&gt;</span><br><span class="line">    &lt;/snapshotRepository&gt;</span><br><span class="line">&lt;/distributionManagement&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean deploy</span><br></pre></td></tr></table></figure></p>
+<h1 id="上传第三方jar包："><a href="#上传第三方jar包：" class="headerlink" title="上传第三方jar包："></a>上传第三方jar包：</h1><p>nexus3不能使用web端来上传第三方jar包，只能使用命令行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -Dfile=$path/XX.jar -Durl=http://$ip:8081/repository/$hosted_3rd/ -DrepositoryId=nexus</span><br></pre></td></tr></table></figure></p>
 
             
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -397,66 +371,82 @@ JAVA项目依赖管理方法：
 
             </div>
         
-        <div class="post-actions-wrap">
+        
+            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7037/"  data-tooltip="nexus2.x迁移repository到nexus3.x">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7037/" data-tooltip="nexus2.x迁移repository到nexus3.x" aria-label="PREVIOUS: nexus2.x迁移repository到nexus3.x">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/54025/" data-tooltip="持续代码质量平台Sonar-5审计">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/54025/" data-tooltip="持续代码质量平台Sonar-5审计" aria-label="NEXT: 持续代码质量平台Sonar-5审计">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/28954/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/28954/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/28954/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/28954/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/28954/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/28954/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </div>
 
 
+        
         
             
                 <div id="disqus_thread">
@@ -469,7 +459,7 @@ JAVA项目依赖管理方法：
 
 
 
-                                    <footer id="footer" class="main-content-wrap">
+                <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
         Copyrights &copy; 2018 Weilong. All Rights Reserved.
     </span>
@@ -483,55 +473,69 @@ JAVA项目依赖管理方法：
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7037/"  data-tooltip="nexus2.x迁移repository到nexus3.x">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7037/" data-tooltip="nexus2.x迁移repository到nexus3.x" aria-label="PREVIOUS: nexus2.x迁移repository到nexus3.x">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/54025/" data-tooltip="持续代码质量平台Sonar-5审计">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/54025/" data-tooltip="持续代码质量平台Sonar-5审计" aria-label="NEXT: 持续代码质量平台Sonar-5审计">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/28954/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/28954/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/28954/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/28954/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/28954/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/28954/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
@@ -540,29 +544,39 @@ JAVA项目依赖管理方法：
 
                 </div>
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
     <ul class="share-options">
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/28954/">
-                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/28954/">
-                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/28954/">
-                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-            </a>
-        </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/28954/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/28954/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/28954/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
     </ul>
 </div>
-<div id="share-options-mask" class="share-options-mask"></div>
 
-                    
-                        </div>
-                        
+            
+        </div>
+        
 
 
     
@@ -599,231 +613,11 @@ JAVA项目依赖管理方法：
     </div>
 </div>
 
-                            <div id="algolia-search-modal" class="modal-container">
-    <div class="modal">
-        <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
-            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
-                <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-            </a>
-            <i class="search-icon fa fa-search"></i>
-            <form id="algolia-search-form">
-                <input type="text" id="algolia-search-input" name="search"
-                    class="form-control input--large search-input" placeholder="Search "
-                    autofocus="autofocus"/>
-            </form>
-        </div>
-        <div class="modal-body">
-            <div class="no-result text-color-light text-center">no post found</div>
-            <div class="results">
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/51385/">
-                            <h3 class="media-heading">Jenkins常用插件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jan 24, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32389/">
-                            <h3 class="media-heading">使用Jenkins_Gerrit搭建持续集成</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60120/">
-                            <h3 class="media-heading">Git tips one</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/2248/">
-                            <h3 class="media-heading">Gerrit code review</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 6, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/52695/">
-                            <h3 class="media-heading">分支策略</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 25, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/33032/">
-                            <h3 class="media-heading">Java static code analysis</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60810/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-1搭建</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32302/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-2配置</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/19471/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-3使用</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/7875/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-4Android</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 18, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-            </div>
-        </div>
-        <div class="modal-footer">
-            <p class="results-count text-medium"
-                data-message-zero="no post found"
-                data-message-one="1 post found"
-                data-message-other="{n} posts found">
-                17 posts found
-            </p>
-        </div>
-    </div>
-</div>
-                                
+        
+        
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-                                    <!--SCRIPTS-->
-<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -847,6 +641,5 @@ JAVA项目依赖管理方法：
 
 
 
-        </body>
-
-    </html>
+    </body>
+</html>

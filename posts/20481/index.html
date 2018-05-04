@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>使用OpenGrok查询涉及关键字代码库 - Just Do IT</title>
+    <title>【置顶】交流和反馈 - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,21 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"背景：dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。\n思路：\n查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。\n难点：\n并不是所有服务都会实时连接数据库，可能会漏掉；\n服务器上面部署的服务太多，还需要再做过滤。\n\n\n综上，这个思路否定。\n\n\n直接通过关键字查询代码库源码来定位。\n难点：\n需要拥有大范围的代码库权限\n多目录文件查询涉及关键字文件\n\n\n解决方案：\n作为公司SCM权限不是问题\n使用OpenGrok来做关键字查询\n\n\n\n\n\n参考链接：\nOpenGrok：官方网站\n\n实施步骤：\n搭建OpenGrok：\n\n安装jdk-1.8\n安装tomcat-8\n安装Exuberant Ctags 下载地址\n12345$ tar zxvf ctags-5.8.tar.gz$ cd ctags-5.8/$ ./configure$ make$ make install\n\n安装opengrok 下载地址  | 安装使用wiki\n123$ tar zxvf opengrok-1.1-rc16.tar.gz$ cd opengrok-1.1-rc16/bin/$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy\n\n\n\n下载代码\n\n创建一个公共代码库存放目录：\n12$ mkdir -p /root/wwl/code/svn$ mkdir -p /root/wwl/code/git\n\n根据需要下载svn代码:\n12$ cd /root/wwl/code/svn$ svn checkout svn_urls\n\n根据需要下载git代码：\n12$ cd /root/wwl/code/git$ git clone git_urls\n\nPS:如果要想查询所有分支代码\n\nsvn：直接checkout 包含branches目录url即可；\ngit：需要clone多次git_url到不同目录，然后cd到各自目录执行git checkout branch_name；\n建议只下载master/trunk和最新dev分支即可。\n\n\n\n\n加载OpenGrok索引\n 123$ ./OpenGrok index &lt;absolute_path_to_your_SRC_ROOT&gt;例如：    ./OpenGrok index /root/wwl/code\n PS：如果代码文件很多的话，加载索引会很久。晚上执行第二天来看结果吧。\n\n关键字查询\n\nweb端登陆:\n1&lt;HOST&gt;:&lt;PORT&gt;/source\n\n执行查询:\n\n\n\n\nPS：\nOpenGrok还支持文件类型查询过滤等功能，各位可以自行尝试使用；\n除了数据库表查询以外，常见的还有api调用查询；\n这种方案是后置的，如果能在系统设计之初和迭代过程积极维护开发文档，形成系统整体调度架构图形的话，会另我们开发更加自信；\n借此机会推动开发团队规范开发文档和产出系统调度架构图形。\n\n","dateCreated":"2017-11-27T16:08:37+08:00","dateModified":"2018-05-04T17:48:54+08:00","datePublished":"2017-11-27T16:08:37+08:00","description":"","headline":"使用OpenGrok查询涉及关键字代码库","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/61445/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/61445/","keywords":"OpenGrok"}</script>
-    <meta name="description" content="背景：dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。 思路： 查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。 难点： 并不是所有服务都会实时连接数据库，可能会漏掉； 服务器上面部署的服务太多，还需要再做过滤。   综上，这个思路否定。   直接通过关键字查询代码库源码来定位。 难点： 需要拥有大范围的代码库权限 多目录文件">
-<meta name="keywords" content="OpenGrok">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"交流和反馈：- 文章的错误、疑问\n- 讨论遇到的问题\n- 进行技术交流\n方向：- 配置管理\n- 持续交付\n- 过程改进\n评论：- 本站接入了Disqus评论，欢迎诸君comment。\n- 因为GFW的原因，不翻墙的话没法使用。\n联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com\n","dateCreated":"2018-05-04T17:12:24+08:00","dateModified":"2018-05-04T18:17:00+08:00","datePublished":"2018-05-04T17:12:24+08:00","description":"","headline":"【置顶】交流和反馈","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/20481/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/20481/","keywords":"talk show"}</script>
+    <meta name="description" content="交流和反馈：- 文章的错误、疑问 - 讨论遇到的问题 - 进行技术交流 方向：- 配置管理 - 持续交付 - 过程改进 评论：- 本站接入了Disqus评论，欢迎诸君comment。 - 因为GFW的原因，不翻墙的话没法使用。 联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com">
+<meta name="keywords" content="talk show">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="使用OpenGrok查询涉及关键字代码库">
-<meta property="og:url" content="https://0to.github.io/posts/61445/index.html">
+<meta property="og:title" content="【置顶】交流和反馈">
+<meta property="og:url" content="https://0to.github.io/posts/20481/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="背景：dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。 思路： 查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。 难点： 并不是所有服务都会实时连接数据库，可能会漏掉； 服务器上面部署的服务太多，还需要再做过滤。   综上，这个思路否定。   直接通过关键字查询代码库源码来定位。 难点： 需要拥有大范围的代码库权限 多目录文件">
+<meta property="og:description" content="交流和反馈：- 文章的错误、疑问 - 讨论遇到的问题 - 进行技术交流 方向：- 配置管理 - 持续交付 - 过程改进 评论：- 本站接入了Disqus评论，欢迎诸君comment。 - 因为GFW的原因，不翻墙的话没法使用。 联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://0to.github.io/posts/61445/OpenGrok.png">
-<meta property="og:updated_time" content="2018-05-04T09:48:54.501Z">
+<meta property="og:updated_time" content="2018-05-04T10:17:00.848Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用OpenGrok查询涉及关键字代码库">
-<meta name="twitter:description" content="背景：dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。 思路： 查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。 难点： 并不是所有服务都会实时连接数据库，可能会漏掉； 服务器上面部署的服务太多，还需要再做过滤。   综上，这个思路否定。   直接通过关键字查询代码库源码来定位。 难点： 需要拥有大范围的代码库权限 多目录文件">
-<meta name="twitter:image" content="https://0to.github.io/posts/61445/OpenGrok.png">
+<meta name="twitter:title" content="【置顶】交流和反馈">
+<meta name="twitter:description" content="交流和反馈：- 文章的错误、疑问 - 讨论遇到的问题 - 进行技术交流 方向：- 配置管理 - 持续交付 - 过程改进 评论：- 本站接入了Disqus评论，欢迎诸君comment。 - 因为GFW的原因，不翻墙的话没法使用。 联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com">
     
     
         
@@ -240,20 +238,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            使用OpenGrok查询涉及关键字代码库
+            【置顶】交流和反馈
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2017-11-27T16:08:37+08:00">
+    <time datetime="2018-05-04T17:12:24+08:00">
 	
-		    Nov 27, 2017
+		    May 04, 2018
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/SCM/">SCM</a>
+    <a class="category-link" href="/categories/top/">top</a>
 
 
     
@@ -265,87 +263,15 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。</p>
-<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ol>
-<li>查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。<ul>
-<li>难点：<ul>
-<li>并不是所有服务都会实时连接数据库，可能会漏掉；</li>
-<li>服务器上面部署的服务太多，还需要再做过滤。</li>
-</ul>
-</li>
-<li>综上，这个思路否定。</li>
-</ul>
-</li>
-<li>直接通过关键字查询代码库源码来定位。<ul>
-<li>难点：<ul>
-<li>需要拥有大范围的代码库权限</li>
-<li>多目录文件查询涉及关键字文件</li>
-</ul>
-</li>
-<li>解决方案：<ul>
-<li>作为公司SCM权限不是问题</li>
-<li>使用OpenGrok来做关键字查询</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li>OpenGrok：<a href="http://opengrok.github.io/OpenGrok/" target="_blank" rel="noopener">官方网站</a></li>
-</ul>
-<h2 id="实施步骤："><a href="#实施步骤：" class="headerlink" title="实施步骤："></a>实施步骤：</h2><ol>
-<li><p>搭建OpenGrok：</p>
-<ul>
-<li>安装jdk-1.8</li>
-<li>安装tomcat-8</li>
-<li><p>安装Exuberant Ctags <a href="http://ctags.sourceforge.net/" target="_blank" rel="noopener">下载地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf ctags-5.8.tar.gz</span><br><span class="line">$ cd ctags-5.8/</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装opengrok <a href="https://github.com/OpenGrok/OpenGrok/releases" target="_blank" rel="noopener">下载地址</a>  | <a href="https://github.com/OpenGrok/OpenGrok/wiki/How-to-install-OpenGrok" target="_blank" rel="noopener">安装使用wiki</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf opengrok-1.1-rc16.tar.gz</span><br><span class="line">$ cd opengrok-1.1-rc16/bin/</span><br><span class="line">$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>下载代码</p>
-<ul>
-<li><p>创建一个公共代码库存放目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /root/wwl/code/svn</span><br><span class="line">$ mkdir -p /root/wwl/code/git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>根据需要下载svn代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/svn</span><br><span class="line">$ svn checkout svn_urls</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>根据需要下载git代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/git</span><br><span class="line">$ git clone git_urls</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>PS:如果要想查询所有分支代码</p>
-<ul>
-<li>svn：直接checkout 包含branches目录url即可；</li>
-<li>git：需要clone多次git_url到不同目录，然后cd到各自目录执行git checkout branch_name；</li>
-<li>建议只下载master/trunk和最新dev分支即可。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>加载OpenGrok索引</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./OpenGrok index &lt;absolute_path_to_your_SRC_ROOT&gt;</span><br><span class="line">例如：</span><br><span class="line">    ./OpenGrok index /root/wwl/code</span><br></pre></td></tr></table></figure>
-<p> PS：如果代码文件很多的话，加载索引会很久。晚上执行第二天来看结果吧。</p>
-</li>
-<li><p>关键字查询</p>
-<ul>
-<li><p>web端登陆:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;HOST&gt;:&lt;PORT&gt;/source</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行查询:<br><img src="/posts/61445/OpenGrok.png" alt="logo"></p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><ol>
-<li>OpenGrok还支持文件类型查询过滤等功能，各位可以自行尝试使用；</li>
-<li>除了数据库表查询以外，常见的还有api调用查询；</li>
-<li>这种方案是后置的，如果能在系统设计之初和迭代过程积极维护开发文档，形成系统整体调度架构图形的话，会另我们开发更加自信；</li>
-<li>借此机会推动开发团队规范开发文档和产出系统调度架构图形。</li>
-</ol>
+            <h3 id="交流和反馈："><a href="#交流和反馈：" class="headerlink" title="交流和反馈："></a>交流和反馈：</h3><pre><code>- 文章的错误、疑问
+- 讨论遇到的问题
+- 进行技术交流
+</code></pre><h3 id="方向："><a href="#方向：" class="headerlink" title="方向："></a>方向：</h3><pre><code>- 配置管理
+- 持续交付
+- 过程改进
+</code></pre><h3 id="评论："><a href="#评论：" class="headerlink" title="评论："></a>评论：</h3><pre><code>- 本站接入了Disqus评论，欢迎诸君comment。
+- 因为GFW的原因，不翻墙的话没法使用。
+</code></pre><h3 id="联系方式："><a href="#联系方式：" class="headerlink" title="联系方式："></a>联系方式：</h3><p>📧Email📧:<br>国内：<a href="mailto:wwl1991@yeah.net" target="_blank" rel="noopener">wwl1991@yeah.net</a><br>海外：<a href="mailto:wwl199110@gmail.com" target="_blank" rel="noopener">wwl199110@gmail.com</a></p>
 
             
 
@@ -356,7 +282,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/OpenGrok/">OpenGrok</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/talk-show/">talk show</a>
 
             </div>
         
@@ -366,8 +292,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/35560/" data-tooltip="gitlab psql: undefined symbol: PQconnectdbParams" aria-label="PREVIOUS: gitlab psql: undefined symbol: PQconnectdbParams">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -376,7 +301,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7037/" data-tooltip="nexus2.x迁移repository到nexus3.x" aria-label="NEXT: nexus2.x迁移repository到nexus3.x">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/" data-tooltip="Nexus3批量导入jar包" aria-label="NEXT: Nexus3批量导入jar包">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -394,7 +319,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/61445/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20481/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -402,7 +327,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/61445/" title="Share on Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20481/" title="Share on Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -410,7 +335,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/61445/" title="Share on Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20481/" title="Share on Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -462,8 +387,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/35560/" data-tooltip="gitlab psql: undefined symbol: PQconnectdbParams" aria-label="PREVIOUS: gitlab psql: undefined symbol: PQconnectdbParams">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -472,7 +396,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7037/" data-tooltip="nexus2.x迁移repository到nexus3.x" aria-label="NEXT: nexus2.x迁移repository到nexus3.x">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/" data-tooltip="Nexus3批量导入jar包" aria-label="NEXT: Nexus3批量导入jar包">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -490,7 +414,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/61445/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20481/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -498,7 +422,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/61445/" title="Share on Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20481/" title="Share on Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -506,7 +430,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/61445/" title="Share on Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20481/" title="Share on Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -539,7 +463,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/61445/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20481/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -547,7 +471,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/61445/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20481/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                 </a>
             </li>
@@ -555,7 +479,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/61445/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20481/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                 </a>
             </li>
@@ -612,9 +536,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/posts/61445/';
+                 this.page.url = 'https://0to.github.io/posts/20481/';
                  
-                    this.page.identifier = 'posts/61445/';
+                    this.page.identifier = 'posts/20481/';
                  
              };
             (function() {

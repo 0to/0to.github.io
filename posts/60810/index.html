@@ -1,6 +1,6 @@
 
-    <!DOCTYPE html>
-    <html lang="en,zh-cn,default">
+<!DOCTYPE html>
+<html lang="en,zh-cn,default">
     
 <head>
     <meta charset="UTF-8">
@@ -15,52 +15,22 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="参考链接：
-下载地址：官方网站
-软硬件需求：官方文档
-安装方法：官方文档
-
-PS：
-
-Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。
-Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。
-
-搭建环境
-OS：">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"参考链接：\n下载地址：官方网站\n软硬件需求：官方文档\n安装方法：官方文档\n\nPS：\n\nSonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。\nSonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。\n\n搭建环境\nOS：      Windows Server 2012 R2\nJDK:      1.8.0_71\nDB:       Mysql 5.6.26\nSonar:    6.3.1\n\n搭建步骤\n安装JDK\n1234C:\\Users\\Administrator&gt;java -versionjava version &quot;1.8.0_71&quot;Java(TM) SE Runtime Environment (build 1.8.0_71-b15)Java HotSpot(TM) 64-Bit Server VM (build 25.71-b15, mixed mode)\n\n安装Mysql\n12C:\\Users\\Administrator&gt;mysql -Vmysql  Ver 14.14 Distrib 5.6.26, for Win64 (x86_64)\n\n创建数据库和用户\n12345678# 创建sonar数据库CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;# 创建sonar用户CREATE USER &apos;sonar&apos; IDENTIFIED BY &apos;passwd&apos;;# 赋予sonar用户对sonar数据库权限GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;%&apos; IDENTIFIED BY &apos;passwd&apos;;GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;passwd&apos;;FLUSH PRIVILEGES;\n\n安装Sonarqube\n\n解压缩sonarqube-6.3.1.zip到D:\\scm\\sonarqube-6.3.1\n修改配置D:\\scm\\sonarqube-6.3.1\\conf\\sonar.properties\n\nsonar.jdbc.username=sonar\nsonar.jdbc.password=passwd\nsonar.jdbc.url=jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance\nsonar.web.host=本机IP\nsonar.web.context=\nsonar.web.port=9000\nsonar.web.http.maxThreads=500\n\n\n配置Sonarqube windows服务\n\n以管理员身份运行D:\\scm\\sonarqube-6.3.1\\bin\\windows-x86-64\\InstallNTService.bat创建服务\n配置Administrator账户运行Sonarqube服务\n启动Sonarqube服务\n建议使用上面配置的windows service启动\n也可以直接运行D:\\scm\\sonarqube-6.3.1\\bin\\windows-x86-64\\StartSonar.bat\n\n\n\n\n\n\n网页端登陆配置Sonarqube\n\nhttp://搭建机器ip:9000\n用户名/密码：admin\n\n\n\n\nPS1：在安装的过程中遇到问题：\n\n运行InstallNTService.bat生成系统服务的时候没有使用管理员身份；\nSonarqube服务创建成功，但是启动的时候失败；\n12342017.06.20 14:34:50 ERROR web[][o.a.c.c.C.[.[.[/]] Exception sending context initialized event to listener instance of class org.sonar.server.platform.web.PlatformServletContextListenerorg.sonar.api.utils.MessageException: Current version is too old. Please upgrade to Long Term Support version firstly.2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] One or more listeners failed to start. Full details will be found in the appropriate container log file2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] Context [] startup failed due to previous errors\n\n查看发现mysql数据库sonar已经有了很多表；\n\n\n解决方法：\n\n删除sonar数据库里面的表，删除Sonarqube服务\n安装上面过程：先以管理员身份运行InstallNTService.bat，然后配置Administrator账户运行Sonarqube服务\n重新启动Sonarqube服务即可。\n\n\nPS2:如果Mysql数据库启用了binarylog的话，请设置为row格式。否则在启动Sonarqube的时候创建数据库表会报下面错误：1Error updating database.  Cause: java.sql.SQLException: Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.\n","dateCreated":"2017-06-20T16:33:00+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2017-06-20T16:33:00+08:00","description":"","headline":"持续代码质量平台Sonar-1搭建","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/60810/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/60810/","keywords":"Sonar"}</script>
+    <meta name="description" content="参考链接： 下载地址：官方网站 软硬件需求：官方文档 安装方法：官方文档  PS：  Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。 Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。  搭建环境 OS：">
+<meta name="keywords" content="Sonar">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="持续代码质量平台Sonar-1搭建">
 <meta property="og:url" content="https://0to.github.io/posts/60810/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="参考链接：
-下载地址：官方网站
-软硬件需求：官方文档
-安装方法：官方文档
-
-PS：
-
-Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。
-Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。
-
-搭建环境
-OS：">
-<meta property="og:image" content="https://0to.github.io/posts/60810/Service.jpeg">
-<meta property="og:image" content="https://0to.github.io/posts/60810/AdminService.jpeg">
-<meta property="og:updated_time" content="2017-07-12T08:26:55.000Z">
+<meta property="og:description" content="参考链接： 下载地址：官方网站 软硬件需求：官方文档 安装方法：官方文档  PS：  Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。 Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。  搭建环境 OS：">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://0to.github.io/持续代码质量平台Sonar-2搭建/Service.jpeg">
+<meta property="og:image" content="https://0to.github.io/持续代码质量平台Sonar-2搭建/AdminService.jpeg">
+<meta property="og:updated_time" content="2018-05-04T07:38:27.337Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="持续代码质量平台Sonar-1搭建">
-<meta name="twitter:description" content="参考链接：
-下载地址：官方网站
-软硬件需求：官方文档
-安装方法：官方文档
-
-PS：
-
-Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。
-Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。
-
-搭建环境
-OS：">
-<meta name="twitter:image" content="https://0to.github.io/posts/60810/Service.jpeg">
+<meta name="twitter:description" content="参考链接： 下载地址：官方网站 软硬件需求：官方文档 安装方法：官方文档  PS：  Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。 Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。  搭建环境 OS：">
+<meta name="twitter:image" content="https://0to.github.io/持续代码质量平台Sonar-2搭建/Service.jpeg">
     
     
         
@@ -72,19 +42,19 @@ OS：">
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-yrst5vo1nxaxbp2g3v9na2wg1lixlpr3ghbjdvskeixmu79deycecx3rh4bt.min.css">
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-85893233-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-85893233-1', 'auto');
+        ga('send', 'pageview');
     </script>
+
 
     
     <script type="text/javascript">
@@ -99,10 +69,9 @@ OS：">
 
 </head>
 
-
-        <body>
-            <div id="blog">
-                <!-- Define author's picture -->
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
 
     
@@ -128,7 +97,7 @@ OS：">
     
 </header>
 
-                    <!-- Define author's picture -->
+            <!-- Define author's picture -->
 
 
 
@@ -156,9 +125,10 @@ OS：">
                         <a  class="sidebar-button-link "
                              href="/ "
                             
+                            title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -168,9 +138,10 @@ OS：">
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
+                            title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -180,9 +151,10 @@ OS：">
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
+                            title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -192,9 +164,10 @@ OS：">
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
+                            title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
             </li>
@@ -204,9 +177,10 @@ OS：">
                         <a  class="sidebar-button-link "
                              href="#about"
                             
+                            title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -217,18 +191,18 @@ OS：">
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank">
+                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank">
+                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
@@ -242,9 +216,10 @@ OS：">
                         <a  class="sidebar-button-link "
                              href="/atom.xml"
                             
+                            title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -254,22 +229,24 @@ OS：">
     </div>
 </nav>
 
-                        
-                            <div id="main" data-behavior="5" class="
+            
+            <div id="main" data-behavior="5"
+                 class="
                         hasCoverMetaIn
                         ">
-                                
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+                
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             持续代码质量平台Sonar-1搭建
         </h1>
     
-    <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-06-20T16:33:00+08:00">
+    
+        <div class="post-meta">
+    <time datetime="2017-06-20T16:33:00+08:00">
 	
 		    Jun 20, 2017
     	
@@ -283,14 +260,16 @@ OS：">
     
 </div>
 
-</div>
     
-    <div class="post-content markdown" itemprop="articleBody">
+</div>
+
+    
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li>下载地址：<a href="https://www.sonarqube.org/downloads/" target="_blank" rel="external">官方网站</a></li>
-<li>软硬件需求：<a href="https://docs.sonarqube.org/display/SONAR/Requirements#Requirements-Requirements-SupportedPlatforms" target="_blank" rel="external">官方文档</a></li>
-<li>安装方法：<a href="https://docs.sonarqube.org/display/SONAR/Installing+the+Server" target="_blank" rel="external">官方文档</a></li>
+<li>下载地址：<a href="https://www.sonarqube.org/downloads/" target="_blank" rel="noopener">官方网站</a></li>
+<li>软硬件需求：<a href="https://docs.sonarqube.org/display/SONAR/Requirements#Requirements-Requirements-SupportedPlatforms" target="_blank" rel="noopener">官方文档</a></li>
+<li>安装方法：<a href="https://docs.sonarqube.org/display/SONAR/Installing+the+Server" target="_blank" rel="noopener">官方文档</a></li>
 </ul>
 <p>PS：</p>
 <ul>
@@ -305,13 +284,13 @@ OS：">
 </ul>
 <h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><ol>
 <li><p>安装JDK</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">C:\Users\Administrator&gt;java -version</div><div class="line">java version &quot;1.8.0_71&quot;</div><div class="line">Java(TM) SE Runtime Environment (build 1.8.0_71-b15)</div><div class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.71-b15, mixed mode)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;java -version</span><br><span class="line">java version &quot;1.8.0_71&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_71-b15)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.71-b15, mixed mode)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装Mysql</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">C:\Users\Administrator&gt;mysql -V</div><div class="line">mysql  Ver 14.14 Distrib 5.6.26, for Win64 (x86_64)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;mysql -V</span><br><span class="line">mysql  Ver 14.14 Distrib 5.6.26, for Win64 (x86_64)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>创建数据库和用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 创建sonar数据库</div><div class="line">CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;</div><div class="line"># 创建sonar用户</div><div class="line">CREATE USER &apos;sonar&apos; IDENTIFIED BY &apos;passwd&apos;;</div><div class="line"># 赋予sonar用户对sonar数据库权限</div><div class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;%&apos; IDENTIFIED BY &apos;passwd&apos;;</div><div class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;passwd&apos;;</div><div class="line">FLUSH PRIVILEGES;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 创建sonar数据库</span><br><span class="line">CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"># 创建sonar用户</span><br><span class="line">CREATE USER &apos;sonar&apos; IDENTIFIED BY &apos;passwd&apos;;</span><br><span class="line"># 赋予sonar用户对sonar数据库权限</span><br><span class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;%&apos; IDENTIFIED BY &apos;passwd&apos;;</span><br><span class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;passwd&apos;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装Sonarqube</p>
 <ul>
@@ -329,8 +308,8 @@ OS：">
 </li>
 <li><p>配置Sonarqube windows服务</p>
 <ol>
-<li>以管理员身份运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\InstallNTService.bat创建服务<br><img src="/posts/60810/Service.jpeg" alt="logo"></li>
-<li>配置Administrator账户运行Sonarqube服务<br><img src="/posts/60810/AdminService.jpeg" alt="logo"></li>
+<li>以管理员身份运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\InstallNTService.bat创建服务<br><img src="/持续代码质量平台Sonar-2搭建/Service.jpeg" alt="logo"></li>
+<li>配置Administrator账户运行Sonarqube服务<br><img src="/持续代码质量平台Sonar-2搭建/AdminService.jpeg" alt="logo"></li>
 <li>启动Sonarqube服务<ul>
 <li>建议使用上面配置的windows service启动</li>
 <li>也可以直接运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\StartSonar.bat</li>
@@ -342,7 +321,7 @@ OS：">
 </li>
 <li><p>网页端登陆配置Sonarqube</p>
 <ul>
-<li><a href="http://搭建机器ip:9000" target="_blank" rel="external">http://搭建机器ip:9000</a></li>
+<li>http://搭建机器ip:9000</li>
 <li>用户名/密码：admin</li>
 </ul>
 </li>
@@ -352,7 +331,7 @@ OS：">
 <ul>
 <li>运行InstallNTService.bat生成系统服务的时候没有使用管理员身份；</li>
 <li><p>Sonarqube服务创建成功，但是启动的时候失败；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.C.[.[.[/]] Exception sending context initialized event to listener instance of class org.sonar.server.platform.web.PlatformServletContextListener</div><div class="line">org.sonar.api.utils.MessageException: Current version is too old. Please upgrade to Long Term Support version firstly.</div><div class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] One or more listeners failed to start. Full details will be found in the appropriate container log file</div><div class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] Context [] startup failed due to previous errors</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.C.[.[.[/]] Exception sending context initialized event to listener instance of class org.sonar.server.platform.web.PlatformServletContextListener</span><br><span class="line">org.sonar.api.utils.MessageException: Current version is too old. Please upgrade to Long Term Support version firstly.</span><br><span class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] One or more listeners failed to start. Full details will be found in the appropriate container log file</span><br><span class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] Context [] startup failed due to previous errors</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看发现mysql数据库sonar已经有了很多表；</p>
 </li>
@@ -364,9 +343,10 @@ OS：">
 <li>重新启动Sonarqube服务即可。</li>
 </ol>
 <hr>
-<h3 id="PS2"><a href="#PS2" class="headerlink" title="PS2:"></a>PS2:</h3><p>如果Mysql数据库启用了binarylog的话，请设置为row格式。否则在启动Sonarqube的时候创建数据库表会报下面错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Error updating database.  Cause: java.sql.SQLException: Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.</div></pre></td></tr></table></figure></p>
+<h3 id="PS2"><a href="#PS2" class="headerlink" title="PS2:"></a>PS2:</h3><p>如果Mysql数据库启用了binarylog的话，请设置为row格式。否则在启动Sonarqube的时候创建数据库表会报下面错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error updating database.  Cause: java.sql.SQLException: Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.</span><br></pre></td></tr></table></figure></p>
 
             
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -378,66 +358,82 @@ OS：">
 
             </div>
         
-        <div class="post-actions-wrap">
+        
+            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/32302/"  data-tooltip="持续代码质量平台Sonar-2配置">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/32302/" data-tooltip="持续代码质量平台Sonar-2配置" aria-label="PREVIOUS: 持续代码质量平台Sonar-2配置">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/33032/" data-tooltip="Java static code analysis">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/33032/" data-tooltip="Java static code analysis" aria-label="NEXT: Java static code analysis">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </div>
 
 
+        
         
             
                 <div id="disqus_thread">
@@ -450,7 +446,7 @@ OS：">
 
 
 
-                                    <footer id="footer" class="main-content-wrap">
+                <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
         Copyrights &copy; 2018 Weilong. All Rights Reserved.
     </span>
@@ -464,55 +460,69 @@ OS：">
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/32302/"  data-tooltip="持续代码质量平台Sonar-2配置">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/32302/" data-tooltip="持续代码质量平台Sonar-2配置" aria-label="PREVIOUS: 持续代码质量平台Sonar-2配置">
                 
-                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                 </a>
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/33032/" data-tooltip="Java static code analysis">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/33032/" data-tooltip="Java static code analysis" aria-label="NEXT: Java static code analysis">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/">
-                <i class="fa fa-twitter"></i>
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#ds-thread">
-                    <i class="fa fa-comment-o"></i>
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
         
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/" title="Share on Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/" title="Share on Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
@@ -521,29 +531,39 @@ OS：">
 
                 </div>
                 <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
     <ul class="share-options">
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/">
-                <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/">
-                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/">
-                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-            </a>
-        </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60810/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60810/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60810/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
     </ul>
 </div>
-<div id="share-options-mask" class="share-options-mask"></div>
 
-                    
-                        </div>
-                        
+            
+        </div>
+        
 
 
     
@@ -580,231 +600,11 @@ OS：">
     </div>
 </div>
 
-                            <div id="algolia-search-modal" class="modal-container">
-    <div class="modal">
-        <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
-            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
-                <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-            </a>
-            <i class="search-icon fa fa-search"></i>
-            <form id="algolia-search-form">
-                <input type="text" id="algolia-search-input" name="search"
-                    class="form-control input--large search-input" placeholder="Search "
-                    autofocus="autofocus"/>
-            </form>
-        </div>
-        <div class="modal-body">
-            <div class="no-result text-color-light text-center">no post found</div>
-            <div class="results">
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/51385/">
-                            <h3 class="media-heading">Jenkins常用插件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jan 24, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32389/">
-                            <h3 class="media-heading">使用Jenkins_Gerrit搭建持续集成</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60120/">
-                            <h3 class="media-heading">Git tips one</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Mar 31, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/2248/">
-                            <h3 class="media-heading">Gerrit code review</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 6, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/52695/">
-                            <h3 class="media-heading">分支策略</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Apr 25, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/33032/">
-                            <h3 class="media-heading">Java static code analysis</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/60810/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-1搭建</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jun 20, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/32302/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-2配置</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/19471/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-3使用</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 12, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a class="link-unstyled" href="https://0to.github.io/posts/7875/">
-                            <h3 class="media-heading">持续代码质量平台Sonar-4Android</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Jul 18, 2017
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-            </div>
-        </div>
-        <div class="modal-footer">
-            <p class="results-count text-medium"
-                data-message-zero="no post found"
-                data-message-one="1 post found"
-                data-message-other="{n} posts found">
-                17 posts found
-            </p>
-        </div>
-    </div>
-</div>
-                                
+        
+        
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-                                    <!--SCRIPTS-->
-<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -828,6 +628,5 @@ OS：">
 
 
 
-        </body>
-
-    </html>
+    </body>
+</html>
