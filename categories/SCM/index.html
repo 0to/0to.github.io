@@ -239,6 +239,105 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/posts/17688/">
+                            maven Tips - force update
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-05-14T16:14:11+08:00">
+	
+		    May 14, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
+<li><a href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html" target="_blank" rel="noopener">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
+</ul>
+<ul>
+<li><p>settings.xml配置：</p>
+<pre><code>&lt;!-- localRepository
+    | The path to the local repository maven will use to store artifacts.
+    |
+    | Default: ${user.home}/.m2/repository
+--&gt;
+&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</code></pre></li>
+<li><p>使用场景：</p>
+<ul>
+<li>maven执行编译打包时先进行依赖的下载：</li>
+<li>如果项目依赖localRepository中已经存在，那么继续进行编译打包；</li>
+<li>如果项目依赖localRepository中不存在，那么先下载依赖到localRepository，然后进行编译打包；</li>
+</ul>
+</li>
+</ul>
+<h3 id="强制更新SNAPSHOT版本依赖："><a href="#强制更新SNAPSHOT版本依赖：" class="headerlink" title="强制更新SNAPSHOT版本依赖："></a>强制更新SNAPSHOT版本依赖：</h3><ul>
+<li><a href="https://maven.apache.org/settings.html#Repositories" target="_blank" rel="noopener">snapshots updatePolicy</a><ul>
+<li>updatePolicy: This element specifies how often updates should attempt to occur. Maven will compare the local POM’s timestamp (stored in a repository’s maven-metadata file) to the remote. The choices are: always, daily (default), interval:X (where X is an integer in minutes) or never.</li>
+</ul>
+</li>
+<li>👇场景下需要强制更新：<ul>
+<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn clean package -U
+
+-U,--update-snapshots                  
+        Forces a check for missing releases and updated snapshots on remote repositories
+</code></pre><h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
+<li><p>👇场景建议使用强制更新：</p>
+<ul>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+<li><p>方法：</p>
+<ul>
+<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
+<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn dependency:purge-local-repository
+
+    tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
+</code></pre>
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/posts/17688/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/posts/27558/">
                             Nexus3批量导入jar包
                         </a>
@@ -1084,90 +1183,6 @@ git push origin --tags
                     
                         <p>
                             <a href="/posts/19471/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/posts/32302/">
-                            持续代码质量平台Sonar-2配置
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-07-12T18:56:57+08:00">
-	
-		    Jul 12, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h2 id="关联LDAP："><a href="#关联LDAP：" class="headerlink" title="关联LDAP："></a>关联LDAP：</h2><p>登录Sonarqube服务器，修改安装目录下的conf\sonar.properties文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># LDAP configuration</span><br><span class="line"># General Configuration</span><br><span class="line">sonar.security.realm=LDAP</span><br><span class="line">ldap.url=ldap://ip:389</span><br><span class="line">ldap.bindDn=cn=Manager,dc=xxx,dc=xxx,dc=xxx</span><br><span class="line">ldap.bindPassword=xxx</span><br><span class="line"></span><br><span class="line"># User Configuration</span><br><span class="line">ldap.user.baseDn=ou=People,dc=xxx,dc=xxx,dc=xxx</span><br><span class="line">ldap.user.request=(&amp;(objectClass=inetOrgPerson)(uid=&#123;0&#125;))</span><br><span class="line">ldap.user.realNameAttribute=cn</span><br><span class="line">ldap.user.emailAttribute=mail</span><br></pre></td></tr></table></figure></p>
-<p>然后重启Sonarqube服务，即可使用LDAP账户进行登录。</p>
-<hr>
-<p>下面配置涉及下图：<br><img src="/posts/32302/sonaradmin.png" alt="logo"></p>
-<h2 id="插件："><a href="#插件：" class="headerlink" title="插件："></a>插件：</h2><ul>
-<li>参考链接：<a href="https://docs.sonarqube.org/display/PLUG/Plugin+Library" target="_blank" rel="noopener">官方文档</a></li>
-<li>插件安装、更新有两种方法：<ol>
-<li>手动下载后，上传到Sonarqube服务器安装目录下的\extensions\plugins，然后重启Sonarqube服务。</li>
-<li>管理员账户登录Sonarqube，点击Administration - System - Update Center，进行安装or更新插件。（推荐！）</li>
-</ol>
-</li>
-</ul>
-<h2 id="配置邮件发送："><a href="#配置邮件发送：" class="headerlink" title="配置邮件发送："></a>配置邮件发送：</h2><ol>
-<li>使用管理员账户登录Sonarqube,</li>
-<li>点击：Administration - General Settings</li>
-<li>找到Email配置区域，涉及以下几个SMTP配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 下面以QQ邮箱为例</span><br><span class="line">SMTP port               465</span><br><span class="line">SMTP host               smtp.exmail.qq.com</span><br><span class="line">From address            xxx@qq.com</span><br><span class="line">Email prefix            [SONARQUBE]</span><br><span class="line">Secure connection       ssl</span><br><span class="line">SMTP password           对应上面账户的密码</span><br><span class="line">SMTP username           xxx@qq.com</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<h2 id="权限相关："><a href="#权限相关：" class="headerlink" title="权限相关："></a>权限相关：</h2><p>因为Sonarqube是为了发现代码问题，所以会在结果中展示源代码。为了代码安全，需要对权限进行配置。</p>
-<h3 id="Force-user-authentication"><a href="#Force-user-authentication" class="headerlink" title="Force user authentication"></a>Force user authentication</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">使用管理员账户登录Sonarqube,点击Administration - General Settings - security</span><br><span class="line">    Force user authentication   ☑️              强制必须登录后才能使用</span><br><span class="line">    Default user group          sonar-users     默认新用户所在组</span><br></pre></td></tr></table></figure>
-<h3 id="Users"><a href="#Users" class="headerlink" title="Users"></a>Users</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用管理员账户登录Sonarqube,点击Administration - Security - Users</span><br><span class="line">    此页面可以创建、修改、删除用户。</span><br><span class="line">    此页面还可以调整用户所在组信息。</span><br><span class="line">    如果是关联了LDAP，那么用户只有先使用LDAP账户登录后，才能在此查看到。</span><br></pre></td></tr></table></figure>
-<h3 id="Groups"><a href="#Groups" class="headerlink" title="Groups"></a>Groups</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用管理员账户登录Sonarqube,点击Administration - Security - Groups</span><br><span class="line">    此页面可以创建、删除组。</span><br><span class="line">    此页面还可以调整组用户。</span><br><span class="line">    默认存在下面2个组：</span><br><span class="line">        sonar-administrators</span><br><span class="line">        sonar-users</span><br></pre></td></tr></table></figure>
-<h3 id="Global-Permissions"><a href="#Global-Permissions" class="headerlink" title="Global Permissions"></a>Global Permissions</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">使用管理员账户登录Sonarqube,点击Administration - Security - Global Permissions</span><br><span class="line">    此页面配置组用户的全局权限：</span><br><span class="line">        Administer System               系统管理员                           sonar-administrators</span><br><span class="line">        Administer Quality Profiles     可以配置Quality Profiles             sonar-administrators</span><br><span class="line">        Administer Quality Gates        可以配置Quality Gates                sonar-administrators</span><br><span class="line">        Execute Analysis                可以执行代码库分析                     sonar-users 或者 创建的组</span><br><span class="line">        Create Projects                 可以上传新代码库分析                   sonar-users 或者 创建的组</span><br></pre></td></tr></table></figure>
-<h3 id="Permission-Templates"><a href="#Permission-Templates" class="headerlink" title="Permission Templates"></a>Permission Templates</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">使用管理员账户登录Sonarqube,点击Administration - Security - Permission Templates</span><br><span class="line">    此页面配置项目模版权限。</span><br><span class="line">    此页面还可以设置默认模版（新项目自动设置为默认模版权限）。</span><br><span class="line">        Browse                         查看项目状态</span><br><span class="line">        See Source Code                查看项目源代码</span><br><span class="line">        Administer Issues              对此项目的问题进行判断、评论、更改状态</span><br><span class="line">        Administer                     项目管理员</span><br><span class="line">        Execute Analysis               执行代码库分析</span><br></pre></td></tr></table></figure>
-<h3 id="Project-PermissionsGrant"><a href="#Project-PermissionsGrant" class="headerlink" title="Project PermissionsGrant"></a>Project PermissionsGrant</h3><p>配置项目权限，有下面两种方法：</p>
-<ol>
-<li><p>只需要项目管理员权限即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">点击项目界面 - Administration - Permissions</span><br><span class="line">    可以增加、删除、更新组or个人对此项目权限</span><br><span class="line">    可以使用权限模版对此项目进行赋权</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>需要系统管理员权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">使用管理员账户登录Sonarqube,点击Administration - Projects - Management</span><br><span class="line">    此界面展示所有项目，找到需要修改项目后。</span><br><span class="line">    点击最右边的Actions，进行权限修改or使用权限模版进行权限更新。</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<h2 id="规则配置："><a href="#规则配置：" class="headerlink" title="规则配置："></a>规则配置：</h2><p>配置扫描使用的规则<br><img src="/posts/32302/sonarrules.png" alt="logo"></p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/posts/32302/#post-footer" class="postShorten-excerpt_link link">
                                 Comment and share
                             </a>
                         </p>

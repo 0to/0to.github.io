@@ -239,6 +239,105 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/posts/17688/">
+                            maven Tips - force update
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-05-14T16:14:11+08:00">
+	
+		    May 14, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
+<li><a href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html" target="_blank" rel="noopener">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
+</ul>
+<ul>
+<li><p>settings.xml配置：</p>
+<pre><code>&lt;!-- localRepository
+    | The path to the local repository maven will use to store artifacts.
+    |
+    | Default: ${user.home}/.m2/repository
+--&gt;
+&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</code></pre></li>
+<li><p>使用场景：</p>
+<ul>
+<li>maven执行编译打包时先进行依赖的下载：</li>
+<li>如果项目依赖localRepository中已经存在，那么继续进行编译打包；</li>
+<li>如果项目依赖localRepository中不存在，那么先下载依赖到localRepository，然后进行编译打包；</li>
+</ul>
+</li>
+</ul>
+<h3 id="强制更新SNAPSHOT版本依赖："><a href="#强制更新SNAPSHOT版本依赖：" class="headerlink" title="强制更新SNAPSHOT版本依赖："></a>强制更新SNAPSHOT版本依赖：</h3><ul>
+<li><a href="https://maven.apache.org/settings.html#Repositories" target="_blank" rel="noopener">snapshots updatePolicy</a><ul>
+<li>updatePolicy: This element specifies how often updates should attempt to occur. Maven will compare the local POM’s timestamp (stored in a repository’s maven-metadata file) to the remote. The choices are: always, daily (default), interval:X (where X is an integer in minutes) or never.</li>
+</ul>
+</li>
+<li>👇场景下需要强制更新：<ul>
+<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn clean package -U
+
+-U,--update-snapshots                  
+        Forces a check for missing releases and updated snapshots on remote repositories
+</code></pre><h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
+<li><p>👇场景建议使用强制更新：</p>
+<ul>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+<li><p>方法：</p>
+<ul>
+<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
+<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn dependency:purge-local-repository
+
+    tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
+</code></pre>
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/posts/17688/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/posts/20481/">
                             【置顶】交流和反馈
                         </a>

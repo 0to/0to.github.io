@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>【置顶】交流和反馈 - Just Do IT</title>
+    <title>maven Tips - force update - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"交流和反馈：- 文章的错误、疑问\n- 讨论遇到的问题\n- 进行技术交流\n方向：- 配置管理\n- 持续交付\n- 过程改进\n- 工程效率\n评论：- 本站接入了Disqus，欢迎诸君comment。\n- 因为GFW的原因，不翻墙的话没法使用。\n联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com\n","dateCreated":"2018-05-04T17:12:24+08:00","dateModified":"2018-05-04T18:25:59+08:00","datePublished":"2018-05-04T17:12:24+08:00","description":"","headline":"【置顶】交流和反馈","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/20481/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/20481/","keywords":"talk show"}</script>
-    <meta name="description" content="交流和反馈：- 文章的错误、疑问 - 讨论遇到的问题 - 进行技术交流 方向：- 配置管理 - 持续交付 - 过程改进 - 工程效率 评论：- 本站接入了Disqus，欢迎诸君comment。 - 因为GFW的原因，不翻墙的话没法使用。 联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com">
-<meta name="keywords" content="talk show">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"localRepository机制：\nintroduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.\n\n\nsettings.xml配置：\n&lt;!-- localRepository\n    | The path to the local repository maven will use to store artifacts.\n    |\n    | Default: ${user.home}/.m2/repository\n--&gt;\n&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;\n\n使用场景：\n\nmaven执行编译打包时先进行依赖的下载：\n如果项目依赖localRepository中已经存在，那么继续进行编译打包；\n如果项目依赖localRepository中不存在，那么先下载依赖到localRepository，然后进行编译打包；\n\n\n\n强制更新SNAPSHOT版本依赖：\nsnapshots updatePolicy\nupdatePolicy: This element specifies how often updates should attempt to occur. Maven will compare the local POM’s timestamp (stored in a repository’s maven-metadata file) to the remote. The choices are: always, daily (default), interval:X (where X is an integer in minutes) or never.\n\n\n👇场景下需要强制更新：\n默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。\n如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。\n\n\n\nmvn clean package -U\n\n-U,--update-snapshots                  \n        Forces a check for missing releases and updated snapshots on remote repositories\n强制更新RELEASE和SNAPSHOT版本依赖：\n👇场景建议使用强制更新：\n\n如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。\n\n\n方法：\n\n简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。\n推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：\n\n\n\nmvn dependency:purge-local-repository\n\n    tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.\n","dateCreated":"2018-05-14T16:14:11+08:00","dateModified":"2018-05-14T17:15:28+08:00","datePublished":"2018-05-14T16:14:11+08:00","description":"","headline":"maven Tips - force update","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/17688/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/17688/","keywords":"maven"}</script>
+    <meta name="description" content="localRepository机制： introduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts t">
+<meta name="keywords" content="maven">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="【置顶】交流和反馈">
-<meta property="og:url" content="https://0to.github.io/posts/20481/index.html">
+<meta property="og:title" content="maven Tips - force update">
+<meta property="og:url" content="https://0to.github.io/posts/17688/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="交流和反馈：- 文章的错误、疑问 - 讨论遇到的问题 - 进行技术交流 方向：- 配置管理 - 持续交付 - 过程改进 - 工程效率 评论：- 本站接入了Disqus，欢迎诸君comment。 - 因为GFW的原因，不翻墙的话没法使用。 联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com">
+<meta property="og:description" content="localRepository机制： introduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts t">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-05-04T10:25:59.486Z">
+<meta property="og:updated_time" content="2018-05-14T09:15:28.700Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【置顶】交流和反馈">
-<meta name="twitter:description" content="交流和反馈：- 文章的错误、疑问 - 讨论遇到的问题 - 进行技术交流 方向：- 配置管理 - 持续交付 - 过程改进 - 工程效率 评论：- 本站接入了Disqus，欢迎诸君comment。 - 因为GFW的原因，不翻墙的话没法使用。 联系方式：📧Email📧:国内：wwl1991@yeah.net海外：wwl199110@gmail.com">
+<meta name="twitter:title" content="maven Tips - force update">
+<meta name="twitter:description" content="localRepository机制： introduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts t">
     
     
         
@@ -238,20 +238,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            【置顶】交流和反馈
+            maven Tips - force update
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-05-04T17:12:24+08:00">
+    <time datetime="2018-05-14T16:14:11+08:00">
 	
-		    May 04, 2018
+		    May 14, 2018
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/top/">top</a>
+    <a class="category-link" href="/categories/SCM/">SCM</a>
 
 
     
@@ -263,17 +263,58 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h3 id="交流和反馈："><a href="#交流和反馈：" class="headerlink" title="交流和反馈："></a>交流和反馈：</h3><pre><code>- 文章的错误、疑问
-- 讨论遇到的问题
-- 进行技术交流
-</code></pre><h3 id="方向："><a href="#方向：" class="headerlink" title="方向："></a>方向：</h3><pre><code>- 配置管理
-- 持续交付
-- 过程改进
-- 工程效率
-</code></pre><h3 id="评论："><a href="#评论：" class="headerlink" title="评论："></a>评论：</h3><pre><code>- 本站接入了Disqus，欢迎诸君comment。
-- 因为GFW的原因，不翻墙的话没法使用。
-</code></pre><h3 id="联系方式："><a href="#联系方式：" class="headerlink" title="联系方式："></a>联系方式：</h3><p>📧Email📧:<br>国内：<a href="mailto:wwl1991@yeah.net" target="_blank" rel="noopener">wwl1991@yeah.net</a><br>海外：<a href="mailto:wwl199110@gmail.com" target="_blank" rel="noopener">wwl199110@gmail.com</a></p>
+            <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
+<li><a href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html" target="_blank" rel="noopener">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
+</ul>
+<ul>
+<li><p>settings.xml配置：</p>
+<pre><code>&lt;!-- localRepository
+    | The path to the local repository maven will use to store artifacts.
+    |
+    | Default: ${user.home}/.m2/repository
+--&gt;
+&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</code></pre></li>
+<li><p>使用场景：</p>
+<ul>
+<li>maven执行编译打包时先进行依赖的下载：</li>
+<li>如果项目依赖localRepository中已经存在，那么继续进行编译打包；</li>
+<li>如果项目依赖localRepository中不存在，那么先下载依赖到localRepository，然后进行编译打包；</li>
+</ul>
+</li>
+</ul>
+<h3 id="强制更新SNAPSHOT版本依赖："><a href="#强制更新SNAPSHOT版本依赖：" class="headerlink" title="强制更新SNAPSHOT版本依赖："></a>强制更新SNAPSHOT版本依赖：</h3><ul>
+<li><a href="https://maven.apache.org/settings.html#Repositories" target="_blank" rel="noopener">snapshots updatePolicy</a><ul>
+<li>updatePolicy: This element specifies how often updates should attempt to occur. Maven will compare the local POM’s timestamp (stored in a repository’s maven-metadata file) to the remote. The choices are: always, daily (default), interval:X (where X is an integer in minutes) or never.</li>
+</ul>
+</li>
+<li>👇场景下需要强制更新：<ul>
+<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn clean package -U
 
+-U,--update-snapshots                  
+        Forces a check for missing releases and updated snapshots on remote repositories
+</code></pre><h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
+<li><p>👇场景建议使用强制更新：</p>
+<ul>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+<li><p>方法：</p>
+<ul>
+<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
+<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn dependency:purge-local-repository
+
+    tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
+</code></pre>
             
 
         </div>
@@ -283,7 +324,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/talk-show/">talk show</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/maven/">maven</a>
 
             </div>
         
@@ -293,8 +334,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/17688/" data-tooltip="maven Tips - force update" aria-label="PREVIOUS: maven Tips - force update">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -303,7 +343,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/" data-tooltip="Nexus3批量导入jar包" aria-label="NEXT: Nexus3批量导入jar包">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="NEXT: 【置顶】交流和反馈">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -321,7 +361,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20481/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/17688/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -329,7 +369,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20481/" title="Share on Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/17688/" title="Share on Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -337,7 +377,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20481/" title="Share on Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/17688/" title="Share on Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -389,8 +429,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/17688/" data-tooltip="maven Tips - force update" aria-label="PREVIOUS: maven Tips - force update">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -399,7 +438,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/27558/" data-tooltip="Nexus3批量导入jar包" aria-label="NEXT: Nexus3批量导入jar包">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="NEXT: 【置顶】交流和反馈">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -417,7 +456,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20481/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/17688/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -425,7 +464,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20481/" title="Share on Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/17688/" title="Share on Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -433,7 +472,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20481/" title="Share on Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/17688/" title="Share on Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -466,7 +505,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20481/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/17688/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -474,7 +513,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20481/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/17688/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                 </a>
             </li>
@@ -482,7 +521,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20481/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/17688/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                 </a>
             </li>
@@ -539,9 +578,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/posts/20481/';
+                 this.page.url = 'https://0to.github.io/posts/17688/';
                  
-                    this.page.identifier = 'posts/20481/';
+                    this.page.identifier = 'posts/17688/';
                  
              };
             (function() {

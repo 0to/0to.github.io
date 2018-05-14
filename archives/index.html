@@ -239,6 +239,105 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/posts/17688/">
+                            maven Tips - force update
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-05-14T16:14:11+08:00">
+	
+		    May 14, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
+<li><a href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html" target="_blank" rel="noopener">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
+</ul>
+<ul>
+<li><p>settings.xml配置：</p>
+<pre><code>&lt;!-- localRepository
+    | The path to the local repository maven will use to store artifacts.
+    |
+    | Default: ${user.home}/.m2/repository
+--&gt;
+&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</code></pre></li>
+<li><p>使用场景：</p>
+<ul>
+<li>maven执行编译打包时先进行依赖的下载：</li>
+<li>如果项目依赖localRepository中已经存在，那么继续进行编译打包；</li>
+<li>如果项目依赖localRepository中不存在，那么先下载依赖到localRepository，然后进行编译打包；</li>
+</ul>
+</li>
+</ul>
+<h3 id="强制更新SNAPSHOT版本依赖："><a href="#强制更新SNAPSHOT版本依赖：" class="headerlink" title="强制更新SNAPSHOT版本依赖："></a>强制更新SNAPSHOT版本依赖：</h3><ul>
+<li><a href="https://maven.apache.org/settings.html#Repositories" target="_blank" rel="noopener">snapshots updatePolicy</a><ul>
+<li>updatePolicy: This element specifies how often updates should attempt to occur. Maven will compare the local POM’s timestamp (stored in a repository’s maven-metadata file) to the remote. The choices are: always, daily (default), interval:X (where X is an integer in minutes) or never.</li>
+</ul>
+</li>
+<li>👇场景下需要强制更新：<ul>
+<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn clean package -U
+
+-U,--update-snapshots                  
+        Forces a check for missing releases and updated snapshots on remote repositories
+</code></pre><h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
+<li><p>👇场景建议使用强制更新：</p>
+<ul>
+<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+</ul>
+</li>
+<li><p>方法：</p>
+<ul>
+<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
+<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
+</ul>
+</li>
+</ul>
+<pre><code>mvn dependency:purge-local-repository
+
+    tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
+</code></pre>
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/posts/17688/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/posts/20481/">
                             【置顶】交流和反馈
                         </a>
@@ -1066,82 +1165,6 @@ git push origin --tags
                     
                         <p>
                             <a href="/posts/7875/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/posts/19471/">
-                            持续代码质量平台Sonar-3使用
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-07-12T20:18:00+08:00">
-	
-		    Jul 12, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h2 id="Analyzing-Source-Code"><a href="#Analyzing-Source-Code" class="headerlink" title="Analyzing Source Code"></a>Analyzing Source Code</h2><p>参考链接：<a href="https://docs.sonarqube.org/display/SCAN/Analyzing+Source+Code" target="_blank" rel="noopener">官方文档</a></p>
-<p>本文只涉及maven和sonar-scanner方式，其它请参考上面链接。</p>
-<h3 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h3><p>适合Maven项目</p>
-<ol>
-<li>在sonarqube平台上面个人账户生成token。</li>
-<li><p>在本机的mvn配置settings.xml 增加下面配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;profile&gt;</span><br><span class="line">    &lt;id&gt;sonar&lt;/id&gt;</span><br><span class="line">    &lt;activation&gt;</span><br><span class="line">        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">    &lt;/activation&gt;</span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;sonar.host.url&gt;http://ip:9000&lt;/sonar.host.url&gt;</span><br><span class="line">        &lt;sonar.login&gt;第一步生成的token值&lt;/sonar.login&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">&lt;/profile&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>代码库执行打包：mvn clean install</p>
-</li>
-<li>代码库进行分析并上传sonarqube平台：mvn sonar:sonar</li>
-</ol>
-<p>PS：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">如果代码库pom文件配置如下</span><br><span class="line">    &lt;groupId&gt;ggg&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;aaa&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.0&lt;/version&gt;</span><br><span class="line">    &lt;name&gt;nnn&lt;/name&gt;</span><br><span class="line">那么分析上传到sonarqube平台：</span><br><span class="line">    对应的项目key为ggg:aaa</span><br><span class="line">    对应的项目名称为nnn</span><br><span class="line">    对应的版本为：1.0.0</span><br><span class="line">注意</span><br><span class="line">    不要找错项目了。</span><br><span class="line">    同一个key指向的项目永远显示的是最新的一次代码分析结果。</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h3 id="Sonar-scanner"><a href="#Sonar-scanner" class="headerlink" title="Sonar-scanner"></a>Sonar-scanner</h3><p>适合所有项目</p>
-<ol>
-<li><p>下载Sonar-scanner，设置环境变量，配置&lt;install_directory&gt;/conf/sonar-scanner.properties</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Configure here general information about the environment, such as SonarQube DB details for example</span><br><span class="line">#No information about specific project should appear here</span><br><span class="line">#----- Default SonarQube server</span><br><span class="line">sonar.host.url=http://ip:9000</span><br><span class="line">#----- Default source code encoding</span><br><span class="line">sonar.sourceEncoding=UTF-8</span><br><span class="line">sonar.login=个人账户生成的token</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在项目根目录增加sonar-project.properties，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># must be unique in a given SonarQube instance</span><br><span class="line">sonar.projectKey=ggg:aaa            #对应的项目key为ggg:aaa</span><br><span class="line"># this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.</span><br><span class="line">sonar.projectName=nnn               #对应的项目名称为nnn</span><br><span class="line">sonar.projectVersion=1.0.0          #对应的版本为：1.0.0</span><br><span class="line"># Path is relative to the sonar-project.properties file. Replace &quot;\&quot; by &quot;/&quot; on Windows.</span><br><span class="line"># This property is optional if sonar.modules is set.</span><br><span class="line">sonar.sources=.</span><br><span class="line">sonar.java.binaries=target/classes    #配置为项目具体的class目录，如果不配置的话只进行源代码分析</span><br><span class="line"># Encoding of the source code. Default is default system encoding</span><br><span class="line">#sonar.sourceEncoding=UTF-8</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行扫描分析：<br> Build（可以不执行构建）<br> sonar-scanner</p>
-</li>
-</ol>
-<hr>
-<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>点击：<a href="http://ip:9000/web_api/" target="_blank" rel="noopener">http://ip:9000/web_api/</a> ，查看Sonarqube支持的web_api。</p>
-<p>以Python2.7 为例简单介绍api使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">s = requests.session()</span><br><span class="line">user_info = &#123;&apos;login&apos;: &apos;username&apos;, &apos;password&apos;: &apos;pass&apos;&#125;</span><br><span class="line">api_url = &apos;http://ip:9000/api&apos;</span><br><span class="line"># 登录</span><br><span class="line">res_login = s.post(</span><br><span class="line">    &apos;%s/authentication/login&apos; % api_url, data=user_info)</span><br><span class="line"># 获取指定项目未解决Bugs详情</span><br><span class="line">res_bugs = s.get(</span><br><span class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500&#125;)</span><br><span class="line"># 解析结果获取未解决bugs总数</span><br><span class="line">total_bugs = res_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</span><br><span class="line"># 获取指定项目新增未解决Bugs详情</span><br><span class="line">res_new_bugs = s.get(</span><br><span class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500, &apos;sinceLeakPeriod&apos;: &apos;true&apos;&#125;)</span><br><span class="line"># 解析结果获取新增bugs总数</span><br><span class="line">new_bugs = res_new_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</span><br><span class="line"># 登出</span><br><span class="line">res_logout = s.post(</span><br><span class="line">    &apos;%s/authentication/logout&apos; % api_url)</span><br></pre></td></tr></table></figure></p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/posts/19471/#post-footer" class="postShorten-excerpt_link link">
                                 Comment and share
                             </a>
                         </p>
