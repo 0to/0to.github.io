@@ -239,6 +239,93 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/posts/20597/">
+                            Nexus3搭建npm私服
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-06-25T18:46:34+08:00">
+	
+		    Jun 25, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li>官方文档：<a href="https://help.sonatype.com/repomanager3/node-packaged-modules-and-npm-registries" target="_blank" rel="noopener">node-packaged-modules-and-npm-registries</a></li>
+</ul>
+<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>随着公司前端团队的扩大，需要拆分出公司基础模块供其它项目使用，使用Nexus3搭建公司npm私服。</p>
+<h1 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h1><h3 id="1-创建npm库："><a href="#1-创建npm库：" class="headerlink" title="1. 创建npm库："></a>1. 创建npm库：</h3><p><img src="/posts/20597/npm_create1.png" alt="logo"><br><img src="/posts/20597/npm_create2.png" alt="logo"><br><img src="/posts/20597/npm_create3.png" alt="logo"><br><img src="/posts/20597/npm_create4.png" alt="logo"></p>
+<h3 id="2-权限配置："><a href="#2-权限配置：" class="headerlink" title="2. 权限配置："></a>2. 权限配置：</h3><ul>
+<li>激活 npm Bearer Token Realm<br><img src="/posts/20597/npm_realms.png" alt="logo"></li>
+<li>创建开发权限组对hosted npm私服库读写权限<br><img src="/posts/20597/group.png" alt="logo"><br><img src="/posts/20597/group2.png" alt="logo"></li>
+<li>创建dev帐户并加入到开发权限组<br><img src="/posts/20597/user.png" alt="logo"><br><img src="/posts/20597/user2.png" alt="logo"></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS: 匿名用户可以下载私服npm包，只有dev组内的帐户才能publish包到hosted私服</span><br></pre></td></tr></table></figure>
+<h1 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h1><h3 id="1-配置nexus私服"><a href="#1-配置nexus私服" class="headerlink" title="1.配置nexus私服"></a>1.配置nexus私服</h3><ul>
+<li><p>查看本机私服配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm config get registry</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置本机配置到group私服：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm config set registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_group&#125;/</span><br><span class="line">       （写入到本机.npmrc文件）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时，项目执行npm install即从nexus上面进行下载包</p>
+</li>
+</ul>
+<h3 id="2-配置publish帐户"><a href="#2-配置publish帐户" class="headerlink" title="2.配置publish帐户"></a>2.配置publish帐户</h3><p>有👇两种方式</p>
+<ul>
+<li><p>Authentication Using Realm and Login</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> $ npm login --registry=http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Username: dev （各位根据上面创建的帐户自行替换）</span><br><span class="line">Password: $&#123;dev_pass&#125; （各位根据上面创建的密码自行替换）</span><br><span class="line">Email: (this IS public) XXX@XXX.com (各位根据上面创建的邮箱自行替换)</span><br><span class="line"></span><br><span class="line">Logged in as dev on http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/.</span><br><span class="line">        （写入到本机.npmrc文件）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Authentication Using Basic Auth</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> $ echo -n &apos;dev:$&#123;dev_pass&#125;&apos; | openssl base64  （dev帐户密码base64编码）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">本机.npmrc文件里面增加👇行</span><br><span class="line"></span><br><span class="line">email=XXX@XXX.com</span><br><span class="line">always-auth=true</span><br><span class="line">_auth=$&#123;base64编码后的值&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-推送npm包到nexus"><a href="#3-推送npm包到nexus" class="headerlink" title="3.推送npm包到nexus"></a>3.推送npm包到nexus</h3><p>有👇两种方式</p>
+<ul>
+<li><p>命令行 + 发布路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>package.json配置发布路径（推荐）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">项目package.json增加👇配置：</span><br><span class="line"></span><br><span class="line">&quot;publishConfig&quot; : &#123;</span><br><span class="line">  &quot;registry&quot; : &quot;http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/&quot;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行👇命令即可</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/posts/20597/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/posts/17688/">
                             maven Tips - force update
                         </a>
@@ -1087,84 +1174,6 @@ git push origin --tags
                     
                         <p>
                             <a href="/posts/54025/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/posts/7875/">
-                            持续代码质量平台Sonar-4Android
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-07-18T18:51:03+08:00">
-	
-		    Jul 18, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li>Analyzing with SonarQube Scanner for Gradle：<a href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle" target="_blank" rel="noopener">官方文档</a></li>
-<li>Gradle sonarqube插件：<a href="https://plugins.gradle.org/plugin/org.sonarqube" target="_blank" rel="noopener">官方文档</a></li>
-<li>Sonarqube Android Lint plugin：<a href="https://github.com/ofields/sonar-android" target="_blank" rel="noopener">Github</a></li>
-</ul>
-<h1 id="系统环境："><a href="#系统环境：" class="headerlink" title="系统环境："></a>系统环境：</h1><ul>
-<li>Gradle:       2.10</li>
-<li>Sonarqube:    6.3.1</li>
-</ul>
-<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">公司使用java语言开发Android项目，使用Gradle作为构建工具。</span><br><span class="line">默认的Sonarway java规则也可以进行静态代码扫描。</span><br><span class="line">希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="Sonarqube-安装-Android-lint插件"><a href="#Sonarqube-安装-Android-lint插件" class="headerlink" title="Sonarqube 安装 Android lint插件"></a>Sonarqube 安装 Android lint插件</h3><p><img src="/posts/7875/Android_lint.png" alt="logo"><br>点击Quality Profiles查看Android Lint规则<br><img src="/posts/7875/lint.png" alt="logo"></p>
-<hr>
-<h3 id="Sonarqube-配置Android项目扫描规则"><a href="#Sonarqube-配置Android项目扫描规则" class="headerlink" title="Sonarqube 配置Android项目扫描规则"></a>Sonarqube 配置Android项目扫描规则</h3><p>我们配置一个新的Quality Profiles／java用于Android项目扫描。</p>
-<p>新规则 包含Java Sonar way的Bugs、Vulnerabilities 和 Android Lint的Code Smells<br><img src="/posts/7875/Android.png" alt="logo"><br><img src="/posts/7875/new.png" alt="logo"><br><img src="/posts/7875/change.png" alt="logo"><br><img src="/posts/7875/next1.png" alt="logo"><br><img src="/posts/7875/next2.png" alt="logo"><br><img src="/posts/7875/code_smell.png" alt="logo"><br><img src="/posts/7875/done.png" alt="logo"></p>
-<hr>
-<h3 id="本地配置使用"><a href="#本地配置使用" class="headerlink" title="本地配置使用"></a>本地配置使用</h3><ul>
-<li>配置系统gradle.properties增加下面内容 （～/.gradle/gradle.properties）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemProp.sonar.host.url=http://ip:9000</span><br><span class="line">#----- Security (when &apos;sonar.forceAuthentication&apos; is set to &apos;true&apos;)</span><br><span class="line">systemProp.sonar.login=个人token</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改项目build.gradle 相应位置增加下面配置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &quot;org.sonarqube&quot;</span><br><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">sonarqube &#123;</span><br><span class="line">    androidVariant &apos;fullDebug&apos;</span><br><span class="line">	properties &#123;</span><br><span class="line">        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;</span><br><span class="line">        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;</span><br><span class="line">        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;</span><br><span class="line">        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;</span><br><span class="line">        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;</span><br><span class="line">        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>执行gradle lintDebug    生成lint-results-debug.xml</p>
-</li>
-<li><p>执行gradle Sonarqube    构建、分析、上传</p>
-</li>
-</ul>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/posts/7875/#post-footer" class="postShorten-excerpt_link link">
                                 Comment and share
                             </a>
                         </p>

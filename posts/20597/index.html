@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>maven Tips - force update - Just Do IT</title>
+    <title>Nexus3搭建npm私服 - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,19 +15,29 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"localRepository机制：\nintroduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.\n\n\nsettings.xml配置：\n&lt;!-- localRepository\n    | The path to the local repository maven will use to store artifacts.\n    |\n    | Default: ${user.home}/.m2/repository\n--&gt;\n&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;\n\n使用场景：\n\nmaven执行编译打包时先进行依赖的下载：\n如果项目依赖localRepository中已经存在，那么继续进行编译打包；\n如果项目依赖localRepository中不存在，那么先下载依赖到localRepository，然后进行编译打包；\n\n\n\n强制更新SNAPSHOT版本依赖：\nsnapshots updatePolicy\nupdatePolicy: This element specifies how often updates should attempt to occur. Maven will compare the local POM’s timestamp (stored in a repository’s maven-metadata file) to the remote. The choices are: always, daily (default), interval:X (where X is an integer in minutes) or never.\n\n\n👇场景下需要强制更新：\n默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。\n如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。\n\n\n\nmvn clean package -U\n\n-U,--update-snapshots                  \n        Forces a check for missing releases and updated snapshots on remote repositories\n强制更新RELEASE和SNAPSHOT版本依赖：\n👇场景建议使用强制更新：\n\n如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。\n\n\n方法：\n\n简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。\n推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：\n\n\n\nmvn dependency:purge-local-repository\n\n    tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.\n","dateCreated":"2018-05-14T16:14:11+08:00","dateModified":"2018-05-14T17:15:28+08:00","datePublished":"2018-05-14T16:14:11+08:00","description":"","headline":"maven Tips - force update","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/17688/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/17688/","keywords":"maven"}</script>
-    <meta name="description" content="localRepository机制： introduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts t">
-<meta name="keywords" content="maven">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"参考链接：\n官方文档：node-packaged-modules-and-npm-registries\n\n背景：随着公司前端团队的扩大，需要拆分出公司基础模块供其它项目使用，使用Nexus3搭建公司npm私服。\n搭建步骤：1. 创建npm库：\n2. 权限配置：\n激活 npm Bearer Token Realm\n创建开发权限组对hosted npm私服库读写权限\n创建dev帐户并加入到开发权限组\n\n1PS: 匿名用户可以下载私服npm包，只有dev组内的帐户才能publish包到hosted私服\n使用：1.配置nexus私服\n查看本机私服配置：\n1$ npm config get registry\n\n设置本机配置到group私服：\n12$ npm config set registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_group&#125;/       （写入到本机.npmrc文件）\n\n此时，项目执行npm install即从nexus上面进行下载包\n\n\n2.配置publish帐户有👇两种方式\n\nAuthentication Using Realm and Login\n123456789 $ npm login --registry=http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/Username: dev （各位根据上面创建的帐户自行替换）Password: $&#123;dev_pass&#125; （各位根据上面创建的密码自行替换）Email: (this IS public) XXX@XXX.com (各位根据上面创建的邮箱自行替换)Logged in as dev on http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/.        （写入到本机.npmrc文件）\n\nAuthentication Using Basic Auth\n12345678 $ echo -n &apos;dev:$&#123;dev_pass&#125;&apos; | openssl base64  （dev帐户密码base64编码）本机.npmrc文件里面增加👇行email=XXX@XXX.comalways-auth=true_auth=$&#123;base64编码后的值&#125;\n\n\n3.推送npm包到nexus有👇两种方式\n\n命令行 + 发布路径\n1$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;\n\npackage.json配置发布路径（推荐）\n123456789项目package.json增加👇配置：&quot;publishConfig&quot; : &#123;  &quot;registry&quot; : &quot;http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/&quot;&#125;,执行👇命令即可$ npm publish\n\n\n","dateCreated":"2018-06-25T18:46:34+08:00","dateModified":"2018-06-25T20:02:42+08:00","datePublished":"2018-06-25T18:46:34+08:00","description":"","headline":"Nexus3搭建npm私服","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/20597/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/20597/","keywords":"nexus"}</script>
+    <meta name="description" content="参考链接： 官方文档：node-packaged-modules-and-npm-registries  背景：随着公司前端团队的扩大，需要拆分出公司基础模块供其它项目使用，使用Nexus3搭建公司npm私服。 搭建步骤：1. 创建npm库： 2. 权限配置： 激活 npm Bearer Token Realm 创建开发权限组对hosted npm私服库读写权限 创建dev帐户并加入到开发权限组">
+<meta name="keywords" content="nexus">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="maven Tips - force update">
-<meta property="og:url" content="https://0to.github.io/posts/17688/index.html">
+<meta property="og:title" content="Nexus3搭建npm私服">
+<meta property="og:url" content="https://0to.github.io/posts/20597/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="localRepository机制： introduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts t">
+<meta property="og:description" content="参考链接： 官方文档：node-packaged-modules-and-npm-registries  背景：随着公司前端团队的扩大，需要拆分出公司基础模块供其它项目使用，使用Nexus3搭建公司npm私服。 搭建步骤：1. 创建npm库： 2. 权限配置： 激活 npm Bearer Token Realm 创建开发权限组对hosted npm私服库读写权限 创建dev帐户并加入到开发权限组">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-05-14T09:15:28.700Z">
+<meta property="og:image" content="https://0to.github.io/posts/20597/npm_create1.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/npm_create2.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/npm_create3.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/npm_create4.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/npm_realms.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/group.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/group2.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/user.png">
+<meta property="og:image" content="https://0to.github.io/posts/20597/user2.png">
+<meta property="og:updated_time" content="2018-06-25T12:02:42.823Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="maven Tips - force update">
-<meta name="twitter:description" content="localRepository机制： introduction-to-repositoriesThe local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts t">
+<meta name="twitter:title" content="Nexus3搭建npm私服">
+<meta name="twitter:description" content="参考链接： 官方文档：node-packaged-modules-and-npm-registries  背景：随着公司前端团队的扩大，需要拆分出公司基础模块供其它项目使用，使用Nexus3搭建公司npm私服。 搭建步骤：1. 创建npm库： 2. 权限配置： 激活 npm Bearer Token Realm 创建开发权限组对hosted npm私服库读写权限 创建dev帐户并加入到开发权限组">
+<meta name="twitter:image" content="https://0to.github.io/posts/20597/npm_create1.png">
     
     
         
@@ -238,14 +248,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            maven Tips - force update
+            Nexus3搭建npm私服
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-05-14T16:14:11+08:00">
+    <time datetime="2018-06-25T18:46:34+08:00">
 	
-		    May 14, 2018
+		    Jun 25, 2018
     	
     </time>
     
@@ -263,58 +273,46 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
-<li><a href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html" target="_blank" rel="noopener">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
+            <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li>官方文档：<a href="https://help.sonatype.com/repomanager3/node-packaged-modules-and-npm-registries" target="_blank" rel="noopener">node-packaged-modules-and-npm-registries</a></li>
 </ul>
+<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>随着公司前端团队的扩大，需要拆分出公司基础模块供其它项目使用，使用Nexus3搭建公司npm私服。</p>
+<h1 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h1><h3 id="1-创建npm库："><a href="#1-创建npm库：" class="headerlink" title="1. 创建npm库："></a>1. 创建npm库：</h3><p><img src="/posts/20597/npm_create1.png" alt="logo"><br><img src="/posts/20597/npm_create2.png" alt="logo"><br><img src="/posts/20597/npm_create3.png" alt="logo"><br><img src="/posts/20597/npm_create4.png" alt="logo"></p>
+<h3 id="2-权限配置："><a href="#2-权限配置：" class="headerlink" title="2. 权限配置："></a>2. 权限配置：</h3><ul>
+<li>激活 npm Bearer Token Realm<br><img src="/posts/20597/npm_realms.png" alt="logo"></li>
+<li>创建开发权限组对hosted npm私服库读写权限<br><img src="/posts/20597/group.png" alt="logo"><br><img src="/posts/20597/group2.png" alt="logo"></li>
+<li>创建dev帐户并加入到开发权限组<br><img src="/posts/20597/user.png" alt="logo"><br><img src="/posts/20597/user2.png" alt="logo"></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS: 匿名用户可以下载私服npm包，只有dev组内的帐户才能publish包到hosted私服</span><br></pre></td></tr></table></figure>
+<h1 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h1><h3 id="1-配置nexus私服"><a href="#1-配置nexus私服" class="headerlink" title="1.配置nexus私服"></a>1.配置nexus私服</h3><ul>
+<li><p>查看本机私服配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm config get registry</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置本机配置到group私服：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm config set registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_group&#125;/</span><br><span class="line">       （写入到本机.npmrc文件）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时，项目执行npm install即从nexus上面进行下载包</p>
+</li>
+</ul>
+<h3 id="2-配置publish帐户"><a href="#2-配置publish帐户" class="headerlink" title="2.配置publish帐户"></a>2.配置publish帐户</h3><p>有👇两种方式</p>
 <ul>
-<li><p>settings.xml配置：</p>
-<pre><code>&lt;!-- localRepository
-    | The path to the local repository maven will use to store artifacts.
-    |
-    | Default: ${user.home}/.m2/repository
---&gt;
-&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
-</code></pre></li>
-<li><p>使用场景：</p>
+<li><p>Authentication Using Realm and Login</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> $ npm login --registry=http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Username: dev （各位根据上面创建的帐户自行替换）</span><br><span class="line">Password: $&#123;dev_pass&#125; （各位根据上面创建的密码自行替换）</span><br><span class="line">Email: (this IS public) XXX@XXX.com (各位根据上面创建的邮箱自行替换)</span><br><span class="line"></span><br><span class="line">Logged in as dev on http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/.</span><br><span class="line">        （写入到本机.npmrc文件）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Authentication Using Basic Auth</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> $ echo -n &apos;dev:$&#123;dev_pass&#125;&apos; | openssl base64  （dev帐户密码base64编码）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">本机.npmrc文件里面增加👇行</span><br><span class="line"></span><br><span class="line">email=XXX@XXX.com</span><br><span class="line">always-auth=true</span><br><span class="line">_auth=$&#123;base64编码后的值&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-推送npm包到nexus"><a href="#3-推送npm包到nexus" class="headerlink" title="3.推送npm包到nexus"></a>3.推送npm包到nexus</h3><p>有👇两种方式</p>
 <ul>
-<li>maven执行编译打包时先进行依赖的下载：</li>
-<li>如果项目依赖localRepository中已经存在，那么继续进行编译打包；</li>
-<li>如果项目依赖localRepository中不存在，那么先下载依赖到localRepository，然后进行编译打包；</li>
-</ul>
+<li><p>命令行 + 发布路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>package.json配置发布路径（推荐）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">项目package.json增加👇配置：</span><br><span class="line"></span><br><span class="line">&quot;publishConfig&quot; : &#123;</span><br><span class="line">  &quot;registry&quot; : &quot;http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/&quot;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行👇命令即可</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="强制更新SNAPSHOT版本依赖："><a href="#强制更新SNAPSHOT版本依赖：" class="headerlink" title="强制更新SNAPSHOT版本依赖："></a>强制更新SNAPSHOT版本依赖：</h3><ul>
-<li><a href="https://maven.apache.org/settings.html#Repositories" target="_blank" rel="noopener">snapshots updatePolicy</a><ul>
-<li>updatePolicy: This element specifies how often updates should attempt to occur. Maven will compare the local POM’s timestamp (stored in a repository’s maven-metadata file) to the remote. The choices are: always, daily (default), interval:X (where X is an integer in minutes) or never.</li>
-</ul>
-</li>
-<li>👇场景下需要强制更新：<ul>
-<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
-<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
-</ul>
-</li>
-</ul>
-<pre><code>mvn clean package -U
 
--U,--update-snapshots                  
-        Forces a check for missing releases and updated snapshots on remote repositories
-</code></pre><h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
-<li><p>👇场景建议使用强制更新：</p>
-<ul>
-<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
-</ul>
-</li>
-<li><p>方法：</p>
-<ul>
-<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
-<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
-</ul>
-</li>
-</ul>
-<pre><code>mvn dependency:purge-local-repository
-
-    tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
-</code></pre>
             
 
         </div>
@@ -324,7 +322,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/maven/">maven</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/nexus/">nexus</a>
 
             </div>
         
@@ -334,8 +332,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20597/" data-tooltip="Nexus3搭建npm私服" aria-label="PREVIOUS: Nexus3搭建npm私服">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -344,7 +341,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="NEXT: 【置顶】交流和反馈">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/17688/" data-tooltip="maven Tips - force update" aria-label="NEXT: maven Tips - force update">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -362,7 +359,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/17688/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20597/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -370,7 +367,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/17688/" title="Share on Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20597/" title="Share on Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -378,7 +375,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/17688/" title="Share on Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20597/" title="Share on Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -430,8 +427,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20597/" data-tooltip="Nexus3搭建npm私服" aria-label="PREVIOUS: Nexus3搭建npm私服">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -440,7 +436,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="NEXT: 【置顶】交流和反馈">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/17688/" data-tooltip="maven Tips - force update" aria-label="NEXT: maven Tips - force update">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -458,7 +454,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/17688/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20597/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -466,7 +462,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/17688/" title="Share on Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20597/" title="Share on Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -474,7 +470,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/17688/" title="Share on Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20597/" title="Share on Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -507,7 +503,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/17688/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/20597/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -515,7 +511,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/17688/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/20597/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                 </a>
             </li>
@@ -523,7 +519,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/17688/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/20597/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                 </a>
             </li>
@@ -580,9 +576,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/posts/17688/';
+                 this.page.url = 'https://0to.github.io/posts/20597/';
                  
-                    this.page.identifier = 'posts/17688/';
+                    this.page.identifier = 'posts/20597/';
                  
              };
             (function() {
