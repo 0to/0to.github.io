@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2018-06-25T12:02:42.823Z</updated>
+  <updated>2018-07-18T10:50:49.723Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Git 历史删除文件</title>
+    <link href="https://0to.github.io/posts/1056/"/>
+    <id>https://0to.github.io/posts/1056/</id>
+    <published>2018-07-18T07:23:19.000Z</published>
+    <updated>2018-07-18T10:50:49.723Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul><li>Github: <a href="https://help.github.com/articles/removing-files-from-a-repository-s-history/" target="_blank" rel="noopener">Removing files from a repository’s history</a></li><li>Github: <a href="https://help.github.com/articles/removing-sensitive-data-from-a-repository/" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li><li>Git-scm: <a href="https://git-scm.com/docs/git-filter-branch" target="_blank" rel="noopener">git-filter-branch</a></li><li>bfg-repo-cleaner: <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">bfg-repo-cleaner</a></li></ul><hr><h1 id="场景1"><a href="#场景1" class="headerlink" title="场景1:"></a>场景1:</h1><p>最新的一个提交版本里面新增了敏感、较大、无意义的文件，需要进行清理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1. 删除文件</span><br><span class="line">    $ git rm --cached $&#123;文件绝对地址&#125;</span><br><span class="line">2. 增加到上述文件到 .gitignore</span><br><span class="line">    $ vim .gitignore</span><br><span class="line">3. 修复最新提交版本</span><br><span class="line">    $ git commit --amend</span><br><span class="line">4. 推送新版本到远端仓库</span><br><span class="line">    如果刚才版本已经推送到远端仓库：</span><br><span class="line">        $ git push -f</span><br><span class="line">    如果刚才版本只是在本地仓库：</span><br><span class="line">        $ git push</span><br></pre></td></tr></table></figure></p><hr><h1 id="场景2"><a href="#场景2" class="headerlink" title="场景2:"></a>场景2:</h1><p>历史版本里面存在敏感、较大、无意义的文件，需要进行清理。</p><h3 id="使用-git-filter-branch"><a href="#使用-git-filter-branch" class="headerlink" title="使用 git filter-branch"></a>使用 git filter-branch</h3><p>git 原生提供的命令，如果没有的话，请先升级机器git版本。</p><ul><li>原理：<br>  扫描代码库所有版本<pre><code>如果某个版本里面发现了指定的文件OR目录：    如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。    如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。如果版本没有包含指定文件OR目录，那么继续遍历。</code></pre></li><li>PS：<ol><li>如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。</li><li>一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。</li><li>一般都在本地仓库根目录执行</li><li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune=now.</li></ol></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 执行命令</span><br><span class="line">    $ git filter-branch --force --index-filter &apos;git rm --cached -r --ignore-unmatch $&#123;要清理的文件OR目录的绝对地址&#125;&apos; --prune-empty --tag-name-filter cat -- --all</span><br><span class="line">2. 增加到上述文件OR目录到 .gitignore</span><br><span class="line">    $ vim .gitignore</span><br><span class="line">3. 推送新版本到远端仓库</span><br><span class="line">    $ git push -f --all</span><br><span class="line">    $ git push -f --tags</span><br><span class="line">4. 清理本地仓库残留的git objects</span><br><span class="line">    $ git reflog expire --expire=now --all</span><br><span class="line">    $ git gc --prune=now</span><br></pre></td></tr></table></figure><h3 id="使用-bfg-repo-cleaner"><a href="#使用-bfg-repo-cleaner" class="headerlink" title="使用 bfg-repo-cleaner"></a>使用 bfg-repo-cleaner</h3><p>Roberto Tyley使用Scala语言写了 bfg-repo-cleaner工具。<br>可以简单理解为一个轻量级的 git filter-branch。<br>使用比较简单，功能比较强大，只需要下载最新的jar包，然后执行👇命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 删除大于50M的文件</span><br><span class="line">$ java -jar bfg.jar --no-blob-protection --strip-blobs-bigger-than 50M</span><br><span class="line"># 删除指定文件</span><br><span class="line">$ java -jar bfg.jar --no-blob-protection --delete-files $&#123;要清理的文件的绝对地址&#125;</span><br></pre></td></tr></table></figure></p><p>PS:</p><pre><code>1. bfg-repo-cleaner 有个protect功能，默认HEAD是受保护的。    受保护的分支最新版本如果涉及需要清理文件，那么并不会成功。    --no-blob-protection  关闭protect功能    --protect-blobs-from ${分支1},${分支2} 增加受保护的分支2. 建议在本地仓库根目录执行。</code></pre><hr><h1 id="场景3"><a href="#场景3" class="headerlink" title="场景3:"></a>场景3:</h1><p>查找代码库里面较大文件方法：</p><pre><code>- 如果当前版本还存在的文件，可以直接du排序来识别；- 如果当前版本不存在，但是历史中出现过的大文件，可以按照下面步骤来查询。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 显示比较大的pack</span><br><span class="line">$ du -ah .git/objects/pack</span><br></pre></td></tr></table></figure><p><img src="/posts/1056/git1.png" alt="logo"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2. 识别object,对输出的第三列信息即文件大小进行排序</span><br><span class="line">$ git verify-pack -v .git/objects/pack/$&#123;pack-XXX.pack&#125; | sort -k 3 -n | tail -5</span><br></pre></td></tr></table></figure></p><p><img src="/posts/1056/git2.png" alt="logo"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3. 识别object对应的文件</span><br><span class="line">$ git rev-list --objects --all | grep $&#123;👆获取的object&#125;</span><br></pre></td></tr></table></figure></p><p><img src="/posts/1056/git3.png" alt="logo"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;参考链接：&quot;&gt;&lt;a href=&quot;#参考链接：&quot; class=&quot;headerlink&quot; title=&quot;参考链接：&quot;&gt;&lt;/a&gt;参考链接：&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Github: &lt;a href=&quot;https://help.github.com/articles/re
+      
+    
+    </summary>
+    
+      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
+    
+    
+      <category term="Git" scheme="https://0to.github.io/tags/Git/"/>
+    
+  </entry>
   
   <entry>
     <title>Nexus3搭建npm私服</title>
@@ -506,31 +532,6 @@
     
     
       <category term="Gerrit" scheme="https://0to.github.io/tags/Gerrit/"/>
-    
-      <category term="Jenkins" scheme="https://0to.github.io/tags/Jenkins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins常用插件</title>
-    <link href="https://0to.github.io/posts/51385/"/>
-    <id>https://0to.github.io/posts/51385/</id>
-    <published>2017-01-24T10:18:19.000Z</published>
-    <updated>2018-05-04T07:38:27.354Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jenkins 1.567</span><br></pre></td></tr></table></figure><ul><li><p>build-user-vars-plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin</a><br>  用途：获取构建的执行人信息 需要在job配置中勾选Set jenkins user build variables</p></li><li><p>gerrit-trigger<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger</a><br>  用途：打通gerit和jenkins 主要用于：gerrit事件触发jenkins job，jenkins job执行结果反写回gerrit</p></li><li><p>thinBackup<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/thinBackup" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/thinBackup</a><br>  用途：备份jenkins配置和job配置</p></li><li><p>saferestart<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/SafeRestart+Plugin</a><br>  用途：提供一个按钮来安全重启jenkins 点击后，如果有job正在执行那么等job执行完毕后会重启jenkins，点击后再加进来的job会等待重启完成后执行。</p></li><li><p>jobConfigHistory<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/JobConfigHistory+Plugin</a><br>  用途：记录每次job配置变更，支持查找历史版本和回滚</p></li><li><p>rebuild<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin</a><br>  用途：增加rebuild按钮用来使用相同的参数再次执行构建 gerrit触发的job 要使用 Retrigger 而不是rebuild</p></li><li><p>jenkins-multijob-plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin</a><br>  用途：多个job组成工作流 优点：比其它组job流的插件多了最终收集结果功能，而且界面配置简单，功能强大</p></li><li><p>multiple-scms<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Multiple+SCMs+Plugin</a><br>  用途：job支持多个git工程 并且可以配置下载代码到指定目录</p></li><li><p>Copy Artifact Plugin<br>  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin</a><br>  用途：拷贝其它job的指定产出物</p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;软件版本：&quot;&gt;&lt;a href=&quot;#软件版本：&quot; class=&quot;headerlink&quot; title=&quot;软件版本：&quot;&gt;&lt;/a&gt;软件版本：&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
-      
-    
-    </summary>
-    
-      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
-    
     
       <category term="Jenkins" scheme="https://0to.github.io/tags/Jenkins/"/>
     
