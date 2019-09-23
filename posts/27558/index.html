@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"参考链接：\nHow can I programmatically upload an artifact into Nexus 3?\nNexus Repository Import Script\n\n\n背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。\n分析：\nNexus2.x 服务器直接存储jar包\nNexus3.x 服务器存储的是二进制文件\n所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。\n\n迁移导入方法：\n官方Upgrading 具体实施可以参考上一篇blog。 这种方法有两个小问题：\n- 需要原nexus版本为2.14.x版本\n- 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3\n\nmvn deploy命令上传 如果原nexus2待迁移的jar包并不多，可以使用这种方式。\n1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar\n\n2. 上传jar 和 pom.xml (pom里面有依赖)\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar\n 需要注意：\n- 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;\n- 写脚本封装上面命令实现批量迁移\n\nhttp协议上传 直接使用http put 文件到/repository/$repo-id/$path-of-file\ncurl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom\n 我们需要上传的文件：jar和pom.xml\n 创建 mavenimport.sh 脚本如下\n123456789101112131415#!/bin/bash# Get command line paramswhile getopts &quot;:r:u:p:&quot; opt; do    case $opt in        r) REPO_URL=&quot;$OPTARG&quot;        ;;        u) USERNAME=&quot;$OPTARG&quot;        ;;        p) PASSWORD=&quot;$OPTARG&quot;        ;;        esacdonefind . -type f -not -path &apos;*/\\.*&apos; -not -path &apos;*/\\^archetype\\-catalog\\.xml*&apos; -not -path &apos;*/\\^maven\\-metadata\\-local*\\.xml&apos; -not -path &apos;*/\\^maven\\-metadata\\-deployment*\\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \\;\n 登陆到Nexus2.x服务器执行\ncd $releases_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name\n\ncd $snapshots_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name\n 需要注意：\n- 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）\n- 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。\n- 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。\n- 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。\n\n\n","dateCreated":"2018-03-28T19:19:17+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-28T19:19:17+08:00","description":"","headline":"Nexus3批量导入jar包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/27558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/27558/","keywords":"nexus"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nHow can I programmatically upload an artifact into Nexus 3?\nNexus Repository Import Script\n\n\n背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。\n分析：\nNexus2.x 服务器直接存储jar包\nNexus3.x 服务器存储的是二进制文件\n所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。\n\n迁移导入方法：\n官方Upgrading 具体实施可以参考上一篇blog。 这种方法有两个小问题：\n- 需要原nexus版本为2.14.x版本\n- 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3\n\nmvn deploy命令上传 如果原nexus2待迁移的jar包并不多，可以使用这种方式。\n1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar\n\n2. 上传jar 和 pom.xml (pom里面有依赖)\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar\n 需要注意：\n- 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;\n- 写脚本封装上面命令实现批量迁移\n\nhttp协议上传 直接使用http put 文件到/repository/$repo-id/$path-of-file\ncurl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom\n 我们需要上传的文件：jar和pom.xml\n 创建 mavenimport.sh 脚本如下\n123456789101112131415#!/bin/bash# Get command line paramswhile getopts &quot;:r:u:p:&quot; opt; do    case $opt in        r) REPO_URL=&quot;$OPTARG&quot;        ;;        u) USERNAME=&quot;$OPTARG&quot;        ;;        p) PASSWORD=&quot;$OPTARG&quot;        ;;        esacdonefind . -type f -not -path &apos;*/\\.*&apos; -not -path &apos;*/\\^archetype\\-catalog\\.xml*&apos; -not -path &apos;*/\\^maven\\-metadata\\-local*\\.xml&apos; -not -path &apos;*/\\^maven\\-metadata\\-deployment*\\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \\;\n 登陆到Nexus2.x服务器执行\ncd $releases_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name\n\ncd $snapshots_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name\n 需要注意：\n- 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）\n- 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。\n- 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。\n- 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。\n\n\n","dateCreated":"2018-03-28T19:19:17+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-28T19:19:17+08:00","description":"","headline":"Nexus3批量导入jar包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/27558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/27558/","keywords":"nexus"}</script>
     <meta name="description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
 <meta name="keywords" content="nexus">
 <meta property="og:type" content="blog">
@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-05-04T07:38:27.440Z">
+<meta property="og:updated_time" content="2018-05-04T07:38:27.441Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nexus3批量导入jar包">
 <meta name="twitter:description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
@@ -39,17 +39,16 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <link rel="stylesheet" href="/assets/css/style-nrkscutvrixffxjhyjuxt0u2obqanev0blu0fy2vq2dl89n91awrrpesrv11.min.css">
     <!--STYLES END-->
     
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-        ga('create', 'UA-85893233-1', 'auto');
-        ga('send', 'pageview');
+        gtag('config', 'UA-85893233-1');
     </script>
 
 
@@ -64,6 +63,10 @@
     })();
     </script>
 
+
+    
+        
+    
 </head>
 
     <body>
@@ -80,12 +83,21 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Just Do IT</a>
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Just Do IT
+        </a>
     </div>
     
         
-            <a  class="header-right-picture "
-                href="#about">
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
         
         
             <img class="header-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
@@ -105,12 +117,15 @@
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
-                <a href="/#about">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
                     <img class="sidebar-profile-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Project management</li> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </h5>
                 
             </div>
         
@@ -125,7 +140,7 @@
                             title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -138,7 +153,7 @@
                             title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -151,7 +166,7 @@
                             title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -164,8 +179,21 @@
                             title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
                     </a>
             </li>
             
@@ -177,7 +205,7 @@
                             title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -190,7 +218,7 @@
                     
                         <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -199,8 +227,17 @@
                     
                         <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
                     </a>
             </li>
             
@@ -216,7 +253,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -312,6 +349,7 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 
             
 
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -330,26 +368,40 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="PREVIOUS: 【置顶】交流和反馈">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/17688/"
+                    data-tooltip="maven Tips - force update"
+                    aria-label="PREVIOUS: maven Tips - force update"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="NEXT: svn代码库迁移到git">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/62558/"
+                    data-tooltip="svn代码库迁移到git"
+                    aria-label="NEXT: svn代码库迁移到git"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -357,32 +409,51 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/" title="Share on Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/" title="Share on Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/" title="Share on Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
@@ -426,26 +497,40 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/20481/" data-tooltip="【置顶】交流和反馈" aria-label="PREVIOUS: 【置顶】交流和反馈">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/17688/"
+                    data-tooltip="maven Tips - force update"
+                    aria-label="PREVIOUS: maven Tips - force update"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="NEXT: svn代码库迁移到git">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/62558/"
+                    data-tooltip="svn代码库迁移到git"
+                    aria-label="NEXT: svn代码库迁移到git"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -453,32 +538,51 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/" title="Share on Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/" title="Share on Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/" title="Share on Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
@@ -495,36 +599,53 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/27558/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/27558/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/27558/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -538,14 +659,14 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </div>
+            <div id="about-card-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Project management</li> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </div>
         
         
             <div id="about-card-job">
@@ -557,7 +678,7 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
                 Shenzhen
             </div>
@@ -569,27 +690,29 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<script src="/assets/js/script-sy7nm5m4fyucx5pktvz6w8ldouxj7yybwws6mmrep4wh6p0q8qcettrgxaau.min.js"></script>
 <!--SCRIPTS END-->
+
 
     
         <script>
-             var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/posts/27558/';
-                 
-                    this.page.identifier = 'posts/27558/';
-                 
-             };
-            (function() {
-                var d = document, s = d.createElement('script');
-                var disqus_shortname = 'Weilong';
-                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          var disqus_config = function() {
+            this.page.url = 'https://0to.github.io/posts/27558/';
+              
+            this.page.identifier = 'posts/27558/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'Weilong';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
         </script>
     
+
 
 
 

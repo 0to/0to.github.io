@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"背景公司拆分子公司，需要把现有Gitlab也分离出来。\n搭建环境：\ncentos6.5\ngitlab8.8.5\n\n搭建方法：\nOmnibus package installation\n\n遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams================================================================================Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;================================================================================Mixlib::ShellOut::ShellCommandFailed------------------------------------Expected process to exit with [0], but received &apos;127&apos;---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----STDOUT:STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127\n问题分析：因为我的centos服务器上面已经装了postgresql的8.4.18版本；1234[root@gitlab0 ~]# rpm -qa|grep postgrespostgresql-8.4.18-1.el6_4.x86_64postgresql-devel-8.4.18-1.el6_4.x86_64postgresql-libs-8.4.18-1.el6_4.x86_64\n使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。\n解决方法1:卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。\n卸载gitlab方法如下：1234sudo gitlab-ctl stopsudo gitlab-ctl uninstallsudo gitlab-ctl cleansesudo rm -rf /opt/gitlab\n解决方法2:增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH123456789# vi /etc/profileexport LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......# source /etc/profile# echo $LD_LIBRARY_PATH/opt/gitlab/embedded/lib:/tmp/product.......\nPS：\n\n增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。\n路径之间使用:分隔\n\n然后再执行#gitlab-ctl reconfigure，即可成功。1gitlab Reconfigured!\n查看postgresql版本:1234[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --versionpsql (PostgreSQL) 9.2.16[root@gitlab0 ~]# psql --versionpsql (PostgreSQL) 8.4.18\n参考链接：http://dreamlikes.cn/archives/78\n","dateCreated":"2018-01-02T14:48:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-01-02T14:48:04+08:00","description":"","headline":"gitlab psql: undefined symbol: PQconnectdbParams","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/35560/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/35560/","keywords":"Gitlab"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景公司拆分子公司，需要把现有Gitlab也分离出来。\n搭建环境：\ncentos6.5\ngitlab8.8.5\n\n搭建方法：\nOmnibus package installation\n\n遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams================================================================================Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;================================================================================Mixlib::ShellOut::ShellCommandFailed------------------------------------Expected process to exit with [0], but received &apos;127&apos;---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----STDOUT:STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127\n问题分析：因为我的centos服务器上面已经装了postgresql的8.4.18版本；1234[root@gitlab0 ~]# rpm -qa|grep postgrespostgresql-8.4.18-1.el6_4.x86_64postgresql-devel-8.4.18-1.el6_4.x86_64postgresql-libs-8.4.18-1.el6_4.x86_64\n使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。\n解决方法1:卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。\n卸载gitlab方法如下：1234sudo gitlab-ctl stopsudo gitlab-ctl uninstallsudo gitlab-ctl cleansesudo rm -rf /opt/gitlab\n解决方法2:增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH123456789# vi /etc/profileexport LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......# source /etc/profile# echo $LD_LIBRARY_PATH/opt/gitlab/embedded/lib:/tmp/product.......\nPS：\n\n增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。\n路径之间使用:分隔\n\n然后再执行#gitlab-ctl reconfigure，即可成功。1gitlab Reconfigured!\n查看postgresql版本:1234[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --versionpsql (PostgreSQL) 9.2.16[root@gitlab0 ~]# psql --versionpsql (PostgreSQL) 8.4.18\n参考链接：http://dreamlikes.cn/archives/78\n","dateCreated":"2018-01-02T14:48:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-01-02T14:48:04+08:00","description":"","headline":"gitlab psql: undefined symbol: PQconnectdbParams","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/35560/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/35560/","keywords":"Gitlab"}</script>
     <meta name="description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。 搭建环境： centos6.5 gitlab8.8.5  搭建方法： Omnibus package installation  遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: sym">
 <meta name="keywords" content="Gitlab">
 <meta property="og:type" content="blog">
@@ -39,17 +39,16 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <link rel="stylesheet" href="/assets/css/style-nrkscutvrixffxjhyjuxt0u2obqanev0blu0fy2vq2dl89n91awrrpesrv11.min.css">
     <!--STYLES END-->
     
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-        ga('create', 'UA-85893233-1', 'auto');
-        ga('send', 'pageview');
+        gtag('config', 'UA-85893233-1');
     </script>
 
 
@@ -64,6 +63,10 @@
     })();
     </script>
 
+
+    
+        
+    
 </head>
 
     <body>
@@ -80,12 +83,21 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Just Do IT</a>
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Just Do IT
+        </a>
     </div>
     
         
-            <a  class="header-right-picture "
-                href="#about">
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
         
         
             <img class="header-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
@@ -105,12 +117,15 @@
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
-                <a href="/#about">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
                     <img class="sidebar-profile-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Project management</li> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </h5>
                 
             </div>
         
@@ -125,7 +140,7 @@
                             title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -138,7 +153,7 @@
                             title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -151,7 +166,7 @@
                             title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -164,8 +179,21 @@
                             title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
                     </a>
             </li>
             
@@ -177,7 +205,7 @@
                             title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -190,7 +218,7 @@
                     
                         <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -199,8 +227,17 @@
                     
                         <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
                     </a>
             </li>
             
@@ -216,7 +253,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -288,6 +325,7 @@
 
             
 
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -306,26 +344,40 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="PREVIOUS: svn代码库迁移到git">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/62558/"
+                    data-tooltip="svn代码库迁移到git"
+                    aria-label="PREVIOUS: svn代码库迁移到git"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库" aria-label="NEXT: 使用OpenGrok查询涉及关键字代码库">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/61445/"
+                    data-tooltip="使用OpenGrok查询涉及关键字代码库"
+                    aria-label="NEXT: 使用OpenGrok查询涉及关键字代码库"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -333,32 +385,51 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/" title="Share on Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/" title="Share on Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/" title="Share on Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
@@ -402,26 +473,40 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/62558/" data-tooltip="svn代码库迁移到git" aria-label="PREVIOUS: svn代码库迁移到git">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/62558/"
+                    data-tooltip="svn代码库迁移到git"
+                    aria-label="PREVIOUS: svn代码库迁移到git"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/61445/" data-tooltip="使用OpenGrok查询涉及关键字代码库" aria-label="NEXT: 使用OpenGrok查询涉及关键字代码库">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/61445/"
+                    data-tooltip="使用OpenGrok查询涉及关键字代码库"
+                    aria-label="NEXT: 使用OpenGrok查询涉及关键字代码库"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -429,32 +514,51 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/" title="Share on Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/" title="Share on Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/" title="Share on Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
@@ -471,36 +575,53 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/35560/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/35560/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/35560/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -514,14 +635,14 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </div>
+            <div id="about-card-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Project management</li> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </div>
         
         
             <div id="about-card-job">
@@ -533,7 +654,7 @@
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
                 Shenzhen
             </div>
@@ -545,27 +666,29 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<script src="/assets/js/script-sy7nm5m4fyucx5pktvz6w8ldouxj7yybwws6mmrep4wh6p0q8qcettrgxaau.min.js"></script>
 <!--SCRIPTS END-->
+
 
     
         <script>
-             var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/posts/35560/';
-                 
-                    this.page.identifier = 'posts/35560/';
-                 
-             };
-            (function() {
-                var d = document, s = d.createElement('script');
-                var disqus_shortname = 'Weilong';
-                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          var disqus_config = function() {
+            this.page.url = 'https://0to.github.io/posts/35560/';
+              
+            this.page.identifier = 'posts/35560/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'Weilong';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
         </script>
     
+
 
 
 

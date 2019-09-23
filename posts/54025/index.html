@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png"},"articleBody":"背景：Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。\n\nPS：\n\nSonarqube根据Key来唯一标示项目。\nResolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：\n如果一个问题本次标记为False Positive 或者 Won’t fix\n以后此项目进行分析时此问题自动标记。\n其他项目(Key不同)还是会报此问题。\n\n\n\n\n思路：Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。\n\n主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：\n例如：修改maven pom文件 artifactId增加 master/admin/scm 后缀\n\n\n更新Dev开发过程项目标记规则到主干。\n\n\n同步不同项目标记规则：\n安装Issue resolver插件：\nExport and import resolved issues (false-positive and won’t fix) from SonarQube projects.\n\n\n更新dev项目标记规则到主干项目：\nweb端操作方法：\n\n\n\nApi调用方法：\n查看：http://ip:9000/web_api/api/issueresolver\n\n\n\n\n\n","dateCreated":"2017-08-02T11:22:16+08:00","dateModified":"2018-05-04T17:47:48+08:00","datePublished":"2017-08-02T11:22:16+08:00","description":"","headline":"持续代码质量平台Sonar-5审计","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/54025/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/54025/","keywords":"Sonar"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景：Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。\n\nPS：\n\nSonarqube根据Key来唯一标示项目。\nResolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：\n如果一个问题本次标记为False Positive 或者 Won’t fix\n以后此项目进行分析时此问题自动标记。\n其他项目(Key不同)还是会报此问题。\n\n\n\n\n思路：Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。\n\n主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：\n例如：修改maven pom文件 artifactId增加 master/admin/scm 后缀\n\n\n更新Dev开发过程项目标记规则到主干。\n\n\n同步不同项目标记规则：\n安装Issue resolver插件：\nExport and import resolved issues (false-positive and won’t fix) from SonarQube projects.\n\n\n更新dev项目标记规则到主干项目：\nweb端操作方法：\n\n\n\nApi调用方法：\n查看：http://ip:9000/web_api/api/issueresolver\n\n\n\n\n\n","dateCreated":"2017-08-02T11:22:16+08:00","dateModified":"2018-05-04T17:47:48+08:00","datePublished":"2017-08-02T11:22:16+08:00","description":"","headline":"持续代码质量平台Sonar-5审计","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/54025/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/54025/","keywords":"Sonar"}</script>
     <meta name="description" content="背景：Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。  PS：  Sonarqube根据Key来唯一标示项目。 Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承： 如果一个问题本次标记为False Positive 或者 Won’t fix 以后此项目进行分析时此问题自动标记。 其他项目(Ke">
 <meta name="keywords" content="Sonar">
 <meta property="og:type" content="blog">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://0to.github.io/posts/54025/biaoji1.png">
 <meta property="og:image" content="https://0to.github.io/posts/54025/biaoji2.png">
 <meta property="og:image" content="https://0to.github.io/posts/54025/api.png">
-<meta property="og:updated_time" content="2018-05-04T09:47:48.996Z">
+<meta property="og:updated_time" content="2018-05-04T09:47:48.997Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="持续代码质量平台Sonar-5审计">
 <meta name="twitter:description" content="背景：Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。  PS：  Sonarqube根据Key来唯一标示项目。 Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承： 如果一个问题本次标记为False Positive 或者 Won’t fix 以后此项目进行分析时此问题自动标记。 其他项目(Ke">
@@ -45,17 +45,16 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <link rel="stylesheet" href="/assets/css/style-nrkscutvrixffxjhyjuxt0u2obqanev0blu0fy2vq2dl89n91awrrpesrv11.min.css">
     <!--STYLES END-->
     
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-        ga('create', 'UA-85893233-1', 'auto');
-        ga('send', 'pageview');
+        gtag('config', 'UA-85893233-1');
     </script>
 
 
@@ -70,6 +69,10 @@
     })();
     </script>
 
+
+    
+        
+    
 </head>
 
     <body>
@@ -86,12 +89,21 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Just Do IT</a>
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Just Do IT
+        </a>
     </div>
     
         
-            <a  class="header-right-picture "
-                href="#about">
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
         
         
             <img class="header-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
@@ -111,12 +123,15 @@
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
-                <a href="/#about">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
                     <img class="sidebar-profile-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Project management</li> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </h5>
                 
             </div>
         
@@ -131,7 +146,7 @@
                             title="Home"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
             </li>
@@ -144,7 +159,7 @@
                             title="Categories"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
@@ -157,7 +172,7 @@
                             title="Tags"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
@@ -170,8 +185,21 @@
                             title="Archives"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
                     </a>
             </li>
             
@@ -183,7 +211,7 @@
                             title="About"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
             </li>
@@ -196,7 +224,7 @@
                     
                         <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -205,8 +233,17 @@
                     
                         <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-linkedin" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
                     </a>
             </li>
             
@@ -222,7 +259,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -311,6 +348,7 @@
 
             
 
+
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
@@ -329,26 +367,40 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/28954/" data-tooltip="Nexus3搭建配置" aria-label="PREVIOUS: Nexus3搭建配置">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/28954/"
+                    data-tooltip="Nexus3搭建配置"
+                    aria-label="PREVIOUS: Nexus3搭建配置"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7875/" data-tooltip="持续代码质量平台Sonar-4Android" aria-label="NEXT: 持续代码质量平台Sonar-4Android">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/7875/"
+                    data-tooltip="持续代码质量平台Sonar-4Android"
+                    aria-label="NEXT: 持续代码质量平台Sonar-4Android"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -356,32 +408,51 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/54025/" title="Share on Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/54025/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/54025/" title="Share on Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/54025/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/54025/" title="Share on Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/54025/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
@@ -425,26 +496,40 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/28954/" data-tooltip="Nexus3搭建配置" aria-label="PREVIOUS: Nexus3搭建配置">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/28954/"
+                    data-tooltip="Nexus3搭建配置"
+                    aria-label="PREVIOUS: Nexus3搭建配置"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/7875/" data-tooltip="持续代码质量平台Sonar-4Android" aria-label="NEXT: 持续代码质量平台Sonar-4Android">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/7875/"
+                    data-tooltip="持续代码质量平台Sonar-4Android"
+                    aria-label="NEXT: 持续代码质量平台Sonar-4Android"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
             </li>
         </ul>
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -452,32 +537,51 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/54025/" title="Share on Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/54025/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/54025/" title="Share on Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/54025/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/54025/" title="Share on Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/54025/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
@@ -494,36 +598,53 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/54025/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/54025/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/54025/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/54025/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/54025/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/54025/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -537,14 +658,14 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="/assets/images/owl.png" alt="Author&#39;s picture"/>
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </div>
+            <div id="about-card-bio"> <ul> <li>Write something about work and life: <ul class="nav pull-left"> <li>Project management</li> <li>Configuration management</li> <li>Process improvement</li> <li>Continuous deploy</li> <li>Python program</li> </ul> </li> </ul> </div>
         
         
             <div id="about-card-job">
@@ -556,7 +677,7 @@
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
                 Shenzhen
             </div>
@@ -568,27 +689,29 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<script src="/assets/js/script-sy7nm5m4fyucx5pktvz6w8ldouxj7yybwws6mmrep4wh6p0q8qcettrgxaau.min.js"></script>
 <!--SCRIPTS END-->
+
 
     
         <script>
-             var disqus_config = function () {
-                 this.page.url = 'https://0to.github.io/posts/54025/';
-                 
-                    this.page.identifier = 'posts/54025/';
-                 
-             };
-            (function() {
-                var d = document, s = d.createElement('script');
-                var disqus_shortname = 'Weilong';
-                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          var disqus_config = function() {
+            this.page.url = 'https://0to.github.io/posts/54025/';
+              
+            this.page.identifier = 'posts/54025/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'Weilong';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
         </script>
     
+
 
 
 
