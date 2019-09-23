@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Git 历史删除文件 - Just Do IT</title>
+    <title>Git tips two - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,23 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nGithub: Removing files from a repository’s history\nGithub: Removing sensitive data from a repository\n\nGit-scm: git-filter-branch\nbfg-repo-cleaner: bfg-repo-cleaner\n\n\n场景1:最新的一个提交版本里面新增了敏感、较大、无意义的文件，需要进行清理。12345678910111. 删除文件    $ git rm --cached $&#123;文件绝对地址&#125;2. 增加到上述文件到 .gitignore    $ vim .gitignore3. 修复最新提交版本    $ git commit --amend4. 推送新版本到远端仓库    如果刚才版本已经推送到远端仓库：        $ git push -f    如果刚才版本只是在本地仓库：        $ git push\n\n场景2:历史版本里面存在敏感、较大、无意义的文件，需要进行清理。\n使用 git filter-branchgit 原生提供的命令，如果没有的话，请先升级机器git版本。\n\n原理：  扫描代码库所有版本如果某个版本里面发现了指定的文件OR目录：\n    如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。\n    如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。\n如果版本没有包含指定文件OR目录，那么继续遍历。\n\nPS：\n如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。\n一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。\n一般都在本地仓库根目录执行\n执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune=now.\n\n\n\n123456789101. 执行命令    $ git filter-branch --force --index-filter &apos;git rm --cached -r --ignore-unmatch $&#123;要清理的文件OR目录的绝对地址&#125;&apos; --prune-empty --tag-name-filter cat -- --all2. 增加到上述文件OR目录到 .gitignore    $ vim .gitignore3. 推送新版本到远端仓库    $ git push -f --all    $ git push -f --tags4. 清理本地仓库残留的git objects    $ git reflog expire --expire=now --all    $ git gc --prune=now\n使用 bfg-repo-cleanerRoberto Tyley使用Scala语言写了 bfg-repo-cleaner工具。可以简单理解为一个轻量级的 git filter-branch。使用比较简单，功能比较强大，只需要下载最新的jar包，然后执行👇命令：1234# 删除大于50M的文件$ java -jar bfg.jar --no-blob-protection --strip-blobs-bigger-than 50M# 删除指定文件$ java -jar bfg.jar --no-blob-protection --delete-files $&#123;要清理的文件的绝对地址&#125;\nPS:\n1. bfg-repo-cleaner 有个protect功能，默认HEAD是受保护的。\n    受保护的分支最新版本如果涉及需要清理文件，那么并不会成功。\n    --no-blob-protection  关闭protect功能\n    --protect-blobs-from ${分支1},${分支2} 增加受保护的分支\n2. 建议在本地仓库根目录执行。\n\n场景3:查找代码库里面较大文件方法：\n- 如果当前版本还存在的文件，可以直接du排序来识别；\n- 如果当前版本不存在，但是历史中出现过的大文件，可以按照下面步骤来查询。\n121. 显示比较大的pack$ du -ah .git/objects/pack\n122. 识别object,对输出的第三列信息即文件大小进行排序$ git verify-pack -v .git/objects/pack/$&#123;pack-XXX.pack&#125; | sort -k 3 -n | tail -5\n123. 识别object对应的文件$ git rev-list --objects --all | grep $&#123;👆获取的object&#125;\n\n","dateCreated":"2018-07-18T15:23:19+08:00","dateModified":"2018-07-18T18:50:49+08:00","datePublished":"2018-07-18T15:23:19+08:00","description":"","headline":"Git 历史删除文件","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/1056/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/1056/","keywords":"Git"}</script>
-    <meta name="description" content="参考链接： Github: Removing files from a repository’s history Github: Removing sensitive data from a repository  Git-scm: git-filter-branch bfg-repo-cleaner: bfg-repo-cleaner   场景1:最新的一个提交版本里面新增了敏感、较大、无意义的">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"软件版本：1git version 2.23.0\n使用http/https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &apos;cache --timeout=3600&apos;永久存储密码：git config --global credential.helper store\n","dateCreated":"2019-09-23T18:51:04+08:00","dateModified":"2019-09-23T18:55:10+08:00","datePublished":"2019-09-23T18:51:04+08:00","description":"","headline":"Git tips two","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/31267/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/31267/","keywords":"Git"}</script>
+    <meta name="description" content="软件版本：1git version 2.23.0 使用http/https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &amp;apos;cache --timeout=36">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Git 历史删除文件">
-<meta property="og:url" content="https://0to.github.io/posts/1056/index.html">
+<meta property="og:title" content="Git tips two">
+<meta property="og:url" content="https://0to.github.io/posts/31267/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="参考链接： Github: Removing files from a repository’s history Github: Removing sensitive data from a repository  Git-scm: git-filter-branch bfg-repo-cleaner: bfg-repo-cleaner   场景1:最新的一个提交版本里面新增了敏感、较大、无意义的">
+<meta property="og:description" content="软件版本：1git version 2.23.0 使用http/https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &amp;apos;cache --timeout=36">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://0to.github.io/posts/1056/git1.png">
-<meta property="og:image" content="https://0to.github.io/posts/1056/git2.png">
-<meta property="og:image" content="https://0to.github.io/posts/1056/git3.png">
-<meta property="og:updated_time" content="2018-07-18T10:50:49.723Z">
+<meta property="og:updated_time" content="2019-09-23T10:55:10.736Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git 历史删除文件">
-<meta name="twitter:description" content="参考链接： Github: Removing files from a repository’s history Github: Removing sensitive data from a repository  Git-scm: git-filter-branch bfg-repo-cleaner: bfg-repo-cleaner   场景1:最新的一个提交版本里面新增了敏感、较大、无意义的">
-<meta name="twitter:image" content="https://0to.github.io/posts/1056/git1.png">
+<meta name="twitter:title" content="Git tips two">
+<meta name="twitter:description" content="软件版本：1git version 2.23.0 使用http/https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &amp;apos;cache --timeout=36">
     
     
         
@@ -279,14 +275,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Git 历史删除文件
+            Git tips two
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-07-18T15:23:19+08:00">
+    <time datetime="2019-09-23T18:51:04+08:00">
 	
-		    Jul 18, 2018
+		    Sep 23, 2019
     	
     </time>
     
@@ -304,48 +300,8 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li>Github: <a href="https://help.github.com/articles/removing-files-from-a-repository-s-history/" target="_blank" rel="noopener">Removing files from a repository’s history</a></li>
-<li>Github: <a href="https://help.github.com/articles/removing-sensitive-data-from-a-repository/" target="_blank" rel="noopener">Removing sensitive data from a repository
-</a></li>
-<li>Git-scm: <a href="https://git-scm.com/docs/git-filter-branch" target="_blank" rel="noopener">git-filter-branch</a></li>
-<li>bfg-repo-cleaner: <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">bfg-repo-cleaner</a></li>
-</ul>
-<hr>
-<h1 id="场景1"><a href="#场景1" class="headerlink" title="场景1:"></a>场景1:</h1><p>最新的一个提交版本里面新增了敏感、较大、无意义的文件，需要进行清理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1. 删除文件</span><br><span class="line">    $ git rm --cached $&#123;文件绝对地址&#125;</span><br><span class="line">2. 增加到上述文件到 .gitignore</span><br><span class="line">    $ vim .gitignore</span><br><span class="line">3. 修复最新提交版本</span><br><span class="line">    $ git commit --amend</span><br><span class="line">4. 推送新版本到远端仓库</span><br><span class="line">    如果刚才版本已经推送到远端仓库：</span><br><span class="line">        $ git push -f</span><br><span class="line">    如果刚才版本只是在本地仓库：</span><br><span class="line">        $ git push</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h1 id="场景2"><a href="#场景2" class="headerlink" title="场景2:"></a>场景2:</h1><p>历史版本里面存在敏感、较大、无意义的文件，需要进行清理。</p>
-<h3 id="使用-git-filter-branch"><a href="#使用-git-filter-branch" class="headerlink" title="使用 git filter-branch"></a>使用 git filter-branch</h3><p>git 原生提供的命令，如果没有的话，请先升级机器git版本。</p>
-<ul>
-<li>原理：<br>  扫描代码库所有版本<pre><code>如果某个版本里面发现了指定的文件OR目录：
-    如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。
-    如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。
-如果版本没有包含指定文件OR目录，那么继续遍历。
-</code></pre></li>
-<li>PS：<ol>
-<li>如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。</li>
-<li>一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。</li>
-<li>一般都在本地仓库根目录执行</li>
-<li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune=now.</li>
-</ol>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 执行命令</span><br><span class="line">    $ git filter-branch --force --index-filter &apos;git rm --cached -r --ignore-unmatch $&#123;要清理的文件OR目录的绝对地址&#125;&apos; --prune-empty --tag-name-filter cat -- --all</span><br><span class="line">2. 增加到上述文件OR目录到 .gitignore</span><br><span class="line">    $ vim .gitignore</span><br><span class="line">3. 推送新版本到远端仓库</span><br><span class="line">    $ git push -f --all</span><br><span class="line">    $ git push -f --tags</span><br><span class="line">4. 清理本地仓库残留的git objects</span><br><span class="line">    $ git reflog expire --expire=now --all</span><br><span class="line">    $ git gc --prune=now</span><br></pre></td></tr></table></figure>
-<h3 id="使用-bfg-repo-cleaner"><a href="#使用-bfg-repo-cleaner" class="headerlink" title="使用 bfg-repo-cleaner"></a>使用 bfg-repo-cleaner</h3><p>Roberto Tyley使用Scala语言写了 bfg-repo-cleaner工具。<br>可以简单理解为一个轻量级的 git filter-branch。<br>使用比较简单，功能比较强大，只需要下载最新的jar包，然后执行👇命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 删除大于50M的文件</span><br><span class="line">$ java -jar bfg.jar --no-blob-protection --strip-blobs-bigger-than 50M</span><br><span class="line"># 删除指定文件</span><br><span class="line">$ java -jar bfg.jar --no-blob-protection --delete-files $&#123;要清理的文件的绝对地址&#125;</span><br></pre></td></tr></table></figure></p>
-<p>PS:</p>
-<pre><code>1. bfg-repo-cleaner 有个protect功能，默认HEAD是受保护的。
-    受保护的分支最新版本如果涉及需要清理文件，那么并不会成功。
-    --no-blob-protection  关闭protect功能
-    --protect-blobs-from ${分支1},${分支2} 增加受保护的分支
-2. 建议在本地仓库根目录执行。
-</code></pre><hr>
-<h1 id="场景3"><a href="#场景3" class="headerlink" title="场景3:"></a>场景3:</h1><p>查找代码库里面较大文件方法：</p>
-<pre><code>- 如果当前版本还存在的文件，可以直接du排序来识别；
-- 如果当前版本不存在，但是历史中出现过的大文件，可以按照下面步骤来查询。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 显示比较大的pack</span><br><span class="line">$ du -ah .git/objects/pack</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/1056/git1.png" alt="logo"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2. 识别object,对输出的第三列信息即文件大小进行排序</span><br><span class="line">$ git verify-pack -v .git/objects/pack/$&#123;pack-XXX.pack&#125; | sort -k 3 -n | tail -5</span><br></pre></td></tr></table></figure></p>
-<p><img src="/posts/1056/git2.png" alt="logo"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3. 识别object对应的文件</span><br><span class="line">$ git rev-list --objects --all | grep $&#123;👆获取的object&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/posts/1056/git3.png" alt="logo"></p>
+            <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git version 2.23.0</span><br></pre></td></tr></table></figure>
+<h1 id="使用http-https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况："><a href="#使用http-https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况：" class="headerlink" title="使用http/https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况："></a>使用http/https协议代码库交互，有时会出现不能存储密码，每次操作都需要输入帐户密码情况：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">记住密码（默认15分钟）：git config --global credential.helper cache</span><br><span class="line">自己定义时间（一小时后失效）：git config credential.helper &apos;cache --timeout=3600&apos;</span><br><span class="line">永久存储密码：git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 
             
 
@@ -367,14 +323,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/31267/"
-                    data-tooltip="Git tips two"
-                    aria-label="PREVIOUS: Git tips two"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -384,9 +337,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/20597/"
-                    data-tooltip="Nexus3搭建npm私服"
-                    aria-label="NEXT: Nexus3搭建npm私服"
+                    href="/posts/1056/"
+                    data-tooltip="Git 历史删除文件"
+                    aria-label="NEXT: Git 历史删除文件"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -411,7 +364,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/1056/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/31267/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -424,7 +377,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/1056/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/31267/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -437,7 +390,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/1056/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/31267/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -496,14 +449,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/31267/"
-                    data-tooltip="Git tips two"
-                    aria-label="PREVIOUS: Git tips two"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -513,9 +463,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/20597/"
-                    data-tooltip="Nexus3搭建npm私服"
-                    aria-label="NEXT: Nexus3搭建npm私服"
+                    href="/posts/1056/"
+                    data-tooltip="Git 历史删除文件"
+                    aria-label="NEXT: Git 历史删除文件"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -540,7 +490,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/1056/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/31267/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -553,7 +503,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/1056/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/31267/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -566,7 +516,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/1056/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/31267/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -610,7 +560,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/1056/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/31267/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -623,7 +573,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/1056/"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/31267/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -636,7 +586,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://0to.github.io/posts/1056/"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/31267/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -697,9 +647,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://0to.github.io/posts/1056/';
+            this.page.url = 'https://0to.github.io/posts/31267/';
               
-            this.page.identifier = 'posts/1056/';
+            this.page.identifier = 'posts/31267/';
               
           };
           (function() {
