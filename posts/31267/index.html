@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"软件版本：1git version 2.23.0\n使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &apos;cache --timeout=3600&apos;永久存储密码：git config --global credential.helper store\n行结束符处理：\n\n\nOS\nLine Endings\nComments\n\n\n\n\nWindows\nCRLF\n每行结尾是 &lt;换行&gt;&lt;回车 &gt; ，即 \\n\\r\n\n\nMac OS X\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nUnix/Linux\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nClassic macOS\nLF\n每行结尾是 &lt;回车&gt;，即 \\r\n\n\n\n12345678910排除老Mac系统不讨论，项目组如果不是全Windows环境开发/部署的话，还是要自动处理下行结束符。# Windows用户执行下面配置命令：$ git config --global core.autocrlf true # 在提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF# Linux 和 Mac用户执行下面配置命令：（预防代码库已经有CRLF结束符的代码）$ git config --global core.autocrlf input # 在提交时把CRLF转换成LF，签出时不转换# 默认配置：$ git config --global core.autocrlf false # 提交和签出时都不对代码行结束符做转换\n","dateCreated":"2019-09-23T18:51:04+08:00","dateModified":"2019-09-23T19:41:48+08:00","datePublished":"2019-09-23T18:51:04+08:00","description":"","headline":"Git tips two","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/31267/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/31267/","keywords":"Git"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"软件版本：1git version 2.23.0\n使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &apos;cache --timeout=3600&apos;永久存储密码：git config --global credential.helper store\n行结束符处理：\n\n\nOS\nLine Endings\nComments\n\n\n\n\nWindows\nCRLF\n每行结尾是 &lt;换行&gt;&lt;回车 &gt; ，即 \\n\\r\n\n\nMac OS X\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nUnix/Linux\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nClassic macOS\nCR\n每行结尾是 &lt;回车&gt;，即 \\r\n\n\n\n12345678910排除老Mac系统不讨论，项目组如果不是全Windows环境开发/部署的话，还是要自动处理下行结束符。# Windows用户执行下面配置命令：$ git config --global core.autocrlf true # 在提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF# Linux 和 Mac用户执行下面配置命令：（预防代码库已经有CRLF结束符的代码）$ git config --global core.autocrlf input # 在提交时把CRLF转换成LF，签出时不转换# 默认配置：$ git config --global core.autocrlf false # 提交和签出时都不对代码行结束符做转换\n","dateCreated":"2019-09-23T18:51:04+08:00","dateModified":"2019-09-23T19:45:10+08:00","datePublished":"2019-09-23T18:51:04+08:00","description":"","headline":"Git tips two","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/31267/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/31267/","keywords":"Git"}</script>
     <meta name="description" content="软件版本：1git version 2.23.0 使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &amp;apos;cache --timeout=">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="blog">
@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="软件版本：1git version 2.23.0 使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &amp;apos;cache --timeout=">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-23T11:41:48.974Z">
+<meta property="og:updated_time" content="2019-09-23T11:45:10.517Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git tips two">
 <meta name="twitter:description" content="软件版本：1git version 2.23.0 使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &amp;apos;cache --timeout=">
@@ -328,7 +328,7 @@
 </tr>
 <tr>
 <td>Classic macOS</td>
-<td style="text-align:center">LF</td>
+<td style="text-align:center">CR</td>
 <td style="text-align:right">每行结尾是 &lt;回车&gt;，即 \r</td>
 </tr>
 </tbody>
