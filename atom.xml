@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2019-09-23T11:45:10.517Z</updated>
+  <updated>2019-10-11T04:34:53.584Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Gerrit LDAP: Allow to configure multiple accountBase and groupBase values</title>
+    <link href="https://0to.github.io/posts/42921/"/>
+    <id>https://0to.github.io/posts/42921/</id>
+    <published>2019-10-11T03:46:37.000Z</published>
+    <updated>2019-10-11T04:34:53.584Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><ul><li>Gerrit官方文档: <a href="https://www.gerritcodereview.com/config-gerrit.html" target="_blank" rel="noopener">Gerritcodereview</a></li><li>Github issue: <a href="https://github.com/kbrebanov/ansible-gerrit/issues/15" target="_blank" rel="noopener">Github</a></li></ul><h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。<br>gerrit.config配置如下（信息请更新为各自公司节点）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p><h2 id="业务需求："><a href="#业务需求：" class="headerlink" title="业务需求："></a>业务需求：</h2><p>公司特定合作伙伴 有 访问代码库 进行 联合开发的需求。</p><h2 id="方案设计："><a href="#方案设计：" class="headerlink" title="方案设计："></a>方案设计：</h2><ol><li>在现有LDAP节点的基础上，增加一个ou（custom），用来维护合作伙伴账号；</li><li>同步 这个ou（custom）的人员到Gerrit上。</li></ol><hr><h2 id="配置Gerrit支持多ou-user信息："><a href="#配置Gerrit支持多ou-user信息：" class="headerlink" title="配置Gerrit支持多ou user信息："></a>配置Gerrit支持多ou user信息：</h2><p>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.accountBase</span><br><span class="line">    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p><p>我们调整gerrit.config配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  accountBase = ou=custom,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p><p>然后重启Gerrit后，custom里面的人员也可以登录Gerrit了。</p><hr><h2 id="配置Gerrit支持多group信息："><a href="#配置Gerrit支持多group信息：" class="headerlink" title="配置Gerrit支持多group信息："></a>配置Gerrit支持多group信息：</h2><p>方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。<br>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.groupBase</span><br><span class="line">    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p><h3 id="关于LDAP-group信息："><a href="#关于LDAP-group信息：" class="headerlink" title="关于LDAP group信息："></a>关于LDAP group信息：</h3><p>一般系统接入LDAP做账户验证，只需同步LDAP的user信息，不直接使用LDAP的group信息。<br>各个系统自行创建系统组进行人员权限管理，这样更加灵活。<br>同时，也不建议LDAP里面维护太多group，更加推荐LDAP轻量化使用。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;参考链接：&quot;&gt;&lt;a href=&quot;#参考链接：&quot; class=&quot;headerlink&quot; title=&quot;参考链接：&quot;&gt;&lt;/a&gt;参考链接：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Gerrit官方文档: &lt;a href=&quot;https://www.gerritcodereview.co
+      
+    
+    </summary>
+    
+      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
+    
+    
+      <category term="Gerrit" scheme="https://0to.github.io/tags/Gerrit/"/>
+    
+  </entry>
   
   <entry>
     <title>Git tips two</title>
@@ -503,34 +529,6 @@
     
     
       <category term="Git" scheme="https://0to.github.io/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用Jenkins_Gerrit搭建持续集成</title>
-    <link href="https://0to.github.io/posts/32389/"/>
-    <id>https://0to.github.io/posts/32389/</id>
-    <published>2017-03-31T02:46:37.000Z</published>
-    <updated>2018-05-04T09:48:43.621Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote><p>公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。</p></blockquote><h2 id="流程设计："><a href="#流程设计：" class="headerlink" title="流程设计："></a>流程设计：</h2><p><img src="/posts/32389/CI.png" alt="logo"></p><ol><li><p>Dev本地开发，然后上传patch到gerrit：</p><ul><li>同时触发Jenkins CR_Job来做build</li><li>增加Code reviewers来做review</li></ul></li><li><p>再上述都成功的基础上，reviewer点击+2：</p><ul><li>同时触发Jenkins Submit_Job来做build和test：<ul><li>如果成功，自动合并本次patch到代码库</li><li>如果失败，返回-1</li></ul></li></ul></li><li><p>Nightly test Job：</p><ul><li>每晚20:00触发，获取当前最新的代码进行build和test</li></ul></li></ol><blockquote><p>测试分级：</p><ul><li>CR_Job:<ul><li>获取触发patch的代码，合并最新分支代码，进行build</li><li>快速反馈，主要检查patch合并是否有冲突和build是否能跑通</li></ul></li></ul></blockquote><blockquote><ul><li>Submit_Job：<ul><li>获取触发patch的代码，合并最新的分支代码，进行build和测试</li><li>根据每天代码提交次数来确定时间和test cases</li></ul></li></ul></blockquote><blockquote><ul><li>Nightly_Job：<ul><li>获取当前最新代码进行build和test</li><li>一般跑12h，第二天早上出测试报告邮件</li></ul></li></ul></blockquote><h2 id="软件环境："><a href="#软件环境：" class="headerlink" title="软件环境："></a>软件环境：</h2><table><thead><tr><th>软件</th><th>版本</th></tr></thead><tbody><tr><td>Jenkins</td><td>1.567</td></tr><tr><td>Gerrit</td><td>2.8.6</td></tr></tbody></table><ul><li>Jenkins插件：</li></ul><table><thead><tr><th>插件名</th><th>版本</th><th>作用</th></tr></thead><tbody><tr><td>Multijob plugin</td><td>2.11.1</td><td>定义pipeline</td></tr><tr><td>Gerrit Trigger</td><td>1.13</td><td>监控Gerrit event</td></tr></tbody></table><h2 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h2><ol><li>安装配置Jenkins Gerrit Trigger插件：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="noopener">官方wiki</a><br> <img src="/posts/32389/Gerrit_Trigger.png" alt="logo"></li><li>安装Jenkins Multijob plugin：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="noopener">官方wiki</a><br> <img src="/posts/32389/multi_jobs.png" alt="logo"></li><li>配置CR_Job:<br> <img src="/posts/32389/CR_Job.png" alt="logo"></li><li>配置Submit_job:<br> <img src="/posts/32389/submit_job.png" alt="logo"></li><li>配置Nightly_Job:<br> <img src="/posts/32389/nightly_job.png" alt="logo"></li></ol><h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><ol><li>以上内容都是基于公司研发现状定制的，建议各位根据自己的情况进行定制。</li><li>因为历史遗留原因，当前使用的版本比较旧。 例如如果升级到jenkins2.x版本的话pipeline就不需要借助插件来实现了。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;背景：&quot;&gt;&lt;a href=&quot;#背景：&quot; class=&quot;headerlink&quot; title=&quot;背景：&quot;&gt;&lt;/a&gt;背景：&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持
-      
-    
-    </summary>
-    
-      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
-    
-    
-      <category term="Gerrit" scheme="https://0to.github.io/tags/Gerrit/"/>
-    
-      <category term="Jenkins" scheme="https://0to.github.io/tags/Jenkins/"/>
     
   </entry>
   

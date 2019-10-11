@@ -276,6 +276,147 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/28954/"
+                            aria-label=": Nexus3搭建配置"
+                        >
+                            Nexus3搭建配置
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2017-11-17T14:39:35+08:00">
+	
+		    Nov 17, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li>下载地址：<a href="https://www.sonatype.com/nexus-repository-oss" target="_blank" rel="noopener">官方网站</a></li>
+<li>软硬件需求：<a href="https://help.sonatype.com/display/NXRM3/System+Requirements" target="_blank" rel="noopener">官方文档</a></li>
+<li>安装方法：<a href="https://help.sonatype.com/display/NXRM3/Installation" target="_blank" rel="noopener">官方文档</a></li>
+</ul>
+<p>PS:</p>
+<ul>
+<li>nexus分为nexus-repository-oss(免费版)和nexus-repository-pro(商业版)</li>
+<li>主要使用版本：2.x和3.x</li>
+<li>版本区别：<a href="https://help.sonatype.com/display/NXRM3/Repository+Manager+Feature+Matrix#RepositoryManagerFeatureMatrix-OBR" target="_blank" rel="noopener">官方文档</a></li>
+</ul>
+<h1 id="JAVA项目依赖管理方法："><a href="#JAVA项目依赖管理方法：" class="headerlink" title="JAVA项目依赖管理方法："></a>JAVA项目依赖管理方法：</h1><ol>
+<li>所有依赖jar包都上传提交到代码库里面：<ul>
+<li>优点：直接获取代码库代码就可以进行编译打包，不需要依赖外部网络(独立个人小项目)</li>
+<li>缺点：<ul>
+<li>依赖包体积很大，导致代码获取推送太耗时和占用带宽；</li>
+<li>基础框架依赖包每个代码库都要存放一份(空间浪费)；</li>
+<li>当前依赖包版本不明确。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>依赖包编译过程中下载，不上传到代码库：<ul>
+<li>优点：<ul>
+<li>代码库干净，体积小；</li>
+<li>项目显性配置依赖包版本和引用阶段清晰明了。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="私服的优点："><a href="#私服的优点：" class="headerlink" title="私服的优点："></a>私服的优点：</h1><ol>
+<li>统一服务器代理外部依赖（节省外网带宽）；</li>
+<li>项目下载依赖通过内部网络的进行（更快）；</li>
+<li>托管内部项目依赖（协作更方便）；</li>
+<li>托管第三方依赖（例如：合作伙伴的依赖包）<br><img src="/posts/28954/nexus0.png" alt="logo"></li>
+</ol>
+<h1 id="搭建环境版本："><a href="#搭建环境版本：" class="headerlink" title="搭建环境版本："></a>搭建环境版本：</h1><ul>
+<li>OS：        Windows Server 2012 R2</li>
+<li>JDK：       1.8.0_71</li>
+<li>nexus-repository-oss 3.6.0-02</li>
+</ul>
+<h1 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h1><ol>
+<li>安装JDK</li>
+<li>官网下载：nexus-3.6.0-02-win64.zip,解压缩</li>
+<li><p>配置windows服务：<a href="https://help.sonatype.com/display/NXRM3/Run+as+a+Service" target="_blank" rel="noopener">官方文档</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$install-dir/bin/nexus.exe /install &lt;optional-service-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nexus.exe /start &lt;optional-service-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>网页端登陆配置Nexus</p>
+<ul>
+<li>http://$ip:8081</li>
+<li>用户名/密码：admin/admin123</li>
+</ul>
+</li>
+</ol>
+<h1 id="后台配置："><a href="#后台配置：" class="headerlink" title="后台配置："></a>后台配置：</h1><ol>
+<li><p>data目录修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$install-dir/bin/nexus.vmoptions</span><br><span class="line"></span><br><span class="line">-Dkaraf.data=../sonatype-work/nexus3</span><br><span class="line">-Djava.io.tmpdir=../sonatype-work/nexus3/tmp</span><br><span class="line">-XX:LogFile=../sonatype-work/nexus3/log/jvm.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务端口号修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$data-dir/etc/nexus.properties</span><br><span class="line"></span><br><span class="line"># Jetty section</span><br><span class="line">application-port=8081</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>jvm性能调优：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$install-dir/bin/nexus.vmoptions</span><br><span class="line"></span><br><span class="line">-Xms4G</span><br><span class="line">-Xmx4G</span><br><span class="line">-XX:MaxDirectMemorySize=4014M</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上修改都需要重启服务生效。</p>
+<h1 id="前台配置："><a href="#前台配置：" class="headerlink" title="前台配置："></a>前台配置：</h1><p>使用管理员admin账号登陆</p>
+<h2 id="配置邮箱"><a href="#配置邮箱" class="headerlink" title="配置邮箱"></a>配置邮箱</h2><p><img src="/posts/28954/nexus_email.jpg" alt="logo"></p>
+<h2 id="配置LDAP"><a href="#配置LDAP" class="headerlink" title="配置LDAP"></a>配置LDAP</h2><p><img src="/posts/28954/nexus_ldap1.png" alt="logo"><br><img src="/posts/28954/nexus_ldap2.png" alt="logo"><br><img src="/posts/28954/nexus_ldap3.png" alt="logo"></p>
+<h2 id="配置权限"><a href="#配置权限" class="headerlink" title="配置权限"></a>配置权限</h2><p><img src="/posts/28954/nexus_role1.png" alt="logo"><br><img src="/posts/28954/nexus_role2.png" alt="logo"><br><img src="/posts/28954/nexus_role3.png" alt="logo"></p>
+<h2 id="配置repositories"><a href="#配置repositories" class="headerlink" title="配置repositories"></a>配置repositories</h2><p>repositories分为三个种类：</p>
+<ol>
+<li>proxy    代理远端仓库</li>
+<li>hosted   本地内部仓库</li>
+<li>group    组合仓库<br><img src="/posts/28954/nexus_res.png" alt="logo"></li>
+</ol>
+<h1 id="Maven依赖私服配置"><a href="#Maven依赖私服配置" class="headerlink" title="Maven依赖私服配置"></a>Maven依赖私服配置</h1><p>修改~/.m2/settings.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">  &lt;servers&gt;</span><br><span class="line">    &lt;server&gt;</span><br><span class="line">      &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">      &lt;username&gt;用户名&lt;/username&gt;</span><br><span class="line">      &lt;password&gt;密码&lt;/password&gt;</span><br><span class="line">    &lt;/server&gt;</span><br><span class="line">  &lt;/servers&gt;</span><br><span class="line">  &lt;mirrors&gt;</span><br><span class="line">    &lt;mirror&gt;</span><br><span class="line">    &lt;!--This sends everything else to /public --&gt;</span><br><span class="line">    &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">    &lt;url&gt;http://$ip:8081/repository/maven-public/&lt;/url&gt;</span><br><span class="line">    &lt;/mirror&gt;</span><br><span class="line">  &lt;/mirrors&gt;</span><br><span class="line">  &lt;profiles&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">    &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">    &lt;!--Enable snapshots for the built in central repo to direct --&gt;</span><br><span class="line">    &lt;!--all requests to nexus via the mirror --&gt;</span><br><span class="line">    &lt;repositories&gt;</span><br><span class="line">        &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">        &lt;/repository&gt;</span><br><span class="line">    &lt;/repositories&gt;</span><br><span class="line">    &lt;pluginRepositories&gt;</span><br><span class="line">        &lt;pluginRepository&gt;</span><br><span class="line">        &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">        &lt;/pluginRepository&gt;</span><br><span class="line">    &lt;/pluginRepositories&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">  &lt;/profiles&gt;</span><br><span class="line">  &lt;activeProfiles&gt;</span><br><span class="line">    &lt;!--make the profile active all the time --&gt;</span><br><span class="line">    &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</span><br><span class="line">  &lt;/activeProfiles&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="内部项目上传jar包："><a href="#内部项目上传jar包：" class="headerlink" title="内部项目上传jar包："></a>内部项目上传jar包：</h1><p>修改项目pom.xml文件增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;distributionManagement&gt;</span><br><span class="line">    &lt;repository&gt;</span><br><span class="line">      &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">      &lt;name&gt;Releases&lt;/name&gt;</span><br><span class="line">      &lt;url&gt;http://$ip:8081/repository/maven-releases&lt;/url&gt;</span><br><span class="line">    &lt;/repository&gt;</span><br><span class="line">    &lt;snapshotRepository&gt;</span><br><span class="line">      &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">      &lt;name&gt;Snapshot&lt;/name&gt;</span><br><span class="line">      &lt;url&gt;http://$ip:8081/repository/maven-snapshots&lt;/url&gt;</span><br><span class="line">    &lt;/snapshotRepository&gt;</span><br><span class="line">&lt;/distributionManagement&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean deploy</span><br></pre></td></tr></table></figure></p>
+<h1 id="上传第三方jar包："><a href="#上传第三方jar包：" class="headerlink" title="上传第三方jar包："></a>上传第三方jar包：</h1><p>nexus3不能使用web端来上传第三方jar包，只能使用命令行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -Dfile=$path/XX.jar -Durl=http://$ip:8081/repository/$hosted_3rd/ -DrepositoryId=nexus</span><br></pre></td></tr></table></figure></p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/28954/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/54025/"
                             aria-label=": 持续代码质量平台Sonar-5审计"
                         >
@@ -1282,170 +1423,6 @@
                         <p>
                             <a
                                 href="/posts/60120/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/posts/32389/"
-                            aria-label=": 使用Jenkins_Gerrit搭建持续集成"
-                        >
-                            使用Jenkins_Gerrit搭建持续集成
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-03-31T10:46:37+08:00">
-	
-		    Mar 31, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote>
-<p>公司目前使用Gerrit作为代码库托管和Code review平台。 使用Jenkins作为自动化构建和持续集成平台。</p>
-</blockquote>
-<h2 id="流程设计："><a href="#流程设计：" class="headerlink" title="流程设计："></a>流程设计：</h2><p><img src="/posts/32389/CI.png" alt="logo"></p>
-<ol>
-<li><p>Dev本地开发，然后上传patch到gerrit：</p>
-<ul>
-<li>同时触发Jenkins CR_Job来做build</li>
-<li>增加Code reviewers来做review</li>
-</ul>
-</li>
-<li><p>再上述都成功的基础上，reviewer点击+2：</p>
-<ul>
-<li>同时触发Jenkins Submit_Job来做build和test：<ul>
-<li>如果成功，自动合并本次patch到代码库</li>
-<li>如果失败，返回-1</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Nightly test Job：</p>
-<ul>
-<li>每晚20:00触发，获取当前最新的代码进行build和test</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>测试分级：</p>
-<ul>
-<li>CR_Job:<ul>
-<li>获取触发patch的代码，合并最新分支代码，进行build</li>
-<li>快速反馈，主要检查patch合并是否有冲突和build是否能跑通</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>Submit_Job：<ul>
-<li>获取触发patch的代码，合并最新的分支代码，进行build和测试</li>
-<li>根据每天代码提交次数来确定时间和test cases</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>Nightly_Job：<ul>
-<li>获取当前最新代码进行build和test</li>
-<li>一般跑12h，第二天早上出测试报告邮件</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<h2 id="软件环境："><a href="#软件环境：" class="headerlink" title="软件环境："></a>软件环境：</h2><table>
-<thead>
-<tr>
-<th>软件</th>
-<th>版本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Jenkins</td>
-<td>1.567</td>
-</tr>
-<tr>
-<td>Gerrit</td>
-<td>2.8.6</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Jenkins插件：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>插件名</th>
-<th>版本</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Multijob plugin</td>
-<td>2.11.1</td>
-<td>定义pipeline</td>
-</tr>
-<tr>
-<td>Gerrit Trigger</td>
-<td>1.13</td>
-<td>监控Gerrit event</td>
-</tr>
-</tbody>
-</table>
-<h2 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h2><ol>
-<li>安装配置Jenkins Gerrit Trigger插件：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger" target="_blank" rel="noopener">官方wiki</a><br> <img src="/posts/32389/Gerrit_Trigger.png" alt="logo"></li>
-<li>安装Jenkins Multijob plugin：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin" target="_blank" rel="noopener">官方wiki</a><br> <img src="/posts/32389/multi_jobs.png" alt="logo"></li>
-<li>配置CR_Job:<br> <img src="/posts/32389/CR_Job.png" alt="logo"></li>
-<li>配置Submit_job:<br> <img src="/posts/32389/submit_job.png" alt="logo"></li>
-<li>配置Nightly_Job:<br> <img src="/posts/32389/nightly_job.png" alt="logo"></li>
-</ol>
-<h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><ol>
-<li>以上内容都是基于公司研发现状定制的，建议各位根据自己的情况进行定制。</li>
-<li>因为历史遗留原因，当前使用的版本比较旧。 例如如果升级到jenkins2.x版本的话pipeline就不需要借助插件来实现了。</li>
-</ol>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/posts/32389/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >

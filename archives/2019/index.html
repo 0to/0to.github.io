@@ -276,6 +276,80 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/42921/"
+                            aria-label=": Gerrit LDAP: Allow to configure multiple accountBase and groupBase values"
+                        >
+                            Gerrit LDAP: Allow to configure multiple accountBase and groupBase values
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-10-11T11:46:37+08:00">
+	
+		    Oct 11, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><ul>
+<li>Gerrit官方文档: <a href="https://www.gerritcodereview.com/config-gerrit.html" target="_blank" rel="noopener">Gerritcodereview</a></li>
+<li>Github issue: <a href="https://github.com/kbrebanov/ansible-gerrit/issues/15" target="_blank" rel="noopener">Github</a></li>
+</ul>
+<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。<br>gerrit.config配置如下（信息请更新为各自公司节点）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p>
+<h2 id="业务需求："><a href="#业务需求：" class="headerlink" title="业务需求："></a>业务需求：</h2><p>公司特定合作伙伴 有 访问代码库 进行 联合开发的需求。</p>
+<h2 id="方案设计："><a href="#方案设计：" class="headerlink" title="方案设计："></a>方案设计：</h2><ol>
+<li>在现有LDAP节点的基础上，增加一个ou（custom），用来维护合作伙伴账号；</li>
+<li>同步 这个ou（custom）的人员到Gerrit上。</li>
+</ol>
+<hr>
+<h2 id="配置Gerrit支持多ou-user信息："><a href="#配置Gerrit支持多ou-user信息：" class="headerlink" title="配置Gerrit支持多ou user信息："></a>配置Gerrit支持多ou user信息：</h2><p>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.accountBase</span><br><span class="line">    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p>
+<p>我们调整gerrit.config配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  accountBase = ou=custom,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p>
+<p>然后重启Gerrit后，custom里面的人员也可以登录Gerrit了。</p>
+<hr>
+<h2 id="配置Gerrit支持多group信息："><a href="#配置Gerrit支持多group信息：" class="headerlink" title="配置Gerrit支持多group信息："></a>配置Gerrit支持多group信息：</h2><p>方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。<br>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.groupBase</span><br><span class="line">    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p>
+<h3 id="关于LDAP-group信息："><a href="#关于LDAP-group信息：" class="headerlink" title="关于LDAP group信息："></a>关于LDAP group信息：</h3><p>一般系统接入LDAP做账户验证，只需同步LDAP的user信息，不直接使用LDAP的group信息。<br>各个系统自行创建系统组进行人员权限管理，这样更加灵活。<br>同时，也不建议LDAP里面维护太多group，更加推荐LDAP轻量化使用。</p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/42921/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/31267/"
                             aria-label=": Git tips two"
                         >
