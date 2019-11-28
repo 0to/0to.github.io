@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Gerrit LDAP: Allow to configure multiple accountBase and groupBase values - Just Do IT</title>
+    <title>Jira&amp;&amp;Confluence-简介 - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nGerrit官方文档: Gerritcodereview\nGithub issue: Github\n\n背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  accountBase = ou=people,dc=example,dc=com  groupBase = ou=groups,dc=example,dc=com\n业务需求：公司特定合作伙伴 有 访问代码库 进行 联合开发的需求。\n方案设计：\n在现有LDAP节点的基础上，增加一个ou（custom），用来维护合作伙伴账号；\n同步 这个ou（custom）的人员到Gerrit上。\n\n\n配置Gerrit支持多ou user信息：根据Gerrit官方文档：123ldap.accountBase    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.    This setting may be added multiple times to specify more than one root.\n我们调整gerrit.config配置如下：123456[ldap]  server = ldap://ldap.example.com  username = ldapuser  accountBase = ou=people,dc=example,dc=com  accountBase = ou=custom,dc=example,dc=com  groupBase = ou=groups,dc=example,dc=com\n然后重启Gerrit后，custom里面的人员也可以登录Gerrit了。\n\n配置Gerrit支持多group信息：方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。根据Gerrit官方文档：123ldap.groupBase    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.    This setting may be added multiple times to specify more than one root.\n关于LDAP group信息：一般系统接入LDAP做账户验证，只需同步LDAP的user信息，不直接使用LDAP的group信息。各个系统自行创建系统组进行人员权限管理，这样更加灵活。同时，也不建议LDAP里面维护太多group，更加推荐LDAP轻量化使用。\n","dateCreated":"2019-10-11T11:46:37+08:00","dateModified":"2019-10-11T12:34:53+08:00","datePublished":"2019-10-11T11:46:37+08:00","description":"","headline":"Gerrit LDAP: Allow to configure multiple accountBase and groupBase values","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/42921/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/42921/","keywords":"Gerrit"}</script>
-    <meta name="description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  a">
-<meta name="keywords" content="Gerrit">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"Atlassian公司简介：官网: https://www.atlassian.comAtlassian, inspired by the Greek Titan. list on the NASDAQ under TEAM 2015.Mission: Move work forward. Atlassian helps teams work smarter and faster, together.\n\n主要产品：\n\n\n产品名称\n简介\n备注\n\n\n\n\nJira\nProject and issue tracking\n项目管理系统\n\n\nConfluence\nDocument collaboration\n知识库系统\n\n\nTrello\nCollaborate visually on any project\n简单的团队协作系统适合个人或者小团队使用\n\n\nBitbucket\nGit code management\n代码库托管系统支持权限管理/code review等等类比Github\n\n\nBamboo\nIntegration and release management\n自动化系统类比Jenkins\n\n\nSourcetree\nGit and Mercurial desktop client\ngit客户端\n\n\nFisheye\nSearch, monitor, and track across SVN, Git, and Perforce repositories\n代码库查询展示系统支持多种代码库\n\n\nCrucible\nFind bugs and improve code quality through peer code review\ncode review系统类比Phabricator\n\n\n\n\n产品形态\n\n\n类型\n简介\n优点\n缺点\n适用场景\n付款策略\n\n\n\n\nCloud\nATLASSIAN公司搭建运维云服务\n1.开箱即用2.运维容灾由ATLASSIAN公司保障3.新版本升级支持4.日常使用问题支持\n1. 国内访问速度慢2. 数据托管在cloud\n1.快速使用 2.多地点使用3.运维能力一般\nper year\n\n\nServer\n公司自行搭建运维服务\n1.自行定制配置搭建2.数据信息存储在自家服务器上3.访问速度快\n自行负责运维（服务/网络）\n1.数据保密/安全要求较高2.运维能力较强团队\none-time payment服务可以一直使用包含12个月内的新版本升级支持如果12个月后还想升级版本的话，需要重新付费\n\n\nData Center\n公司自行搭建运维服务官方提供扩展数据/服务容灾支持\n1.数据多节点存储2.负载均衡3.集群支持\n价格太贵了\n1.大中型企业级用户（500+）2.容灾安全/负载均衡要求较高3.跨多地区团队\nper year\n\n\n\n\n工具链选型\n项目管理系统： Jira Server\n公司知识库系统： Confluence Server\n公司代码库： Bitbucket/Git（code review）\n自动化平台： Jenkins （Bamboo正在内部试用调研）\n\n\n选型思路0.为什么是Jira Server版本？\n\n公司项目研发团队在中国，Cloud访问速度不快；\n公司现有研发体量不需要过度涉及支持，所以不考虑Data Center；\n运维团队比较强力，可以做到服务器高可用支持；\nIOS/Android 客户端支持；\n流程/字段定制功能强大，项目支持方便。\n\n1.为什么是Confluence？\n\n和Jira打通非常方便，联动性很好；\n系统自带的模版页面非常适合特定场景使用；\n易用性很好，学习成本很低；\n多人协同编辑可视化很好；\nIOS/Android 客户端支持\n\n2.为什么是Bitbucket？\n\n原有的Gerrit版本比较老，易用性不好；\nGitlab / Bitbucket 都可以满足团队代码托管 / code review / 系统集成的需要；\n选择 Bitbucket 主要是和Jira &amp;&amp; Confluence打通非常方便，联动性很好。\n\n3.为什么是Jenkins？\n\n已经使用Jenkins很长时间了，团队人员比较熟悉；\n通过二次开发，Jenkins能满足当前项目使用；\nBamboo 在Jira &amp;&amp; Confluence联动行上会比Jenkins好，但是多Slave授权费用太贵了；\n因为项目特殊性，需要用到多Slave挂载，从成本角度考虑还是使用Jenkins更适合。\n\n","dateCreated":"2019-11-28T10:56:15+08:00","dateModified":"2019-11-28T16:28:54+08:00","datePublished":"2019-11-28T10:56:15+08:00","description":"","headline":"Jira&&Confluence-简介","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/43943/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/43943/","keywords":"jira, confluence"}</script>
+    <meta name="description" content="Atlassian公司简介：官网: https://www.atlassian.comAtlassian, inspired by the Greek Titan. list on the NASDAQ under TEAM 2015.Mission: Move work forward. Atlassian helps teams work smarter and faster, togethe">
+<meta name="keywords" content="jira,confluence">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Gerrit LDAP: Allow to configure multiple accountBase and groupBase values">
-<meta property="og:url" content="https://0to.github.io/posts/42921/index.html">
+<meta property="og:title" content="Jira&amp;&amp;Confluence-简介">
+<meta property="og:url" content="https://0to.github.io/posts/43943/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  a">
+<meta property="og:description" content="Atlassian公司简介：官网: https://www.atlassian.comAtlassian, inspired by the Greek Titan. list on the NASDAQ under TEAM 2015.Mission: Move work forward. Atlassian helps teams work smarter and faster, togethe">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-11T04:34:53.584Z">
+<meta property="og:updated_time" content="2019-11-28T08:28:54.495Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gerrit LDAP: Allow to configure multiple accountBase and groupBase values">
-<meta name="twitter:description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  a">
+<meta name="twitter:title" content="Jira&amp;&amp;Confluence-简介">
+<meta name="twitter:description" content="Atlassian公司简介：官网: https://www.atlassian.comAtlassian, inspired by the Greek Titan. list on the NASDAQ under TEAM 2015.Mission: Move work forward. Atlassian helps teams work smarter and faster, togethe">
     
     
         
@@ -278,20 +278,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Gerrit LDAP: Allow to configure multiple accountBase and groupBase values
+            Jira&amp;&amp;Confluence-简介
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-10-11T11:46:37+08:00">
+    <time datetime="2019-11-28T10:56:15+08:00">
 	
-		    Oct 11, 2019
+		    Nov 28, 2019
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/SCM/">SCM</a>
+    <a class="category-link" href="/categories/PM/">PM</a>
 
 
     
@@ -303,23 +303,135 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><ul>
-<li>Gerrit官方文档: <a href="https://www.gerritcodereview.com/config-gerrit.html" target="_blank" rel="noopener">Gerritcodereview</a></li>
-<li>Github issue: <a href="https://github.com/kbrebanov/ansible-gerrit/issues/15" target="_blank" rel="noopener">Github</a></li>
-</ul>
-<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。<br>gerrit.config配置如下（信息请更新为各自公司节点）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p>
-<h2 id="业务需求："><a href="#业务需求：" class="headerlink" title="业务需求："></a>业务需求：</h2><p>公司特定合作伙伴 有 访问代码库 进行 联合开发的需求。</p>
-<h2 id="方案设计："><a href="#方案设计：" class="headerlink" title="方案设计："></a>方案设计：</h2><ol>
-<li>在现有LDAP节点的基础上，增加一个ou（custom），用来维护合作伙伴账号；</li>
-<li>同步 这个ou（custom）的人员到Gerrit上。</li>
+            <h1 id="Atlassian公司简介："><a href="#Atlassian公司简介：" class="headerlink" title="Atlassian公司简介："></a>Atlassian公司简介：</h1><p>官网: <a href="https://www.atlassian.com" target="_blank" rel="noopener">https://www.atlassian.com</a><br>Atlassian, inspired by the Greek Titan. list on the NASDAQ under TEAM 2015.<br>Mission: Move work forward. Atlassian helps teams work smarter and faster, together.</p>
+<hr>
+<h1 id="主要产品："><a href="#主要产品：" class="headerlink" title="主要产品："></a>主要产品：</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">产品名称</th>
+<th style="text-align:left">简介</th>
+<th style="text-align:left">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Jira</td>
+<td style="text-align:left">Project and issue tracking</td>
+<td style="text-align:left">项目管理系统</td>
+</tr>
+<tr>
+<td style="text-align:left">Confluence</td>
+<td style="text-align:left">Document collaboration</td>
+<td style="text-align:left">知识库系统</td>
+</tr>
+<tr>
+<td style="text-align:left">Trello</td>
+<td style="text-align:left">Collaborate visually on any project</td>
+<td style="text-align:left">简单的团队协作系统<br>适合个人或者小团队使用</td>
+</tr>
+<tr>
+<td style="text-align:left">Bitbucket</td>
+<td style="text-align:left">Git code management</td>
+<td style="text-align:left">代码库托管系统<br>支持权限管理/code review等等<br>类比Github</td>
+</tr>
+<tr>
+<td style="text-align:left">Bamboo</td>
+<td style="text-align:left">Integration and release management</td>
+<td style="text-align:left">自动化系统<br>类比Jenkins</td>
+</tr>
+<tr>
+<td style="text-align:left">Sourcetree</td>
+<td style="text-align:left">Git and Mercurial desktop client</td>
+<td style="text-align:left">git客户端</td>
+</tr>
+<tr>
+<td style="text-align:left">Fisheye</td>
+<td style="text-align:left">Search, monitor, and track across SVN, Git, and Perforce repositories</td>
+<td style="text-align:left">代码库查询展示系统<br>支持多种代码库</td>
+</tr>
+<tr>
+<td style="text-align:left">Crucible</td>
+<td style="text-align:left">Find bugs and improve code quality through peer code review</td>
+<td style="text-align:left">code review系统<br>类比Phabricator</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="产品形态"><a href="#产品形态" class="headerlink" title="产品形态"></a>产品形态</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">简介</th>
+<th style="text-align:left">优点</th>
+<th style="text-align:left">缺点</th>
+<th style="text-align:left">适用场景</th>
+<th style="text-align:left">付款策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Cloud</td>
+<td style="text-align:left">ATLASSIAN公司搭建运维云服务</td>
+<td style="text-align:left">1.开箱即用<br>2.运维容灾由ATLASSIAN公司保障<br>3.新版本升级支持<br>4.日常使用问题支持</td>
+<td style="text-align:left">1. 国内访问速度慢<br>2. 数据托管在cloud</td>
+<td style="text-align:left">1.快速使用 <br>2.多地点使用<br>3.运维能力一般</td>
+<td style="text-align:left">per year</td>
+</tr>
+<tr>
+<td style="text-align:left">Server</td>
+<td style="text-align:left">公司自行搭建运维服务</td>
+<td style="text-align:left">1.自行定制配置搭建<br>2.数据信息存储在自家服务器上<br>3.访问速度快</td>
+<td style="text-align:left">自行负责运维（服务/网络）</td>
+<td style="text-align:left">1.数据保密/安全要求较高<br>2.运维能力较强团队</td>
+<td style="text-align:left">one-time payment<br>服务可以一直使用<br>包含12个月内的新版本升级支持<br>如果12个月后还想升级版本的话，需要重新付费</td>
+</tr>
+<tr>
+<td style="text-align:left">Data Center</td>
+<td style="text-align:left">公司自行搭建运维服务<br>官方提供扩展数据/服务容灾支持</td>
+<td style="text-align:left">1.数据多节点存储<br>2.负载均衡<br>3.集群支持</td>
+<td style="text-align:left">价格太贵了</td>
+<td style="text-align:left">1.大中型企业级用户（500+）<br>2.容灾安全/负载均衡要求较高<br>3.跨多地区团队</td>
+<td style="text-align:left">per year</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="工具链选型"><a href="#工具链选型" class="headerlink" title="工具链选型"></a>工具链选型</h2><ol>
+<li>项目管理系统： Jira Server</li>
+<li>公司知识库系统： Confluence Server</li>
+<li>公司代码库： Bitbucket/Git（code review）</li>
+<li>自动化平台： Jenkins （Bamboo正在内部试用调研）</li>
 </ol>
 <hr>
-<h2 id="配置Gerrit支持多ou-user信息："><a href="#配置Gerrit支持多ou-user信息：" class="headerlink" title="配置Gerrit支持多ou user信息："></a>配置Gerrit支持多ou user信息：</h2><p>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.accountBase</span><br><span class="line">    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p>
-<p>我们调整gerrit.config配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  accountBase = ou=custom,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p>
-<p>然后重启Gerrit后，custom里面的人员也可以登录Gerrit了。</p>
-<hr>
-<h2 id="配置Gerrit支持多group信息："><a href="#配置Gerrit支持多group信息：" class="headerlink" title="配置Gerrit支持多group信息："></a>配置Gerrit支持多group信息：</h2><p>方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。<br>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.groupBase</span><br><span class="line">    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p>
-<h3 id="关于LDAP-group信息："><a href="#关于LDAP-group信息：" class="headerlink" title="关于LDAP group信息："></a>关于LDAP group信息：</h3><p>一般系统接入LDAP做账户验证，只需同步LDAP的user信息，不直接使用LDAP的group信息。<br>各个系统自行创建系统组进行人员权限管理，这样更加灵活。<br>同时，也不建议LDAP里面维护太多group，更加推荐LDAP轻量化使用。</p>
+<h2 id="选型思路"><a href="#选型思路" class="headerlink" title="选型思路"></a>选型思路</h2><p>0.为什么是Jira Server版本？</p>
+<ul>
+<li>公司项目研发团队在中国，Cloud访问速度不快；</li>
+<li>公司现有研发体量不需要过度涉及支持，所以不考虑Data Center；</li>
+<li>运维团队比较强力，可以做到服务器高可用支持；</li>
+<li>IOS/Android 客户端支持；</li>
+<li>流程/字段定制功能强大，项目支持方便。</li>
+</ul>
+<p>1.为什么是Confluence？</p>
+<ul>
+<li>和Jira打通非常方便，联动性很好；</li>
+<li>系统自带的模版页面非常适合特定场景使用；</li>
+<li>易用性很好，学习成本很低；</li>
+<li>多人协同编辑可视化很好；</li>
+<li>IOS/Android 客户端支持</li>
+</ul>
+<p>2.为什么是Bitbucket？</p>
+<ul>
+<li>原有的Gerrit版本比较老，易用性不好；</li>
+<li>Gitlab / Bitbucket 都可以满足团队代码托管 / code review / 系统集成的需要；</li>
+<li>选择 Bitbucket 主要是和Jira &amp;&amp; Confluence打通非常方便，联动性很好。</li>
+</ul>
+<p>3.为什么是Jenkins？</p>
+<ul>
+<li>已经使用Jenkins很长时间了，团队人员比较熟悉；</li>
+<li>通过二次开发，Jenkins能满足当前项目使用；</li>
+<li>Bamboo 在Jira &amp;&amp; Confluence联动行上会比Jenkins好，但是多Slave授权费用太贵了；</li>
+<li>因为项目特殊性，需要用到多Slave挂载，从成本角度考虑还是使用Jenkins更适合。</li>
+</ul>
 
             
 
@@ -331,7 +443,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Gerrit/">Gerrit</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/confluence/">confluence</a> <a class="tag tag--primary tag--small t-link" href="/tags/jira/">jira</a>
 
             </div>
         
@@ -341,14 +453,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/43943/"
-                    data-tooltip="Jira&amp;&amp;Confluence-简介"
-                    aria-label="PREVIOUS: Jira&amp;&amp;Confluence-简介"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -358,9 +467,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/31267/"
-                    data-tooltip="Git tips two"
-                    aria-label="NEXT: Git tips two"
+                    href="/posts/42921/"
+                    data-tooltip="Gerrit LDAP: Allow to configure multiple accountBase and groupBase values"
+                    aria-label="NEXT: Gerrit LDAP: Allow to configure multiple accountBase and groupBase values"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -385,7 +494,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/42921/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/43943/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -398,7 +507,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/42921/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/43943/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -411,7 +520,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/42921/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/43943/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -470,14 +579,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/43943/"
-                    data-tooltip="Jira&amp;&amp;Confluence-简介"
-                    aria-label="PREVIOUS: Jira&amp;&amp;Confluence-简介"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -487,9 +593,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/31267/"
-                    data-tooltip="Git tips two"
-                    aria-label="NEXT: Git tips two"
+                    href="/posts/42921/"
+                    data-tooltip="Gerrit LDAP: Allow to configure multiple accountBase and groupBase values"
+                    aria-label="NEXT: Gerrit LDAP: Allow to configure multiple accountBase and groupBase values"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -514,7 +620,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/42921/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/43943/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -527,7 +633,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/42921/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/43943/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -540,7 +646,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/42921/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/43943/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -584,7 +690,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/42921/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/43943/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -597,7 +703,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/42921/"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/43943/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -610,7 +716,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://0to.github.io/posts/42921/"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/43943/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -674,9 +780,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://0to.github.io/posts/42921/';
+            this.page.url = 'https://0to.github.io/posts/43943/';
               
-            this.page.identifier = 'posts/42921/';
+            this.page.identifier = 'posts/43943/';
               
           };
           (function() {

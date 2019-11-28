@@ -278,6 +278,71 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/60120/"
+                            aria-label=": Git tips one"
+                        >
+                            Git tips one
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2017-03-31T14:40:12+08:00">
+	
+		    Mar 31, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git version 2.10.1</span><br></pre></td></tr></table></figure>
+<h1 id="Git克隆单个分支："><a href="#Git克隆单个分支：" class="headerlink" title="Git克隆单个分支："></a>Git克隆单个分支：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git clone 地址 —branch br1 —single-branch dir</span><br><span class="line">        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。</span><br><span class="line">原理：</span><br><span class="line">$ git remote -v</span><br><span class="line">        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1</span><br><span class="line">恢复完整代码库：</span><br><span class="line">$ git config remote.origin.fetch &quot;+refs/heads/*:refs/remotes/origin/*&quot;</span><br><span class="line">    然后执行</span><br><span class="line">    $ git pull</span><br></pre></td></tr></table></figure>
+<h1 id="Git对-gitignore文件处理："><a href="#Git对-gitignore文件处理：" class="headerlink" title="Git对.gitignore文件处理："></a>Git对.gitignore文件处理：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">已经增加到.gitignore文件里面的目录or文件会被git忽略。</span><br><span class="line">如果本次需要修改一个忽略文件：</span><br><span class="line">$ git status --ignored</span><br><span class="line">            --ignored   -- show ignored files as well</span><br><span class="line">$ git add -f</span><br><span class="line">            --force   -f   -- allow adding otherwise ignored files</span><br></pre></td></tr></table></figure>
+<h1 id="Git-commit相关："><a href="#Git-commit相关：" class="headerlink" title="Git commit相关："></a>Git commit相关：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 空提交,只在特殊情况下使用（产生一个新的commit点）</span><br><span class="line">$ git commit</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch is up-to-date with &apos;origin/master&apos;.</span><br><span class="line">    nothing to commit, working tree clean</span><br><span class="line"># 解决方法</span><br><span class="line">$ git commit -m &quot;empty commit&quot; --allow-empty</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 不带message提交（慎用,message很重要）</span><br><span class="line">$ git commit</span><br><span class="line">    Aborting commit due to empty commit message.</span><br><span class="line"># 解决方法</span><br><span class="line">$ git commit --allow-empty-message</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">把暂存区的变更合并到最新的版本里面，不会产生新的版本(同时可以更新log message)；</span><br><span class="line">$ git commit --amend</span><br><span class="line">PS：已经进远端代码库的版本不允许使用--amend进行修改!!!</span><br></pre></td></tr></table></figure>
+<h2 id="Git-merge相关："><a href="#Git-merge相关：" class="headerlink" title="Git merge相关："></a>Git merge相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">conflict处理：</span><br><span class="line"># 使用自己/他人的文件替换冲突文件</span><br><span class="line">$ git checkout --ours conflict.file</span><br><span class="line">$ git checkout --theirs conflict.file</span><br><span class="line"># 增加冲突文件到版本库</span><br><span class="line">$ git add conflict.file</span><br><span class="line">$ git commit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看merge commit点已经解决的冲突文件：</span><br><span class="line">$ git log --cc</span><br><span class="line">        --cc    -- combined diff format for merge commits</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">分支直接合并建议使用：git merge</span><br><span class="line">同一分支dev合并 or Temp分支合并建议使用：git rebase 或者 git cherry-pick</span><br><span class="line">    PS：以上两种都可以合并代码workspace最终文件一样，但是对git来说有不同：merge是环形，rebase和cherry-pick是直线</span><br><span class="line">    PS：需要注意的是rebase会是自己和他人角色发生反转，解决conflict file的时候需要留心。</span><br></pre></td></tr></table></figure>
+<h2 id="Git-rm相关："><a href="#Git-rm相关：" class="headerlink" title="Git rm相关："></a>Git rm相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git rm weilong.txt</span><br><span class="line">删除workspace和index里面的weilong.txt文件</span><br><span class="line"></span><br><span class="line">$ git rm --cached weilong.txt</span><br><span class="line">删除index里面的weilong.txt文件，workspace里面的文件保留</span><br></pre></td></tr></table></figure>
+<h2 id="Git-log相关："><a href="#Git-log相关：" class="headerlink" title="Git log相关："></a>Git log相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ git log -5</span><br><span class="line">查看最新的5次版本</span><br><span class="line"></span><br><span class="line">$ git log --author=weilong.wang</span><br><span class="line">查看weilong.wang提交的版本</span><br><span class="line"></span><br><span class="line">$ git log --oneline</span><br><span class="line">一行显示一个版本信息（简化显示版本信息）</span><br><span class="line"></span><br><span class="line">$ git log -p</span><br><span class="line">显示每个版本的具体修改</span><br><span class="line"></span><br><span class="line">$ git log --numstat</span><br><span class="line">显示每个版本 修改文件的行数（5       1       weilong.txt    这个文件本次增加了5行同时也删除了1行）</span><br><span class="line"></span><br><span class="line">$ git log --since=&quot;1 month ago&quot;</span><br><span class="line">显示最近一个月的日志</span><br><span class="line">$ git log --after=&quot;2016-07-01&quot;</span><br><span class="line">显示7月1号至今的日志</span><br><span class="line">$ git log --before=&quot;2 days&quot;</span><br><span class="line">显示2天之前的日志</span><br><span class="line">$ git log --until=&quot;2016-07-10T14:30&quot;</span><br><span class="line">显示7月10号14：30之前的日志</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ git log --graph</span><br><span class="line">图状显示版本 （正常提交时线形的，merge是环形的）</span><br><span class="line"></span><br><span class="line">可用于判断分支是否合并：</span><br><span class="line">$ git log br1 ^master</span><br><span class="line">显示只在分支br1不在master上的commit点</span><br><span class="line">$ git log master ^br1</span><br><span class="line">显示只在分支master不在br1分支上的commit点</span><br></pre></td></tr></table></figure>
+<p><img src="/posts/60120/Git-Cheat-Sheet.png" alt="logo"></p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/60120/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/32389/"
                             aria-label=": 使用Jenkins_Gerrit搭建持续集成"
                         >
