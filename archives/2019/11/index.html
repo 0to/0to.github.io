@@ -404,15 +404,15 @@
 <li>自动化平台： Jenkins （Bamboo正在内部试用调研）</li>
 </ol>
 <hr>
-<h2 id="选型思路"><a href="#选型思路" class="headerlink" title="选型思路"></a>选型思路</h2><p>0.为什么是Jira Server版本？</p>
+<h2 id="选型思路"><a href="#选型思路" class="headerlink" title="选型思路"></a>选型思路</h2><p>0.为什么是Jira Server？</p>
 <ul>
-<li>公司项目研发团队在中国，Cloud访问速度不快；</li>
-<li>公司现有研发体量不需要过度涉及支持，所以不考虑Data Center；</li>
+<li>公司项目研发团队在中国，Cloud访问速度慢；</li>
+<li>公司现有研发体量不需要过度支持，所以不考虑Data Center；</li>
 <li>运维团队比较强力，可以做到服务器高可用支持；</li>
 <li>IOS/Android 客户端支持；</li>
 <li>流程/字段定制功能强大，项目支持方便。</li>
 </ul>
-<p>1.为什么是Confluence？</p>
+<p>1.为什么是Confluence Server？</p>
 <ul>
 <li>和Jira打通非常方便，联动性很好；</li>
 <li>系统自带的模版页面非常适合特定场景使用；</li>
@@ -420,17 +420,19 @@
 <li>多人协同编辑可视化很好；</li>
 <li>IOS/Android 客户端支持</li>
 </ul>
-<p>2.为什么是Bitbucket？</p>
+<p>2.为什么是Bitbucket Server？</p>
 <ul>
 <li>原有的Gerrit版本比较老，易用性不好；</li>
 <li>Gitlab / Bitbucket 都可以满足团队代码托管 / code review / 系统集成的需要；</li>
-<li>选择 Bitbucket 主要是和Jira &amp;&amp; Confluence打通非常方便，联动性很好。</li>
+<li>选择 Bitbucket 主要是和Jira &amp;&amp; Confluence原生打通非常方便，联动性很好；</li>
+<li>源代码是公司核心资产，从安全性考虑，暂时不准备开放公网访问。</li>
 </ul>
 <p>3.为什么是Jenkins？</p>
 <ul>
 <li>已经使用Jenkins很长时间了，团队人员比较熟悉；</li>
 <li>通过二次开发，Jenkins能满足当前项目使用；</li>
-<li>Bamboo 在Jira &amp;&amp; Confluence联动行上会比Jenkins好，但是多Slave授权费用太贵了；</li>
+<li>Bamboo 在Jira &amp;&amp; Bitbucket联动性上会比Jenkins好；</li>
+<li>Bamboo是根据挂载的Remote agents数量进行收费，Jenkins是免费的；</li>
 <li>因为项目特殊性，需要用到多Slave挂载，从成本角度考虑还是使用Jenkins更适合。</li>
 </ul>
 
