@@ -278,6 +278,106 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/9613/"
+                            aria-label=": 使用SHA256代替MD5进行文件校验"
+                        >
+                            使用SHA256代替MD5进行文件校验
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-03-09T21:25:45+08:00">
+	
+		    Mar 09, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SYS/">SYS</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。<br>其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发布，建议采用其它安全性更好的校验算法。</p>
+<h1 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h1><h4 id="参考链接：-为什么MD5不能用于存储密码"><a href="#参考链接：-为什么MD5不能用于存储密码" class="headerlink" title="参考链接： 为什么MD5不能用于存储密码"></a>参考链接： <a href="https://draveness.me/whys-the-design-password-with-md5" target="_blank" rel="noopener">为什么MD5不能用于存储密码</a></h4><p>MD5 是一种摘要算法，我们也可以叫它哈希函数，哈希函数可以将无限键值空间中的所有键都均匀地映射到一个指定大小的键值空间中。一个好的摘要算法能够帮助我们保证文件的完整性，避免攻击者的恶意篡改。<br>作为一个 1992 年第一次被公开的算法，到今天为止已经被发现了一些致命的漏洞。在任何场景下，我们都应该避免MD5的使用，可以选择更好的摘要算法替代 MD5，例如 SHA256、SHA512。</p>
+<h1 id="改进方案"><a href="#改进方案" class="headerlink" title="改进方案"></a>改进方案</h1><ul>
+<li>保留现有的md5校验文件（部分客户还在使用）</li>
+<li>同时增加SHA256校验文件</li>
+</ul>
+<h1 id="基础命令使用"><a href="#基础命令使用" class="headerlink" title="基础命令使用"></a>基础命令使用</h1><ol>
+<li><p>SHA256</p>
+<ul>
+<li><p>生成XXX文件sha256值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum XXX &gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum clean_virus.sh &gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>追加YYY文件到已有sha256文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum YYY &gt;&gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum install.log &gt;&gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成的sha256文件内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@wangweilong wwl]# cat clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">799750ecaf018307e3f3a5b69c69d28635bf047472e99c85f094ef210deb8ac9  clean_virus.sh</span><br><span class="line">328de949506461ffb371cb2e951d25aadb9e94d7c3038bb08aebce42cd8b84ee  install.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>校验方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行 sha256sum -c XXX.sha256 命令</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# sha256sum -c clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: OK</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="2">
+<li><p>MD5</p>
+<ul>
+<li><p>生成XXX文件md5值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum XXX &gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum clean_virus.sh &gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>追加YYY文件到已有md5文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum YYY &gt;&gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum install.log &gt;&gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成的md5文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@p5-centos6-wangweilong wwl]# cat clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">7840489fe303c097fb142a982f9f41e7  clean_virus.sh</span><br><span class="line">16c04079cc2cda26cbab5cfa801df6c6  install.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>校验方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行md5sum -c XXX.md5 命令</span><br><span class="line">为了更好的展示，我修改了install.log文件的内容</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# md5sum -c clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: FAILED</span><br><span class="line">md5sum: WARNING: 1 of 2 computed checksums did NOT match</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/9613/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/43943/"
                             aria-label=": Jira&amp;&amp;Confluence-简介"
                         >
@@ -1203,144 +1303,6 @@ git push origin --tags
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/posts/61445/"
-                            aria-label=": 使用OpenGrok查询涉及关键字代码库"
-                        >
-                            使用OpenGrok查询涉及关键字代码库
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-11-27T16:08:37+08:00">
-	
-		    Nov 27, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。</p>
-<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ol>
-<li>查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。<ul>
-<li>难点：<ul>
-<li>并不是所有服务都会实时连接数据库，可能会漏掉；</li>
-<li>服务器上面部署的服务太多，还需要再做过滤。</li>
-</ul>
-</li>
-<li>综上，这个思路否定。</li>
-</ul>
-</li>
-<li>直接通过关键字查询代码库源码来定位。<ul>
-<li>难点：<ul>
-<li>需要拥有大范围的代码库权限</li>
-<li>多目录文件查询涉及关键字文件</li>
-</ul>
-</li>
-<li>解决方案：<ul>
-<li>作为公司SCM权限不是问题</li>
-<li>使用OpenGrok来做关键字查询</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li>OpenGrok：<a href="http://opengrok.github.io/OpenGrok/" target="_blank" rel="noopener">官方网站</a></li>
-</ul>
-<h2 id="实施步骤："><a href="#实施步骤：" class="headerlink" title="实施步骤："></a>实施步骤：</h2><ol>
-<li><p>搭建OpenGrok：</p>
-<ul>
-<li>安装jdk-1.8</li>
-<li>安装tomcat-8</li>
-<li><p>安装Exuberant Ctags <a href="http://ctags.sourceforge.net/" target="_blank" rel="noopener">下载地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf ctags-5.8.tar.gz</span><br><span class="line">$ cd ctags-5.8/</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装opengrok <a href="https://github.com/OpenGrok/OpenGrok/releases" target="_blank" rel="noopener">下载地址</a>  | <a href="https://github.com/OpenGrok/OpenGrok/wiki/How-to-install-OpenGrok" target="_blank" rel="noopener">安装使用wiki</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf opengrok-1.1-rc16.tar.gz</span><br><span class="line">$ cd opengrok-1.1-rc16/bin/</span><br><span class="line">$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>下载代码</p>
-<ul>
-<li><p>创建一个公共代码库存放目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /root/wwl/code/svn</span><br><span class="line">$ mkdir -p /root/wwl/code/git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>根据需要下载svn代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/svn</span><br><span class="line">$ svn checkout svn_urls</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>根据需要下载git代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/git</span><br><span class="line">$ git clone git_urls</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>PS:如果要想查询所有分支代码</p>
-<ul>
-<li>svn：直接checkout 包含branches目录url即可；</li>
-<li>git：需要clone多次git_url到不同目录，然后cd到各自目录执行git checkout branch_name；</li>
-<li>建议只下载master/trunk和最新dev分支即可。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>加载OpenGrok索引</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./OpenGrok index &lt;absolute_path_to_your_SRC_ROOT&gt;</span><br><span class="line">例如：</span><br><span class="line">    ./OpenGrok index /root/wwl/code</span><br></pre></td></tr></table></figure>
-<p> PS：如果代码文件很多的话，加载索引会很久。晚上执行第二天来看结果吧。</p>
-</li>
-<li><p>关键字查询</p>
-<ul>
-<li><p>web端登陆:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;HOST&gt;:&lt;PORT&gt;/source</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行查询:<br><img src="/posts/61445/OpenGrok.png" alt="logo"></p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><ol>
-<li>OpenGrok还支持文件类型查询过滤等功能，各位可以自行尝试使用；</li>
-<li>除了数据库表查询以外，常见的还有api调用查询；</li>
-<li>这种方案是后置的，如果能在系统设计之初和迭代过程积极维护开发文档，形成系统整体调度架构图形的话，会另我们开发更加自信；</li>
-<li>借此机会推动开发团队规范开发文档和产出系统调度架构图形。</li>
-</ol>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/posts/61445/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -1365,7 +1327,7 @@ git push origin --tags
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 Weilong. All Rights Reserved.
+        Copyrights &copy; 2020 Weilong. All Rights Reserved.
     </span>
 </footer>
 

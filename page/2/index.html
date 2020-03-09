@@ -278,6 +278,144 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/61445/"
+                            aria-label=": 使用OpenGrok查询涉及关键字代码库"
+                        >
+                            使用OpenGrok查询涉及关键字代码库
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2017-11-27T16:08:37+08:00">
+	
+		    Nov 27, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。</p>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ol>
+<li>查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。<ul>
+<li>难点：<ul>
+<li>并不是所有服务都会实时连接数据库，可能会漏掉；</li>
+<li>服务器上面部署的服务太多，还需要再做过滤。</li>
+</ul>
+</li>
+<li>综上，这个思路否定。</li>
+</ul>
+</li>
+<li>直接通过关键字查询代码库源码来定位。<ul>
+<li>难点：<ul>
+<li>需要拥有大范围的代码库权限</li>
+<li>多目录文件查询涉及关键字文件</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>作为公司SCM权限不是问题</li>
+<li>使用OpenGrok来做关键字查询</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li>OpenGrok：<a href="http://opengrok.github.io/OpenGrok/" target="_blank" rel="noopener">官方网站</a></li>
+</ul>
+<h2 id="实施步骤："><a href="#实施步骤：" class="headerlink" title="实施步骤："></a>实施步骤：</h2><ol>
+<li><p>搭建OpenGrok：</p>
+<ul>
+<li>安装jdk-1.8</li>
+<li>安装tomcat-8</li>
+<li><p>安装Exuberant Ctags <a href="http://ctags.sourceforge.net/" target="_blank" rel="noopener">下载地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf ctags-5.8.tar.gz</span><br><span class="line">$ cd ctags-5.8/</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装opengrok <a href="https://github.com/OpenGrok/OpenGrok/releases" target="_blank" rel="noopener">下载地址</a>  | <a href="https://github.com/OpenGrok/OpenGrok/wiki/How-to-install-OpenGrok" target="_blank" rel="noopener">安装使用wiki</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf opengrok-1.1-rc16.tar.gz</span><br><span class="line">$ cd opengrok-1.1-rc16/bin/</span><br><span class="line">$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>下载代码</p>
+<ul>
+<li><p>创建一个公共代码库存放目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /root/wwl/code/svn</span><br><span class="line">$ mkdir -p /root/wwl/code/git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据需要下载svn代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/svn</span><br><span class="line">$ svn checkout svn_urls</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据需要下载git代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/git</span><br><span class="line">$ git clone git_urls</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PS:如果要想查询所有分支代码</p>
+<ul>
+<li>svn：直接checkout 包含branches目录url即可；</li>
+<li>git：需要clone多次git_url到不同目录，然后cd到各自目录执行git checkout branch_name；</li>
+<li>建议只下载master/trunk和最新dev分支即可。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>加载OpenGrok索引</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./OpenGrok index &lt;absolute_path_to_your_SRC_ROOT&gt;</span><br><span class="line">例如：</span><br><span class="line">    ./OpenGrok index /root/wwl/code</span><br></pre></td></tr></table></figure>
+<p> PS：如果代码文件很多的话，加载索引会很久。晚上执行第二天来看结果吧。</p>
+</li>
+<li><p>关键字查询</p>
+<ul>
+<li><p>web端登陆:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;HOST&gt;:&lt;PORT&gt;/source</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行查询:<br><img src="/posts/61445/OpenGrok.png" alt="logo"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><ol>
+<li>OpenGrok还支持文件类型查询过滤等功能，各位可以自行尝试使用；</li>
+<li>除了数据库表查询以外，常见的还有api调用查询；</li>
+<li>这种方案是后置的，如果能在系统设计之初和迭代过程积极维护开发文档，形成系统整体调度架构图形的话，会另我们开发更加自信；</li>
+<li>借此机会推动开发团队规范开发文档和产出系统调度架构图形。</li>
+</ol>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/61445/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/7037/"
                             aria-label=": nexus2.x迁移repository到nexus3.x"
                         >
@@ -1349,146 +1487,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/posts/2248/"
-                            aria-label=": Gerrit code review"
-                        >
-                            Gerrit code review
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-04-06T15:07:45+08:00">
-	
-		    Apr 06, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
-<p>公司使用Gerrit作为代码托管平台。<br>Gerrit除了设置项目权限外，还提供了很好的code review功能。<br>下面分别简单介绍普通Git用法和code review用法</p>
-</blockquote>
-<h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/posts/2248/git_test.png" alt="logo"></p>
-<blockquote>
-<p>如上图所示：</p>
-</blockquote>
-<blockquote>
-<p>Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；</p>
-</blockquote>
-<blockquote>
-<p>绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone :克隆一个远端git仓库到本地</span><br><span class="line">git fetch：获取远端git仓库变化到本地仓库，并不会更改当前工作区文件</span><br><span class="line">git pull：这个命令相当于：先执行git fetch 然后执行git merge变化到当前工作区</span><br><span class="line">git push：将本地仓库的变化推送到远端git服务器</span><br></pre></td></tr></table></figure>
-<h2 id="Code-Review使用方法："><a href="#Code-Review使用方法：" class="headerlink" title="Code Review使用方法："></a>Code Review使用方法：</h2><p><img src="/posts/2248/gerrit_test.png" alt="logo"></p>
-<blockquote>
-<p>如上图所示：<br>    使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；<br>    本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；<br>    <img src="/posts/2248/code_review.png" alt="logo"><br>    管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）</p>
-</blockquote>
-</blockquote>
-<h2 id="原理解析："><a href="#原理解析：" class="headerlink" title="原理解析："></a>原理解析：</h2><blockquote>
-<p>为了实现上面所说的功能，gerrit引入了change_id和for空间；</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>我们执行git push到for空间；<br>    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：<br>    git push origin HEAD:refs/heads/master<br>    推送当前本地最新代码到远端（origin）master分支</p>
-</blockquote>
-</blockquote>
-<hr>
-<blockquote>
-<blockquote>
-<p>  使用code review的话执行git push完整命令是：<br>    git push origin HEAD:refs/for/master<br>    推送当前本地最新代码到for空间的master分支供gerrit识别</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</p>
-</blockquote>
-</blockquote>
-<hr>
-<blockquote>
-<p>Gerrit根据change-Id识别你的patch；</p>
-<blockquote>
-<p>我们需要引入commit-msg钩子文件到本地代码库:<br>        （这个是gerrit原生提供的通过scp命令实现）<br>        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可<br>        gitdir=$(git rev-parse –git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg ${gitdir}/hooks/</p>
-</blockquote>
-</blockquote>
-<hr>
-<blockquote>
-<p>commit-msg钩子的作用和使用：<br>1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id<br>        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548<br>2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit –amend<br>        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）<br>    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>PS：建议合并最新版本代码到本地：使用git pull –rebase<br>        如果使用git pull： merge点不自动产生change-id！！！</p>
-</blockquote>
-</blockquote>
-<p><img src="/posts/2248/patch.png" alt="logo"></p>
-<h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><blockquote>
-<p>根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：</p>
-<ol>
-<li>git clone远端代码库到本地</li>
-<li>从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</li>
-<li>每次都要本地git commit后执行git push origin HEAD:refs/for/master</li>
-<li>去gerrit上面添加code reviewers<br>这并不是我想要的生活。。。</li>
-</ol>
-</blockquote>
-<hr>
-<blockquote>
-<p>一劳永逸方法：</p>
-<ol>
-<li>git clone远端代码库到本地</li>
-<li>从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</li>
-<li>修改本地代码库config   vi .git/config增加下面内容<br>[remote “review_master”]<br>  url = 代码库地址<br>  push = HEAD:<a href="mailto:refs/for/master%r=weilong.wang@memblaze.com" target="_blank" rel="noopener">refs/for/master%r=weilong.wang@memblaze.com</a>,<a href="mailto:r=dev1@memblaze.com" target="_blank" rel="noopener">r=dev1@memblaze.com</a></li>
-<li>本地git commit后执行git push review_master即可<br>会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</li>
-</ol>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>PS：     remote “review_master” 这个可以换成你喜欢的其他字符串；假如改成remote “haha” 那么最终push的时候执行 git push haha<br>PS：     pushurl这个请自行替换成各位执行git clone的地址<br>PS：     自动添加code reviewers请自行替换成各位项目的同事</p>
-</blockquote>
-</blockquote>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/posts/2248/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -1524,7 +1522,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 Weilong. All Rights Reserved.
+        Copyrights &copy; 2020 Weilong. All Rights Reserved.
     </span>
 </footer>
 

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Git tips one - Just Do IT</title>
+    <title>使用SHA256代替MD5进行文件校验 - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,21 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"软件版本：1git version 2.10.1\nGit克隆单个分支：123456789$ git clone 地址 —branch br1 —single-branch dir        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。原理：$ git remote -v        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1恢复完整代码库：$ git config remote.origin.fetch &quot;+refs/heads/*:refs/remotes/origin/*&quot;    然后执行    $ git pull\nGit对.gitignore文件处理：123456已经增加到.gitignore文件里面的目录or文件会被git忽略。如果本次需要修改一个忽略文件：$ git status --ignored            --ignored   -- show ignored files as well$ git add -f            --force   -f   -- allow adding otherwise ignored files\nGit commit相关：12345678910111213141516171819# 空提交,只在特殊情况下使用（产生一个新的commit点）$ git commit    On branch master    Your branch is up-to-date with &apos;origin/master&apos;.    nothing to commit, working tree clean# 解决方法$ git commit -m &quot;empty commit&quot; --allow-empty# 不带message提交（慎用,message很重要）$ git commit    Aborting commit due to empty commit message.# 解决方法$ git commit --allow-empty-message把暂存区的变更合并到最新的版本里面，不会产生新的版本(同时可以更新log message)；$ git commit --amendPS：已经进远端代码库的版本不允许使用--amend进行修改!!!\nGit merge相关：123456789101112131415161718conflict处理：# 使用自己/他人的文件替换冲突文件$ git checkout --ours conflict.file$ git checkout --theirs conflict.file# 增加冲突文件到版本库$ git add conflict.file$ git commit查看merge commit点已经解决的冲突文件：$ git log --cc        --cc    -- combined diff format for merge commits分支直接合并建议使用：git merge同一分支dev合并 or Temp分支合并建议使用：git rebase 或者 git cherry-pick    PS：以上两种都可以合并代码workspace最终文件一样，但是对git来说有不同：merge是环形，rebase和cherry-pick是直线    PS：需要注意的是rebase会是自己和他人角色发生反转，解决conflict file的时候需要留心。\nGit rm相关：12345$ git rm weilong.txt删除workspace和index里面的weilong.txt文件$ git rm --cached weilong.txt删除index里面的weilong.txt文件，workspace里面的文件保留\nGit log相关：123456789101112131415161718192021222324252627282930313233$ git log -5查看最新的5次版本$ git log --author=weilong.wang查看weilong.wang提交的版本$ git log --oneline一行显示一个版本信息（简化显示版本信息）$ git log -p显示每个版本的具体修改$ git log --numstat显示每个版本 修改文件的行数（5       1       weilong.txt    这个文件本次增加了5行同时也删除了1行）$ git log --since=&quot;1 month ago&quot;显示最近一个月的日志$ git log --after=&quot;2016-07-01&quot;显示7月1号至今的日志$ git log --before=&quot;2 days&quot;显示2天之前的日志$ git log --until=&quot;2016-07-10T14:30&quot;显示7月10号14：30之前的日志$ git log --graph图状显示版本 （正常提交时线形的，merge是环形的）可用于判断分支是否合并：$ git log br1 ^master显示只在分支br1不在master上的commit点$ git log master ^br1显示只在分支master不在br1分支上的commit点\n\n","dateCreated":"2017-03-31T14:40:12+08:00","dateModified":"2018-05-04T17:49:30+08:00","datePublished":"2017-03-31T14:40:12+08:00","description":"","headline":"Git tips one","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/60120/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/60120/","keywords":"Git"}</script>
-    <meta name="description" content="软件版本：1git version 2.10.1 Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-branch dir        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。原理：$ git remote -v        remote.origin.fetch=+refs/heads/b">
-<meta name="keywords" content="Git">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发布，建议采用其它安全性更好的校验算法。\n方案调研参考链接： 为什么MD5不能用于存储密码MD5 是一种摘要算法，我们也可以叫它哈希函数，哈希函数可以将无限键值空间中的所有键都均匀地映射到一个指定大小的键值空间中。一个好的摘要算法能够帮助我们保证文件的完整性，避免攻击者的恶意篡改。作为一个 1992 年第一次被公开的算法，到今天为止已经被发现了一些致命的漏洞。在任何场景下，我们都应该避免MD5的使用，可以选择更好的摘要算法替代 MD5，例如 SHA256、SHA512。\n改进方案\n保留现有的md5校验文件（部分客户还在使用）\n同时增加SHA256校验文件\n\n基础命令使用\nSHA256\n\n生成XXX文件sha256值：\n123sha256sum XXX &gt; XXX.sha256[root@wangweilong wwl]# sha256sum clean_virus.sh &gt; clean_virus.sh.sha256\n\n追加YYY文件到已有sha256文件：\n123sha256sum YYY &gt;&gt; XXX.sha256[root@wangweilong wwl]# sha256sum install.log &gt;&gt; clean_virus.sh.sha256\n\n生成的sha256文件内容:\n1234[root@wangweilong wwl]# cat clean_virus.sh.sha256799750ecaf018307e3f3a5b69c69d28635bf047472e99c85f094ef210deb8ac9  clean_virus.sh328de949506461ffb371cb2e951d25aadb9e94d7c3038bb08aebce42cd8b84ee  install.log\n\n校验方法：\n123456下载文件和对应的md5值文件到同一目录下,执行 sha256sum -c XXX.sha256 命令[root@wangweilong test]# sha256sum -c clean_virus.sh.sha256clean_virus.sh: OKinstall.log: OK\n\n\n\n\n\n\nMD5\n\n生成XXX文件md5值\n123md5sum XXX &gt; XXX.md5[root@wangweilong wwl]# md5sum clean_virus.sh &gt; clean_virus.sh.md5\n\n追加YYY文件到已有md5文件\n123md5sum YYY &gt;&gt; XXX.md5[root@wangweilong wwl]# md5sum install.log &gt;&gt; clean_virus.sh.md5\n\n生成的md5文件内容\n1234[root@p5-centos6-wangweilong wwl]# cat clean_virus.sh.md57840489fe303c097fb142a982f9f41e7  clean_virus.sh16c04079cc2cda26cbab5cfa801df6c6  install.log\n\n校验方法\n12345678下载文件和对应的md5值文件到同一目录下,执行md5sum -c XXX.md5 命令为了更好的展示，我修改了install.log文件的内容[root@wangweilong test]# md5sum -c clean_virus.sh.md5clean_virus.sh: OKinstall.log: FAILEDmd5sum: WARNING: 1 of 2 computed checksums did NOT match\n\n\n\n\n","dateCreated":"2020-03-09T21:25:45+08:00","dateModified":"2020-03-09T22:04:38+08:00","datePublished":"2020-03-09T21:25:45+08:00","description":"","headline":"使用SHA256代替MD5进行文件校验","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/9613/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/9613/","keywords":"Admin"}</script>
+    <meta name="description" content="背景第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发布，建议采用其它安全性更好的校验算法。 方案调研参考链接： 为什么MD5不能用于存储密码MD5 是一种摘要算法，我们也可以叫它哈希函数，哈希函数可以将无限键值空间中的所有键都均匀地映射到一个指定大小的键值空间中。一个好的摘要算法能够帮助我们保证文件的完整性，避免攻">
+<meta name="keywords" content="Admin">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Git tips one">
-<meta property="og:url" content="https://0to.github.io/posts/60120/index.html">
+<meta property="og:title" content="使用SHA256代替MD5进行文件校验">
+<meta property="og:url" content="https://0to.github.io/posts/9613/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="软件版本：1git version 2.10.1 Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-branch dir        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。原理：$ git remote -v        remote.origin.fetch=+refs/heads/b">
+<meta property="og:description" content="背景第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发布，建议采用其它安全性更好的校验算法。 方案调研参考链接： 为什么MD5不能用于存储密码MD5 是一种摘要算法，我们也可以叫它哈希函数，哈希函数可以将无限键值空间中的所有键都均匀地映射到一个指定大小的键值空间中。一个好的摘要算法能够帮助我们保证文件的完整性，避免攻">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://0to.github.io/posts/60120/Git-Cheat-Sheet.png">
-<meta property="og:updated_time" content="2018-05-04T09:49:30.650Z">
+<meta property="og:updated_time" content="2020-03-09T14:04:38.070Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git tips one">
-<meta name="twitter:description" content="软件版本：1git version 2.10.1 Git克隆单个分支：123456789$ git clone 地址 —branch br1 —single-branch dir        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。原理：$ git remote -v        remote.origin.fetch=+refs/heads/b">
-<meta name="twitter:image" content="https://0to.github.io/posts/60120/Git-Cheat-Sheet.png">
+<meta name="twitter:title" content="使用SHA256代替MD5进行文件校验">
+<meta name="twitter:description" content="背景第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发布，建议采用其它安全性更好的校验算法。 方案调研参考链接： 为什么MD5不能用于存储密码MD5 是一种摘要算法，我们也可以叫它哈希函数，哈希函数可以将无限键值空间中的所有键都均匀地映射到一个指定大小的键值空间中。一个好的摘要算法能够帮助我们保证文件的完整性，避免攻">
     
     
         
@@ -280,20 +278,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Git tips one
+            使用SHA256代替MD5进行文件校验
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2017-03-31T14:40:12+08:00">
+    <time datetime="2020-03-09T21:25:45+08:00">
 	
-		    Mar 31, 2017
+		    Mar 09, 2020
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/SCM/">SCM</a>
+    <a class="category-link" href="/categories/SYS/">SYS</a>
 
 
     
@@ -305,14 +303,49 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git version 2.10.1</span><br></pre></td></tr></table></figure>
-<h1 id="Git克隆单个分支："><a href="#Git克隆单个分支：" class="headerlink" title="Git克隆单个分支："></a>Git克隆单个分支：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git clone 地址 —branch br1 —single-branch dir</span><br><span class="line">        只能看到单独的br1，不能checkout到其他分支。空间占用比较小，适合长期分支开发。</span><br><span class="line">原理：</span><br><span class="line">$ git remote -v</span><br><span class="line">        remote.origin.fetch=+refs/heads/br1:refs/remotes/origin/br1</span><br><span class="line">恢复完整代码库：</span><br><span class="line">$ git config remote.origin.fetch &quot;+refs/heads/*:refs/remotes/origin/*&quot;</span><br><span class="line">    然后执行</span><br><span class="line">    $ git pull</span><br></pre></td></tr></table></figure>
-<h1 id="Git对-gitignore文件处理："><a href="#Git对-gitignore文件处理：" class="headerlink" title="Git对.gitignore文件处理："></a>Git对.gitignore文件处理：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">已经增加到.gitignore文件里面的目录or文件会被git忽略。</span><br><span class="line">如果本次需要修改一个忽略文件：</span><br><span class="line">$ git status --ignored</span><br><span class="line">            --ignored   -- show ignored files as well</span><br><span class="line">$ git add -f</span><br><span class="line">            --force   -f   -- allow adding otherwise ignored files</span><br></pre></td></tr></table></figure>
-<h1 id="Git-commit相关："><a href="#Git-commit相关：" class="headerlink" title="Git commit相关："></a>Git commit相关：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 空提交,只在特殊情况下使用（产生一个新的commit点）</span><br><span class="line">$ git commit</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch is up-to-date with &apos;origin/master&apos;.</span><br><span class="line">    nothing to commit, working tree clean</span><br><span class="line"># 解决方法</span><br><span class="line">$ git commit -m &quot;empty commit&quot; --allow-empty</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 不带message提交（慎用,message很重要）</span><br><span class="line">$ git commit</span><br><span class="line">    Aborting commit due to empty commit message.</span><br><span class="line"># 解决方法</span><br><span class="line">$ git commit --allow-empty-message</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">把暂存区的变更合并到最新的版本里面，不会产生新的版本(同时可以更新log message)；</span><br><span class="line">$ git commit --amend</span><br><span class="line">PS：已经进远端代码库的版本不允许使用--amend进行修改!!!</span><br></pre></td></tr></table></figure>
-<h2 id="Git-merge相关："><a href="#Git-merge相关：" class="headerlink" title="Git merge相关："></a>Git merge相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">conflict处理：</span><br><span class="line"># 使用自己/他人的文件替换冲突文件</span><br><span class="line">$ git checkout --ours conflict.file</span><br><span class="line">$ git checkout --theirs conflict.file</span><br><span class="line"># 增加冲突文件到版本库</span><br><span class="line">$ git add conflict.file</span><br><span class="line">$ git commit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看merge commit点已经解决的冲突文件：</span><br><span class="line">$ git log --cc</span><br><span class="line">        --cc    -- combined diff format for merge commits</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">分支直接合并建议使用：git merge</span><br><span class="line">同一分支dev合并 or Temp分支合并建议使用：git rebase 或者 git cherry-pick</span><br><span class="line">    PS：以上两种都可以合并代码workspace最终文件一样，但是对git来说有不同：merge是环形，rebase和cherry-pick是直线</span><br><span class="line">    PS：需要注意的是rebase会是自己和他人角色发生反转，解决conflict file的时候需要留心。</span><br></pre></td></tr></table></figure>
-<h2 id="Git-rm相关："><a href="#Git-rm相关：" class="headerlink" title="Git rm相关："></a>Git rm相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git rm weilong.txt</span><br><span class="line">删除workspace和index里面的weilong.txt文件</span><br><span class="line"></span><br><span class="line">$ git rm --cached weilong.txt</span><br><span class="line">删除index里面的weilong.txt文件，workspace里面的文件保留</span><br></pre></td></tr></table></figure>
-<h2 id="Git-log相关："><a href="#Git-log相关：" class="headerlink" title="Git log相关："></a>Git log相关：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ git log -5</span><br><span class="line">查看最新的5次版本</span><br><span class="line"></span><br><span class="line">$ git log --author=weilong.wang</span><br><span class="line">查看weilong.wang提交的版本</span><br><span class="line"></span><br><span class="line">$ git log --oneline</span><br><span class="line">一行显示一个版本信息（简化显示版本信息）</span><br><span class="line"></span><br><span class="line">$ git log -p</span><br><span class="line">显示每个版本的具体修改</span><br><span class="line"></span><br><span class="line">$ git log --numstat</span><br><span class="line">显示每个版本 修改文件的行数（5       1       weilong.txt    这个文件本次增加了5行同时也删除了1行）</span><br><span class="line"></span><br><span class="line">$ git log --since=&quot;1 month ago&quot;</span><br><span class="line">显示最近一个月的日志</span><br><span class="line">$ git log --after=&quot;2016-07-01&quot;</span><br><span class="line">显示7月1号至今的日志</span><br><span class="line">$ git log --before=&quot;2 days&quot;</span><br><span class="line">显示2天之前的日志</span><br><span class="line">$ git log --until=&quot;2016-07-10T14:30&quot;</span><br><span class="line">显示7月10号14：30之前的日志</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ git log --graph</span><br><span class="line">图状显示版本 （正常提交时线形的，merge是环形的）</span><br><span class="line"></span><br><span class="line">可用于判断分支是否合并：</span><br><span class="line">$ git log br1 ^master</span><br><span class="line">显示只在分支br1不在master上的commit点</span><br><span class="line">$ git log master ^br1</span><br><span class="line">显示只在分支master不在br1分支上的commit点</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/60120/Git-Cheat-Sheet.png" alt="logo"></p>
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。<br>其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发布，建议采用其它安全性更好的校验算法。</p>
+<h1 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h1><h4 id="参考链接：-为什么MD5不能用于存储密码"><a href="#参考链接：-为什么MD5不能用于存储密码" class="headerlink" title="参考链接： 为什么MD5不能用于存储密码"></a>参考链接： <a href="https://draveness.me/whys-the-design-password-with-md5" target="_blank" rel="noopener">为什么MD5不能用于存储密码</a></h4><p>MD5 是一种摘要算法，我们也可以叫它哈希函数，哈希函数可以将无限键值空间中的所有键都均匀地映射到一个指定大小的键值空间中。一个好的摘要算法能够帮助我们保证文件的完整性，避免攻击者的恶意篡改。<br>作为一个 1992 年第一次被公开的算法，到今天为止已经被发现了一些致命的漏洞。在任何场景下，我们都应该避免MD5的使用，可以选择更好的摘要算法替代 MD5，例如 SHA256、SHA512。</p>
+<h1 id="改进方案"><a href="#改进方案" class="headerlink" title="改进方案"></a>改进方案</h1><ul>
+<li>保留现有的md5校验文件（部分客户还在使用）</li>
+<li>同时增加SHA256校验文件</li>
+</ul>
+<h1 id="基础命令使用"><a href="#基础命令使用" class="headerlink" title="基础命令使用"></a>基础命令使用</h1><ol>
+<li><p>SHA256</p>
+<ul>
+<li><p>生成XXX文件sha256值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum XXX &gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum clean_virus.sh &gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>追加YYY文件到已有sha256文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum YYY &gt;&gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum install.log &gt;&gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成的sha256文件内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@wangweilong wwl]# cat clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">799750ecaf018307e3f3a5b69c69d28635bf047472e99c85f094ef210deb8ac9  clean_virus.sh</span><br><span class="line">328de949506461ffb371cb2e951d25aadb9e94d7c3038bb08aebce42cd8b84ee  install.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>校验方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行 sha256sum -c XXX.sha256 命令</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# sha256sum -c clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: OK</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="2">
+<li><p>MD5</p>
+<ul>
+<li><p>生成XXX文件md5值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum XXX &gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum clean_virus.sh &gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>追加YYY文件到已有md5文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum YYY &gt;&gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum install.log &gt;&gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成的md5文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@p5-centos6-wangweilong wwl]# cat clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">7840489fe303c097fb142a982f9f41e7  clean_virus.sh</span><br><span class="line">16c04079cc2cda26cbab5cfa801df6c6  install.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>校验方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行md5sum -c XXX.md5 命令</span><br><span class="line">为了更好的展示，我修改了install.log文件的内容</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# md5sum -c clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: FAILED</span><br><span class="line">md5sum: WARNING: 1 of 2 computed checksums did NOT match</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
 
             
 
@@ -324,7 +357,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Git/">Git</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Admin/">Admin</a>
 
             </div>
         
@@ -334,14 +367,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/2248/"
-                    data-tooltip="Gerrit code review"
-                    aria-label="PREVIOUS: Gerrit code review"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -351,9 +381,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/32389/"
-                    data-tooltip="使用Jenkins_Gerrit搭建持续集成"
-                    aria-label="NEXT: 使用Jenkins_Gerrit搭建持续集成"
+                    href="/posts/43943/"
+                    data-tooltip="Jira&amp;&amp;Confluence-简介"
+                    aria-label="NEXT: Jira&amp;&amp;Confluence-简介"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -378,7 +408,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60120/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/9613/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -391,7 +421,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60120/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/9613/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -404,7 +434,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60120/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/9613/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -463,14 +493,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/2248/"
-                    data-tooltip="Gerrit code review"
-                    aria-label="PREVIOUS: Gerrit code review"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -480,9 +507,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/32389/"
-                    data-tooltip="使用Jenkins_Gerrit搭建持续集成"
-                    aria-label="NEXT: 使用Jenkins_Gerrit搭建持续集成"
+                    href="/posts/43943/"
+                    data-tooltip="Jira&amp;&amp;Confluence-简介"
+                    aria-label="NEXT: Jira&amp;&amp;Confluence-简介"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -507,7 +534,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60120/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/9613/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -520,7 +547,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60120/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/9613/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -533,7 +560,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/60120/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/9613/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -577,7 +604,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/60120/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/9613/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -590,7 +617,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/60120/"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/9613/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -603,7 +630,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://0to.github.io/posts/60120/"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/9613/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -667,9 +694,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://0to.github.io/posts/60120/';
+            this.page.url = 'https://0to.github.io/posts/9613/';
               
-            this.page.identifier = 'posts/60120/';
+            this.page.identifier = 'posts/9613/';
               
           };
           (function() {

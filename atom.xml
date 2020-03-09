@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2019-11-28T08:28:54.495Z</updated>
+  <updated>2020-03-09T14:04:38.070Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用SHA256代替MD5进行文件校验</title>
+    <link href="https://0to.github.io/posts/9613/"/>
+    <id>https://0to.github.io/posts/9613/</id>
+    <published>2020-03-09T13:25:45.000Z</published>
+    <updated>2020-03-09T14:04:38.070Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。<br>其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发布，建议采用其它安全性更好的校验算法。</p><h1 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h1><h4 id="参考链接：-为什么MD5不能用于存储密码"><a href="#参考链接：-为什么MD5不能用于存储密码" class="headerlink" title="参考链接： 为什么MD5不能用于存储密码"></a>参考链接： <a href="https://draveness.me/whys-the-design-password-with-md5" target="_blank" rel="noopener">为什么MD5不能用于存储密码</a></h4><p>MD5 是一种摘要算法，我们也可以叫它哈希函数，哈希函数可以将无限键值空间中的所有键都均匀地映射到一个指定大小的键值空间中。一个好的摘要算法能够帮助我们保证文件的完整性，避免攻击者的恶意篡改。<br>作为一个 1992 年第一次被公开的算法，到今天为止已经被发现了一些致命的漏洞。在任何场景下，我们都应该避免MD5的使用，可以选择更好的摘要算法替代 MD5，例如 SHA256、SHA512。</p><h1 id="改进方案"><a href="#改进方案" class="headerlink" title="改进方案"></a>改进方案</h1><ul><li>保留现有的md5校验文件（部分客户还在使用）</li><li>同时增加SHA256校验文件</li></ul><h1 id="基础命令使用"><a href="#基础命令使用" class="headerlink" title="基础命令使用"></a>基础命令使用</h1><ol><li><p>SHA256</p><ul><li><p>生成XXX文件sha256值：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum XXX &gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum clean_virus.sh &gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure></li><li><p>追加YYY文件到已有sha256文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum YYY &gt;&gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum install.log &gt;&gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure></li><li><p>生成的sha256文件内容:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@wangweilong wwl]# cat clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">799750ecaf018307e3f3a5b69c69d28635bf047472e99c85f094ef210deb8ac9  clean_virus.sh</span><br><span class="line">328de949506461ffb371cb2e951d25aadb9e94d7c3038bb08aebce42cd8b84ee  install.log</span><br></pre></td></tr></table></figure></li><li><p>校验方法：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行 sha256sum -c XXX.sha256 命令</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# sha256sum -c clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: OK</span><br></pre></td></tr></table></figure></li></ul></li></ol><hr><ol start="2"><li><p>MD5</p><ul><li><p>生成XXX文件md5值</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum XXX &gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum clean_virus.sh &gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure></li><li><p>追加YYY文件到已有md5文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum YYY &gt;&gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum install.log &gt;&gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure></li><li><p>生成的md5文件内容</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@p5-centos6-wangweilong wwl]# cat clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">7840489fe303c097fb142a982f9f41e7  clean_virus.sh</span><br><span class="line">16c04079cc2cda26cbab5cfa801df6c6  install.log</span><br></pre></td></tr></table></figure></li><li><p>校验方法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行md5sum -c XXX.md5 命令</span><br><span class="line">为了更好的展示，我修改了install.log文件的内容</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# md5sum -c clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: FAILED</span><br><span class="line">md5sum: WARNING: 1 of 2 computed checksums did NOT match</span><br></pre></td></tr></table></figure></li></ul></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;第三方客户审厂过程中，对公司现有流程管理方法工具有些改进建议。&lt;br&gt;其中有一条是：软件映像文件的完整性检验为MD5值，校验码和软件包一起发
+      
+    
+    </summary>
+    
+      <category term="SYS" scheme="https://0to.github.io/categories/SYS/"/>
+    
+    
+      <category term="Admin" scheme="https://0to.github.io/tags/Admin/"/>
+    
+  </entry>
   
   <entry>
     <title>Jira&amp;&amp;Confluence-简介</title>
@@ -505,32 +530,6 @@
     
     
       <category term="Git" scheme="https://0to.github.io/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Gerrit code review</title>
-    <link href="https://0to.github.io/posts/2248/"/>
-    <id>https://0to.github.io/posts/2248/</id>
-    <published>2017-04-06T07:07:45.000Z</published>
-    <updated>2018-05-04T09:49:19.924Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote><p>公司使用Gerrit作为代码托管平台。<br>Gerrit除了设置项目权限外，还提供了很好的code review功能。<br>下面分别简单介绍普通Git用法和code review用法</p></blockquote><h2 id="普通Git使用方法："><a href="#普通Git使用方法：" class="headerlink" title="普通Git使用方法："></a>普通Git使用方法：</h2><p><img src="/posts/2248/git_test.png" alt="logo"></p><blockquote><p>如上图所示：</p></blockquote><blockquote><p>Git仓库主要分为：本地仓库（各位clone到本机）和远端仓库（scm负责维护的，搭建在一台服务器上面）；</p></blockquote><blockquote><p>绝大多数的命令都不需要和远端的git仓库打交道，本地执行即可；</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone :克隆一个远端git仓库到本地</span><br><span class="line">git fetch：获取远端git仓库变化到本地仓库，并不会更改当前工作区文件</span><br><span class="line">git pull：这个命令相当于：先执行git fetch 然后执行git merge变化到当前工作区</span><br><span class="line">git push：将本地仓库的变化推送到远端git服务器</span><br></pre></td></tr></table></figure><h2 id="Code-Review使用方法："><a href="#Code-Review使用方法：" class="headerlink" title="Code Review使用方法："></a>Code Review使用方法：</h2><p><img src="/posts/2248/gerrit_test.png" alt="logo"></p><blockquote><p>如上图所示：<br>    使用Gerrit进行code review一言蔽之就是Gerrit加了个中间层；<br>    本地仓库的变更执行git push提交到Gerrit；code reviewer可以在gerrit上面对本次提交进行review并给出评价；<br>    <img src="/posts/2248/code_review.png" alt="logo"><br>    管理员在review评估ok（至少有一个+2）后，在gerrit上面点击submit，会把本次变更推送到远端仓库。</p></blockquote><blockquote><blockquote><p>PS:+1 +2 -1 -2 0不是数字意义！！！（两个reviewer都给了+1评论并不代表已经+2了）</p></blockquote></blockquote><h2 id="原理解析："><a href="#原理解析：" class="headerlink" title="原理解析："></a>原理解析：</h2><blockquote><p>为了实现上面所说的功能，gerrit引入了change_id和for空间；</p></blockquote><blockquote><blockquote><p>我们执行git push到for空间；<br>    如果大家的本地git config没有做过配置，那么咱们执行git push的完整命令是：<br>    git push origin HEAD:refs/heads/master<br>    推送当前本地最新代码到远端（origin）master分支</p></blockquote></blockquote><hr><blockquote><blockquote><p>  使用code review的话执行git push完整命令是：<br>    git push origin HEAD:refs/for/master<br>    推送当前本地最新代码到for空间的master分支供gerrit识别</p></blockquote></blockquote><blockquote><blockquote><p>PS：以上写的都是git原始命令供大家更好的理解，实际使用中可以简写！！！</p></blockquote></blockquote><hr><blockquote><p>Gerrit根据change-Id识别你的patch；</p><blockquote><p>我们需要引入commit-msg钩子文件到本地代码库:<br>        （这个是gerrit原生提供的通过scp命令实现）<br>        在本地代码库下运行（将weilong.wang改成自己的用户名），执行一次即可<br>        gitdir=$(git rev-parse –git-dir); scp -p -P 29418 weilong.wang@Gerrit_Server_Ip:hooks/commit-msg ${gitdir}/hooks/</p></blockquote></blockquote><hr><blockquote><p>commit-msg钩子的作用和使用：<br>1.Dev正常本地修改代码，git add，git commit 会自动在message后面增加算出一个唯一的change-id<br>        例如： Change-Id: I45088f6b73bf53b62b2ee3b09c005952e9838548<br>2.如果本次patch提交到gerrit后，review不通过：本地修改代码， git add， git commit –amend<br>        （更新新的修改到当前commit；同时可以修改commit message；不要对message的最后一行change-id做修改！！！）<br>    接着push到gerrit：因为change-id并没有改变，所以还是同一个地方，patch set增长1</p></blockquote><blockquote><blockquote><p>PS：建议合并最新版本代码到本地：使用git pull –rebase<br>        如果使用git pull： merge点不自动产生change-id！！！</p></blockquote></blockquote><p><img src="/posts/2248/patch.png" alt="logo"></p><h2 id="喜闻乐见简化配置："><a href="#喜闻乐见简化配置：" class="headerlink" title="喜闻乐见简化配置："></a>喜闻乐见简化配置：</h2><blockquote><p>根据上面的解释大家应该发现想使用gerrit进行code review还得手工做些事情：</p><ol><li>git clone远端代码库到本地</li><li>从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</li><li>每次都要本地git commit后执行git push origin HEAD:refs/for/master</li><li>去gerrit上面添加code reviewers<br>这并不是我想要的生活。。。</li></ol></blockquote><hr><blockquote><p>一劳永逸方法：</p><ol><li>git clone远端代码库到本地</li><li>从远端服务器下载commit-msg钩子到本地仓库.git/hooks/目录</li><li>修改本地代码库config   vi .git/config增加下面内容<br>[remote “review_master”]<br>  url = 代码库地址<br>  push = HEAD:<a href="mailto:refs/for/master%r=weilong.wang@memblaze.com" target="_blank" rel="noopener">refs/for/master%r=weilong.wang@memblaze.com</a>,<a href="mailto:r=dev1@memblaze.com" target="_blank" rel="noopener">r=dev1@memblaze.com</a></li><li>本地git commit后执行git push review_master即可<br>会自动提交到refs/for/master并增加weilong和dev1作为code reviewers;</li></ol></blockquote><blockquote><blockquote><p>PS：     remote “review_master” 这个可以换成你喜欢的其他字符串；假如改成remote “haha” 那么最终push的时候执行 git push haha<br>PS：     pushurl这个请自行替换成各位执行git clone的地址<br>PS：     自动添加code reviewers请自行替换成各位项目的同事</p></blockquote></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;公司使用Gerrit作为代码托管平台。&lt;br&gt;Gerrit除了设置项目权限外，还提供了很好的code review
-      
-    
-    </summary>
-    
-      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
-    
-    
-      <category term="Gerrit" scheme="https://0to.github.io/tags/Gerrit/"/>
     
   </entry>
   
