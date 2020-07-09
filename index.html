@@ -278,6 +278,86 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/15762/"
+                            aria-label=": Jenkins Windows batch build stuck on final exit"
+                        >
+                            Jenkins Windows batch build stuck on final exit
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-07-10T00:45:02+08:00">
+	
+		    Jul 10, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="系统软件环境"><a href="#系统软件环境" class="headerlink" title="系统软件环境"></a>系统软件环境</h1><table>
+<thead>
+<tr>
+<th>系统软件</th>
+<th>版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jenkins</td>
+<td>2.150.2</td>
+</tr>
+<tr>
+<td>Slave</td>
+<td>Windows 10</td>
+</tr>
+</tbody>
+</table>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。<br>日志分析：<img src="/posts/15762/jenkins1.png" alt="案例"><br>具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。<br>也就是说整整卡住了10分钟，必须要解决。</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>Jenkins 在 2.14 版本引入了 killSoftly 特性，出发点是想更加优雅的结束进程。<br>但是导致了 Windows slave上的 batch 脚本 执行完成 返回结果卡住（时间不确定）的情况。<br>Linux slave上的 shell 脚本执行退出没有发现此问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Firstly try to kill the root process gracefully, then do a forcekill if it does not help (algorithm is described in JENKINS-17116)</span><br><span class="line"></span><br><span class="line">killSoftly();</span><br></pre></td></tr></table></figure></p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds=0 来解决。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Run from agent command line:</span><br><span class="line"></span><br><span class="line">java -Xrs -DSoftKillWaitSeconds=0 -jar agent.jar -jnlpUrl ...</span><br></pre></td></tr></table></figure></p>
+<p>使用上述命令重新连接 Master - Slave 后，可以在Slave系统信息界面看到参数生效了。<br><img src="/posts/15762/jenkins2.png" alt="Slave信息"></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://issues.jenkins-ci.org/browse/JENKINS-55106" target="_blank" rel="noopener">https://issues.jenkins-ci.org/browse/JENKINS-55106</a><br><a href="https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build" target="_blank" rel="noopener">https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build</a></p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/15762/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/9613/"
                             aria-label=": 使用SHA256代替MD5进行文件校验"
                         >
@@ -1213,85 +1293,6 @@ git push origin --tags
                         <p>
                             <a
                                 href="/posts/62558/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/posts/35560/"
-                            aria-label=": gitlab psql: undefined symbol: PQconnectdbParams"
-                        >
-                            gitlab psql: undefined symbol: PQconnectdbParams
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-01-02T14:48:04+08:00">
-	
-		    Jan 02, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司拆分子公司，需要把现有Gitlab也分离出来。</p>
-<h4 id="搭建环境："><a href="#搭建环境：" class="headerlink" title="搭建环境："></a>搭建环境：</h4><ul>
-<li>centos6.5</li>
-<li>gitlab8.8.5</li>
-</ul>
-<h3 id="搭建方法："><a href="#搭建方法：" class="headerlink" title="搭建方法："></a>搭建方法：</h3><ul>
-<li>Omnibus package installation</li>
-</ul>
-<h3 id="遇到问题："><a href="#遇到问题：" class="headerlink" title="遇到问题："></a>遇到问题：</h3><p>安装完成，执行 #gitlab-ctl reconfigure 报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line">[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line"></span><br><span class="line">================================================================================</span><br><span class="line">Error executing action `run` on resource &apos;execute[create gitlab database user]&apos;</span><br><span class="line">================================================================================</span><br><span class="line"></span><br><span class="line">Mixlib::ShellOut::ShellCommandFailed</span><br><span class="line">------------------------------------</span><br><span class="line">Expected process to exit with [0], but received &apos;127&apos;</span><br><span class="line">---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</span><br><span class="line">STDOUT:</span><br><span class="line">STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams</span><br><span class="line">---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----</span><br><span class="line">Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127</span><br></pre></td></tr></table></figure></p>
-<h3 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h3><p>因为我的centos服务器上面已经装了postgresql的8.4.18版本；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# rpm -qa|grep postgres</span><br><span class="line">postgresql-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-devel-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-libs-8.4.18-1.el6_4.x86_64</span><br></pre></td></tr></table></figure></p>
-<p>使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。</p>
-<h3 id="解决方法1"><a href="#解决方法1" class="headerlink" title="解决方法1:"></a>解决方法1:</h3><p>卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。</p>
-<p>卸载gitlab方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl uninstall</span><br><span class="line">sudo gitlab-ctl cleanse</span><br><span class="line">sudo rm -rf /opt/gitlab</span><br></pre></td></tr></table></figure></p>
-<h3 id="解决方法2"><a href="#解决方法2" class="headerlink" title="解决方法2:"></a>解决方法2:</h3><p>增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line"></span><br><span class="line">export LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......</span><br><span class="line"></span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line"># echo $LD_LIBRARY_PATH</span><br><span class="line"></span><br><span class="line">/opt/gitlab/embedded/lib:/tmp/product.......</span><br></pre></td></tr></table></figure></p>
-<p>PS：</p>
-<ol>
-<li>增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。</li>
-<li>路径之间使用:分隔</li>
-</ol>
-<p>然后再执行#gitlab-ctl reconfigure，即可成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab Reconfigured!</span><br></pre></td></tr></table></figure></p>
-<p>查看postgresql版本:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --version</span><br><span class="line">psql (PostgreSQL) 9.2.16</span><br><span class="line">[root@gitlab0 ~]# psql --version</span><br><span class="line">psql (PostgreSQL) 8.4.18</span><br></pre></td></tr></table></figure></p>
-<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="http://dreamlikes.cn/archives/78" target="_blank" rel="noopener">http://dreamlikes.cn/archives/78</a></p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/posts/35560/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >

@@ -279,6 +279,86 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/15762/"
+                            aria-label=": Jenkins Windows batch build stuck on final exit"
+                        >
+                            Jenkins Windows batch build stuck on final exit
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-07-10T00:45:02+08:00">
+	
+		    Jul 10, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="系统软件环境"><a href="#系统软件环境" class="headerlink" title="系统软件环境"></a>系统软件环境</h1><table>
+<thead>
+<tr>
+<th>系统软件</th>
+<th>版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jenkins</td>
+<td>2.150.2</td>
+</tr>
+<tr>
+<td>Slave</td>
+<td>Windows 10</td>
+</tr>
+</tbody>
+</table>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。<br>日志分析：<img src="/posts/15762/jenkins1.png" alt="案例"><br>具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。<br>也就是说整整卡住了10分钟，必须要解决。</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>Jenkins 在 2.14 版本引入了 killSoftly 特性，出发点是想更加优雅的结束进程。<br>但是导致了 Windows slave上的 batch 脚本 执行完成 返回结果卡住（时间不确定）的情况。<br>Linux slave上的 shell 脚本执行退出没有发现此问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Firstly try to kill the root process gracefully, then do a forcekill if it does not help (algorithm is described in JENKINS-17116)</span><br><span class="line"></span><br><span class="line">killSoftly();</span><br></pre></td></tr></table></figure></p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds=0 来解决。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Run from agent command line:</span><br><span class="line"></span><br><span class="line">java -Xrs -DSoftKillWaitSeconds=0 -jar agent.jar -jnlpUrl ...</span><br></pre></td></tr></table></figure></p>
+<p>使用上述命令重新连接 Master - Slave 后，可以在Slave系统信息界面看到参数生效了。<br><img src="/posts/15762/jenkins2.png" alt="Slave信息"></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://issues.jenkins-ci.org/browse/JENKINS-55106" target="_blank" rel="noopener">https://issues.jenkins-ci.org/browse/JENKINS-55106</a><br><a href="https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build" target="_blank" rel="noopener">https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build</a></p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/15762/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/42921/"
                             aria-label=": Gerrit LDAP: Allow to configure multiple accountBase and groupBase values"
                         >
@@ -1143,122 +1223,6 @@ git push origin --tags
                         <p>
                             <a
                                 href="/posts/61445/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/posts/7037/"
-                            aria-label=": nexus2.x迁移repository到nexus3.x"
-                        >
-                            nexus2.x迁移repository到nexus3.x
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-11-21T15:58:15+08:00">
-	
-		    Nov 21, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>公司之前使用nexus2.13.0版本的nexus，管理毕竟混乱。现搭建nexus3.6.0版本进行规范统一管理。</p>
-<p>上篇记录nexus3搭建配置过程，本篇记录迁移nexus2.13.0版本库到nexus3.6.0版本过程。</p>
-<h1 id="迁移思路方法："><a href="#迁移思路方法：" class="headerlink" title="迁移思路方法："></a>迁移思路方法：</h1><h3 id="迁移范围："><a href="#迁移范围：" class="headerlink" title="迁移范围："></a>迁移范围：</h3><table>
-<thead>
-<tr>
-<th>仓库</th>
-<th style="text-align:center">类型</th>
-<th style="text-align:right">是否迁移</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>proxy</td>
-<td style="text-align:center">代理远端仓库</td>
-<td style="text-align:right">已经在nexus3.6.0版本配置增加，不需要迁移</td>
-</tr>
-<tr>
-<td>hosted-3rd</td>
-<td style="text-align:center">本地内部仓库-第三方</td>
-<td style="text-align:right">之前没有使用，不需要迁移</td>
-</tr>
-<tr>
-<td>hosted-Snapshots</td>
-<td style="text-align:center">本地内部仓库-快照版本</td>
-<td style="text-align:right">之前使用比较混乱沟通确认舍弃，不需要迁移</td>
-</tr>
-<tr>
-<td>hosted-Releases</td>
-<td style="text-align:center">本地内部仓库-稳定版本</td>
-<td style="text-align:right">需要迁移</td>
-</tr>
-</tbody>
-</table>
-<h3 id="迁移方法："><a href="#迁移方法：" class="headerlink" title="迁移方法："></a>迁移方法：</h3><p>如果原有hosted-Releases存放的jar包不多的话，可以考虑下载所有jar到本地，然后使用命令deploy到nexus3.6.0。</p>
-<p>现状是原有库里面的jar包很多，groupId很多而且比较不规范（目录层级很复杂）。</p>
-<h6 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h6><p>升级方法：<a href="https://help.sonatype.com/display/NXRM3/Upgrading" target="_blank" rel="noopener">官方文档</a></p>
-<p>根据官方升级文档说明nexus2.14.1（或者之后版本）才能直升nexus3.x。因为原有nexus版本为2.13.0，所有需要先升级到2.14.x后，再迁移到nexus3.6.0版本。</p>
-<p>升级路径为：<br>nexus2.x – nexus2.14.x – nexus3.x</p>
-<h1 id="迁移步骤："><a href="#迁移步骤：" class="headerlink" title="迁移步骤："></a>迁移步骤：</h1><ol>
-<li>搭建nexus2.14.5<ul>
-<li><a href="https://www.sonatype.com/nexus-repository-oss" target="_blank" rel="noopener">官网下载</a> All platforms - Nexus Repository Manager OSS 2.x - bundle.zip</li>
-<li>解压缩、安装运行</li>
-<li>ps：windows遇到的坑,需要使用管理员权限进行cmd安装<br><img src="/posts/7037/win1.png" alt="logo"><br><img src="/posts/7037/win2.png" alt="logo"><br><img src="/posts/7037/win3.png" alt="logo"></li>
-</ul>
-</li>
-<li>迁移原有nexus2.13.0仓库到nexus2.14.5<ul>
-<li>仓库存放目录：sonatype-work\nexus\storage</li>
-<li>拷贝原nexus2.13.0的sonatype-work\nexus\storage\releases目录下的依赖文件</li>
-<li>覆盖nexus2.14.5的releases目录文件</li>
-<li>重启nexus2.14.5并刷新索引<br><img src="/posts/7037/win4.png" alt="logo"><br><img src="/posts/7037/win5.png" alt="logo"><br><img src="/posts/7037/win6.png" alt="logo"></li>
-</ul>
-</li>
-<li>迁移nexus2.14.5仓库到nexus3.6.0<ul>
-<li>在nexus2.14.5上面配置Upgrade Agent<br><img src="/posts/7037/win7.png" alt="logo"><br><img src="/posts/7037/win8.png" alt="logo"></li>
-<li>在nexus3.6.0上面执行Upgrade<br><img src="/posts/7037/win10.png" alt="logo"><br><img src="/posts/7037/win11.png" alt="logo"><br><img src="/posts/7037/win12.png" alt="logo"><br><img src="/posts/7037/win13.png" alt="logo"><br><img src="/posts/7037/win14.png" alt="logo"><br><img src="/posts/7037/win15.png" alt="logo"><br><img src="/posts/7037/win16.png" alt="logo"><br><img src="/posts/7037/win17.png" alt="logo"><br><img src="/posts/7037/win18.png" alt="logo"><br><img src="/posts/7037/win19.png" alt="logo"></li>
-</ul>
-</li>
-</ol>
-<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p>使用这种方法，原有的release仓库迁移成功。<br><img src="/posts/7037/win20.png" alt="logo"></p>
-<h3 id="但是同时原有nexus的Privileges、Roles、Users也会过来，需要后续进行调整。"><a href="#但是同时原有nexus的Privileges、Roles、Users也会过来，需要后续进行调整。" class="headerlink" title="但是同时原有nexus的Privileges、Roles、Users也会过来，需要后续进行调整。"></a>但是同时原有nexus的Privileges、Roles、Users也会过来，需要后续进行调整。</h3><h2 id="当然此方法也可以用来全量升级nexus2-x到nexus3-x。"><a href="#当然此方法也可以用来全量升级nexus2-x到nexus3-x。" class="headerlink" title="当然此方法也可以用来全量升级nexus2.x到nexus3.x。"></a>当然此方法也可以用来全量升级nexus2.x到nexus3.x。</h2>
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/posts/7037/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >

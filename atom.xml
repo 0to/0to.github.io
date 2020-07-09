@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2020-03-09T14:04:38.070Z</updated>
+  <updated>2020-07-09T17:15:31.207Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jenkins Windows batch build stuck on final exit</title>
+    <link href="https://0to.github.io/posts/15762/"/>
+    <id>https://0to.github.io/posts/15762/</id>
+    <published>2020-07-09T16:45:02.000Z</published>
+    <updated>2020-07-09T17:15:31.207Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="系统软件环境"><a href="#系统软件环境" class="headerlink" title="系统软件环境"></a>系统软件环境</h1><table><thead><tr><th>系统软件</th><th>版本</th></tr></thead><tbody><tr><td>Jenkins</td><td>2.150.2</td></tr><tr><td>Slave</td><td>Windows 10</td></tr></tbody></table><h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。<br>日志分析：<img src="/posts/15762/jenkins1.png" alt="案例"><br>具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。<br>也就是说整整卡住了10分钟，必须要解决。</p><h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>Jenkins 在 2.14 版本引入了 killSoftly 特性，出发点是想更加优雅的结束进程。<br>但是导致了 Windows slave上的 batch 脚本 执行完成 返回结果卡住（时间不确定）的情况。<br>Linux slave上的 shell 脚本执行退出没有发现此问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Firstly try to kill the root process gracefully, then do a forcekill if it does not help (algorithm is described in JENKINS-17116)</span><br><span class="line"></span><br><span class="line">killSoftly();</span><br></pre></td></tr></table></figure></p><h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds=0 来解决。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Run from agent command line:</span><br><span class="line"></span><br><span class="line">java -Xrs -DSoftKillWaitSeconds=0 -jar agent.jar -jnlpUrl ...</span><br></pre></td></tr></table></figure></p><p>使用上述命令重新连接 Master - Slave 后，可以在Slave系统信息界面看到参数生效了。<br><img src="/posts/15762/jenkins2.png" alt="Slave信息"></p><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://issues.jenkins-ci.org/browse/JENKINS-55106" target="_blank" rel="noopener">https://issues.jenkins-ci.org/browse/JENKINS-55106</a><br><a href="https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build" target="_blank" rel="noopener">https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;系统软件环境&quot;&gt;&lt;a href=&quot;#系统软件环境&quot; class=&quot;headerlink&quot; title=&quot;系统软件环境&quot;&gt;&lt;/a&gt;系统软件环境&lt;/h1&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;系统软件&lt;/th&gt;
+&lt;th&gt;版本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/th
+      
+    
+    </summary>
+    
+      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
+    
+    
+      <category term="Jenkins" scheme="https://0to.github.io/tags/Jenkins/"/>
+    
+  </entry>
   
   <entry>
     <title>使用SHA256代替MD5进行文件校验</title>
@@ -504,32 +535,6 @@
     
     
       <category term="Sonar" scheme="https://0to.github.io/tags/Sonar/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>分支策略</title>
-    <link href="https://0to.github.io/posts/52695/"/>
-    <id>https://0to.github.io/posts/52695/</id>
-    <published>2017-04-25T11:37:40.000Z</published>
-    <updated>2018-05-04T09:48:00.296Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><blockquote><p>为了更好的支持产品研发过程，我们需要设计符合公司研发的分支策略。<br>无论多复杂或者简单的策略都可以归类为以下两种：</p><blockquote><p>1.主干开发，分支发布<br>2.分支开发，主干发布</p></blockquote></blockquote><blockquote><p>PS：我们约定：</p><blockquote><p>主干（master/git  trunk/svn）<br>    分支（branch）<br>    标签（tag）<br>如果从版本控制工具实现上来看：<br>        svn： trunk、branch、tag 没有差别<br>        git： master、branch、轻量级tag 没有差别<br>        为了更好的区分和管理，人为的从逻辑上进行区分<br>        tag的作用：里程碑记录，方便回溯（发布回滚等）</p></blockquote></blockquote><h1 id="主干开发，分支发布："><a href="#主干开发，分支发布：" class="headerlink" title="主干开发，分支发布："></a>主干开发，分支发布：</h1><p><img src="/posts/52695/zhugan.png" alt="logo"></p><ul><li>优点：<ol><li>较少的分支存在，大家专注在主干开发</li></ol></li><li>适用于：<ol><li>敏捷开发模式，每个迭代都很快</li><li>维护型项目，较少需求变更，基本没有并行开发的需要</li><li>个人项目</li></ol></li><li>常用方式：<ol><li>所有dev在主干上面进行开发</li><li>需要发布的时候从指定版本拉出发布分支，进行测试<ul><li>如果成功：那么打出tag，进行发布</li><li>如果不成功：那么继续在发布分支上面进行修改，然后测试；<br>  测试成功后，打tag，合并发布分支修改到主干；</li></ul></li></ol></li></ul><h1 id="分支开发，主干发布："><a href="#分支开发，主干发布：" class="headerlink" title="分支开发，主干发布："></a>分支开发，主干发布：</h1><p><img src="/posts/52695/fenzhi.png" alt="logo"></p><ul><li>优点：<ol><li>对并行开发支持很好</li></ol></li><li>适用于：<ol><li>并行开发很频繁的项目</li></ol></li><li>常用方式：<ol><li>根据项目发布排期拉出并行开发分支</li><li>不同or相同的dev分别在分支上面进行开发</li><li>测试通过后，打tag进行发布，合并分支修改到主干</li><li>后发布的分支需要合并最新的主干代码</li></ol></li><li>注意点：<ol><li>所有分支都从主干拉出；</li><li>发布时候要检查 tag是否包含最新的主干代码；</li><li>后发布的分支在合并最新主干代码后，注意测试范围扩大（除了测试本分支功能外，合并过来的功能也需要覆盖到！！！）</li></ol></li></ul><h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><p>本文只是简单介绍下基础的分支策略，各位需根据自身团队、业务来综合定制适合的分支策略。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;背景：&quot;&gt;&lt;a href=&quot;#背景：&quot; class=&quot;headerlink&quot; title=&quot;背景：&quot;&gt;&lt;/a&gt;背景：&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;为了更好的支持产品研发过程，我们需要设计符合公司研发的分支策略。&lt;br&gt;无论多复杂或者简单的策略都可以归类
-      
-    
-    </summary>
-    
-      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
-    
-    
-      <category term="Git" scheme="https://0to.github.io/tags/Git/"/>
     
   </entry>
   
