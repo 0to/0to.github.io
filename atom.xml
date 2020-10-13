@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2020-10-13T06:46:03.979Z</updated>
+  <updated>2020-10-13T06:50:36.055Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://0to.github.io/posts/22197/"/>
     <id>https://0to.github.io/posts/22197/</id>
     <published>2020-10-13T06:30:06.000Z</published>
-    <updated>2020-10-13T06:46:03.979Z</updated>
+    <updated>2020-10-13T06:50:36.055Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>原生Centos7系统的yum源自带git版本是1.8.3.1。</p><p>这个版本诞生于：10-Jun-2013。</p><p>很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。</p><h1 id="源码编译安装"><a href="#源码编译安装" class="headerlink" title="源码编译安装"></a>源码编译安装</h1><ol><li><p>安装相关依赖</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc</span><br><span class="line"># yum install  gcc perl-ExtUtils-MakeMaker</span><br></pre></td></tr></table></figure></li><li><p>卸载当前git</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum remove git</span><br></pre></td></tr></table></figure></li><li><p>下载新版本源码包</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/</span><br><span class="line">当前最新版本：git-2.28.0.tar.xz       27-Jul-2020</span><br><span class="line"></span><br><span class="line"># wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz</span><br></pre></td></tr></table></figure></li><li><p>源码编译安装</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># tar -xvf git-2.28.0.tar.xz</span><br><span class="line"># cd git-2.28.0/</span><br><span class="line"># which openssl  获取本机openssl路径，当前机器/usr/bin/openssl</span><br><span class="line"># ./configure --with-openssl=/usr/bin/openssl</span><br><span class="line"># make prefix=/usr/local/git all</span><br><span class="line"># make prefix=/usr/local/git install</span><br><span class="line"># echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile</span><br><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure></li></ol>]]></content>
     
@@ -39,7 +39,7 @@
       <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
     
     
-      <category term="Gerrit" scheme="https://0to.github.io/tags/Gerrit/"/>
+      <category term="Git" scheme="https://0to.github.io/tags/Git/"/>
     
   </entry>
   

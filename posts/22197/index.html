@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景原生Centos7系统的yum源自带git版本是1.8.3.1。\n这个版本诞生于：10-Jun-2013。\n很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。\n源码编译安装\n安装相关依赖\n12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum install  gcc perl-ExtUtils-MakeMaker\n\n卸载当前git\n1# yum remove git\n\n下载新版本源码包\n1234官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/当前最新版本：git-2.28.0.tar.xz       27-Jul-2020# wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz\n\n源码编译安装\n12345678# tar -xvf git-2.28.0.tar.xz# cd git-2.28.0/# which openssl  获取本机openssl路径，当前机器/usr/bin/openssl# ./configure --with-openssl=/usr/bin/openssl# make prefix=/usr/local/git all# make prefix=/usr/local/git install# echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile# source /etc/profile\n\n\n","dateCreated":"2020-10-13T14:30:06+08:00","dateModified":"2020-10-13T14:46:03+08:00","datePublished":"2020-10-13T14:30:06+08:00","description":"","headline":"Centos7 升级git版本 - 源码编译安装","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/22197/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/22197/","keywords":"Gerrit"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景原生Centos7系统的yum源自带git版本是1.8.3.1。\n这个版本诞生于：10-Jun-2013。\n很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。\n源码编译安装\n安装相关依赖\n12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum install  gcc perl-ExtUtils-MakeMaker\n\n卸载当前git\n1# yum remove git\n\n下载新版本源码包\n1234官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/当前最新版本：git-2.28.0.tar.xz       27-Jul-2020# wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz\n\n源码编译安装\n12345678# tar -xvf git-2.28.0.tar.xz# cd git-2.28.0/# which openssl  获取本机openssl路径，当前机器/usr/bin/openssl# ./configure --with-openssl=/usr/bin/openssl# make prefix=/usr/local/git all# make prefix=/usr/local/git install# echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile# source /etc/profile\n\n\n","dateCreated":"2020-10-13T14:30:06+08:00","dateModified":"2020-10-13T14:50:36+08:00","datePublished":"2020-10-13T14:30:06+08:00","description":"","headline":"Centos7 升级git版本 - 源码编译安装","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/22197/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/22197/","keywords":"Git"}</script>
     <meta name="description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
-<meta name="keywords" content="Gerrit">
+<meta name="keywords" content="Git">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Centos7 升级git版本 - 源码编译安装">
 <meta property="og:url" content="https://0to.github.io/posts/22197/index.html">
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-10-13T06:46:03.979Z">
+<meta property="og:updated_time" content="2020-10-13T06:50:36.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7 升级git版本 - 源码编译安装">
 <meta name="twitter:description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
@@ -331,7 +331,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Gerrit/">Gerrit</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Git/">Git</a>
 
             </div>
         
