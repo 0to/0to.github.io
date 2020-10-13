@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Jenkins Windows batch build stuck on final exit - Just Do IT</title>
+    <title>Centos7 升级git版本 - 源码编译安装 - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,22 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"系统软件环境\n\n\n系统软件\n版本\n\n\n\n\nJenkins\n2.150.2\n\n\nSlave\nWindows 10\n\n\n\n问题描述部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。日志分析：具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。也就是说整整卡住了10分钟，必须要解决。\n原因分析Jenkins 在 2.14 版本引入了 killSoftly 特性，出发点是想更加优雅的结束进程。但是导致了 Windows slave上的 batch 脚本 执行完成 返回结果卡住（时间不确定）的情况。Linux slave上的 shell 脚本执行退出没有发现此问题。123// Firstly try to kill the root process gracefully, then do a forcekill if it does not help (algorithm is described in JENKINS-17116)killSoftly();\n解决方法可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds=0 来解决。123# Run from agent command line:java -Xrs -DSoftKillWaitSeconds=0 -jar agent.jar -jnlpUrl ...\n使用上述命令重新连接 Master - Slave 后，可以在Slave系统信息界面看到参数生效了。\n参考链接https://issues.jenkins-ci.org/browse/JENKINS-55106https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build\n","dateCreated":"2020-07-10T00:45:02+08:00","dateModified":"2020-07-10T01:15:31+08:00","datePublished":"2020-07-10T00:45:02+08:00","description":"","headline":"Jenkins Windows batch build stuck on final exit","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/15762/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/15762/","keywords":"Jenkins"}</script>
-    <meta name="description" content="系统软件环境   系统软件 版本     Jenkins 2.150.2   Slave Windows 10    问题描述部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。日志分析：具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。也就是说整整卡住了10分钟，必须要解决。 原因分析Jenk">
-<meta name="keywords" content="Jenkins">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景原生Centos7系统的yum源自带git版本是1.8.3.1。\n这个版本诞生于：10-Jun-2013。\n很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。\n源码编译安装\n安装相关依赖\n12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum install  gcc perl-ExtUtils-MakeMaker\n\n卸载当前git\n1# yum remove git\n\n下载新版本源码包\n1234官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/当前最新版本：git-2.28.0.tar.xz       27-Jul-2020# wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz\n\n源码编译安装\n12345678# tar -xvf git-2.28.0.tar.xz# cd git-2.28.0/# which openssl  获取本机openssl路径，当前机器/usr/bin/openssl# ./configure --with-openssl=/usr/bin/openssl# make prefix=/usr/local/git all# make prefix=/usr/local/git install# echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile# source /etc/profile\n\n\n","dateCreated":"2020-10-13T14:30:06+08:00","dateModified":"2020-10-13T14:46:03+08:00","datePublished":"2020-10-13T14:30:06+08:00","description":"","headline":"Centos7 升级git版本 - 源码编译安装","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/22197/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/22197/","keywords":"Gerrit"}</script>
+    <meta name="description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
+<meta name="keywords" content="Gerrit">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Jenkins Windows batch build stuck on final exit">
-<meta property="og:url" content="https://0to.github.io/posts/15762/index.html">
+<meta property="og:title" content="Centos7 升级git版本 - 源码编译安装">
+<meta property="og:url" content="https://0to.github.io/posts/22197/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="系统软件环境   系统软件 版本     Jenkins 2.150.2   Slave Windows 10    问题描述部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。日志分析：具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。也就是说整整卡住了10分钟，必须要解决。 原因分析Jenk">
+<meta property="og:description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://0to.github.io/posts/15762/jenkins1.png">
-<meta property="og:image" content="https://0to.github.io/posts/15762/jenkins2.png">
-<meta property="og:updated_time" content="2020-07-09T17:15:31.207Z">
+<meta property="og:updated_time" content="2020-10-13T06:46:03.979Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jenkins Windows batch build stuck on final exit">
-<meta name="twitter:description" content="系统软件环境   系统软件 版本     Jenkins 2.150.2   Slave Windows 10    问题描述部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。日志分析：具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。也就是说整整卡住了10分钟，必须要解决。 原因分析Jenk">
-<meta name="twitter:image" content="https://0to.github.io/posts/15762/jenkins1.png">
+<meta name="twitter:title" content="Centos7 升级git版本 - 源码编译安装">
+<meta name="twitter:description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
     
     
         
@@ -281,14 +278,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Jenkins Windows batch build stuck on final exit
+            Centos7 升级git版本 - 源码编译安装
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-07-10T00:45:02+08:00">
+    <time datetime="2020-10-13T14:30:06+08:00">
 	
-		    Jul 10, 2020
+		    Oct 13, 2020
     	
     </time>
     
@@ -306,29 +303,23 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="系统软件环境"><a href="#系统软件环境" class="headerlink" title="系统软件环境"></a>系统软件环境</h1><table>
-<thead>
-<tr>
-<th>系统软件</th>
-<th>版本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Jenkins</td>
-<td>2.150.2</td>
-</tr>
-<tr>
-<td>Slave</td>
-<td>Windows 10</td>
-</tr>
-</tbody>
-</table>
-<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>部分 Windows slave job 执行时间较长，日志分析发现不是Job脚本更新导致，而是因为Jenkins退出卡住。<br>日志分析：<img src="/posts/15762/jenkins1.png" alt="案例"><br>具体任务在13:41就已经执行完成，但是Jenkins在13:51才退出返回结果。<br>也就是说整整卡住了10分钟，必须要解决。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>Jenkins 在 2.14 版本引入了 killSoftly 特性，出发点是想更加优雅的结束进程。<br>但是导致了 Windows slave上的 batch 脚本 执行完成 返回结果卡住（时间不确定）的情况。<br>Linux slave上的 shell 脚本执行退出没有发现此问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Firstly try to kill the root process gracefully, then do a forcekill if it does not help (algorithm is described in JENKINS-17116)</span><br><span class="line"></span><br><span class="line">killSoftly();</span><br></pre></td></tr></table></figure></p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds=0 来解决。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Run from agent command line:</span><br><span class="line"></span><br><span class="line">java -Xrs -DSoftKillWaitSeconds=0 -jar agent.jar -jnlpUrl ...</span><br></pre></td></tr></table></figure></p>
-<p>使用上述命令重新连接 Master - Slave 后，可以在Slave系统信息界面看到参数生效了。<br><img src="/posts/15762/jenkins2.png" alt="Slave信息"></p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://issues.jenkins-ci.org/browse/JENKINS-55106" target="_blank" rel="noopener">https://issues.jenkins-ci.org/browse/JENKINS-55106</a><br><a href="https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build" target="_blank" rel="noopener">https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build</a></p>
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>原生Centos7系统的yum源自带git版本是1.8.3.1。</p>
+<p>这个版本诞生于：10-Jun-2013。</p>
+<p>很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。</p>
+<h1 id="源码编译安装"><a href="#源码编译安装" class="headerlink" title="源码编译安装"></a>源码编译安装</h1><ol>
+<li><p>安装相关依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc</span><br><span class="line"># yum install  gcc perl-ExtUtils-MakeMaker</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载当前git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum remove git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载新版本源码包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/</span><br><span class="line">当前最新版本：git-2.28.0.tar.xz       27-Jul-2020</span><br><span class="line"></span><br><span class="line"># wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>源码编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># tar -xvf git-2.28.0.tar.xz</span><br><span class="line"># cd git-2.28.0/</span><br><span class="line"># which openssl  获取本机openssl路径，当前机器/usr/bin/openssl</span><br><span class="line"># ./configure --with-openssl=/usr/bin/openssl</span><br><span class="line"># make prefix=/usr/local/git all</span><br><span class="line"># make prefix=/usr/local/git install</span><br><span class="line"># echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile</span><br><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 
             
 
@@ -340,7 +331,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Jenkins/">Jenkins</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Gerrit/">Gerrit</a>
 
             </div>
         
@@ -350,14 +341,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/22197/"
-                    data-tooltip="Centos7 升级git版本 - 源码编译安装"
-                    aria-label="PREVIOUS: Centos7 升级git版本 - 源码编译安装"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -367,9 +355,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/9613/"
-                    data-tooltip="使用SHA256代替MD5进行文件校验"
-                    aria-label="NEXT: 使用SHA256代替MD5进行文件校验"
+                    href="/posts/15762/"
+                    data-tooltip="Jenkins Windows batch build stuck on final exit"
+                    aria-label="NEXT: Jenkins Windows batch build stuck on final exit"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -394,7 +382,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/15762/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/22197/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -407,7 +395,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/15762/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/22197/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -420,7 +408,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/15762/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/22197/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -479,14 +467,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/22197/"
-                    data-tooltip="Centos7 升级git版本 - 源码编译安装"
-                    aria-label="PREVIOUS: Centos7 升级git版本 - 源码编译安装"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -496,9 +481,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/9613/"
-                    data-tooltip="使用SHA256代替MD5进行文件校验"
-                    aria-label="NEXT: 使用SHA256代替MD5进行文件校验"
+                    href="/posts/15762/"
+                    data-tooltip="Jenkins Windows batch build stuck on final exit"
+                    aria-label="NEXT: Jenkins Windows batch build stuck on final exit"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -523,7 +508,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/15762/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/22197/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -536,7 +521,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/15762/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/22197/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -549,7 +534,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/15762/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/22197/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -593,7 +578,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/15762/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/22197/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -606,7 +591,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/15762/"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/22197/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -619,7 +604,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://0to.github.io/posts/15762/"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/22197/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -683,9 +668,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://0to.github.io/posts/15762/';
+            this.page.url = 'https://0to.github.io/posts/22197/';
               
-            this.page.identifier = 'posts/15762/';
+            this.page.identifier = 'posts/22197/';
               
           };
           (function() {

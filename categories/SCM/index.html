@@ -279,6 +279,80 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/22197/"
+                            aria-label=": Centos7 升级git版本 - 源码编译安装"
+                        >
+                            Centos7 升级git版本 - 源码编译安装
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-10-13T14:30:06+08:00">
+	
+		    Oct 13, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>原生Centos7系统的yum源自带git版本是1.8.3.1。</p>
+<p>这个版本诞生于：10-Jun-2013。</p>
+<p>很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。</p>
+<h1 id="源码编译安装"><a href="#源码编译安装" class="headerlink" title="源码编译安装"></a>源码编译安装</h1><ol>
+<li><p>安装相关依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc</span><br><span class="line"># yum install  gcc perl-ExtUtils-MakeMaker</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载当前git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum remove git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载新版本源码包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/</span><br><span class="line">当前最新版本：git-2.28.0.tar.xz       27-Jul-2020</span><br><span class="line"></span><br><span class="line"># wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>源码编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># tar -xvf git-2.28.0.tar.xz</span><br><span class="line"># cd git-2.28.0/</span><br><span class="line"># which openssl  获取本机openssl路径，当前机器/usr/bin/openssl</span><br><span class="line"># ./configure --with-openssl=/usr/bin/openssl</span><br><span class="line"># make prefix=/usr/local/git all</span><br><span class="line"># make prefix=/usr/local/git install</span><br><span class="line"># echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile</span><br><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/22197/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/15762/"
                             aria-label=": Jenkins Windows batch build stuck on final exit"
                         >
@@ -1085,144 +1159,6 @@ git push origin --tags
                         <p>
                             <a
                                 href="/posts/35560/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/posts/61445/"
-                            aria-label=": 使用OpenGrok查询涉及关键字代码库"
-                        >
-                            使用OpenGrok查询涉及关键字代码库
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-11-27T16:08:37+08:00">
-	
-		    Nov 27, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/SCM/">SCM</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>dev准备更新某个基础数据库表结构，为了评估影响范围和后续通知协作，需要找出使用此表的代码库。</p>
-<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ol>
-<li>查询数据库的连接IP，根据IP查询部署在上面的服务，根据服务找对应代码库。<ul>
-<li>难点：<ul>
-<li>并不是所有服务都会实时连接数据库，可能会漏掉；</li>
-<li>服务器上面部署的服务太多，还需要再做过滤。</li>
-</ul>
-</li>
-<li>综上，这个思路否定。</li>
-</ul>
-</li>
-<li>直接通过关键字查询代码库源码来定位。<ul>
-<li>难点：<ul>
-<li>需要拥有大范围的代码库权限</li>
-<li>多目录文件查询涉及关键字文件</li>
-</ul>
-</li>
-<li>解决方案：<ul>
-<li>作为公司SCM权限不是问题</li>
-<li>使用OpenGrok来做关键字查询</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li>OpenGrok：<a href="http://opengrok.github.io/OpenGrok/" target="_blank" rel="noopener">官方网站</a></li>
-</ul>
-<h2 id="实施步骤："><a href="#实施步骤：" class="headerlink" title="实施步骤："></a>实施步骤：</h2><ol>
-<li><p>搭建OpenGrok：</p>
-<ul>
-<li>安装jdk-1.8</li>
-<li>安装tomcat-8</li>
-<li><p>安装Exuberant Ctags <a href="http://ctags.sourceforge.net/" target="_blank" rel="noopener">下载地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf ctags-5.8.tar.gz</span><br><span class="line">$ cd ctags-5.8/</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装opengrok <a href="https://github.com/OpenGrok/OpenGrok/releases" target="_blank" rel="noopener">下载地址</a>  | <a href="https://github.com/OpenGrok/OpenGrok/wiki/How-to-install-OpenGrok" target="_blank" rel="noopener">安装使用wiki</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf opengrok-1.1-rc16.tar.gz</span><br><span class="line">$ cd opengrok-1.1-rc16/bin/</span><br><span class="line">$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>下载代码</p>
-<ul>
-<li><p>创建一个公共代码库存放目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /root/wwl/code/svn</span><br><span class="line">$ mkdir -p /root/wwl/code/git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>根据需要下载svn代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/svn</span><br><span class="line">$ svn checkout svn_urls</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>根据需要下载git代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/git</span><br><span class="line">$ git clone git_urls</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>PS:如果要想查询所有分支代码</p>
-<ul>
-<li>svn：直接checkout 包含branches目录url即可；</li>
-<li>git：需要clone多次git_url到不同目录，然后cd到各自目录执行git checkout branch_name；</li>
-<li>建议只下载master/trunk和最新dev分支即可。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>加载OpenGrok索引</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./OpenGrok index &lt;absolute_path_to_your_SRC_ROOT&gt;</span><br><span class="line">例如：</span><br><span class="line">    ./OpenGrok index /root/wwl/code</span><br></pre></td></tr></table></figure>
-<p> PS：如果代码文件很多的话，加载索引会很久。晚上执行第二天来看结果吧。</p>
-</li>
-<li><p>关键字查询</p>
-<ul>
-<li><p>web端登陆:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;HOST&gt;:&lt;PORT&gt;/source</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行查询:<br><img src="/posts/61445/OpenGrok.png" alt="logo"></p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h1><ol>
-<li>OpenGrok还支持文件类型查询过滤等功能，各位可以自行尝试使用；</li>
-<li>除了数据库表查询以外，常见的还有api调用查询；</li>
-<li>这种方案是后置的，如果能在系统设计之初和迭代过程积极维护开发文档，形成系统整体调度架构图形的话，会另我们开发更加自信；</li>
-<li>借此机会推动开发团队规范开发文档和产出系统调度架构图形。</li>
-</ol>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/posts/61445/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >

@@ -278,6 +278,217 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/posts/33032/"
+                            aria-label=": Java static code analysis"
+                        >
+                            Java static code analysis
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2017-06-20T16:32:48+08:00">
+	
+		    Jun 20, 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/SCM/">SCM</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
+<li>Wiki：<a href="https://en.wikipedia.org/wiki/Static_program_analysis" target="_blank" rel="noopener">Static_program_analysis</a></li>
+<li>Wiki：<a href="https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis" target="_blank" rel="noopener">List_of_tools_for_static_code_analysis</a></li>
+<li>工具对比：<a href="http://continuousdev.com/2015/08/checkstyle-vs-pmd-vs-findbugs" target="_blank" rel="noopener">checkstyle-vs-pmd-vs-findbugs</a></li>
+<li>工具对比：<a href="https://zeroturnaround.com/rebellabs/developers-guide-static-code-analysis-findbugs-checkstyle-pmd-coverity-sonarqube" target="_blank" rel="noopener">findbugs-checkstyle-pmd-coverity-sonarqube</a></li>
+</ul>
+<hr>
+<h1 id="静态代码分析："><a href="#静态代码分析：" class="headerlink" title="静态代码分析："></a>静态代码分析：</h1><ul>
+<li>定义：不运行计算机程序的条件下，进行程序分析的方法。</li>
+<li>目的：验证代码是否满足规范性、安全性、可靠性、可维护性等指标，发现代码缺陷并提高代码的质量。</li>
+<li>范围：源代码（主要）、编译产生的字节码。</li>
+<li>常用技术：<ul>
+<li>词法分析：通过正则表达式匹配将源代码转换成标记序列。</li>
+<li>语法分析：判断源程序结构上是否正确，通过使用上下文无关语法将相关符号整理为语法树。</li>
+<li>语义分析：对结构上正确的源程序进行上下文有关性质的审查。</li>
+<li>抽象语法树：将程序组织成树形结构，树中相关节点代表了程序中的相关代码。</li>
+<li>控制流分析：生成有向控制流图，用节点表示基本代码块，节点间的有向边代表控制流路径，反向边表示可能存在的循环；还可生成函数调用关系图，表示函数间的嵌套关系。</li>
+<li>无效代码分析：根据控制流图可分析孤立的节点部分为无效代码。<br>数据流分析：对控制流图进行遍历，记录变量的初始化点和引用点，保存切片相关数据信息。</li>
+<li>污点分析：基于数据流图判断源代码中哪些变量可能受到攻击，是验证程序输入、识别代码表达缺陷的关键。</li>
+<li>缺陷模式匹配：缺陷模式匹配事先从代码分析经验中收集足够多的共性缺陷模式，将待分析代码与已有的共性缺陷模式进行模式匹配，从而完成软件的安全分析。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Java开源静态代码分析工具对比："><a href="#Java开源静态代码分析工具对比：" class="headerlink" title="Java开源静态代码分析工具对比："></a>Java开源静态代码分析工具对比：</h1><table>
+<thead>
+<tr>
+<th>工具</th>
+<th style="text-align:center">源代码分析</th>
+<th style="text-align:center">字节码分析</th>
+<th style="text-align:center">定位</th>
+<th style="text-align:center">官网地址</th>
+<th style="text-align:center">版本</th>
+<th style="text-align:center">其它语言支持</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checkstyle</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">验证符合编码规则</td>
+<td style="text-align:center"><a href="http://checkstyle.sourceforge.net" target="_blank" rel="noopener">http://checkstyle.sourceforge.net</a></td>
+<td style="text-align:center">7.8.2（2017.6.18）</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>FindBugs</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">发现Bugs</td>
+<td style="text-align:center"><a href="http://findbugs.sourceforge.net" target="_blank" rel="noopener">http://findbugs.sourceforge.net</a></td>
+<td style="text-align:center">3.0.1（2015.3.6）</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>PMD</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">发现缺陷</td>
+<td style="text-align:center"><a href="https://pmd.github.io" target="_blank" rel="noopener">https://pmd.github.io</a></td>
+<td style="text-align:center">5.8.0（2017.6.24）</td>
+<td style="text-align:center">Y</td>
+</tr>
+<tr>
+<td>Sonarqube</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">持续质量平台</td>
+<td style="text-align:center"><a href="https://www.sonarqube.org" target="_blank" rel="noopener">https://www.sonarqube.org</a></td>
+<td style="text-align:center">6.3.1（2017.4.12）</td>
+<td style="text-align:center">Y</td>
+</tr>
+</tbody>
+</table>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">最初Sonarqube只是做静态代码分析结果聚类展示。</span><br><span class="line">后来随项目的发展，考虑到静态代码分析工具发展的不可控性（毕竟不属于自身项目），Sonarqube开始也涉及静态代码分析。</span><br><span class="line">在此过程中，Sonarqube借鉴了Checkstyle、FindBugs、PMD的规则方法。</span><br><span class="line">所以，本篇所指的Sonarqube既包含静态代码分析SonarJava（主要）又包含结果展示。</span><br><span class="line">以上参考下面链接：</span><br><span class="line">      https://groups.google.com/forum/#!topic/sonarqube/9M0iZ4OILVM</span><br><span class="line">      https://blog.sonarsource.com/sonarqube-java-analyzer-the-only-rule-engine-you-need/</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Checkstyle："><a href="#Checkstyle：" class="headerlink" title="Checkstyle："></a>Checkstyle：</h3><p>官网：<a href="http://checkstyle.sourceforge.net/checks.html" target="_blank" rel="noopener">检查规则</a></p>
+<p>主要涉及以下几个方面：</p>
+<ul>
+<li>注解</li>
+<li>javadoc注释</li>
+<li>命名规范</li>
+<li>文件头</li>
+<li>导入包规范</li>
+<li>尺寸设置</li>
+<li>空格</li>
+<li>正则表达式</li>
+<li>修饰符</li>
+<li>代码块</li>
+<li>编码问题</li>
+<li>类设计问题</li>
+<li>重复、度量以及一些杂项</li>
+</ul>
+<hr>
+<h3 id="FindBugs："><a href="#FindBugs：" class="headerlink" title="FindBugs："></a>FindBugs：</h3><p>官网：<a href="http://findbugs.sourceforge.net/bugDescriptions.html" target="_blank" rel="noopener">检查规则</a></p>
+<p>主要涉及以下几个方面：</p>
+<ul>
+<li>Multithreaded correctness - 如多线程编程时常见的同步、线程调度问题。</li>
+<li>Performance - 如由变量定义、方法调用导致的代码低效问题。</li>
+<li>Internationalization - 如错误的字符串转换带来的国际化问题。</li>
+<li>code vulnerabilities - 可能受到的恶意攻击，如访问权限修饰符的定义等。</li>
+<li>possible bugs - 可能导致错误的代码，如空指针引用，常见代码错误，序列化错误。</li>
+<li>Bad practice - 如命名不规范（类名应以大写字母开头），没有finally来关闭IO流，不检查方法返回值等。</li>
+<li>Correctness - 正确性问题，如instanceof永远返回false。</li>
+</ul>
+<hr>
+<h3 id="PMD："><a href="#PMD：" class="headerlink" title="PMD："></a>PMD：</h3><p>官网：<a href="https://pmd.github.io/pmd-5.8.0/pmd-java/rules/index.html" target="_blank" rel="noopener">Java检查规则</a></p>
+<p>主要涉及以下几个方面：</p>
+<ul>
+<li>Possible bugs - empty try/catch/finally/switch statements</li>
+<li>Dead code - unused local variables, parameters and private methods</li>
+<li>Suboptimal code - wasteful String/StringBuffer usage</li>
+<li>Overcomplicated expressions - unnecessary if statements, for loops that could be while loops</li>
+<li>Duplicate code - copied/pasted code means copied/pasted bugs</li>
+</ul>
+<hr>
+<h3 id="Sonarqube"><a href="#Sonarqube" class="headerlink" title="Sonarqube"></a>Sonarqube</h3><p>官网：<a href="https://www.sonarsource.com/products/codeanalyzers/sonarjava/rules.html" target="_blank" rel="noopener">Java检查规则</a></p>
+<p>主要涉及以下几个方面：</p>
+<ul>
+<li>Bugs</li>
+<li>Vulnerability</li>
+<li>Code Smell</li>
+</ul>
+<hr>
+<h2 id="VS："><a href="#VS：" class="headerlink" title="VS："></a>VS：</h2><h3 id="规则覆盖："><a href="#规则覆盖：" class="headerlink" title="规则覆盖："></a>规则覆盖：</h3><ul>
+<li>目前Sonarqube自带的SonarJava插件检查规则几乎包含了Checkstyle、FindBugs、PMD的规则。</li>
+<li>在具体的一些问题上面，几款工具各有千秋。</li>
+<li>存在同一个问题几款工具分别对其进行不同标注情况。</li>
+</ul>
+<h3 id="结果输出展示："><a href="#结果输出展示：" class="headerlink" title="结果输出展示："></a>结果输出展示：</h3><ul>
+<li>Checkstyle、FindBugs、PMD 运行结果输出支持Xml和Html格式。</li>
+<li>Sonarqube 运行结果存入数据库，web端展示。支持和上次结果对比。可视化做的很赞！</li>
+</ul>
+<h3 id="工具更新："><a href="#工具更新：" class="headerlink" title="工具更新："></a>工具更新：</h3><ul>
+<li>FindBugs已经很久不更新了。</li>
+<li>Checkstyle、PMD、Sonarqube更新频率都挺高的。</li>
+</ul>
+<h3 id="检查范围："><a href="#检查范围：" class="headerlink" title="检查范围："></a>检查范围：</h3><ul>
+<li>FindBugs 只对编译产生的class文件进行检查</li>
+<li>Checkstyle、PMD 只对源代码进行插件</li>
+<li>Sonarqube：<ul>
+<li>对于所有支持的编程语言，SonarQube 都提供源了代码的静态分析功能；</li>
+<li>对于某些特定的编程语言，SonarQube 提供了对编译后代码的静态分析功能，比如 java 中的 class file 和 jar 和 C# 中的 dll file 等；</li>
+<li>对于某些特定的编程语言，SonarQube 还可以提供对于代码的动态分析功能，比如 java 和 C# 中的单元测试的执行等。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h3><ul>
+<li>推荐使用Sonarqube来进行Java代码静态扫描。</li>
+<li>自带的SonarJava插件规则已经够用，建议直接上手使用。</li>
+<li>在使用过程中可以补充Checkstyle、FindBugs、PMD相应规则到Sonar检查。</li>
+</ul>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/posts/33032/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/posts/52695/"
                             aria-label=": 分支策略"
                         >
