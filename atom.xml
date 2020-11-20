@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2020-11-20T14:35:21.446Z</updated>
+  <updated>2020-11-20T14:45:21.566Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://0to.github.io/posts/59499/"/>
     <id>https://0to.github.io/posts/59499/</id>
     <published>2020-11-20T12:56:52.000Z</published>
-    <updated>2020-11-20T14:35:21.446Z</updated>
+    <updated>2020-11-20T14:45:21.566Z</updated>
     
-    <content type="html"><![CDATA[<p>近期Atlassian公司发布公告  Cloud-first 战略转型 :  <a href="https://www.atlassian.com/migration/journey-to-cloud" target="_blank" rel="noopener">Journey-to-cloud</a></p><p>Atlassian产品主要有下面三种形态：</p><table><thead><tr><th>Type</th><th>简介</th><th>后续影响</th></tr></thead><tbody><tr><td>Server</td><td>1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 适合对数据托管有本地化需求 的 中小型公司使用</td><td>1. 已经购买正版授权的，正常使用<br>2. 还没有购买正版授权的，需要在2021/2/2之前下单购买<br>3. 2024/2/2后官方不在维护Server产品</td></tr><tr><td>Data Center</td><td>1. 订阅制（年付）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 相较于Server版本，增加了高可用 和 CDN 原生支持<br>4. 适合对数据托管有本地化需求 的 跨国多中心研发团队使用</td><td>1. 官方会一直维护更新Data Center产品<br>2. 2021/2/2后会调价</td></tr><tr><td>Cloud</td><td>1. 订阅制（年付/月付）<br>2. Atlassian公司进行运维，服务搭建在Atlassian公司云服务器<br>3. 适合对数据托管没有本地化需求 的 各类 公司使用<br>4. 目前没有使用国内的云服务器，所以国内网络访问速度和稳定性待考察</td><td>1. 官方战略龙头产品，放心使用</td></tr></tbody></table>]]></content>
+    <content type="html"><![CDATA[<p>近期Atlassian公司发布公告  Cloud-first 战略转型 :  <a href="https://www.atlassian.com/migration/journey-to-cloud" target="_blank" rel="noopener">Journey-to-cloud</a></p><p>Atlassian产品主要有下面三种形态：</p><table><thead><tr><th>Type</th><th>简介</th><th>后续影响</th></tr></thead><tbody><tr><td>Server</td><td>1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 适合对数据托管有本地化需求 的 中小型公司使用</td><td>1. 已经购买正版授权的，正常使用<br>2. 还没有购买正版授权的，需要在2021/2/2之前下单购买<br>3. 2024/2/2后官方不在维护Server产品</td></tr><tr><td>Data Center</td><td>1. 订阅制（年付）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 相较于Server版本，增加了高可用 和 CDN 原生支持<br>4. 适合对数据托管有本地化需求 的 跨国多中心研发团队使用</td><td>1. 官方会一直维护更新Data Center产品<br>2. 2021/2/2后会调价</td></tr><tr><td>Cloud</td><td>1. 订阅制（年付/月付）<br>2. Atlassian公司进行运维，服务搭建在Atlassian公司云服务器<br>3. 适合对数据托管没有本地化需求 的 各类 公司使用<br>4. 目前没有使用国内的云服务器，所以国内网络访问速度和稳定性待考察</td><td>1. 官方战略龙头产品，放心使用</td></tr></tbody></table><p><img src="/posts/59499/Atlassian_Server_license.png" alt="logo"></p><p>受影响的产品：</p><ul><li>Jira software</li><li>Jira Core</li><li>Confluence</li><li>Bitbucket</li><li>Bamboo</li><li>Crowd</li><li>Jira Service Desk</li><li>Atlassian apps</li><li>Marketplace apps</li></ul>]]></content>
     
     <summary type="html">
     
