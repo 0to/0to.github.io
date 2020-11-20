@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://0to.github.io/"/>
-  <updated>2020-10-13T06:50:36.055Z</updated>
+  <updated>2020-11-20T14:35:21.446Z</updated>
   <id>https://0to.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud</title>
+    <link href="https://0to.github.io/posts/59499/"/>
+    <id>https://0to.github.io/posts/59499/</id>
+    <published>2020-11-20T12:56:52.000Z</published>
+    <updated>2020-11-20T14:35:21.446Z</updated>
+    
+    <content type="html"><![CDATA[<p>近期Atlassian公司发布公告  Cloud-first 战略转型 :  <a href="https://www.atlassian.com/migration/journey-to-cloud" target="_blank" rel="noopener">Journey-to-cloud</a></p><p>Atlassian产品主要有下面三种形态：</p><table><thead><tr><th>Type</th><th>简介</th><th>后续影响</th></tr></thead><tbody><tr><td>Server</td><td>1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 适合对数据托管有本地化需求 的 中小型公司使用</td><td>1. 已经购买正版授权的，正常使用<br>2. 还没有购买正版授权的，需要在2021/2/2之前下单购买<br>3. 2024/2/2后官方不在维护Server产品</td></tr><tr><td>Data Center</td><td>1. 订阅制（年付）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 相较于Server版本，增加了高可用 和 CDN 原生支持<br>4. 适合对数据托管有本地化需求 的 跨国多中心研发团队使用</td><td>1. 官方会一直维护更新Data Center产品<br>2. 2021/2/2后会调价</td></tr><tr><td>Cloud</td><td>1. 订阅制（年付/月付）<br>2. Atlassian公司进行运维，服务搭建在Atlassian公司云服务器<br>3. 适合对数据托管没有本地化需求 的 各类 公司使用<br>4. 目前没有使用国内的云服务器，所以国内网络访问速度和稳定性待考察</td><td>1. 官方战略龙头产品，放心使用</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;近期Atlassian公司发布公告  Cloud-first 战略转型 :  &lt;a href=&quot;https://www.atlassian.com/migration/journey-to-cloud&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Jour
+      
+    
+    </summary>
+    
+      <category term="PM" scheme="https://0to.github.io/categories/PM/"/>
+    
+    
+      <category term="jira" scheme="https://0to.github.io/tags/jira/"/>
+    
+      <category term="confluence" scheme="https://0to.github.io/tags/confluence/"/>
+    
+  </entry>
   
   <entry>
     <title>Centos7 升级git版本 - 源码编译安装</title>
@@ -502,32 +529,6 @@
       
       
         &lt;h2 id=&quot;关联LDAP：&quot;&gt;&lt;a href=&quot;#关联LDAP：&quot; class=&quot;headerlink&quot; title=&quot;关联LDAP：&quot;&gt;&lt;/a&gt;关联LDAP：&lt;/h2&gt;&lt;p&gt;登录Sonarqube服务器，修改安装目录下的conf\sonar.properties文件。&lt;br
-      
-    
-    </summary>
-    
-      <category term="SCM" scheme="https://0to.github.io/categories/SCM/"/>
-    
-    
-      <category term="Sonar" scheme="https://0to.github.io/tags/Sonar/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>持续代码质量平台Sonar-1搭建</title>
-    <link href="https://0to.github.io/posts/60810/"/>
-    <id>https://0to.github.io/posts/60810/</id>
-    <published>2017-06-20T08:33:00.000Z</published>
-    <updated>2018-05-29T10:03:51.177Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul><li>下载地址：<a href="https://www.sonarqube.org/downloads/" target="_blank" rel="noopener">官方网站</a></li><li>软硬件需求：<a href="https://docs.sonarqube.org/display/SONAR/Requirements#Requirements-Requirements-SupportedPlatforms" target="_blank" rel="noopener">官方文档</a></li><li>安装方法：<a href="https://docs.sonarqube.org/display/SONAR/Installing+the+Server" target="_blank" rel="noopener">官方文档</a></li></ul><p>PS：</p><ul><li>Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。</li><li>Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。</li></ul><h1 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h1><ul><li>OS：      Windows Server 2012 R2</li><li>JDK:      1.8.0_71</li><li>DB:       Mysql 5.6.26</li><li>Sonar:    6.3.1</li></ul><h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><ol><li><p>安装JDK</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;java -version</span><br><span class="line">java version &quot;1.8.0_71&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_71-b15)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.71-b15, mixed mode)</span><br></pre></td></tr></table></figure></li><li><p>安装Mysql</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;mysql -V</span><br><span class="line">mysql  Ver 14.14 Distrib 5.6.26, for Win64 (x86_64)</span><br></pre></td></tr></table></figure></li><li><p>创建数据库和用户</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 创建sonar数据库</span><br><span class="line">CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"># 创建sonar用户</span><br><span class="line">CREATE USER &apos;sonar&apos; IDENTIFIED BY &apos;passwd&apos;;</span><br><span class="line"># 赋予sonar用户对sonar数据库权限</span><br><span class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;%&apos; IDENTIFIED BY &apos;passwd&apos;;</span><br><span class="line">GRANT ALL ON sonar.* TO &apos;sonar&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;passwd&apos;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></li><li><p>安装Sonarqube</p><ul><li>解压缩sonarqube-6.3.1.zip到D:\scm\sonarqube-6.3.1</li><li><p>修改配置D:\scm\sonarqube-6.3.1\conf\sonar.properties</p><ul><li>sonar.jdbc.username=sonar</li><li>sonar.jdbc.password=passwd</li><li>sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance</li><li>sonar.web.host=本机IP</li><li>sonar.web.context=</li><li>sonar.web.port=9000</li><li>sonar.web.http.maxThreads=500</li></ul></li><li><p>配置Sonarqube windows服务</p><ol><li>以管理员身份运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\InstallNTService.bat创建服务<br><img src="/posts/60810/Service.jpeg" alt="logo"></li><li>配置Administrator账户运行Sonarqube服务<br><img src="/posts/60810/AdminService.jpeg" alt="logo"></li><li>启动Sonarqube服务<ul><li>建议使用上面配置的windows service启动</li><li>也可以直接运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\StartSonar.bat</li></ul></li></ol></li></ul></li><li><p>网页端登陆配置Sonarqube</p><ul><li>http://搭建机器ip:9000</li><li>用户名/密码：admin</li></ul></li></ol><hr><h3 id="PS1："><a href="#PS1：" class="headerlink" title="PS1："></a>PS1：</h3><p>在安装的过程中遇到问题：</p><ul><li>运行InstallNTService.bat生成系统服务的时候没有使用管理员身份；</li><li><p>Sonarqube服务创建成功，但是启动的时候失败；</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.C.[.[.[/]] Exception sending context initialized event to listener instance of class org.sonar.server.platform.web.PlatformServletContextListener</span><br><span class="line">org.sonar.api.utils.MessageException: Current version is too old. Please upgrade to Long Term Support version firstly.</span><br><span class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] One or more listeners failed to start. Full details will be found in the appropriate container log file</span><br><span class="line">2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] Context [] startup failed due to previous errors</span><br></pre></td></tr></table></figure></li><li><p>查看发现mysql数据库sonar已经有了很多表；</p></li></ul><p>解决方法：</p><ol><li>删除sonar数据库里面的表，删除Sonarqube服务</li><li>安装上面过程：先以管理员身份运行InstallNTService.bat，然后配置Administrator账户运行Sonarqube服务</li><li>重新启动Sonarqube服务即可。</li></ol><hr><h3 id="PS2"><a href="#PS2" class="headerlink" title="PS2:"></a>PS2:</h3><p>如果Mysql数据库启用了binarylog的话，请设置为row格式。否则在启动Sonarqube的时候创建数据库表会报下面错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error updating database.  Cause: java.sql.SQLException: Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;参考链接：&quot;&gt;&lt;a href=&quot;#参考链接：&quot; class=&quot;headerlink&quot; title=&quot;参考链接：&quot;&gt;&lt;/a&gt;参考链接：&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;下载地址：&lt;a href=&quot;https://www.sonarqube.org/downloads/&quot; 
       
     
     </summary>

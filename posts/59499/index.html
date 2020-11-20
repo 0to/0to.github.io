@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Just Do IT">
-    <title>Centos7 升级git版本 - 源码编译安装 - Just Do IT</title>
+    <title>Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud - Just Do IT</title>
     <meta name="author" content="Weilong">
     
     
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景原生Centos7系统的yum源自带git版本是1.8.3.1。\n这个版本诞生于：10-Jun-2013。\n很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。\n源码编译安装\n安装相关依赖\n12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum install  gcc perl-ExtUtils-MakeMaker\n\n卸载当前git\n1# yum remove git\n\n下载新版本源码包\n1234官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/当前最新版本：git-2.28.0.tar.xz       27-Jul-2020# wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz\n\n源码编译安装\n12345678# tar -xvf git-2.28.0.tar.xz# cd git-2.28.0/# which openssl  获取本机openssl路径，当前机器/usr/bin/openssl# ./configure --with-openssl=/usr/bin/openssl# make prefix=/usr/local/git all# make prefix=/usr/local/git install# echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile# source /etc/profile\n\n\n","dateCreated":"2020-10-13T14:30:06+08:00","dateModified":"2020-10-13T14:50:36+08:00","datePublished":"2020-10-13T14:30:06+08:00","description":"","headline":"Centos7 升级git版本 - 源码编译安装","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/22197/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/22197/","keywords":"Git"}</script>
-    <meta name="description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
-<meta name="keywords" content="Git">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"近期Atlassian公司发布公告  Cloud-first 战略转型 :  Journey-to-cloud\nAtlassian产品主要有下面三种形态：\n\n\n\nType\n简介\n后续影响\n\n\n\n\nServer\n1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器3. 适合对数据托管有本地化需求 的 中小型公司使用\n1. 已经购买正版授权的，正常使用2. 还没有购买正版授权的，需要在2021/2/2之前下单购买3. 2024/2/2后官方不在维护Server产品\n\n\nData Center\n1. 订阅制（年付）2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器3. 相较于Server版本，增加了高可用 和 CDN 原生支持4. 适合对数据托管有本地化需求 的 跨国多中心研发团队使用\n1. 官方会一直维护更新Data Center产品2. 2021/2/2后会调价\n\n\nCloud\n1. 订阅制（年付/月付）2. Atlassian公司进行运维，服务搭建在Atlassian公司云服务器3. 适合对数据托管没有本地化需求 的 各类 公司使用4. 目前没有使用国内的云服务器，所以国内网络访问速度和稳定性待考察\n1. 官方战略龙头产品，放心使用\n\n\n\n","dateCreated":"2020-11-20T20:56:52+08:00","dateModified":"2020-11-20T22:35:21+08:00","datePublished":"2020-11-20T20:56:52+08:00","description":"","headline":"Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/59499/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/59499/","keywords":"jira, confluence"}</script>
+    <meta name="description" content="近期Atlassian公司发布公告  Cloud-first 战略转型 :  Journey-to-cloud Atlassian产品主要有下面三种形态：    Type 简介 后续影响     Server 1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器3. 适合对数据托管有本地化需求 的 中小型公司使用 1. 已经">
+<meta name="keywords" content="jira,confluence">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Centos7 升级git版本 - 源码编译安装">
-<meta property="og:url" content="https://0to.github.io/posts/22197/index.html">
+<meta property="og:title" content="Atlassian产品策略更新- Jira&#x2F;Confluence&#x2F;Bitbucket Server&#x2F;Data Center&#x2F;Cloud">
+<meta property="og:url" content="https://0to.github.io/posts/59499/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
+<meta property="og:description" content="近期Atlassian公司发布公告  Cloud-first 战略转型 :  Journey-to-cloud Atlassian产品主要有下面三种形态：    Type 简介 后续影响     Server 1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器3. 适合对数据托管有本地化需求 的 中小型公司使用 1. 已经">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-10-13T06:50:36.055Z">
+<meta property="og:updated_time" content="2020-11-20T14:35:21.446Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Centos7 升级git版本 - 源码编译安装">
-<meta name="twitter:description" content="背景原生Centos7系统的yum源自带git版本是1.8.3.1。 这个版本诞生于：10-Jun-2013。 很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。 源码编译安装 安装相关依赖 12# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc# yum insta">
+<meta name="twitter:title" content="Atlassian产品策略更新- Jira&#x2F;Confluence&#x2F;Bitbucket Server&#x2F;Data Center&#x2F;Cloud">
+<meta name="twitter:description" content="近期Atlassian公司发布公告  Cloud-first 战略转型 :  Journey-to-cloud Atlassian产品主要有下面三种形态：    Type 简介 后续影响     Server 1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器3. 适合对数据托管有本地化需求 的 中小型公司使用 1. 已经">
     
     
         
@@ -278,20 +278,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Centos7 升级git版本 - 源码编译安装
+            Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-10-13T14:30:06+08:00">
+    <time datetime="2020-11-20T20:56:52+08:00">
 	
-		    Oct 13, 2020
+		    Nov 20, 2020
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/SCM/">SCM</a>
+    <a class="category-link" href="/categories/PM/">PM</a>
 
 
     
@@ -303,23 +303,34 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>原生Centos7系统的yum源自带git版本是1.8.3.1。</p>
-<p>这个版本诞生于：10-Jun-2013。</p>
-<p>很多新特性都不支持，为了更好的使用git，我们需要进行版本升级。</p>
-<h1 id="源码编译安装"><a href="#源码编译安装" class="headerlink" title="源码编译安装"></a>源码编译安装</h1><ol>
-<li><p>安装相关依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc</span><br><span class="line"># yum install  gcc perl-ExtUtils-MakeMaker</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>卸载当前git</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum remove git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下载新版本源码包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">官方仓库地址：https://mirrors.edge.kernel.org/pub/software/scm/git/</span><br><span class="line">当前最新版本：git-2.28.0.tar.xz       27-Jul-2020</span><br><span class="line"></span><br><span class="line"># wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.xz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>源码编译安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># tar -xvf git-2.28.0.tar.xz</span><br><span class="line"># cd git-2.28.0/</span><br><span class="line"># which openssl  获取本机openssl路径，当前机器/usr/bin/openssl</span><br><span class="line"># ./configure --with-openssl=/usr/bin/openssl</span><br><span class="line"># make prefix=/usr/local/git all</span><br><span class="line"># make prefix=/usr/local/git install</span><br><span class="line"># echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/profile</span><br><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+            <p>近期Atlassian公司发布公告  Cloud-first 战略转型 :  <a href="https://www.atlassian.com/migration/journey-to-cloud" target="_blank" rel="noopener">Journey-to-cloud</a></p>
+<p>Atlassian产品主要有下面三种形态：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>简介</th>
+<th>后续影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server</td>
+<td>1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 适合对数据托管有本地化需求 的 中小型公司使用</td>
+<td>1. 已经购买正版授权的，正常使用<br>2. 还没有购买正版授权的，需要在2021/2/2之前下单购买<br>3. 2024/2/2后官方不在维护Server产品</td>
+</tr>
+<tr>
+<td>Data Center</td>
+<td>1. 订阅制（年付）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 相较于Server版本，增加了高可用 和 CDN 原生支持<br>4. 适合对数据托管有本地化需求 的 跨国多中心研发团队使用</td>
+<td>1. 官方会一直维护更新Data Center产品<br>2. 2021/2/2后会调价</td>
+</tr>
+<tr>
+<td>Cloud</td>
+<td>1. 订阅制（年付/月付）<br>2. Atlassian公司进行运维，服务搭建在Atlassian公司云服务器<br>3. 适合对数据托管没有本地化需求 的 各类 公司使用<br>4. 目前没有使用国内的云服务器，所以国内网络访问速度和稳定性待考察</td>
+<td>1. 官方战略龙头产品，放心使用</td>
+</tr>
+</tbody>
+</table>
 
             
 
@@ -331,7 +342,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Git/">Git</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/confluence/">confluence</a> <a class="tag tag--primary tag--small t-link" href="/tags/jira/">jira</a>
 
             </div>
         
@@ -341,14 +352,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/59499/"
-                    data-tooltip="Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud"
-                    aria-label="PREVIOUS: Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -358,9 +366,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/15762/"
-                    data-tooltip="Jenkins Windows batch build stuck on final exit"
-                    aria-label="NEXT: Jenkins Windows batch build stuck on final exit"
+                    href="/posts/22197/"
+                    data-tooltip="Centos7 升级git版本 - 源码编译安装"
+                    aria-label="NEXT: Centos7 升级git版本 - 源码编译安装"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -385,7 +393,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/22197/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/59499/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -398,7 +406,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/22197/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/59499/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -411,7 +419,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/22197/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/59499/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -470,14 +478,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/59499/"
-                    data-tooltip="Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud"
-                    aria-label="PREVIOUS: Atlassian产品策略更新- Jira/Confluence/Bitbucket Server/Data Center/Cloud"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -487,9 +492,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/posts/15762/"
-                    data-tooltip="Jenkins Windows batch build stuck on final exit"
-                    aria-label="NEXT: Jenkins Windows batch build stuck on final exit"
+                    href="/posts/22197/"
+                    data-tooltip="Centos7 升级git版本 - 源码编译安装"
+                    aria-label="NEXT: Centos7 升级git版本 - 源码编译安装"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -514,7 +519,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/22197/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/59499/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -527,7 +532,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/22197/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/59499/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -540,7 +545,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/22197/"
+                    target="new" href="https://plus.google.com/share?url=https://0to.github.io/posts/59499/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -584,7 +589,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/22197/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://0to.github.io/posts/59499/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -597,7 +602,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/22197/"
+                        href="https://twitter.com/intent/tweet?text=https://0to.github.io/posts/59499/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -610,7 +615,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://0to.github.io/posts/22197/"
+                        href="https://plus.google.com/share?url=https://0to.github.io/posts/59499/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -674,9 +679,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://0to.github.io/posts/22197/';
+            this.page.url = 'https://0to.github.io/posts/59499/';
               
-            this.page.identifier = 'posts/22197/';
+            this.page.identifier = 'posts/59499/';
               
           };
           (function() {
