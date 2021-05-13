@@ -13,17 +13,18 @@
         <link rel="icon" href="https://0to.github.io/assets/images/owl.png">
     
     
-        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nAnalyzing with SonarQube Scanner for Gradle：官方文档\nGradle sonarqube插件：官方文档\nSonarqube Android Lint plugin：Github\n\n系统环境：\nGradle:       2.10\nSonarqube:    6.3.1\n\n背景：123公司使用java语言开发Android项目，使用Gradle作为构建工具。默认的Sonarway java规则也可以进行静态代码扫描。希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。\n\nSonarqube 安装 Android lint插件点击Quality Profiles查看Android Lint规则\n\nSonarqube 配置Android项目扫描规则我们配置一个新的Quality Profiles／java用于Android项目扫描。\n新规则 包含Java Sonar way的Bugs、Vulnerabilities 和 Android Lint的Code Smells\n\n本地配置使用\n配置系统gradle.properties增加下面内容 （～/.gradle/gradle.properties）\n\n123systemProp.sonar.host.url=http://ip:9000#----- Security (when &apos;sonar.forceAuthentication&apos; is set to &apos;true&apos;)systemProp.sonar.login=个人token\n\n修改项目build.gradle 相应位置增加下面配置\n\n1234567891011121314151617181920apply plugin: &quot;org.sonarqube&quot;buildscript &#123;    repositories &#123;        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;    &#125;    dependencies &#123;        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;    &#125;&#125;sonarqube &#123;    androidVariant &apos;fullDebug&apos;\tproperties &#123;        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;\t&#125;&#125;\n\n执行gradle lintDebug    生成lint-results-debug.xml\n\n执行gradle Sonarqube    构建、分析、上传\n\n\n","dateCreated":"2017-07-18T18:51:03+08:00","dateModified":"2018-05-04T17:47:33+08:00","datePublished":"2017-07-18T18:51:03+08:00","description":"","headline":"持续代码质量平台Sonar-4Android","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/7875/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/7875/","keywords":"Sonar"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nAnalyzing with SonarQube Scanner for Gradle：官方文档\nGradle sonarqube插件：官方文档\nSonarqube Android Lint plugin：Github\n\n系统环境：\nGradle:       2.10\nSonarqube:    6.3.1\n\n背景：123公司使用java语言开发Android项目，使用Gradle作为构建工具。默认的Sonarway java规则也可以进行静态代码扫描。希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。\n\n\nSonarqube 安装 Android lint插件点击Quality Profiles查看Android Lint规则\n\nSonarqube 配置Android项目扫描规则我们配置一个新的Quality Profiles／java用于Android项目扫描。\n新规则 包含Java Sonar way的Bugs、Vulnerabilities 和 Android Lint的Code Smells\n\n本地配置使用\n配置系统gradle.properties增加下面内容 （～/.gradle/gradle.properties）\n\n123systemProp.sonar.host.url=http://ip:9000#----- Security (when &#x27;sonar.forceAuthentication&#x27; is set to &#x27;true&#x27;)systemProp.sonar.login=个人token\n\n\n\n修改项目build.gradle 相应位置增加下面配置\n\n1234567891011121314151617181920apply plugin: &quot;org.sonarqube&quot;buildscript &#123;    repositories &#123;        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;    &#125;    dependencies &#123;        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;    &#125;&#125;sonarqube &#123;    androidVariant &#x27;fullDebug&#x27;\tproperties &#123;        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;\t&#125;&#125;\n\n执行gradle lintDebug    生成lint-results-debug.xml\n\n执行gradle Sonarqube    构建、分析、上传\n\n\n","dateCreated":"2017-07-18T18:51:03+08:00","dateModified":"2018-05-04T17:47:33+08:00","datePublished":"2017-07-18T18:51:03+08:00","description":"","headline":"持续代码质量平台Sonar-4Android","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/7875/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/7875/","keywords":"Sonar"}</script>
     <meta name="description" content="参考链接： Analyzing with SonarQube Scanner for Gradle：官方文档 Gradle sonarqube插件：官方文档 Sonarqube Android Lint plugin：Github  系统环境： Gradle:       2.10 Sonarqube:    6.3.1  背景：123公司使用java语言开发Android项目，使用Gradle作">
-<meta name="keywords" content="Sonar">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="持续代码质量平台Sonar-4Android">
 <meta property="og:url" content="https://0to.github.io/posts/7875/index.html">
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="参考链接： Analyzing with SonarQube Scanner for Gradle：官方文档 Gradle sonarqube插件：官方文档 Sonarqube Android Lint plugin：Github  系统环境： Gradle:       2.10 Sonarqube:    6.3.1  背景：123公司使用java语言开发Android项目，使用Gradle作">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://0to.github.io/posts/7875/Android_lint.png">
 <meta property="og:image" content="https://0to.github.io/posts/7875/lint.png">
 <meta property="og:image" content="https://0to.github.io/posts/7875/Android.png">
@@ -33,10 +34,11 @@
 <meta property="og:image" content="https://0to.github.io/posts/7875/next2.png">
 <meta property="og:image" content="https://0to.github.io/posts/7875/code_smell.png">
 <meta property="og:image" content="https://0to.github.io/posts/7875/done.png">
-<meta property="og:updated_time" content="2018-05-04T09:47:33.986Z">
+<meta property="article:published_time" content="2017-07-18T10:51:03.000Z">
+<meta property="article:modified_time" content="2018-05-04T09:47:33.986Z">
+<meta property="article:author" content="Weilong">
+<meta property="article:tag" content="Sonar">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="持续代码质量平台Sonar-4Android">
-<meta name="twitter:description" content="参考链接： Analyzing with SonarQube Scanner for Gradle：官方文档 Gradle sonarqube插件：官方文档 Sonarqube Android Lint plugin：Github  系统环境： Gradle:       2.10 Sonarqube:    6.3.1  背景：123公司使用java语言开发Android项目，使用Gradle作">
 <meta name="twitter:image" content="https://0to.github.io/posts/7875/Android_lint.png">
     
     
@@ -49,10 +51,18 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    
+<link rel="stylesheet" href="/assets/css/all.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
     <!--STYLES END-->
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
@@ -98,7 +108,7 @@
     <div class="header-title">
         <a
             class="header-title-link"
-            href="/ "
+            href="/"
             aria-label=""
         >
             Just Do IT
@@ -138,7 +148,8 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </h5>
                 
             </div>
         
@@ -147,12 +158,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/ "
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
                             
+                            rel="noopener"
                             title="Home"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
@@ -160,12 +172,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
                             
+                            rel="noopener"
                             title="Categories"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
@@ -173,12 +186,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
                             
+                            rel="noopener"
                             title="Tags"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
@@ -186,12 +200,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-archives"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
                             
+                            rel="noopener"
                             title="Archives"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
@@ -199,12 +214,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
                             
+                            rel="noopener"
                             title="Search"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Search</span>
                     </a>
@@ -212,12 +228,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="#about"
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
                             
+                            rel="noopener"
                             title="About"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
@@ -229,8 +246,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/0to"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
@@ -238,8 +262,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://cn.linkedin.com/in/龙-威-73303298"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
                         <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
@@ -247,8 +278,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:326688025@qq.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
                         <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Mail</span>
                     </a>
@@ -260,12 +298,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
                             
+                            rel="noopener"
                             title="RSS"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
@@ -314,15 +353,16 @@
     <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li>Analyzing with SonarQube Scanner for Gradle：<a href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle" target="_blank" rel="noopener">官方文档</a></li>
-<li>Gradle sonarqube插件：<a href="https://plugins.gradle.org/plugin/org.sonarqube" target="_blank" rel="noopener">官方文档</a></li>
-<li>Sonarqube Android Lint plugin：<a href="https://github.com/ofields/sonar-android" target="_blank" rel="noopener">Github</a></li>
+<li>Analyzing with SonarQube Scanner for Gradle：<a target="_blank" rel="noopener" href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle">官方文档</a></li>
+<li>Gradle sonarqube插件：<a target="_blank" rel="noopener" href="https://plugins.gradle.org/plugin/org.sonarqube">官方文档</a></li>
+<li>Sonarqube Android Lint plugin：<a target="_blank" rel="noopener" href="https://github.com/ofields/sonar-android">Github</a></li>
 </ul>
 <h1 id="系统环境："><a href="#系统环境：" class="headerlink" title="系统环境："></a>系统环境：</h1><ul>
 <li>Gradle:       2.10</li>
 <li>Sonarqube:    6.3.1</li>
 </ul>
-<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">公司使用java语言开发Android项目，使用Gradle作为构建工具。</span><br><span class="line">默认的Sonarway java规则也可以进行静态代码扫描。</span><br><span class="line">希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。</span><br></pre></td></tr></table></figure>
+<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">公司使用java语言开发Android项目，使用Gradle作为构建工具。</span><br><span class="line">默认的Sonarway java规则也可以进行静态代码扫描。</span><br><span class="line">希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h3 id="Sonarqube-安装-Android-lint插件"><a href="#Sonarqube-安装-Android-lint插件" class="headerlink" title="Sonarqube 安装 Android lint插件"></a>Sonarqube 安装 Android lint插件</h3><p><img src="/posts/7875/Android_lint.png" alt="logo"><br>点击Quality Profiles查看Android Lint规则<br><img src="/posts/7875/lint.png" alt="logo"></p>
 <hr>
@@ -332,11 +372,13 @@
 <h3 id="本地配置使用"><a href="#本地配置使用" class="headerlink" title="本地配置使用"></a>本地配置使用</h3><ul>
 <li>配置系统gradle.properties增加下面内容 （～/.gradle/gradle.properties）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemProp.sonar.host.url=http://ip:9000</span><br><span class="line">#----- Security (when &apos;sonar.forceAuthentication&apos; is set to &apos;true&apos;)</span><br><span class="line">systemProp.sonar.login=个人token</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemProp.sonar.host.url=http://ip:9000</span><br><span class="line">#----- Security (when &#x27;sonar.forceAuthentication&#x27; is set to &#x27;true&#x27;)</span><br><span class="line">systemProp.sonar.login=个人token</span><br></pre></td></tr></table></figure>
+
+
 <ul>
 <li>修改项目build.gradle 相应位置增加下面配置</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &quot;org.sonarqube&quot;</span><br><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">sonarqube &#123;</span><br><span class="line">    androidVariant &apos;fullDebug&apos;</span><br><span class="line">	properties &#123;</span><br><span class="line">        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;</span><br><span class="line">        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;</span><br><span class="line">        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;</span><br><span class="line">        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;</span><br><span class="line">        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;</span><br><span class="line">        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &quot;org.sonarqube&quot;</span><br><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">sonarqube &#123;</span><br><span class="line">    androidVariant &#x27;fullDebug&#x27;</span><br><span class="line">	properties &#123;</span><br><span class="line">        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;</span><br><span class="line">        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;</span><br><span class="line">        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;</span><br><span class="line">        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;</span><br><span class="line">        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;</span><br><span class="line">        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>执行gradle lintDebug    生成lint-results-debug.xml</p>
 </li>
@@ -354,7 +396,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Sonar/">Sonar</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Sonar/" rel="tag">Sonar</a>
 
             </div>
         
@@ -470,7 +512,7 @@
         
             
                 <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
         
@@ -481,7 +523,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Weilong. All Rights Reserved.
+        Copyrights &copy; 2021 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -663,7 +705,8 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </div>
         
         
             <div id="about-card-job">
@@ -687,10 +730,18 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/jquery.js"></script>
+
+
 <script src="/assets/js/jquery.fancybox.js"></script>
+
+
 <script src="/assets/js/thumbs.js"></script>
+
+
 <script src="/assets/js/tranquilpeak.js"></script>
+
 <!--SCRIPTS END-->
 
 

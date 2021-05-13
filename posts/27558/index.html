@@ -13,21 +13,23 @@
         <link rel="icon" href="https://0to.github.io/assets/images/owl.png">
     
     
-        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nHow can I programmatically upload an artifact into Nexus 3?\nNexus Repository Import Script\n\n\n背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。\n分析：\nNexus2.x 服务器直接存储jar包\nNexus3.x 服务器存储的是二进制文件\n所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。\n\n迁移导入方法：\n官方Upgrading 具体实施可以参考上一篇blog。 这种方法有两个小问题：\n- 需要原nexus版本为2.14.x版本\n- 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3\n\nmvn deploy命令上传 如果原nexus2待迁移的jar包并不多，可以使用这种方式。\n1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar\n\n2. 上传jar 和 pom.xml (pom里面有依赖)\nmvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar\n 需要注意：\n- 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;\n- 写脚本封装上面命令实现批量迁移\n\nhttp协议上传 直接使用http put 文件到/repository/$repo-id/$path-of-file\ncurl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom\n 我们需要上传的文件：jar和pom.xml\n 创建 mavenimport.sh 脚本如下\n123456789101112131415#!/bin/bash# Get command line paramswhile getopts &quot;:r:u:p:&quot; opt; do    case $opt in        r) REPO_URL=&quot;$OPTARG&quot;        ;;        u) USERNAME=&quot;$OPTARG&quot;        ;;        p) PASSWORD=&quot;$OPTARG&quot;        ;;        esacdonefind . -type f -not -path &apos;*/\\.*&apos; -not -path &apos;*/\\^archetype\\-catalog\\.xml*&apos; -not -path &apos;*/\\^maven\\-metadata\\-local*\\.xml&apos; -not -path &apos;*/\\^maven\\-metadata\\-deployment*\\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \\;\n 登陆到Nexus2.x服务器执行\ncd $releases_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name\n\ncd $snapshots_dir\ncp $path/mavenimport.sh .\nsh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name\n 需要注意：\n- 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）\n- 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。\n- 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。\n- 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。\n\n\n","dateCreated":"2018-03-28T19:19:17+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-28T19:19:17+08:00","description":"","headline":"Nexus3批量导入jar包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/27558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/27558/","keywords":"nexus"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nHow can I programmatically upload an artifact into Nexus 3?\nNexus Repository Import Script\n\n\n背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。\n分析：\nNexus2.x 服务器直接存储jar包\nNexus3.x 服务器存储的是二进制文件\n所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。\n\n迁移导入方法：\n官方Upgrading 具体实施可以参考上一篇blog。 这种方法有两个小问题：\n - 需要原nexus版本为2.14.x版本\n - 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3\n\n\nmvn deploy命令上传 如果原nexus2待迁移的jar包并不多，可以使用这种方式。\n 1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）\n mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar\n\n 2. 上传jar 和 pom.xml (pom里面有依赖)\n mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar\n\n 需要注意：\n - 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;\n - 写脚本封装上面命令实现批量迁移\n\n\nhttp协议上传 直接使用http put 文件到/repository/$repo-id/$path-of-file\n curl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom\n\n 我们需要上传的文件：jar和pom.xml\n 创建 mavenimport.sh 脚本如下\n123456789101112131415#!/bin/bash# Get command line paramswhile getopts &quot;:r:u:p:&quot; opt; do    case $opt in        r) REPO_URL=&quot;$OPTARG&quot;        ;;        u) USERNAME=&quot;$OPTARG&quot;        ;;        p) PASSWORD=&quot;$OPTARG&quot;        ;;        esacdonefind . -type f -not -path &#x27;*/\\.*&#x27; -not -path &#x27;*/\\^archetype\\-catalog\\.xml*&#x27; -not -path &#x27;*/\\^maven\\-metadata\\-local*\\.xml&#x27; -not -path &#x27;*/\\^maven\\-metadata\\-deployment*\\.xml&#x27; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \\;\n\n 登陆到Nexus2.x服务器执行\n cd $releases_dir\n cp $path/mavenimport.sh .\n sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name\n\n cd $snapshots_dir\n cp $path/mavenimport.sh .\n sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name\n\n 需要注意：\n - 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）\n - 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。\n - 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。\n - 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。\n\n\n\n","dateCreated":"2018-03-28T19:19:17+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-28T19:19:17+08:00","description":"","headline":"Nexus3批量导入jar包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/27558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/27558/","keywords":"nexus"}</script>
     <meta name="description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
-<meta name="keywords" content="nexus">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Nexus3批量导入jar包">
 <meta property="og:url" content="https://0to.github.io/posts/27558/index.html">
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-05-04T07:38:27.441Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-03-28T11:19:17.000Z">
+<meta property="article:modified_time" content="2018-05-04T07:38:27.441Z">
+<meta property="article:author" content="Weilong">
+<meta property="article:tag" content="nexus">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Nexus3批量导入jar包">
-<meta name="twitter:description" content="参考链接： How can I programmatically upload an artifact into Nexus 3? Nexus Repository Import Script   背景：已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。 分析： Nexus2.x 服务器直接存储jar包 Nexus3.x 服务器存储的是二进制文件">
     
     
         
@@ -39,10 +41,18 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    
+<link rel="stylesheet" href="/assets/css/all.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
     <!--STYLES END-->
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
@@ -88,7 +98,7 @@
     <div class="header-title">
         <a
             class="header-title-link"
-            href="/ "
+            href="/"
             aria-label=""
         >
             Just Do IT
@@ -128,7 +138,8 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </h5>
                 
             </div>
         
@@ -137,12 +148,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/ "
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
                             
+                            rel="noopener"
                             title="Home"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
@@ -150,12 +162,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
                             
+                            rel="noopener"
                             title="Categories"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
@@ -163,12 +176,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
                             
+                            rel="noopener"
                             title="Tags"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
@@ -176,12 +190,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-archives"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
                             
+                            rel="noopener"
                             title="Archives"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
@@ -189,12 +204,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
                             
+                            rel="noopener"
                             title="Search"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Search</span>
                     </a>
@@ -202,12 +218,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="#about"
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
                             
+                            rel="noopener"
                             title="About"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
@@ -219,8 +236,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/0to"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
@@ -228,8 +252,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://cn.linkedin.com/in/龙-威-73303298"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
                         <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
@@ -237,8 +268,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:326688025@qq.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
                         <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Mail</span>
                     </a>
@@ -250,12 +288,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
                             
+                            rel="noopener"
                             title="RSS"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
@@ -304,8 +343,8 @@
     <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li><a href="https://support.sonatype.com/hc/en-us/articles/115006744008-How-can-I-programmatically-upload-an-artifact-into-Nexus-3-" target="_blank" rel="noopener">How can I programmatically upload an artifact into Nexus 3?</a></li>
-<li><a href="https://gist.github.com/DarthHater/a4f2738e3bd40d242db22633b59dfd63" target="_blank" rel="noopener">Nexus Repository Import Script
+<li><a target="_blank" rel="noopener" href="https://support.sonatype.com/hc/en-us/articles/115006744008-How-can-I-programmatically-upload-an-artifact-into-Nexus-3-">How can I programmatically upload an artifact into Nexus 3?</a></li>
+<li><a target="_blank" rel="noopener" href="https://gist.github.com/DarthHater/a4f2738e3bd40d242db22633b59dfd63">Nexus Repository Import Script
 </a></li>
 </ul>
 <h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>已经搭建Nexus3.6.0，需要迁移原有 两个 nexus2上的jar包 到nexus3统一管理。</p>
@@ -315,39 +354,46 @@
 <li>所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。</li>
 </ul>
 <h3 id="迁移导入方法："><a href="#迁移导入方法：" class="headerlink" title="迁移导入方法："></a>迁移导入方法：</h3><ol>
-<li><p><a href="https://help.sonatype.com/display/NXRM3/Upgrading" target="_blank" rel="noopener">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：</p>
-<pre><code>- 需要原nexus版本为2.14.x版本
-- 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3
-</code></pre></li>
+<li><p><a target="_blank" rel="noopener" href="https://help.sonatype.com/display/NXRM3/Upgrading">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：</p>
+<pre><code> - 需要原nexus版本为2.14.x版本
+ - 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3
+</code></pre>
+</li>
 <li><p>mvn deploy命令上传<br> 如果原nexus2待迁移的jar包并不多，可以使用这种方式。</p>
-<pre><code>1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）
-mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar
+<pre><code> 1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）
+ mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar
 
-2. 上传jar 和 pom.xml (pom里面有依赖)
-mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar
-</code></pre><p> 需要注意：</p>
-<pre><code>- 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;
-- 写脚本封装上面命令实现批量迁移
-</code></pre></li>
+ 2. 上传jar 和 pom.xml (pom里面有依赖)
+ mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar
+</code></pre>
+<p> 需要注意：</p>
+<pre><code> - 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;
+ - 写脚本封装上面命令实现批量迁移
+</code></pre>
+</li>
 <li><p>http协议上传<br> 直接使用http put 文件到/repository/$repo-id/$path-of-file</p>
-<pre><code>curl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom
-</code></pre><p> 我们需要上传的文件：jar和pom.xml</p>
+<pre><code> curl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom
+</code></pre>
+<p> 我们需要上传的文件：jar和pom.xml</p>
 <p> 创建 mavenimport.sh 脚本如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Get command line params</span><br><span class="line">while getopts &quot;:r:u:p:&quot; opt; do</span><br><span class="line">    case $opt in</span><br><span class="line">        r) REPO_URL=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        u) USERNAME=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        p) PASSWORD=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">find . -type f -not -path &apos;*/\.*&apos; -not -path &apos;*/\^archetype\-catalog\.xml*&apos; -not -path &apos;*/\^maven\-metadata\-local*\.xml&apos; -not -path &apos;*/\^maven\-metadata\-deployment*\.xml&apos; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</span><br></pre></td></tr></table></figure>
-<p> 登陆到Nexus2.x服务器执行</p>
-<pre><code>cd $releases_dir
-cp $path/mavenimport.sh .
-sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Get command line params</span><br><span class="line">while getopts &quot;:r:u:p:&quot; opt; do</span><br><span class="line">    case $opt in</span><br><span class="line">        r) REPO_URL=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        u) USERNAME=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        p) PASSWORD=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">find . -type f -not -path &#x27;*/\.*&#x27; -not -path &#x27;*/\^archetype\-catalog\.xml*&#x27; -not -path &#x27;*/\^maven\-metadata\-local*\.xml&#x27; -not -path &#x27;*/\^maven\-metadata\-deployment*\.xml&#x27; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</span><br></pre></td></tr></table></figure>
 
-cd $snapshots_dir
-cp $path/mavenimport.sh .
-sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name
-</code></pre><p> 需要注意：</p>
-<pre><code>- 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）
-- 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。
-- 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。
-- 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。
-</code></pre></li>
+<p> 登陆到Nexus2.x服务器执行</p>
+<pre><code> cd $releases_dir
+ cp $path/mavenimport.sh .
+ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name
+
+ cd $snapshots_dir
+ cp $path/mavenimport.sh .
+ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name
+</code></pre>
+<p> 需要注意：</p>
+<pre><code> - 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）
+ - 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。
+ - 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。
+ - 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。
+</code></pre>
+</li>
 </ol>
 
             
@@ -360,7 +406,7 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/nexus/">nexus</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/nexus/" rel="tag">nexus</a>
 
             </div>
         
@@ -476,7 +522,7 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
         
             
                 <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
         
@@ -487,7 +533,7 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Weilong. All Rights Reserved.
+        Copyrights &copy; 2021 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -669,7 +715,8 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </div>
         
         
             <div id="about-card-job">
@@ -693,10 +740,18 @@ sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/jquery.js"></script>
+
+
 <script src="/assets/js/jquery.fancybox.js"></script>
+
+
 <script src="/assets/js/thumbs.js"></script>
+
+
 <script src="/assets/js/tranquilpeak.js"></script>
+
 <!--SCRIPTS END-->
 
 

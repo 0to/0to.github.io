@@ -13,21 +13,23 @@
         <link rel="icon" href="https://0to.github.io/assets/images/owl.png">
     
     
-        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"Analyzing Source Code参考链接：官方文档\n本文只涉及maven和sonar-scanner方式，其它请参考上面链接。\nMaven适合Maven项目\n\n在sonarqube平台上面个人账户生成token。\n在本机的mvn配置settings.xml 增加下面配置\n12345678910&lt;profile&gt;    &lt;id&gt;sonar&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;sonar.host.url&gt;http://ip:9000&lt;/sonar.host.url&gt;        &lt;sonar.login&gt;第一步生成的token值&lt;/sonar.login&gt;    &lt;/properties&gt;&lt;/profile&gt;\n\n代码库执行打包：mvn clean install\n\n代码库进行分析并上传sonarqube平台：mvn sonar:sonar\n\nPS：123456789101112如果代码库pom文件配置如下    &lt;groupId&gt;ggg&lt;/groupId&gt;    &lt;artifactId&gt;aaa&lt;/artifactId&gt;    &lt;version&gt;1.0.0&lt;/version&gt;    &lt;name&gt;nnn&lt;/name&gt;那么分析上传到sonarqube平台：    对应的项目key为ggg:aaa    对应的项目名称为nnn    对应的版本为：1.0.0注意    不要找错项目了。    同一个key指向的项目永远显示的是最新的一次代码分析结果。\n\nSonar-scanner适合所有项目\n\n下载Sonar-scanner，设置环境变量，配置&lt;install_directory&gt;/conf/sonar-scanner.properties\n1234567#Configure here general information about the environment, such as SonarQube DB details for example#No information about specific project should appear here#----- Default SonarQube serversonar.host.url=http://ip:9000#----- Default source code encodingsonar.sourceEncoding=UTF-8sonar.login=个人账户生成的token\n\n在项目根目录增加sonar-project.properties，内容如下：\n1234567891011# must be unique in a given SonarQube instancesonar.projectKey=ggg:aaa            #对应的项目key为ggg:aaa# this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.sonar.projectName=nnn               #对应的项目名称为nnnsonar.projectVersion=1.0.0          #对应的版本为：1.0.0# Path is relative to the sonar-project.properties file. Replace &quot;\\&quot; by &quot;/&quot; on Windows.# This property is optional if sonar.modules is set.sonar.sources=.sonar.java.binaries=target/classes    #配置为项目具体的class目录，如果不配置的话只进行源代码分析# Encoding of the source code. Default is default system encoding#sonar.sourceEncoding=UTF-8\n\n执行扫描分析： Build（可以不执行构建） sonar-scanner\n\n\n\nAPI点击：http://ip:9000/web_api/ ，查看Sonarqube支持的web_api。\n以Python2.7 为例简单介绍api使用：1234567891011121314151617181920212223#! /usr/bin/env python# -*- coding: utf-8 -*-import requestss = requests.session()user_info = &#123;&apos;login&apos;: &apos;username&apos;, &apos;password&apos;: &apos;pass&apos;&#125;api_url = &apos;http://ip:9000/api&apos;# 登录res_login = s.post(    &apos;%s/authentication/login&apos; % api_url, data=user_info)# 获取指定项目未解决Bugs详情res_bugs = s.get(    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500&#125;)# 解析结果获取未解决bugs总数total_bugs = res_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]# 获取指定项目新增未解决Bugs详情res_new_bugs = s.get(    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500, &apos;sinceLeakPeriod&apos;: &apos;true&apos;&#125;)# 解析结果获取新增bugs总数new_bugs = res_new_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]# 登出res_logout = s.post(    &apos;%s/authentication/logout&apos; % api_url)\n","dateCreated":"2017-07-12T20:18:00+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2017-07-12T20:18:00+08:00","description":"","headline":"持续代码质量平台Sonar-3使用","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/19471/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/19471/","keywords":"Sonar"}</script>
-    <meta name="description" content="Analyzing Source Code参考链接：官方文档 本文只涉及maven和sonar-scanner方式，其它请参考上面链接。 Maven适合Maven项目  在sonarqube平台上面个人账户生成token。 在本机的mvn配置settings.xml 增加下面配置 12345678910&amp;lt;profile&amp;gt;    &amp;lt;id&amp;gt;sonar&amp;lt;/id&amp;gt;">
-<meta name="keywords" content="Sonar">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"Analyzing Source Code参考链接：官方文档\n本文只涉及maven和sonar-scanner方式，其它请参考上面链接。\nMaven适合Maven项目\n\n在sonarqube平台上面个人账户生成token。\n在本机的mvn配置settings.xml 增加下面配置12345678910&lt;profile&gt;    &lt;id&gt;sonar&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;sonar.host.url&gt;http://ip:9000&lt;/sonar.host.url&gt;        &lt;sonar.login&gt;第一步生成的token值&lt;/sonar.login&gt;    &lt;/properties&gt;&lt;/profile&gt;\n代码库执行打包：mvn clean install\n代码库进行分析并上传sonarqube平台：mvn sonar:sonar\n\nPS：\n123456789101112如果代码库pom文件配置如下    &lt;groupId&gt;ggg&lt;/groupId&gt;    &lt;artifactId&gt;aaa&lt;/artifactId&gt;    &lt;version&gt;1.0.0&lt;/version&gt;    &lt;name&gt;nnn&lt;/name&gt;那么分析上传到sonarqube平台：    对应的项目key为ggg:aaa    对应的项目名称为nnn    对应的版本为：1.0.0注意    不要找错项目了。    同一个key指向的项目永远显示的是最新的一次代码分析结果。\n\n\nSonar-scanner适合所有项目\n\n下载Sonar-scanner，设置环境变量，配置/conf/sonar-scanner.properties1234567#Configure here general information about the environment, such as SonarQube DB details for example#No information about specific project should appear here#----- Default SonarQube serversonar.host.url=http://ip:9000#----- Default source code encodingsonar.sourceEncoding=UTF-8sonar.login=个人账户生成的token\n在项目根目录增加sonar-project.properties，内容如下：1234567891011# must be unique in a given SonarQube instancesonar.projectKey=ggg:aaa            #对应的项目key为ggg:aaa# this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.sonar.projectName=nnn               #对应的项目名称为nnnsonar.projectVersion=1.0.0          #对应的版本为：1.0.0# Path is relative to the sonar-project.properties file. Replace &quot;\\&quot; by &quot;/&quot; on Windows.# This property is optional if sonar.modules is set.sonar.sources=.sonar.java.binaries=target/classes    #配置为项目具体的class目录，如果不配置的话只进行源代码分析# Encoding of the source code. Default is default system encoding#sonar.sourceEncoding=UTF-8\n执行扫描分析： Build（可以不执行构建） sonar-scanner\n\n\nAPI点击：http://ip:9000/web_api/ ，查看Sonarqube支持的web_api。\n以Python2.7 为例简单介绍api使用：\n1234567891011121314151617181920212223#! /usr/bin/env python# -*- coding: utf-8 -*-import requestss = requests.session()user_info = &#123;&#x27;login&#x27;: &#x27;username&#x27;, &#x27;password&#x27;: &#x27;pass&#x27;&#125;api_url = &#x27;http://ip:9000/api&#x27;# 登录res_login = s.post(    &#x27;%s/authentication/login&#x27; % api_url, data=user_info)# 获取指定项目未解决Bugs详情res_bugs = s.get(    &#x27;%s/issues/search&#x27; % api_url, params=&#123;&#x27;componentKeys&#x27;: &#x27;ggg:aaa&#x27;, &#x27;types&#x27;: &#x27;BUG&#x27;, &#x27;resolved&#x27;: &#x27;false&#x27;, &#x27;ps&#x27;: 500&#125;)# 解析结果获取未解决bugs总数total_bugs = res_bugs.json()[u&#x27;paging&#x27;][u&#x27;total&#x27;]# 获取指定项目新增未解决Bugs详情res_new_bugs = s.get(    &#x27;%s/issues/search&#x27; % api_url, params=&#123;&#x27;componentKeys&#x27;: &#x27;ggg:aaa&#x27;, &#x27;types&#x27;: &#x27;BUG&#x27;, &#x27;resolved&#x27;: &#x27;false&#x27;, &#x27;ps&#x27;: 500, &#x27;sinceLeakPeriod&#x27;: &#x27;true&#x27;&#125;)# 解析结果获取新增bugs总数new_bugs = res_new_bugs.json()[u&#x27;paging&#x27;][u&#x27;total&#x27;]# 登出res_logout = s.post(    &#x27;%s/authentication/logout&#x27; % api_url)\n","dateCreated":"2017-07-12T20:18:00+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2017-07-12T20:18:00+08:00","description":"","headline":"持续代码质量平台Sonar-3使用","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/19471/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/19471/","keywords":"Sonar"}</script>
+    <meta name="description" content="Analyzing Source Code参考链接：官方文档 本文只涉及maven和sonar-scanner方式，其它请参考上面链接。 Maven适合Maven项目  在sonarqube平台上面个人账户生成token。 在本机的mvn配置settings.xml 增加下面配置12345678910&lt;profile&gt;    &lt;id&gt;sonar&lt;&#x2F;id&gt;">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="持续代码质量平台Sonar-3使用">
 <meta property="og:url" content="https://0to.github.io/posts/19471/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="Analyzing Source Code参考链接：官方文档 本文只涉及maven和sonar-scanner方式，其它请参考上面链接。 Maven适合Maven项目  在sonarqube平台上面个人账户生成token。 在本机的mvn配置settings.xml 增加下面配置 12345678910&amp;lt;profile&amp;gt;    &amp;lt;id&amp;gt;sonar&amp;lt;/id&amp;gt;">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-05-04T07:38:27.284Z">
+<meta property="og:description" content="Analyzing Source Code参考链接：官方文档 本文只涉及maven和sonar-scanner方式，其它请参考上面链接。 Maven适合Maven项目  在sonarqube平台上面个人账户生成token。 在本机的mvn配置settings.xml 增加下面配置12345678910&lt;profile&gt;    &lt;id&gt;sonar&lt;&#x2F;id&gt;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-12T12:18:00.000Z">
+<meta property="article:modified_time" content="2018-05-04T07:38:27.284Z">
+<meta property="article:author" content="Weilong">
+<meta property="article:tag" content="Sonar">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="持续代码质量平台Sonar-3使用">
-<meta name="twitter:description" content="Analyzing Source Code参考链接：官方文档 本文只涉及maven和sonar-scanner方式，其它请参考上面链接。 Maven适合Maven项目  在sonarqube平台上面个人账户生成token。 在本机的mvn配置settings.xml 增加下面配置 12345678910&amp;lt;profile&amp;gt;    &amp;lt;id&amp;gt;sonar&amp;lt;/id&amp;gt;">
     
     
         
@@ -39,10 +41,18 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    
+<link rel="stylesheet" href="/assets/css/all.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
     <!--STYLES END-->
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
@@ -88,7 +98,7 @@
     <div class="header-title">
         <a
             class="header-title-link"
-            href="/ "
+            href="/"
             aria-label=""
         >
             Just Do IT
@@ -128,7 +138,8 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </h5>
                 
             </div>
         
@@ -137,12 +148,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/ "
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
                             
+                            rel="noopener"
                             title="Home"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
@@ -150,12 +162,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
                             
+                            rel="noopener"
                             title="Categories"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
@@ -163,12 +176,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
                             
+                            rel="noopener"
                             title="Tags"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
@@ -176,12 +190,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-archives"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
                             
+                            rel="noopener"
                             title="Archives"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
@@ -189,12 +204,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
                             
+                            rel="noopener"
                             title="Search"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Search</span>
                     </a>
@@ -202,12 +218,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="#about"
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
                             
+                            rel="noopener"
                             title="About"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
@@ -219,8 +236,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/0to"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
@@ -228,8 +252,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://cn.linkedin.com/in/龙-威-73303298"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
                         <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
@@ -237,8 +268,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:326688025@qq.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
                         <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Mail</span>
                     </a>
@@ -250,12 +288,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
                             
+                            rel="noopener"
                             title="RSS"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
@@ -303,34 +342,29 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h2 id="Analyzing-Source-Code"><a href="#Analyzing-Source-Code" class="headerlink" title="Analyzing Source Code"></a>Analyzing Source Code</h2><p>参考链接：<a href="https://docs.sonarqube.org/display/SCAN/Analyzing+Source+Code" target="_blank" rel="noopener">官方文档</a></p>
+            <h2 id="Analyzing-Source-Code"><a href="#Analyzing-Source-Code" class="headerlink" title="Analyzing Source Code"></a>Analyzing Source Code</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://docs.sonarqube.org/display/SCAN/Analyzing+Source+Code">官方文档</a></p>
 <p>本文只涉及maven和sonar-scanner方式，其它请参考上面链接。</p>
 <h3 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h3><p>适合Maven项目</p>
 <ol>
 <li>在sonarqube平台上面个人账户生成token。</li>
-<li><p>在本机的mvn配置settings.xml 增加下面配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;profile&gt;</span><br><span class="line">    &lt;id&gt;sonar&lt;/id&gt;</span><br><span class="line">    &lt;activation&gt;</span><br><span class="line">        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">    &lt;/activation&gt;</span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;sonar.host.url&gt;http://ip:9000&lt;/sonar.host.url&gt;</span><br><span class="line">        &lt;sonar.login&gt;第一步生成的token值&lt;/sonar.login&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">&lt;/profile&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>代码库执行打包：mvn clean install</p>
-</li>
+<li>在本机的mvn配置settings.xml 增加下面配置<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;profile&gt;</span><br><span class="line">    &lt;id&gt;sonar&lt;/id&gt;</span><br><span class="line">    &lt;activation&gt;</span><br><span class="line">        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">    &lt;/activation&gt;</span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;sonar.host.url&gt;http://ip:9000&lt;/sonar.host.url&gt;</span><br><span class="line">        &lt;sonar.login&gt;第一步生成的token值&lt;/sonar.login&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">&lt;/profile&gt;</span><br></pre></td></tr></table></figure></li>
+<li>代码库执行打包：mvn clean install</li>
 <li>代码库进行分析并上传sonarqube平台：mvn sonar:sonar</li>
 </ol>
-<p>PS：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">如果代码库pom文件配置如下</span><br><span class="line">    &lt;groupId&gt;ggg&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;aaa&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.0&lt;/version&gt;</span><br><span class="line">    &lt;name&gt;nnn&lt;/name&gt;</span><br><span class="line">那么分析上传到sonarqube平台：</span><br><span class="line">    对应的项目key为ggg:aaa</span><br><span class="line">    对应的项目名称为nnn</span><br><span class="line">    对应的版本为：1.0.0</span><br><span class="line">注意</span><br><span class="line">    不要找错项目了。</span><br><span class="line">    同一个key指向的项目永远显示的是最新的一次代码分析结果。</span><br></pre></td></tr></table></figure></p>
+<p>PS：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">如果代码库pom文件配置如下</span><br><span class="line">    &lt;groupId&gt;ggg&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;aaa&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.0&lt;/version&gt;</span><br><span class="line">    &lt;name&gt;nnn&lt;/name&gt;</span><br><span class="line">那么分析上传到sonarqube平台：</span><br><span class="line">    对应的项目key为ggg:aaa</span><br><span class="line">    对应的项目名称为nnn</span><br><span class="line">    对应的版本为：1.0.0</span><br><span class="line">注意</span><br><span class="line">    不要找错项目了。</span><br><span class="line">    同一个key指向的项目永远显示的是最新的一次代码分析结果。</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h3 id="Sonar-scanner"><a href="#Sonar-scanner" class="headerlink" title="Sonar-scanner"></a>Sonar-scanner</h3><p>适合所有项目</p>
 <ol>
-<li><p>下载Sonar-scanner，设置环境变量，配置&lt;install_directory&gt;/conf/sonar-scanner.properties</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Configure here general information about the environment, such as SonarQube DB details for example</span><br><span class="line">#No information about specific project should appear here</span><br><span class="line">#----- Default SonarQube server</span><br><span class="line">sonar.host.url=http://ip:9000</span><br><span class="line">#----- Default source code encoding</span><br><span class="line">sonar.sourceEncoding=UTF-8</span><br><span class="line">sonar.login=个人账户生成的token</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在项目根目录增加sonar-project.properties，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># must be unique in a given SonarQube instance</span><br><span class="line">sonar.projectKey=ggg:aaa            #对应的项目key为ggg:aaa</span><br><span class="line"># this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.</span><br><span class="line">sonar.projectName=nnn               #对应的项目名称为nnn</span><br><span class="line">sonar.projectVersion=1.0.0          #对应的版本为：1.0.0</span><br><span class="line"># Path is relative to the sonar-project.properties file. Replace &quot;\&quot; by &quot;/&quot; on Windows.</span><br><span class="line"># This property is optional if sonar.modules is set.</span><br><span class="line">sonar.sources=.</span><br><span class="line">sonar.java.binaries=target/classes    #配置为项目具体的class目录，如果不配置的话只进行源代码分析</span><br><span class="line"># Encoding of the source code. Default is default system encoding</span><br><span class="line">#sonar.sourceEncoding=UTF-8</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行扫描分析：<br> Build（可以不执行构建）<br> sonar-scanner</p>
-</li>
+<li>下载Sonar-scanner，设置环境变量，配置<install_directory>/conf/sonar-scanner.properties<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Configure here general information about the environment, such as SonarQube DB details for example</span><br><span class="line">#No information about specific project should appear here</span><br><span class="line">#----- Default SonarQube server</span><br><span class="line">sonar.host.url=http://ip:9000</span><br><span class="line">#----- Default source code encoding</span><br><span class="line">sonar.sourceEncoding=UTF-8</span><br><span class="line">sonar.login=个人账户生成的token</span><br></pre></td></tr></table></figure></install_directory></li>
+<li>在项目根目录增加sonar-project.properties，内容如下：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># must be unique in a given SonarQube instance</span><br><span class="line">sonar.projectKey=ggg:aaa            #对应的项目key为ggg:aaa</span><br><span class="line"># this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.</span><br><span class="line">sonar.projectName=nnn               #对应的项目名称为nnn</span><br><span class="line">sonar.projectVersion=1.0.0          #对应的版本为：1.0.0</span><br><span class="line"># Path is relative to the sonar-project.properties file. Replace &quot;\&quot; by &quot;/&quot; on Windows.</span><br><span class="line"># This property is optional if sonar.modules is set.</span><br><span class="line">sonar.sources=.</span><br><span class="line">sonar.java.binaries=target/classes    #配置为项目具体的class目录，如果不配置的话只进行源代码分析</span><br><span class="line"># Encoding of the source code. Default is default system encoding</span><br><span class="line">#sonar.sourceEncoding=UTF-8</span><br></pre></td></tr></table></figure></li>
+<li>执行扫描分析：<br> Build（可以不执行构建）<br> sonar-scanner</li>
 </ol>
 <hr>
-<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>点击：<a href="http://ip:9000/web_api/" target="_blank" rel="noopener">http://ip:9000/web_api/</a> ，查看Sonarqube支持的web_api。</p>
-<p>以Python2.7 为例简单介绍api使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">s = requests.session()</span><br><span class="line">user_info = &#123;&apos;login&apos;: &apos;username&apos;, &apos;password&apos;: &apos;pass&apos;&#125;</span><br><span class="line">api_url = &apos;http://ip:9000/api&apos;</span><br><span class="line"># 登录</span><br><span class="line">res_login = s.post(</span><br><span class="line">    &apos;%s/authentication/login&apos; % api_url, data=user_info)</span><br><span class="line"># 获取指定项目未解决Bugs详情</span><br><span class="line">res_bugs = s.get(</span><br><span class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500&#125;)</span><br><span class="line"># 解析结果获取未解决bugs总数</span><br><span class="line">total_bugs = res_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</span><br><span class="line"># 获取指定项目新增未解决Bugs详情</span><br><span class="line">res_new_bugs = s.get(</span><br><span class="line">    &apos;%s/issues/search&apos; % api_url, params=&#123;&apos;componentKeys&apos;: &apos;ggg:aaa&apos;, &apos;types&apos;: &apos;BUG&apos;, &apos;resolved&apos;: &apos;false&apos;, &apos;ps&apos;: 500, &apos;sinceLeakPeriod&apos;: &apos;true&apos;&#125;)</span><br><span class="line"># 解析结果获取新增bugs总数</span><br><span class="line">new_bugs = res_new_bugs.json()[u&apos;paging&apos;][u&apos;total&apos;]</span><br><span class="line"># 登出</span><br><span class="line">res_logout = s.post(</span><br><span class="line">    &apos;%s/authentication/logout&apos; % api_url)</span><br></pre></td></tr></table></figure></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>点击：<a target="_blank" rel="noopener" href="http://ip:9000/web_api/">http://ip:9000/web_api/</a> ，查看Sonarqube支持的web_api。</p>
+<p>以Python2.7 为例简单介绍api使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">s = requests.session()</span><br><span class="line">user_info = &#123;&#x27;login&#x27;: &#x27;username&#x27;, &#x27;password&#x27;: &#x27;pass&#x27;&#125;</span><br><span class="line">api_url = &#x27;http://ip:9000/api&#x27;</span><br><span class="line"># 登录</span><br><span class="line">res_login = s.post(</span><br><span class="line">    &#x27;%s/authentication/login&#x27; % api_url, data=user_info)</span><br><span class="line"># 获取指定项目未解决Bugs详情</span><br><span class="line">res_bugs = s.get(</span><br><span class="line">    &#x27;%s/issues/search&#x27; % api_url, params=&#123;&#x27;componentKeys&#x27;: &#x27;ggg:aaa&#x27;, &#x27;types&#x27;: &#x27;BUG&#x27;, &#x27;resolved&#x27;: &#x27;false&#x27;, &#x27;ps&#x27;: 500&#125;)</span><br><span class="line"># 解析结果获取未解决bugs总数</span><br><span class="line">total_bugs = res_bugs.json()[u&#x27;paging&#x27;][u&#x27;total&#x27;]</span><br><span class="line"># 获取指定项目新增未解决Bugs详情</span><br><span class="line">res_new_bugs = s.get(</span><br><span class="line">    &#x27;%s/issues/search&#x27; % api_url, params=&#123;&#x27;componentKeys&#x27;: &#x27;ggg:aaa&#x27;, &#x27;types&#x27;: &#x27;BUG&#x27;, &#x27;resolved&#x27;: &#x27;false&#x27;, &#x27;ps&#x27;: 500, &#x27;sinceLeakPeriod&#x27;: &#x27;true&#x27;&#125;)</span><br><span class="line"># 解析结果获取新增bugs总数</span><br><span class="line">new_bugs = res_new_bugs.json()[u&#x27;paging&#x27;][u&#x27;total&#x27;]</span><br><span class="line"># 登出</span><br><span class="line">res_logout = s.post(</span><br><span class="line">    &#x27;%s/authentication/logout&#x27; % api_url)</span><br></pre></td></tr></table></figure>
 
             
 
@@ -342,7 +376,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Sonar/">Sonar</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Sonar/" rel="tag">Sonar</a>
 
             </div>
         
@@ -458,7 +492,7 @@
         
             
                 <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
         
@@ -469,7 +503,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Weilong. All Rights Reserved.
+        Copyrights &copy; 2021 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -651,7 +685,8 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </div>
         
         
             <div id="about-card-job">
@@ -675,10 +710,18 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/jquery.js"></script>
+
+
 <script src="/assets/js/jquery.fancybox.js"></script>
+
+
 <script src="/assets/js/thumbs.js"></script>
+
+
 <script src="/assets/js/tranquilpeak.js"></script>
+
 <!--SCRIPTS END-->
 
 

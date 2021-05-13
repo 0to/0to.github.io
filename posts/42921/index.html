@@ -13,21 +13,23 @@
         <link rel="icon" href="https://0to.github.io/assets/images/owl.png">
     
     
-        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nGerrit官方文档: Gerritcodereview\nGithub issue: Github\n\n背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  accountBase = ou=people,dc=example,dc=com  groupBase = ou=groups,dc=example,dc=com\n业务需求：公司特定合作伙伴 有 访问代码库 进行 联合开发的需求。\n方案设计：\n在现有LDAP节点的基础上，增加一个ou（custom），用来维护合作伙伴账号；\n同步 这个ou（custom）的人员到Gerrit上。\n\n\n配置Gerrit支持多ou user信息：根据Gerrit官方文档：123ldap.accountBase    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.    This setting may be added multiple times to specify more than one root.\n我们调整gerrit.config配置如下：123456[ldap]  server = ldap://ldap.example.com  username = ldapuser  accountBase = ou=people,dc=example,dc=com  accountBase = ou=custom,dc=example,dc=com  groupBase = ou=groups,dc=example,dc=com\n然后重启Gerrit后，custom里面的人员也可以登录Gerrit了。\n\n配置Gerrit支持多group信息：方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。根据Gerrit官方文档：123ldap.groupBase    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.    This setting may be added multiple times to specify more than one root.\n关于LDAP group信息：一般系统接入LDAP做账户验证，只需同步LDAP的user信息，不直接使用LDAP的group信息。各个系统自行创建系统组进行人员权限管理，这样更加灵活。同时，也不建议LDAP里面维护太多group，更加推荐LDAP轻量化使用。\n","dateCreated":"2019-10-11T11:46:37+08:00","dateModified":"2019-10-11T12:34:53+08:00","datePublished":"2019-10-11T11:46:37+08:00","description":"","headline":"Gerrit LDAP: Allow to configure multiple accountBase and groupBase values","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/42921/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/42921/","keywords":"Gerrit"}</script>
-    <meta name="description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  a">
-<meta name="keywords" content="Gerrit">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nGerrit官方文档: Gerritcodereview\nGithub issue: Github\n\n背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：\n12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  accountBase = ou=people,dc=example,dc=com  groupBase = ou=groups,dc=example,dc=com\n\n业务需求：公司特定合作伙伴 有 访问代码库 进行 联合开发的需求。\n方案设计：\n在现有LDAP节点的基础上，增加一个ou（custom），用来维护合作伙伴账号；\n同步 这个ou（custom）的人员到Gerrit上。\n\n\n配置Gerrit支持多ou user信息：根据Gerrit官方文档：\n123ldap.accountBase    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.    This setting may be added multiple times to specify more than one root.\n我们调整gerrit.config配置如下：\n123456[ldap]  server = ldap://ldap.example.com  username = ldapuser  accountBase = ou=people,dc=example,dc=com  accountBase = ou=custom,dc=example,dc=com  groupBase = ou=groups,dc=example,dc=com\n然后重启Gerrit后，custom里面的人员也可以登录Gerrit了。\n\n配置Gerrit支持多group信息：方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。根据Gerrit官方文档：\n123ldap.groupBase    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.    This setting may be added multiple times to specify more than one root.\n\n关于LDAP group信息：一般系统接入LDAP做账户验证，只需同步LDAP的user信息，不直接使用LDAP的group信息。各个系统自行创建系统组进行人员权限管理，这样更加灵活。同时，也不建议LDAP里面维护太多group，更加推荐LDAP轻量化使用。\n","dateCreated":"2019-10-11T11:46:37+08:00","dateModified":"2019-10-11T12:34:53+08:00","datePublished":"2019-10-11T11:46:37+08:00","description":"","headline":"Gerrit LDAP: Allow to configure multiple accountBase and groupBase values","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/42921/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/42921/","keywords":"Gerrit"}</script>
+    <meta name="description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）： 12345[ldap]  server &#x3D; ldap:&#x2F;&#x2F;ldap.example.com  username &#x3D; ldapuser">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Gerrit LDAP: Allow to configure multiple accountBase and groupBase values">
 <meta property="og:url" content="https://0to.github.io/posts/42921/index.html">
 <meta property="og:site_name" content="Just Do IT">
-<meta property="og:description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  a">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-11T04:34:53.584Z">
+<meta property="og:description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）： 12345[ldap]  server &#x3D; ldap:&#x2F;&#x2F;ldap.example.com  username &#x3D; ldapuser">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-10-11T03:46:37.000Z">
+<meta property="article:modified_time" content="2019-10-11T04:34:53.584Z">
+<meta property="article:author" content="Weilong">
+<meta property="article:tag" content="Gerrit">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gerrit LDAP: Allow to configure multiple accountBase and groupBase values">
-<meta name="twitter:description" content="参考链接： Gerrit官方文档: Gerritcodereview Github issue: Github  背景：搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。gerrit.config配置如下（信息请更新为各自公司节点）：12345[ldap]  server = ldap://ldap.example.com  username = ldapuser  a">
     
     
         
@@ -39,10 +41,18 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    
+<link rel="stylesheet" href="/assets/css/all.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
     <!--STYLES END-->
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
@@ -88,7 +98,7 @@
     <div class="header-title">
         <a
             class="header-title-link"
-            href="/ "
+            href="/"
             aria-label=""
         >
             Just Do IT
@@ -128,7 +138,8 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </h5>
                 
             </div>
         
@@ -137,12 +148,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/ "
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
                             
+                            rel="noopener"
                             title="Home"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
@@ -150,12 +162,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
                             
+                            rel="noopener"
                             title="Categories"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
@@ -163,12 +176,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
                             
+                            rel="noopener"
                             title="Tags"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
@@ -176,12 +190,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-archives"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
                             
+                            rel="noopener"
                             title="Archives"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
@@ -189,12 +204,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
                             
+                            rel="noopener"
                             title="Search"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Search</span>
                     </a>
@@ -202,12 +218,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="#about"
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
                             
+                            rel="noopener"
                             title="About"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
@@ -219,8 +236,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/0to"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
@@ -228,8 +252,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://cn.linkedin.com/in/龙-威-73303298"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
                         <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
@@ -237,8 +268,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:326688025@qq.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
                         <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Mail</span>
                     </a>
@@ -250,12 +288,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
                             
+                            rel="noopener"
                             title="RSS"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
@@ -304,21 +343,27 @@
     <div class="post-content markdown">
         <div class="main-content-wrap">
             <h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><ul>
-<li>Gerrit官方文档: <a href="https://www.gerritcodereview.com/config-gerrit.html" target="_blank" rel="noopener">Gerritcodereview</a></li>
-<li>Github issue: <a href="https://github.com/kbrebanov/ansible-gerrit/issues/15" target="_blank" rel="noopener">Github</a></li>
+<li>Gerrit官方文档: <a target="_blank" rel="noopener" href="https://www.gerritcodereview.com/config-gerrit.html">Gerritcodereview</a></li>
+<li>Github issue: <a target="_blank" rel="noopener" href="https://github.com/kbrebanov/ansible-gerrit/issues/15">Github</a></li>
 </ul>
-<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。<br>gerrit.config配置如下（信息请更新为各自公司节点）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p>
+<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>搭建了Openldap维护公司域账户信息，Gerrit用户验证接入了LDAP。<br>gerrit.config配置如下（信息请更新为各自公司节点）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure>
+
 <h2 id="业务需求："><a href="#业务需求：" class="headerlink" title="业务需求："></a>业务需求：</h2><p>公司特定合作伙伴 有 访问代码库 进行 联合开发的需求。</p>
 <h2 id="方案设计："><a href="#方案设计：" class="headerlink" title="方案设计："></a>方案设计：</h2><ol>
 <li>在现有LDAP节点的基础上，增加一个ou（custom），用来维护合作伙伴账号；</li>
 <li>同步 这个ou（custom）的人员到Gerrit上。</li>
 </ol>
 <hr>
-<h2 id="配置Gerrit支持多ou-user信息："><a href="#配置Gerrit支持多ou-user信息：" class="headerlink" title="配置Gerrit支持多ou user信息："></a>配置Gerrit支持多ou user信息：</h2><p>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.accountBase</span><br><span class="line">    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p>
-<p>我们调整gerrit.config配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  accountBase = ou=custom,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置Gerrit支持多ou-user信息："><a href="#配置Gerrit支持多ou-user信息：" class="headerlink" title="配置Gerrit支持多ou user信息："></a>配置Gerrit支持多ou user信息：</h2><p>根据Gerrit官方文档：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.accountBase</span><br><span class="line">    Root of the tree containing all user accounts. This is typically of the form ou=people,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure>
+<p>我们调整gerrit.config配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ldap]</span><br><span class="line">  server = ldap://ldap.example.com</span><br><span class="line">  username = ldapuser</span><br><span class="line">  accountBase = ou=people,dc=example,dc=com</span><br><span class="line">  accountBase = ou=custom,dc=example,dc=com</span><br><span class="line">  groupBase = ou=groups,dc=example,dc=com</span><br></pre></td></tr></table></figure>
 <p>然后重启Gerrit后，custom里面的人员也可以登录Gerrit了。</p>
 <hr>
-<h2 id="配置Gerrit支持多group信息："><a href="#配置Gerrit支持多group信息：" class="headerlink" title="配置Gerrit支持多group信息："></a>配置Gerrit支持多group信息：</h2><p>方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。<br>根据Gerrit官方文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.groupBase</span><br><span class="line">    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置Gerrit支持多group信息："><a href="#配置Gerrit支持多group信息：" class="headerlink" title="配置Gerrit支持多group信息："></a>配置Gerrit支持多group信息：</h2><p>方法和上面同步多个ou user信息相似，增加ldap.groupBase行即可。<br>根据Gerrit官方文档：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ldap.groupBase</span><br><span class="line">    Root of the tree containing all group objects. This is typically of the form ou=groups,dc=example,dc=com.</span><br><span class="line">    This setting may be added multiple times to specify more than one root.</span><br></pre></td></tr></table></figure>
+
 <h3 id="关于LDAP-group信息："><a href="#关于LDAP-group信息：" class="headerlink" title="关于LDAP group信息："></a>关于LDAP group信息：</h3><p>一般系统接入LDAP做账户验证，只需同步LDAP的user信息，不直接使用LDAP的group信息。<br>各个系统自行创建系统组进行人员权限管理，这样更加灵活。<br>同时，也不建议LDAP里面维护太多group，更加推荐LDAP轻量化使用。</p>
 
             
@@ -331,7 +376,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Gerrit/">Gerrit</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Gerrit/" rel="tag">Gerrit</a>
 
             </div>
         
@@ -447,7 +492,7 @@
         
             
                 <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
         
@@ -458,7 +503,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Weilong. All Rights Reserved.
+        Copyrights &copy; 2021 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -640,7 +685,8 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </div>
         
         
             <div id="about-card-job">
@@ -664,10 +710,18 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/jquery.js"></script>
+
+
 <script src="/assets/js/jquery.fancybox.js"></script>
+
+
 <script src="/assets/js/thumbs.js"></script>
+
+
 <script src="/assets/js/tranquilpeak.js"></script>
+
 <!--SCRIPTS END-->
 
 

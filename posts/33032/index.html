@@ -13,21 +13,23 @@
         <link rel="icon" href="https://0to.github.io/assets/images/owl.png">
     
     
-        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nWiki：Static_program_analysis\nWiki：List_of_tools_for_static_code_analysis\n工具对比：checkstyle-vs-pmd-vs-findbugs\n工具对比：findbugs-checkstyle-pmd-coverity-sonarqube\n\n\n静态代码分析：\n定义：不运行计算机程序的条件下，进行程序分析的方法。\n目的：验证代码是否满足规范性、安全性、可靠性、可维护性等指标，发现代码缺陷并提高代码的质量。\n范围：源代码（主要）、编译产生的字节码。\n常用技术：\n词法分析：通过正则表达式匹配将源代码转换成标记序列。\n语法分析：判断源程序结构上是否正确，通过使用上下文无关语法将相关符号整理为语法树。\n语义分析：对结构上正确的源程序进行上下文有关性质的审查。\n抽象语法树：将程序组织成树形结构，树中相关节点代表了程序中的相关代码。\n控制流分析：生成有向控制流图，用节点表示基本代码块，节点间的有向边代表控制流路径，反向边表示可能存在的循环；还可生成函数调用关系图，表示函数间的嵌套关系。\n无效代码分析：根据控制流图可分析孤立的节点部分为无效代码。数据流分析：对控制流图进行遍历，记录变量的初始化点和引用点，保存切片相关数据信息。\n污点分析：基于数据流图判断源代码中哪些变量可能受到攻击，是验证程序输入、识别代码表达缺陷的关键。\n缺陷模式匹配：缺陷模式匹配事先从代码分析经验中收集足够多的共性缺陷模式，将待分析代码与已有的共性缺陷模式进行模式匹配，从而完成软件的安全分析。\n\n\n\n\nJava开源静态代码分析工具对比：\n\n\n工具\n源代码分析\n字节码分析\n定位\n官网地址\n版本\n其它语言支持\n\n\n\n\nCheckstyle\nY\n\n验证符合编码规则\nhttp://checkstyle.sourceforge.net\n7.8.2（2017.6.18）\n\n\n\nFindBugs\n\nY\n发现Bugs\nhttp://findbugs.sourceforge.net\n3.0.1（2015.3.6）\n\n\n\nPMD\nY\n\n发现缺陷\nhttps://pmd.github.io\n5.8.0（2017.6.24）\nY\n\n\nSonarqube\nY\nY\n持续质量平台\nhttps://www.sonarqube.org\n6.3.1（2017.4.12）\nY\n\n\n\nPS:1234567最初Sonarqube只是做静态代码分析结果聚类展示。后来随项目的发展，考虑到静态代码分析工具发展的不可控性（毕竟不属于自身项目），Sonarqube开始也涉及静态代码分析。在此过程中，Sonarqube借鉴了Checkstyle、FindBugs、PMD的规则方法。所以，本篇所指的Sonarqube既包含静态代码分析SonarJava（主要）又包含结果展示。以上参考下面链接：      https://groups.google.com/forum/#!topic/sonarqube/9M0iZ4OILVM      https://blog.sonarsource.com/sonarqube-java-analyzer-the-only-rule-engine-you-need/\n\nCheckstyle：官网：检查规则\n主要涉及以下几个方面：\n\n注解\njavadoc注释\n命名规范\n文件头\n导入包规范\n尺寸设置\n空格\n正则表达式\n修饰符\n代码块\n编码问题\n类设计问题\n重复、度量以及一些杂项\n\n\nFindBugs：官网：检查规则\n主要涉及以下几个方面：\n\nMultithreaded correctness - 如多线程编程时常见的同步、线程调度问题。\nPerformance - 如由变量定义、方法调用导致的代码低效问题。\nInternationalization - 如错误的字符串转换带来的国际化问题。\ncode vulnerabilities - 可能受到的恶意攻击，如访问权限修饰符的定义等。\npossible bugs - 可能导致错误的代码，如空指针引用，常见代码错误，序列化错误。\nBad practice - 如命名不规范（类名应以大写字母开头），没有finally来关闭IO流，不检查方法返回值等。\nCorrectness - 正确性问题，如instanceof永远返回false。\n\n\nPMD：官网：Java检查规则\n主要涉及以下几个方面：\n\nPossible bugs - empty try/catch/finally/switch statements\nDead code - unused local variables, parameters and private methods\nSuboptimal code - wasteful String/StringBuffer usage\nOvercomplicated expressions - unnecessary if statements, for loops that could be while loops\nDuplicate code - copied/pasted code means copied/pasted bugs\n\n\nSonarqube官网：Java检查规则\n主要涉及以下几个方面：\n\nBugs\nVulnerability\nCode Smell\n\n\nVS：规则覆盖：\n目前Sonarqube自带的SonarJava插件检查规则几乎包含了Checkstyle、FindBugs、PMD的规则。\n在具体的一些问题上面，几款工具各有千秋。\n存在同一个问题几款工具分别对其进行不同标注情况。\n\n结果输出展示：\nCheckstyle、FindBugs、PMD 运行结果输出支持Xml和Html格式。\nSonarqube 运行结果存入数据库，web端展示。支持和上次结果对比。可视化做的很赞！\n\n工具更新：\nFindBugs已经很久不更新了。\nCheckstyle、PMD、Sonarqube更新频率都挺高的。\n\n检查范围：\nFindBugs 只对编译产生的class文件进行检查\nCheckstyle、PMD 只对源代码进行插件\nSonarqube：\n对于所有支持的编程语言，SonarQube 都提供源了代码的静态分析功能；\n对于某些特定的编程语言，SonarQube 提供了对编译后代码的静态分析功能，比如 java 中的 class file 和 jar 和 C# 中的 dll file 等；\n对于某些特定的编程语言，SonarQube 还可以提供对于代码的动态分析功能，比如 java 和 C# 中的单元测试的执行等。\n\n\n\n\n结论：\n推荐使用Sonarqube来进行Java代码静态扫描。\n自带的SonarJava插件规则已经够用，建议直接上手使用。\n在使用过程中可以补充Checkstyle、FindBugs、PMD相应规则到Sonar检查。\n\n","dateCreated":"2017-06-20T16:32:48+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2017-06-20T16:32:48+08:00","description":"","headline":"Java static code analysis","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/33032/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/33032/","keywords":"Sonar"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nWiki：Static_program_analysis\nWiki：List_of_tools_for_static_code_analysis\n工具对比：checkstyle-vs-pmd-vs-findbugs\n工具对比：findbugs-checkstyle-pmd-coverity-sonarqube\n\n\n静态代码分析：\n定义：不运行计算机程序的条件下，进行程序分析的方法。\n目的：验证代码是否满足规范性、安全性、可靠性、可维护性等指标，发现代码缺陷并提高代码的质量。\n范围：源代码（主要）、编译产生的字节码。\n常用技术：\n词法分析：通过正则表达式匹配将源代码转换成标记序列。\n语法分析：判断源程序结构上是否正确，通过使用上下文无关语法将相关符号整理为语法树。\n语义分析：对结构上正确的源程序进行上下文有关性质的审查。\n抽象语法树：将程序组织成树形结构，树中相关节点代表了程序中的相关代码。\n控制流分析：生成有向控制流图，用节点表示基本代码块，节点间的有向边代表控制流路径，反向边表示可能存在的循环；还可生成函数调用关系图，表示函数间的嵌套关系。\n无效代码分析：根据控制流图可分析孤立的节点部分为无效代码。数据流分析：对控制流图进行遍历，记录变量的初始化点和引用点，保存切片相关数据信息。\n污点分析：基于数据流图判断源代码中哪些变量可能受到攻击，是验证程序输入、识别代码表达缺陷的关键。\n缺陷模式匹配：缺陷模式匹配事先从代码分析经验中收集足够多的共性缺陷模式，将待分析代码与已有的共性缺陷模式进行模式匹配，从而完成软件的安全分析。\n\n\n\n\nJava开源静态代码分析工具对比：\n\n\n工具\n源代码分析\n字节码分析\n定位\n官网地址\n版本\n其它语言支持\n\n\n\nCheckstyle\nY\n\n验证符合编码规则\nhttp://checkstyle.sourceforge.net\n7.8.2（2017.6.18）\n\n\n\nFindBugs\n\nY\n发现Bugs\nhttp://findbugs.sourceforge.net\n3.0.1（2015.3.6）\n\n\n\nPMD\nY\n\n发现缺陷\nhttps://pmd.github.io\n5.8.0（2017.6.24）\nY\n\n\nSonarqube\nY\nY\n持续质量平台\nhttps://www.sonarqube.org\n6.3.1（2017.4.12）\nY\n\n\nPS:1234567最初Sonarqube只是做静态代码分析结果聚类展示。后来随项目的发展，考虑到静态代码分析工具发展的不可控性（毕竟不属于自身项目），Sonarqube开始也涉及静态代码分析。在此过程中，Sonarqube借鉴了Checkstyle、FindBugs、PMD的规则方法。所以，本篇所指的Sonarqube既包含静态代码分析SonarJava（主要）又包含结果展示。以上参考下面链接：      https://groups.google.com/forum/#!topic/sonarqube/9M0iZ4OILVM      https://blog.sonarsource.com/sonarqube-java-analyzer-the-only-rule-engine-you-need/\n\n\nCheckstyle：官网：检查规则\n主要涉及以下几个方面：\n\n注解\njavadoc注释\n命名规范\n文件头\n导入包规范\n尺寸设置\n空格\n正则表达式\n修饰符\n代码块\n编码问题\n类设计问题\n重复、度量以及一些杂项\n\n\nFindBugs：官网：检查规则\n主要涉及以下几个方面：\n\nMultithreaded correctness - 如多线程编程时常见的同步、线程调度问题。\nPerformance - 如由变量定义、方法调用导致的代码低效问题。\nInternationalization - 如错误的字符串转换带来的国际化问题。\ncode vulnerabilities - 可能受到的恶意攻击，如访问权限修饰符的定义等。\npossible bugs - 可能导致错误的代码，如空指针引用，常见代码错误，序列化错误。\nBad practice - 如命名不规范（类名应以大写字母开头），没有finally来关闭IO流，不检查方法返回值等。\nCorrectness - 正确性问题，如instanceof永远返回false。\n\n\nPMD：官网：Java检查规则\n主要涉及以下几个方面：\n\nPossible bugs - empty try/catch/finally/switch statements\nDead code - unused local variables, parameters and private methods\nSuboptimal code - wasteful String/StringBuffer usage\nOvercomplicated expressions - unnecessary if statements, for loops that could be while loops\nDuplicate code - copied/pasted code means copied/pasted bugs\n\n\nSonarqube官网：Java检查规则\n主要涉及以下几个方面：\n\nBugs\nVulnerability\nCode Smell\n\n\nVS：规则覆盖：\n目前Sonarqube自带的SonarJava插件检查规则几乎包含了Checkstyle、FindBugs、PMD的规则。\n在具体的一些问题上面，几款工具各有千秋。\n存在同一个问题几款工具分别对其进行不同标注情况。\n\n结果输出展示：\nCheckstyle、FindBugs、PMD 运行结果输出支持Xml和Html格式。\nSonarqube 运行结果存入数据库，web端展示。支持和上次结果对比。可视化做的很赞！\n\n工具更新：\nFindBugs已经很久不更新了。\nCheckstyle、PMD、Sonarqube更新频率都挺高的。\n\n检查范围：\nFindBugs 只对编译产生的class文件进行检查\nCheckstyle、PMD 只对源代码进行插件\nSonarqube：\n对于所有支持的编程语言，SonarQube 都提供源了代码的静态分析功能；\n对于某些特定的编程语言，SonarQube 提供了对编译后代码的静态分析功能，比如 java 中的 class file 和 jar 和 C# 中的 dll file 等；\n对于某些特定的编程语言，SonarQube 还可以提供对于代码的动态分析功能，比如 java 和 C# 中的单元测试的执行等。\n\n\n\n\n结论：\n推荐使用Sonarqube来进行Java代码静态扫描。\n自带的SonarJava插件规则已经够用，建议直接上手使用。\n在使用过程中可以补充Checkstyle、FindBugs、PMD相应规则到Sonar检查。\n\n","dateCreated":"2017-06-20T16:32:48+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2017-06-20T16:32:48+08:00","description":"","headline":"Java static code analysis","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/33032/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://cn.linkedin.com/in/龙-威-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/33032/","keywords":"Sonar"}</script>
     <meta name="description" content="参考链接： Wiki：Static_program_analysis Wiki：List_of_tools_for_static_code_analysis 工具对比：checkstyle-vs-pmd-vs-findbugs 工具对比：findbugs-checkstyle-pmd-coverity-sonarqube   静态代码分析： 定义：不运行计算机程序的条件下，进行程序分析的方法。 目">
-<meta name="keywords" content="Sonar">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Java static code analysis">
 <meta property="og:url" content="https://0to.github.io/posts/33032/index.html">
 <meta property="og:site_name" content="Just Do IT">
 <meta property="og:description" content="参考链接： Wiki：Static_program_analysis Wiki：List_of_tools_for_static_code_analysis 工具对比：checkstyle-vs-pmd-vs-findbugs 工具对比：findbugs-checkstyle-pmd-coverity-sonarqube   静态代码分析： 定义：不运行计算机程序的条件下，进行程序分析的方法。 目">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-05-04T07:38:27.286Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-06-20T08:32:48.000Z">
+<meta property="article:modified_time" content="2018-05-04T07:38:27.286Z">
+<meta property="article:author" content="Weilong">
+<meta property="article:tag" content="Sonar">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java static code analysis">
-<meta name="twitter:description" content="参考链接： Wiki：Static_program_analysis Wiki：List_of_tools_for_static_code_analysis 工具对比：checkstyle-vs-pmd-vs-findbugs 工具对比：findbugs-checkstyle-pmd-coverity-sonarqube   静态代码分析： 定义：不运行计算机程序的条件下，进行程序分析的方法。 目">
     
     
         
@@ -39,10 +41,18 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    
+<link rel="stylesheet" href="/assets/css/all.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
     <!--STYLES END-->
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85893233-1"></script>
@@ -88,7 +98,7 @@
     <div class="header-title">
         <a
             class="header-title-link"
-            href="/ "
+            href="/"
             aria-label=""
         >
             Just Do IT
@@ -128,7 +138,8 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </h5>
                 
             </div>
         
@@ -137,12 +148,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/ "
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
                             
+                            rel="noopener"
                             title="Home"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Home</span>
                     </a>
@@ -150,12 +162,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
                             
+                            rel="noopener"
                             title="Categories"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Categories</span>
                     </a>
@@ -163,12 +176,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
                             
+                            rel="noopener"
                             title="Tags"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Tags</span>
                     </a>
@@ -176,12 +190,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-archives"
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
                             
+                            rel="noopener"
                             title="Archives"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Archives</span>
                     </a>
@@ -189,12 +204,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
                             
+                            rel="noopener"
                             title="Search"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Search</span>
                     </a>
@@ -202,12 +218,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="#about"
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
                             
+                            rel="noopener"
                             title="About"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
                     </a>
@@ -219,8 +236,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/0to" target="_blank" rel="noopener" title="GitHub">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/0to"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
@@ -228,8 +252,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://cn.linkedin.com/in/龙-威-73303298" target="_blank" rel="noopener" title="LinkedIn">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://cn.linkedin.com/in/龙-威-73303298"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
                         <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
@@ -237,8 +268,15 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="mailto:326688025@qq.com" target="_blank" rel="noopener" title="Mail">
-                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:326688025@qq.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
                         <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Mail</span>
                     </a>
@@ -250,12 +288,13 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
                             
+                            rel="noopener"
                             title="RSS"
                         >
-                    
                         <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
@@ -304,10 +343,10 @@
     <div class="post-content markdown">
         <div class="main-content-wrap">
             <h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><ul>
-<li>Wiki：<a href="https://en.wikipedia.org/wiki/Static_program_analysis" target="_blank" rel="noopener">Static_program_analysis</a></li>
-<li>Wiki：<a href="https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis" target="_blank" rel="noopener">List_of_tools_for_static_code_analysis</a></li>
-<li>工具对比：<a href="http://continuousdev.com/2015/08/checkstyle-vs-pmd-vs-findbugs" target="_blank" rel="noopener">checkstyle-vs-pmd-vs-findbugs</a></li>
-<li>工具对比：<a href="https://zeroturnaround.com/rebellabs/developers-guide-static-code-analysis-findbugs-checkstyle-pmd-coverity-sonarqube" target="_blank" rel="noopener">findbugs-checkstyle-pmd-coverity-sonarqube</a></li>
+<li>Wiki：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Static_program_analysis">Static_program_analysis</a></li>
+<li>Wiki：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis">List_of_tools_for_static_code_analysis</a></li>
+<li>工具对比：<a target="_blank" rel="noopener" href="http://continuousdev.com/2015/08/checkstyle-vs-pmd-vs-findbugs">checkstyle-vs-pmd-vs-findbugs</a></li>
+<li>工具对比：<a target="_blank" rel="noopener" href="https://zeroturnaround.com/rebellabs/developers-guide-static-code-analysis-findbugs-checkstyle-pmd-coverity-sonarqube">findbugs-checkstyle-pmd-coverity-sonarqube</a></li>
 </ul>
 <hr>
 <h1 id="静态代码分析："><a href="#静态代码分析：" class="headerlink" title="静态代码分析："></a>静态代码分析：</h1><ul>
@@ -331,56 +370,55 @@
 <thead>
 <tr>
 <th>工具</th>
-<th style="text-align:center">源代码分析</th>
-<th style="text-align:center">字节码分析</th>
-<th style="text-align:center">定位</th>
-<th style="text-align:center">官网地址</th>
-<th style="text-align:center">版本</th>
-<th style="text-align:center">其它语言支持</th>
+<th align="center">源代码分析</th>
+<th align="center">字节码分析</th>
+<th align="center">定位</th>
+<th align="center">官网地址</th>
+<th align="center">版本</th>
+<th align="center">其它语言支持</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>Checkstyle</td>
-<td style="text-align:center">Y</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">验证符合编码规则</td>
-<td style="text-align:center"><a href="http://checkstyle.sourceforge.net" target="_blank" rel="noopener">http://checkstyle.sourceforge.net</a></td>
-<td style="text-align:center">7.8.2（2017.6.18）</td>
-<td style="text-align:center"></td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">验证符合编码规则</td>
+<td align="center"><a target="_blank" rel="noopener" href="http://checkstyle.sourceforge.net/">http://checkstyle.sourceforge.net</a></td>
+<td align="center">7.8.2（2017.6.18）</td>
+<td align="center"></td>
 </tr>
 <tr>
 <td>FindBugs</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">Y</td>
-<td style="text-align:center">发现Bugs</td>
-<td style="text-align:center"><a href="http://findbugs.sourceforge.net" target="_blank" rel="noopener">http://findbugs.sourceforge.net</a></td>
-<td style="text-align:center">3.0.1（2015.3.6）</td>
-<td style="text-align:center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">发现Bugs</td>
+<td align="center"><a target="_blank" rel="noopener" href="http://findbugs.sourceforge.net/">http://findbugs.sourceforge.net</a></td>
+<td align="center">3.0.1（2015.3.6）</td>
+<td align="center"></td>
 </tr>
 <tr>
 <td>PMD</td>
-<td style="text-align:center">Y</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">发现缺陷</td>
-<td style="text-align:center"><a href="https://pmd.github.io" target="_blank" rel="noopener">https://pmd.github.io</a></td>
-<td style="text-align:center">5.8.0（2017.6.24）</td>
-<td style="text-align:center">Y</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">发现缺陷</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://pmd.github.io/">https://pmd.github.io</a></td>
+<td align="center">5.8.0（2017.6.24）</td>
+<td align="center">Y</td>
 </tr>
 <tr>
 <td>Sonarqube</td>
-<td style="text-align:center">Y</td>
-<td style="text-align:center">Y</td>
-<td style="text-align:center">持续质量平台</td>
-<td style="text-align:center"><a href="https://www.sonarqube.org" target="_blank" rel="noopener">https://www.sonarqube.org</a></td>
-<td style="text-align:center">6.3.1（2017.4.12）</td>
-<td style="text-align:center">Y</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td align="center">持续质量平台</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://www.sonarqube.org/">https://www.sonarqube.org</a></td>
+<td align="center">6.3.1（2017.4.12）</td>
+<td align="center">Y</td>
 </tr>
-</tbody>
-</table>
-<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">最初Sonarqube只是做静态代码分析结果聚类展示。</span><br><span class="line">后来随项目的发展，考虑到静态代码分析工具发展的不可控性（毕竟不属于自身项目），Sonarqube开始也涉及静态代码分析。</span><br><span class="line">在此过程中，Sonarqube借鉴了Checkstyle、FindBugs、PMD的规则方法。</span><br><span class="line">所以，本篇所指的Sonarqube既包含静态代码分析SonarJava（主要）又包含结果展示。</span><br><span class="line">以上参考下面链接：</span><br><span class="line">      https://groups.google.com/forum/#!topic/sonarqube/9M0iZ4OILVM</span><br><span class="line">      https://blog.sonarsource.com/sonarqube-java-analyzer-the-only-rule-engine-you-need/</span><br></pre></td></tr></table></figure>
+</tbody></table>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">最初Sonarqube只是做静态代码分析结果聚类展示。</span><br><span class="line">后来随项目的发展，考虑到静态代码分析工具发展的不可控性（毕竟不属于自身项目），Sonarqube开始也涉及静态代码分析。</span><br><span class="line">在此过程中，Sonarqube借鉴了Checkstyle、FindBugs、PMD的规则方法。</span><br><span class="line">所以，本篇所指的Sonarqube既包含静态代码分析SonarJava（主要）又包含结果展示。</span><br><span class="line">以上参考下面链接：</span><br><span class="line">      https://groups.google.com/forum/#!topic/sonarqube/9M0iZ4OILVM</span><br><span class="line">      https://blog.sonarsource.com/sonarqube-java-analyzer-the-only-rule-engine-you-need/</span><br></pre></td></tr></table></figure>
+
 <hr>
-<h3 id="Checkstyle："><a href="#Checkstyle：" class="headerlink" title="Checkstyle："></a>Checkstyle：</h3><p>官网：<a href="http://checkstyle.sourceforge.net/checks.html" target="_blank" rel="noopener">检查规则</a></p>
+<h3 id="Checkstyle："><a href="#Checkstyle：" class="headerlink" title="Checkstyle："></a>Checkstyle：</h3><p>官网：<a target="_blank" rel="noopener" href="http://checkstyle.sourceforge.net/checks.html">检查规则</a></p>
 <p>主要涉及以下几个方面：</p>
 <ul>
 <li>注解</li>
@@ -398,7 +436,7 @@
 <li>重复、度量以及一些杂项</li>
 </ul>
 <hr>
-<h3 id="FindBugs："><a href="#FindBugs：" class="headerlink" title="FindBugs："></a>FindBugs：</h3><p>官网：<a href="http://findbugs.sourceforge.net/bugDescriptions.html" target="_blank" rel="noopener">检查规则</a></p>
+<h3 id="FindBugs："><a href="#FindBugs：" class="headerlink" title="FindBugs："></a>FindBugs：</h3><p>官网：<a target="_blank" rel="noopener" href="http://findbugs.sourceforge.net/bugDescriptions.html">检查规则</a></p>
 <p>主要涉及以下几个方面：</p>
 <ul>
 <li>Multithreaded correctness - 如多线程编程时常见的同步、线程调度问题。</li>
@@ -410,7 +448,7 @@
 <li>Correctness - 正确性问题，如instanceof永远返回false。</li>
 </ul>
 <hr>
-<h3 id="PMD："><a href="#PMD：" class="headerlink" title="PMD："></a>PMD：</h3><p>官网：<a href="https://pmd.github.io/pmd-5.8.0/pmd-java/rules/index.html" target="_blank" rel="noopener">Java检查规则</a></p>
+<h3 id="PMD："><a href="#PMD：" class="headerlink" title="PMD："></a>PMD：</h3><p>官网：<a target="_blank" rel="noopener" href="https://pmd.github.io/pmd-5.8.0/pmd-java/rules/index.html">Java检查规则</a></p>
 <p>主要涉及以下几个方面：</p>
 <ul>
 <li>Possible bugs - empty try/catch/finally/switch statements</li>
@@ -420,7 +458,7 @@
 <li>Duplicate code - copied/pasted code means copied/pasted bugs</li>
 </ul>
 <hr>
-<h3 id="Sonarqube"><a href="#Sonarqube" class="headerlink" title="Sonarqube"></a>Sonarqube</h3><p>官网：<a href="https://www.sonarsource.com/products/codeanalyzers/sonarjava/rules.html" target="_blank" rel="noopener">Java检查规则</a></p>
+<h3 id="Sonarqube"><a href="#Sonarqube" class="headerlink" title="Sonarqube"></a>Sonarqube</h3><p>官网：<a target="_blank" rel="noopener" href="https://www.sonarsource.com/products/codeanalyzers/sonarjava/rules.html">Java检查规则</a></p>
 <p>主要涉及以下几个方面：</p>
 <ul>
 <li>Bugs</li>
@@ -468,7 +506,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Sonar/">Sonar</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Sonar/" rel="tag">Sonar</a>
 
             </div>
         
@@ -584,7 +622,7 @@
         
             
                 <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
         
@@ -595,7 +633,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Weilong. All Rights Reserved.
+        Copyrights &copy; 2021 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -777,7 +815,8 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul><br></ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work and life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
+</ul> </div>
         
         
             <div id="about-card-job">
@@ -801,10 +840,18 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/jquery.js"></script>
+
+
 <script src="/assets/js/jquery.fancybox.js"></script>
+
+
 <script src="/assets/js/thumbs.js"></script>
+
+
 <script src="/assets/js/tranquilpeak.js"></script>
+
 <!--SCRIPTS END-->
 
 
