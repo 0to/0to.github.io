@@ -359,7 +359,7 @@
 <h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。</p>
 <ol>
 <li>主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：<ul>
-<li>例如：修改maven pom文件 artifactId增加 master/admin/scm 后缀</li>
+<li>例如：修改maven pom文件 artifactId增加 master&#x2F;admin&#x2F;scm 后缀</li>
 </ul>
 </li>
 <li>更新Dev开发过程项目标记规则到主干。</li>
@@ -371,12 +371,12 @@
 </ul>
 </li>
 <li>更新dev项目标记规则到主干项目：<ul>
-<li>web端操作方法：<br><img src="/posts/54025/biaoji1.png" alt="logo"><br><img src="/posts/54025/biaoji2.png" alt="logo"></li>
+<li>web端操作方法：<br> <img src="/posts/54025/biaoji1.png" alt="logo"><br> <img src="/posts/54025/biaoji2.png" alt="logo"></li>
 </ul>
 <hr>
 <ul>
 <li>Api调用方法：<ul>
-<li>查看：<a target="_blank" rel="noopener" href="http://ip:9000/web_api/api/issueresolver">http://ip:9000/web_api/api/issueresolver</a><br><img src="/posts/54025/api.png" alt="logo"></li>
+<li>查看：<a target="_blank" rel="noopener" href="http://ip:9000/web_api/api/issueresolver">http://ip:9000/web_api/api/issueresolver</a><br>  <img src="/posts/54025/api.png" alt="logo"></li>
 </ul>
 </li>
 </ul>
@@ -457,7 +457,7 @@
 <p>新规则 包含Java Sonar way的Bugs、Vulnerabilities 和 Android Lint的Code Smells<br><img src="/posts/7875/Android.png" alt="logo"><br><img src="/posts/7875/new.png" alt="logo"><br><img src="/posts/7875/change.png" alt="logo"><br><img src="/posts/7875/next1.png" alt="logo"><br><img src="/posts/7875/next2.png" alt="logo"><br><img src="/posts/7875/code_smell.png" alt="logo"><br><img src="/posts/7875/done.png" alt="logo"></p>
 <hr>
 <h3 id="本地配置使用"><a href="#本地配置使用" class="headerlink" title="本地配置使用"></a>本地配置使用</h3><ul>
-<li>配置系统gradle.properties增加下面内容 （～/.gradle/gradle.properties）</li>
+<li>配置系统gradle.properties增加下面内容 （～&#x2F;.gradle&#x2F;gradle.properties）</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemProp.sonar.host.url=http://ip:9000</span><br><span class="line">#----- Security (when &#x27;sonar.forceAuthentication&#x27; is set to &#x27;true&#x27;)</span><br><span class="line">systemProp.sonar.login=个人token</span><br></pre></td></tr></table></figure>
 
@@ -544,7 +544,7 @@
 <hr>
 <h3 id="Sonar-scanner"><a href="#Sonar-scanner" class="headerlink" title="Sonar-scanner"></a>Sonar-scanner</h3><p>适合所有项目</p>
 <ol>
-<li>下载Sonar-scanner，设置环境变量，配置<install_directory>/conf/sonar-scanner.properties<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Configure here general information about the environment, such as SonarQube DB details for example</span><br><span class="line">#No information about specific project should appear here</span><br><span class="line">#----- Default SonarQube server</span><br><span class="line">sonar.host.url=http://ip:9000</span><br><span class="line">#----- Default source code encoding</span><br><span class="line">sonar.sourceEncoding=UTF-8</span><br><span class="line">sonar.login=个人账户生成的token</span><br></pre></td></tr></table></figure></install_directory></li>
+<li>下载Sonar-scanner，设置环境变量，配置<install_directory>&#x2F;conf&#x2F;sonar-scanner.properties<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Configure here general information about the environment, such as SonarQube DB details for example</span><br><span class="line">#No information about specific project should appear here</span><br><span class="line">#----- Default SonarQube server</span><br><span class="line">sonar.host.url=http://ip:9000</span><br><span class="line">#----- Default source code encoding</span><br><span class="line">sonar.sourceEncoding=UTF-8</span><br><span class="line">sonar.login=个人账户生成的token</span><br></pre></td></tr></table></figure></install_directory></li>
 <li>在项目根目录增加sonar-project.properties，内容如下：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># must be unique in a given SonarQube instance</span><br><span class="line">sonar.projectKey=ggg:aaa            #对应的项目key为ggg:aaa</span><br><span class="line"># this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.</span><br><span class="line">sonar.projectName=nnn               #对应的项目名称为nnn</span><br><span class="line">sonar.projectVersion=1.0.0          #对应的版本为：1.0.0</span><br><span class="line"># Path is relative to the sonar-project.properties file. Replace &quot;\&quot; by &quot;/&quot; on Windows.</span><br><span class="line"># This property is optional if sonar.modules is set.</span><br><span class="line">sonar.sources=.</span><br><span class="line">sonar.java.binaries=target/classes    #配置为项目具体的class目录，如果不配置的话只进行源代码分析</span><br><span class="line"># Encoding of the source code. Default is default system encoding</span><br><span class="line">#sonar.sourceEncoding=UTF-8</span><br></pre></td></tr></table></figure></li>
 <li>执行扫描分析：<br> Build（可以不执行构建）<br> sonar-scanner</li>
 </ol>
@@ -727,19 +727,19 @@
 </li>
 <li><p>修改配置D:\scm\sonarqube-6.3.1\conf\sonar.properties</p>
 <ul>
-<li>sonar.jdbc.username=sonar</li>
-<li>sonar.jdbc.password=passwd</li>
-<li>sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance</li>
-<li>sonar.web.host=本机IP</li>
-<li>sonar.web.context=</li>
-<li>sonar.web.port=9000</li>
-<li>sonar.web.http.maxThreads=500</li>
+<li>sonar.jdbc.username&#x3D;sonar</li>
+<li>sonar.jdbc.password&#x3D;passwd</li>
+<li>sonar.jdbc.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;sonar?useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf8&amp;rewriteBatchedStatements&#x3D;true&amp;useConfigs&#x3D;maxPerformance</li>
+<li>sonar.web.host&#x3D;本机IP</li>
+<li>sonar.web.context&#x3D;</li>
+<li>sonar.web.port&#x3D;9000</li>
+<li>sonar.web.http.maxThreads&#x3D;500</li>
 </ul>
 </li>
 <li><p>配置Sonarqube windows服务</p>
 <ol>
-<li>以管理员身份运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\InstallNTService.bat创建服务<br><img src="/posts/60810/Service.jpeg" alt="logo"></li>
-<li>配置Administrator账户运行Sonarqube服务<br><img src="/posts/60810/AdminService.jpeg" alt="logo"></li>
+<li>以管理员身份运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\InstallNTService.bat创建服务<br>  <img src="/posts/60810/Service.jpeg" alt="logo"></li>
+<li>配置Administrator账户运行Sonarqube服务<br>  <img src="/posts/60810/AdminService.jpeg" alt="logo"></li>
 <li>启动Sonarqube服务<ul>
 <li>建议使用上面配置的windows service启动</li>
 <li>也可以直接运行D:\scm\sonarqube-6.3.1\bin\windows-x86-64\StartSonar.bat</li>
@@ -751,8 +751,8 @@
 </li>
 <li><p>网页端登陆配置Sonarqube</p>
 <ul>
-<li>http://搭建机器ip:9000</li>
-<li>用户名/密码：admin</li>
+<li>http:&#x2F;&#x2F;搭建机器ip:9000</li>
+<li>用户名&#x2F;密码：admin</li>
 </ul>
 </li>
 </ol>
@@ -938,11 +938,11 @@
 <h3 id="PMD："><a href="#PMD：" class="headerlink" title="PMD："></a>PMD：</h3><p>官网：<a target="_blank" rel="noopener" href="https://pmd.github.io/pmd-5.8.0/pmd-java/rules/index.html">Java检查规则</a></p>
 <p>主要涉及以下几个方面：</p>
 <ul>
-<li>Possible bugs - empty try/catch/finally/switch statements</li>
+<li>Possible bugs - empty try&#x2F;catch&#x2F;finally&#x2F;switch statements</li>
 <li>Dead code - unused local variables, parameters and private methods</li>
-<li>Suboptimal code - wasteful String/StringBuffer usage</li>
+<li>Suboptimal code - wasteful String&#x2F;StringBuffer usage</li>
 <li>Overcomplicated expressions - unnecessary if statements, for loops that could be while loops</li>
-<li>Duplicate code - copied/pasted code means copied/pasted bugs</li>
+<li>Duplicate code - copied&#x2F;pasted code means copied&#x2F;pasted bugs</li>
 </ul>
 <hr>
 <h3 id="Sonarqube"><a href="#Sonarqube" class="headerlink" title="Sonarqube"></a>Sonarqube</h3><p>官网：<a target="_blank" rel="noopener" href="https://www.sonarsource.com/products/codeanalyzers/sonarjava/rules.html">Java检查规则</a></p>

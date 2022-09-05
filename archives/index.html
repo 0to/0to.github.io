@@ -355,16 +355,16 @@
 <tbody><tr>
 <td>Server</td>
 <td>1. 一次性付费（授权期间可以版本升级，到期后服务还可以正常使用）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 适合对数据托管有本地化需求 的 中小型公司使用</td>
-<td>1. 已经购买正版授权的，正常使用<br>2. 还没有购买正版授权的，需要在2021/2/2之前下单购买<br>3. 2024/2/2后官方不在维护Server产品</td>
+<td>1. 已经购买正版授权的，正常使用<br>2. 还没有购买正版授权的，需要在2021&#x2F;2&#x2F;2之前下单购买<br>3. 2024&#x2F;2&#x2F;2后官方不在维护Server产品</td>
 </tr>
 <tr>
 <td>Data Center</td>
 <td>1. 订阅制（年付）<br>2. 公司团队进行运维，可自由选择托管内部服务器或者云服务器<br>3. 相较于Server版本，增加了高可用 和 CDN 原生支持<br>4. 适合对数据托管有本地化需求 的 跨国多中心研发团队使用</td>
-<td>1. 官方会一直维护更新Data Center产品<br>2. 2021/2/2后会调价</td>
+<td>1. 官方会一直维护更新Data Center产品<br>2. 2021&#x2F;2&#x2F;2后会调价</td>
 </tr>
 <tr>
 <td>Cloud</td>
-<td>1. 订阅制（年付/月付）<br>2. Atlassian公司进行运维，服务搭建在Atlassian公司云服务器<br>3. 适合对数据托管没有本地化需求 的 各类 公司使用<br>4. 目前没有使用国内的云服务器，所以国内网络访问速度和稳定性待考察</td>
+<td>1. 订阅制（年付&#x2F;月付）<br>2. Atlassian公司进行运维，服务搭建在Atlassian公司云服务器<br>3. 适合对数据托管没有本地化需求 的 各类 公司使用<br>4. 目前没有使用国内的云服务器，所以国内网络访问速度和稳定性待考察</td>
 <td>1. 官方战略龙头产品，放心使用</td>
 </tr>
 </tbody></table>
@@ -524,7 +524,7 @@
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>Jenkins 在 2.14 版本引入了 killSoftly 特性，出发点是想更加优雅的结束进程。<br>但是导致了 Windows slave上的 batch 脚本 执行完成 返回结果卡住（时间不确定）的情况。<br>Linux slave上的 shell 脚本执行退出没有发现此问题。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Firstly try to kill the root process gracefully, then do a forcekill if it does not help (algorithm is described in JENKINS-17116)</span><br><span class="line"></span><br><span class="line">killSoftly();</span><br></pre></td></tr></table></figure>
 
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds=0 来解决。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds&#x3D;0 来解决。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Run from agent command line:</span><br><span class="line"></span><br><span class="line">java -Xrs -DSoftKillWaitSeconds=0 -jar agent.jar -jnlpUrl ...</span><br></pre></td></tr></table></figure>
 <p>使用上述命令重新连接 Master - Slave 后，可以在Slave系统信息界面看到参数生效了。<br><img src="/posts/15762/jenkins2.png" alt="Slave信息"></p>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://issues.jenkins-ci.org/browse/JENKINS-55106">https://issues.jenkins-ci.org/browse/JENKINS-55106</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build">https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build</a></p>
@@ -593,25 +593,27 @@
 </ul>
 <h1 id="基础命令使用"><a href="#基础命令使用" class="headerlink" title="基础命令使用"></a>基础命令使用</h1><ol>
 <li>SHA256<ul>
-<li>生成XXX文件sha256值：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum XXX &gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum clean_virus.sh &gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure></li>
-<li>追加YYY文件到已有sha256文件：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum YYY &gt;&gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum install.log &gt;&gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure></li>
-<li>生成的sha256文件内容:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@wangweilong wwl]# cat clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">799750ecaf018307e3f3a5b69c69d28635bf047472e99c85f094ef210deb8ac9  clean_virus.sh</span><br><span class="line">328de949506461ffb371cb2e951d25aadb9e94d7c3038bb08aebce42cd8b84ee  install.log</span><br></pre></td></tr></table></figure></li>
-<li>校验方法：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行 sha256sum -c XXX.sha256 命令</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# sha256sum -c clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: OK</span><br></pre></td></tr></table></figure></li>
+<li>生成XXX文件sha256值： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum XXX &gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum clean_virus.sh &gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure></li>
+<li>追加YYY文件到已有sha256文件： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sha256sum YYY &gt;&gt; XXX.sha256</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# sha256sum install.log &gt;&gt; clean_virus.sh.sha256</span><br></pre></td></tr></table></figure></li>
+<li>生成的sha256文件内容: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@wangweilong wwl]# cat clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">799750ecaf018307e3f3a5b69c69d28635bf047472e99c85f094ef210deb8ac9  clean_virus.sh</span><br><span class="line">328de949506461ffb371cb2e951d25aadb9e94d7c3038bb08aebce42cd8b84ee  install.log</span><br></pre></td></tr></table></figure></li>
+<li>校验方法： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行 sha256sum -c XXX.sha256 命令</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# sha256sum -c clean_virus.sh.sha256</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: OK</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ol>
 <hr>
 <ol start="2">
-<li><p>MD5</p>
-<ul>
+<li>MD5<ul>
 <li><p>生成XXX文件md5值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum XXX &gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum clean_virus.sh &gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure></li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum XXX &gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum clean_virus.sh &gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>追加YYY文件到已有md5文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum YYY &gt;&gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum install.log &gt;&gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure></li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum YYY &gt;&gt; XXX.md5</span><br><span class="line"></span><br><span class="line">[root@wangweilong wwl]# md5sum install.log &gt;&gt; clean_virus.sh.md5</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>生成的md5文件内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@p5-centos6-wangweilong wwl]# cat clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">7840489fe303c097fb142a982f9f41e7  clean_virus.sh</span><br><span class="line">16c04079cc2cda26cbab5cfa801df6c6  install.log</span><br></pre></td></tr></table></figure></li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@p5-centos6-wangweilong wwl]# cat clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">7840489fe303c097fb142a982f9f41e7  clean_virus.sh</span><br><span class="line">16c04079cc2cda26cbab5cfa801df6c6  install.log</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>校验方法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行md5sum -c XXX.md5 命令</span><br><span class="line">为了更好的展示，我修改了install.log文件的内容</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# md5sum -c clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: FAILED</span><br><span class="line">md5sum: WARNING: 1 of 2 computed checksums did NOT match</span><br></pre></td></tr></table></figure></li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">下载文件和对应的md5值文件到同一目录下,执行md5sum -c XXX.md5 命令</span><br><span class="line">为了更好的展示，我修改了install.log文件的内容</span><br><span class="line"></span><br><span class="line">[root@wangweilong test]# md5sum -c clean_virus.sh.md5</span><br><span class="line"></span><br><span class="line">clean_virus.sh: OK</span><br><span class="line">install.log: FAILED</span><br><span class="line">md5sum: WARNING: 1 of 2 computed checksums did NOT match</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ol>
@@ -700,7 +702,7 @@
 <tr>
 <td align="left">Bitbucket</td>
 <td align="left">Git code management</td>
-<td align="left">代码库托管系统<br>支持权限管理/code review等等<br>类比Github</td>
+<td align="left">代码库托管系统<br>支持权限管理&#x2F;code review等等<br>类比Github</td>
 </tr>
 <tr>
 <td align="left">Bamboo</td>
@@ -747,16 +749,16 @@
 <td align="left">Server</td>
 <td align="left">公司自行搭建运维服务</td>
 <td align="left">1.自行定制配置搭建<br>2.数据信息存储在自家服务器上<br>3.访问速度快</td>
-<td align="left">自行负责运维（服务/网络）</td>
-<td align="left">1.数据保密/安全要求较高<br>2.运维能力较强团队</td>
+<td align="left">自行负责运维（服务&#x2F;网络）</td>
+<td align="left">1.数据保密&#x2F;安全要求较高<br>2.运维能力较强团队</td>
 <td align="left">one-time payment<br>服务可以一直使用<br>包含12个月内的新版本升级支持<br>如果12个月后还想升级版本的话，需要重新付费</td>
 </tr>
 <tr>
 <td align="left">Data Center</td>
-<td align="left">公司自行搭建运维服务<br>官方提供扩展数据/服务容灾支持</td>
+<td align="left">公司自行搭建运维服务<br>官方提供扩展数据&#x2F;服务容灾支持</td>
 <td align="left">1.数据多节点存储<br>2.负载均衡<br>3.集群支持</td>
 <td align="left">价格太贵了</td>
-<td align="left">1.大中型企业级用户（500+）<br>2.容灾安全/负载均衡要求较高<br>3.跨多地区团队</td>
+<td align="left">1.大中型企业级用户（500+）<br>2.容灾安全&#x2F;负载均衡要求较高<br>3.跨多地区团队</td>
 <td align="left">per year</td>
 </tr>
 </tbody></table>
@@ -764,7 +766,7 @@
 <h2 id="工具链选型"><a href="#工具链选型" class="headerlink" title="工具链选型"></a>工具链选型</h2><ol>
 <li>项目管理系统： Jira Server</li>
 <li>公司知识库系统： Confluence Server</li>
-<li>公司代码库： Bitbucket/Git（code review）</li>
+<li>公司代码库： Bitbucket&#x2F;Git（code review）</li>
 <li>自动化平台： Jenkins （Bamboo正在内部试用调研）</li>
 </ol>
 <hr>
@@ -773,8 +775,8 @@
 <li>公司项目研发团队在中国，Cloud访问速度慢；</li>
 <li>公司现有研发体量不需要过度支持，所以不考虑Data Center；</li>
 <li>运维团队比较强力，可以做到服务器高可用支持；</li>
-<li>IOS/Android 客户端支持；</li>
-<li>流程/字段定制功能强大，项目支持方便。</li>
+<li>IOS&#x2F;Android 客户端支持；</li>
+<li>流程&#x2F;字段定制功能强大，项目支持方便。</li>
 </ul>
 <p>1.为什么是Confluence Server？</p>
 <ul>
@@ -782,12 +784,12 @@
 <li>系统自带的模版页面非常适合特定场景使用；</li>
 <li>易用性很好，学习成本很低；</li>
 <li>多人协同编辑可视化很好；</li>
-<li>IOS/Android 客户端支持</li>
+<li>IOS&#x2F;Android 客户端支持</li>
 </ul>
 <p>2.为什么是Bitbucket Server？</p>
 <ul>
 <li>原有的Gerrit版本比较老，易用性不好；</li>
-<li>Gitlab / Bitbucket 都可以满足团队代码托管 / code review / 系统集成的需要；</li>
+<li>Gitlab &#x2F; Bitbucket 都可以满足团队代码托管 &#x2F; code review &#x2F; 系统集成的需要；</li>
 <li>选择 Bitbucket 主要是和Jira &amp;&amp; Confluence原生打通非常方便，联动性很好；</li>
 <li>源代码是公司核心资产，从安全性考虑，暂时不准备开放公网访问。</li>
 </ul>
@@ -938,7 +940,7 @@
                 <div class="postShorten-content">
                     <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git version 2.23.0</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用http-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："><a href="#使用http-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：" class="headerlink" title="使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："></a>使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">记住密码（默认15分钟）：git config --global credential.helper cache</span><br><span class="line">自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;</span><br><span class="line">永久存储密码：git config --global credential.helper store</span><br></pre></td></tr></table></figure>
+<h2 id="使用http-x2F-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："><a href="#使用http-x2F-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：" class="headerlink" title="使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："></a>使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">记住密码（默认15分钟）：git config --global credential.helper cache</span><br><span class="line">自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;</span><br><span class="line">永久存储密码：git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 
 <h2 id="行结束符处理："><a href="#行结束符处理：" class="headerlink" title="行结束符处理："></a>行结束符处理：</h2><table>
 <thead>
@@ -959,7 +961,7 @@
 <td align="right">每行结尾只有 &lt;换行&gt; ，即 \n</td>
 </tr>
 <tr>
-<td>Unix/Linux</td>
+<td>Unix&#x2F;Linux</td>
 <td align="center">LF</td>
 <td align="right">每行结尾只有 &lt;换行&gt; ，即 \n</td>
 </tr>
@@ -1041,17 +1043,12 @@
 <h1 id="场景2"><a href="#场景2" class="headerlink" title="场景2:"></a>场景2:</h1><p>历史版本里面存在敏感、较大、无意义的文件，需要进行清理。</p>
 <h3 id="使用-git-filter-branch"><a href="#使用-git-filter-branch" class="headerlink" title="使用 git filter-branch"></a>使用 git filter-branch</h3><p>git 原生提供的命令，如果没有的话，请先升级机器git版本。</p>
 <ul>
-<li>原理：<br>  扫描代码库所有版本<pre><code>  如果某个版本里面发现了指定的文件OR目录：
-      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。
-      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。
-  如果版本没有包含指定文件OR目录，那么继续遍历。
-</code></pre>
-</li>
+<li>原理：<br>  扫描代码库所有版本<br>  如果某个版本里面发现了指定的文件OR目录：<br>      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。<br>      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。<br>  如果版本没有包含指定文件OR目录，那么继续遍历。</li>
 <li>PS：<ol>
 <li>如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。</li>
 <li>一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。</li>
 <li>一般都在本地仓库根目录执行</li>
-<li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune=now.</li>
+<li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune&#x3D;now.</li>
 </ol>
 </li>
 </ul>
@@ -1152,7 +1149,8 @@
 <h3 id="3-推送npm包到nexus"><a href="#3-推送npm包到nexus" class="headerlink" title="3.推送npm包到nexus"></a>3.推送npm包到nexus</h3><p>有👇两种方式</p>
 <ul>
 <li><p>命令行 + 发布路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>package.json配置发布路径（推荐）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">项目package.json增加👇配置：</span><br><span class="line"></span><br><span class="line">&quot;publishConfig&quot; : &#123;</span><br><span class="line">  &quot;registry&quot; : &quot;http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/&quot;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行👇命令即可</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure></li>
 </ul>
@@ -1214,17 +1212,13 @@
             
                 <div class="postShorten-content">
                     <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
-<li><a target="_blank" rel="noopener" href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
-</ul>
-<ul>
-<li><p>settings.xml配置：</p>
-<pre><code>  &lt;!-- localRepository
+<li><p><a target="_blank" rel="noopener" href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</p>
+</li>
+<li><p>settings.xml配置：<br>  <!-- localRepository
       | The path to the local repository maven will use to store artifacts.
       |
-      | Default: $&#123;user.home&#125;/.m2/repository
-  --&gt;
-  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
-</code></pre>
+      | Default: ${user.home}/.m2/repository
+  --><br>  <localRepository>&#x2F;path&#x2F;to&#x2F;local&#x2F;repo</localRepository></p>
 </li>
 <li><p>使用场景：</p>
 <ul>
@@ -1240,16 +1234,15 @@
 </ul>
 </li>
 <li>👇场景下需要强制更新：<ul>
-<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
-<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+<li><p>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</p>
+</li>
+<li><p>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</p>
+<p>  mvn clean package -U</p>
+<p>  -U,–update-snapshots<br>      Forces a check for missing releases and updated snapshots on remote repositories</p>
+</li>
 </ul>
 </li>
 </ul>
-<pre><code>    mvn clean package -U
-
-    -U,--update-snapshots                  
-            Forces a check for missing releases and updated snapshots on remote repositories
-</code></pre>
 <h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
 <li><p>👇场景建议使用强制更新：</p>
 <ul>
@@ -1258,15 +1251,16 @@
 </li>
 <li><p>方法：</p>
 <ul>
-<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
-<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
+<li><p>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</p>
+</li>
+<li><p>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</p>
+<p>  mvn dependency:purge-local-repository</p>
+<pre><code>  tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
+</code></pre>
+</li>
 </ul>
 </li>
 </ul>
-<pre><code>    mvn dependency:purge-local-repository
-
-        tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
-</code></pre>
 
                     
                         

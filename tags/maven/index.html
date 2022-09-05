@@ -343,17 +343,13 @@
             
                 <div class="postShorten-content">
                     <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
-<li><a target="_blank" rel="noopener" href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
-</ul>
-<ul>
-<li><p>settings.xml配置：</p>
-<pre><code>  &lt;!-- localRepository
+<li><p><a target="_blank" rel="noopener" href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</p>
+</li>
+<li><p>settings.xml配置：<br>  <!-- localRepository
       | The path to the local repository maven will use to store artifacts.
       |
-      | Default: $&#123;user.home&#125;/.m2/repository
-  --&gt;
-  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
-</code></pre>
+      | Default: ${user.home}/.m2/repository
+  --><br>  <localRepository>&#x2F;path&#x2F;to&#x2F;local&#x2F;repo</localRepository></p>
 </li>
 <li><p>使用场景：</p>
 <ul>
@@ -369,16 +365,15 @@
 </ul>
 </li>
 <li>👇场景下需要强制更新：<ul>
-<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
-<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+<li><p>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</p>
+</li>
+<li><p>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</p>
+<p>  mvn clean package -U</p>
+<p>  -U,–update-snapshots<br>      Forces a check for missing releases and updated snapshots on remote repositories</p>
+</li>
 </ul>
 </li>
 </ul>
-<pre><code>    mvn clean package -U
-
-    -U,--update-snapshots                  
-            Forces a check for missing releases and updated snapshots on remote repositories
-</code></pre>
 <h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
 <li><p>👇场景建议使用强制更新：</p>
 <ul>
@@ -387,15 +382,16 @@
 </li>
 <li><p>方法：</p>
 <ul>
-<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
-<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
+<li><p>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</p>
+</li>
+<li><p>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</p>
+<p>  mvn dependency:purge-local-repository</p>
+<pre><code>  tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
+</code></pre>
+</li>
 </ul>
 </li>
 </ul>
-<pre><code>    mvn dependency:purge-local-repository
-
-        tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
-</code></pre>
 
                     
                         

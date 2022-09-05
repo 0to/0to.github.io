@@ -374,18 +374,18 @@
 <li>搭建OpenGrok：<ul>
 <li>安装jdk-1.8</li>
 <li>安装tomcat-8</li>
-<li>安装Exuberant Ctags <a target="_blank" rel="noopener" href="http://ctags.sourceforge.net/">下载地址</a><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf ctags-5.8.tar.gz</span><br><span class="line">$ cd ctags-5.8/</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure></li>
-<li>安装opengrok <a target="_blank" rel="noopener" href="https://github.com/OpenGrok/OpenGrok/releases">下载地址</a>  | <a target="_blank" rel="noopener" href="https://github.com/OpenGrok/OpenGrok/wiki/How-to-install-OpenGrok">安装使用wiki</a><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf opengrok-1.1-rc16.tar.gz</span><br><span class="line">$ cd opengrok-1.1-rc16/bin/</span><br><span class="line">$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy</span><br></pre></td></tr></table></figure></li>
+<li>安装Exuberant Ctags <a target="_blank" rel="noopener" href="http://ctags.sourceforge.net/">下载地址</a> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf ctags-5.8.tar.gz</span><br><span class="line">$ cd ctags-5.8/</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure></li>
+<li>安装opengrok <a target="_blank" rel="noopener" href="https://github.com/OpenGrok/OpenGrok/releases">下载地址</a>  | <a target="_blank" rel="noopener" href="https://github.com/OpenGrok/OpenGrok/wiki/How-to-install-OpenGrok">安装使用wiki</a> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf opengrok-1.1-rc16.tar.gz</span><br><span class="line">$ cd opengrok-1.1-rc16/bin/</span><br><span class="line">$ OPENGROK_TOMCAT_BASE=/path/to/my/tomcat/install ./OpenGrok deploy</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li>下载代码<ul>
-<li>创建一个公共代码库存放目录：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /root/wwl/code/svn</span><br><span class="line">$ mkdir -p /root/wwl/code/git</span><br></pre></td></tr></table></figure></li>
-<li>根据需要下载svn代码:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/svn</span><br><span class="line">$ svn checkout svn_urls</span><br></pre></td></tr></table></figure></li>
-<li>根据需要下载git代码：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/git</span><br><span class="line">$ git clone git_urls</span><br></pre></td></tr></table></figure></li>
+<li>创建一个公共代码库存放目录： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /root/wwl/code/svn</span><br><span class="line">$ mkdir -p /root/wwl/code/git</span><br></pre></td></tr></table></figure></li>
+<li>根据需要下载svn代码: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/svn</span><br><span class="line">$ svn checkout svn_urls</span><br></pre></td></tr></table></figure></li>
+<li>根据需要下载git代码： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /root/wwl/code/git</span><br><span class="line">$ git clone git_urls</span><br></pre></td></tr></table></figure></li>
 <li>PS:如果要想查询所有分支代码<ul>
 <li>svn：直接checkout 包含branches目录url即可；</li>
 <li>git：需要clone多次git_url到不同目录，然后cd到各自目录执行git checkout branch_name；</li>
-<li>建议只下载master/trunk和最新dev分支即可。</li>
+<li>建议只下载master&#x2F;trunk和最新dev分支即可。</li>
 </ul>
 </li>
 </ul>
@@ -393,8 +393,8 @@
 <li>加载OpenGrok索引 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./OpenGrok index &lt;absolute_path_to_your_SRC_ROOT&gt;</span><br><span class="line">例如：</span><br><span class="line">    ./OpenGrok index /root/wwl/code</span><br></pre></td></tr></table></figure>
  PS：如果代码文件很多的话，加载索引会很久。晚上执行第二天来看结果吧。</li>
 <li>关键字查询<ul>
-<li>web端登陆:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;HOST&gt;:&lt;PORT&gt;/source</span><br></pre></td></tr></table></figure></li>
-<li>执行查询:<br><img src="/posts/61445/OpenGrok.png" alt="logo"></li>
+<li>web端登陆: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;HOST&gt;:&lt;PORT&gt;/source</span><br></pre></td></tr></table></figure></li>
+<li>执行查询:<br> <img src="/posts/61445/OpenGrok.png" alt="logo"></li>
 </ul>
 </li>
 </ol>

@@ -428,7 +428,7 @@
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>Jenkins 在 2.14 版本引入了 killSoftly 特性，出发点是想更加优雅的结束进程。<br>但是导致了 Windows slave上的 batch 脚本 执行完成 返回结果卡住（时间不确定）的情况。<br>Linux slave上的 shell 脚本执行退出没有发现此问题。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Firstly try to kill the root process gracefully, then do a forcekill if it does not help (algorithm is described in JENKINS-17116)</span><br><span class="line"></span><br><span class="line">killSoftly();</span><br></pre></td></tr></table></figure>
 
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds=0 来解决。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>可以通过 在Windows slave连接master机器的时候 增加 这个参数 -DSoftKillWaitSeconds&#x3D;0 来解决。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Run from agent command line:</span><br><span class="line"></span><br><span class="line">java -Xrs -DSoftKillWaitSeconds=0 -jar agent.jar -jnlpUrl ...</span><br></pre></td></tr></table></figure>
 <p>使用上述命令重新连接 Master - Slave 后，可以在Slave系统信息界面看到参数生效了。<br><img src="/posts/15762/jenkins2.png" alt="Slave信息"></p>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://issues.jenkins-ci.org/browse/JENKINS-55106">https://issues.jenkins-ci.org/browse/JENKINS-55106</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build">https://stackoverflow.com/questions/54039226/jenkins-hangs-between-build-and-post-build</a></p>
@@ -571,7 +571,7 @@
                 <div class="postShorten-content">
                     <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git version 2.23.0</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用http-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："><a href="#使用http-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：" class="headerlink" title="使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："></a>使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">记住密码（默认15分钟）：git config --global credential.helper cache</span><br><span class="line">自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;</span><br><span class="line">永久存储密码：git config --global credential.helper store</span><br></pre></td></tr></table></figure>
+<h2 id="使用http-x2F-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："><a href="#使用http-x2F-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：" class="headerlink" title="使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："></a>使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">记住密码（默认15分钟）：git config --global credential.helper cache</span><br><span class="line">自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;</span><br><span class="line">永久存储密码：git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 
 <h2 id="行结束符处理："><a href="#行结束符处理：" class="headerlink" title="行结束符处理："></a>行结束符处理：</h2><table>
 <thead>
@@ -592,7 +592,7 @@
 <td align="right">每行结尾只有 &lt;换行&gt; ，即 \n</td>
 </tr>
 <tr>
-<td>Unix/Linux</td>
+<td>Unix&#x2F;Linux</td>
 <td align="center">LF</td>
 <td align="right">每行结尾只有 &lt;换行&gt; ，即 \n</td>
 </tr>
@@ -674,17 +674,12 @@
 <h1 id="场景2"><a href="#场景2" class="headerlink" title="场景2:"></a>场景2:</h1><p>历史版本里面存在敏感、较大、无意义的文件，需要进行清理。</p>
 <h3 id="使用-git-filter-branch"><a href="#使用-git-filter-branch" class="headerlink" title="使用 git filter-branch"></a>使用 git filter-branch</h3><p>git 原生提供的命令，如果没有的话，请先升级机器git版本。</p>
 <ul>
-<li>原理：<br>  扫描代码库所有版本<pre><code>  如果某个版本里面发现了指定的文件OR目录：
-      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。
-      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。
-  如果版本没有包含指定文件OR目录，那么继续遍历。
-</code></pre>
-</li>
+<li>原理：<br>  扫描代码库所有版本<br>  如果某个版本里面发现了指定的文件OR目录：<br>      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。<br>      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。<br>  如果版本没有包含指定文件OR目录，那么继续遍历。</li>
 <li>PS：<ol>
 <li>如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。</li>
 <li>一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。</li>
 <li>一般都在本地仓库根目录执行</li>
-<li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune=now.</li>
+<li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune&#x3D;now.</li>
 </ol>
 </li>
 </ul>
@@ -785,7 +780,8 @@
 <h3 id="3-推送npm包到nexus"><a href="#3-推送npm包到nexus" class="headerlink" title="3.推送npm包到nexus"></a>3.推送npm包到nexus</h3><p>有👇两种方式</p>
 <ul>
 <li><p>命令行 + 发布路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>package.json配置发布路径（推荐）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">项目package.json增加👇配置：</span><br><span class="line"></span><br><span class="line">&quot;publishConfig&quot; : &#123;</span><br><span class="line">  &quot;registry&quot; : &quot;http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/&quot;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行👇命令即可</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure></li>
 </ul>
@@ -847,17 +843,13 @@
             
                 <div class="postShorten-content">
                     <h3 id="localRepository机制："><a href="#localRepository机制：" class="headerlink" title="localRepository机制："></a>localRepository机制：</h3><ul>
-<li><a target="_blank" rel="noopener" href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</li>
-</ul>
-<ul>
-<li><p>settings.xml配置：</p>
-<pre><code>  &lt;!-- localRepository
+<li><p><a target="_blank" rel="noopener" href="http://maven.apache.org/guides/introduction/introduction-to-repositories.html">introduction-to-repositories</a><br>The local repository refers to a copy on your own installation that is a cache of the remote downloads, and also contains the temporary build artifacts that you have not yet released.</p>
+</li>
+<li><p>settings.xml配置：<br>  <!-- localRepository
       | The path to the local repository maven will use to store artifacts.
       |
-      | Default: $&#123;user.home&#125;/.m2/repository
-  --&gt;
-  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
-</code></pre>
+      | Default: ${user.home}/.m2/repository
+  --><br>  <localRepository>&#x2F;path&#x2F;to&#x2F;local&#x2F;repo</localRepository></p>
 </li>
 <li><p>使用场景：</p>
 <ul>
@@ -873,16 +865,15 @@
 </ul>
 </li>
 <li>👇场景下需要强制更新：<ul>
-<li>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</li>
-<li>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</li>
+<li><p>默认snapshot版本依赖localRepository更新是天级的。如果项目联调阶段一天之内多次snapshot依赖更新。</p>
+</li>
+<li><p>如果项目下载依赖过程中断（常见网络原因），导致localRepository中的文件状态有问题。</p>
+<p>  mvn clean package -U</p>
+<p>  -U,–update-snapshots<br>      Forces a check for missing releases and updated snapshots on remote repositories</p>
+</li>
 </ul>
 </li>
 </ul>
-<pre><code>    mvn clean package -U
-
-    -U,--update-snapshots                  
-            Forces a check for missing releases and updated snapshots on remote repositories
-</code></pre>
 <h3 id="强制更新RELEASE和SNAPSHOT版本依赖："><a href="#强制更新RELEASE和SNAPSHOT版本依赖：" class="headerlink" title="强制更新RELEASE和SNAPSHOT版本依赖："></a>强制更新RELEASE和SNAPSHOT版本依赖：</h3><ul>
 <li><p>👇场景建议使用强制更新：</p>
 <ul>
@@ -891,15 +882,16 @@
 </li>
 <li><p>方法：</p>
 <ul>
-<li>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</li>
-<li>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</li>
+<li><p>简单粗暴型：直接清空localRepository，然后执行编译打包重新下载依赖。</p>
+</li>
+<li><p>推荐精细型：定向删除localRepository中 本次项目涉及依赖，然后重新下载：</p>
+<p>  mvn dependency:purge-local-repository</p>
+<pre><code>  tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
+</code></pre>
+</li>
 </ul>
 </li>
 </ul>
-<pre><code>    mvn dependency:purge-local-repository
-
-        tells Maven to clear all dependency-artifact files out of the local repository, and optionally re-resolve them.
-</code></pre>
 
                     
                         
@@ -969,47 +961,31 @@
 <li>所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。</li>
 </ul>
 <h3 id="迁移导入方法："><a href="#迁移导入方法：" class="headerlink" title="迁移导入方法："></a>迁移导入方法：</h3><ol>
-<li><p><a target="_blank" rel="noopener" href="https://help.sonatype.com/display/NXRM3/Upgrading">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：</p>
-<pre><code> - 需要原nexus版本为2.14.x版本
- - 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3
-</code></pre>
+<li><p><a target="_blank" rel="noopener" href="https://help.sonatype.com/display/NXRM3/Upgrading">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：<br> - 需要原nexus版本为2.14.x版本<br> - 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3</p>
 </li>
-<li><p>mvn deploy命令上传<br> 如果原nexus2待迁移的jar包并不多，可以使用这种方式。</p>
-<pre><code> 1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）
- mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar
-
- 2. 上传jar 和 pom.xml (pom里面有依赖)
- mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar
-</code></pre>
-<p> 需要注意：</p>
-<pre><code> - 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;
- - 写脚本封装上面命令实现批量迁移
-</code></pre>
+<li><p>mvn deploy命令上传<br> 如果原nexus2待迁移的jar包并不多，可以使用这种方式。<br> 1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）<br> mvn deploy:deploy-file -DgroupId&#x3D;$groupId -DartifactId&#x3D;$artifactId -Dversion&#x3D;$version -Dpackaging&#x3D;jar -DrepositoryId&#x3D;nexus -Durl&#x3D;http:&#x2F;&#x2F;$ip:8081&#x2F;repository&#x2F;$repository_name -Dfile&#x3D;$path&#x2F;XX.jar<br><br> 2. 上传jar 和 pom.xml (pom里面有依赖)<br> mvn deploy:deploy-file -DgroupId&#x3D;$groupId -DartifactId&#x3D;$artifactId -Dversion&#x3D;$version -DgeneratePom&#x3D;false -Dpackaging&#x3D;jar -DrepositoryId&#x3D;nexus -Durl&#x3D;http:&#x2F;&#x2F;$ip:8081&#x2F;repository&#x2F;$repository_name -DpomFile&#x3D;$path&#x2F;pom.xml -Dfile&#x3D;$path&#x2F;XX.jar<br> 需要注意：<br> - 命令里面-DrepositoryId&#x3D;nexus对应的是本机mvn settings.xml文件配置<server> <id><br> - 写脚本封装上面命令实现批量迁移</id></server></p>
 </li>
-<li><p>http协议上传<br> 直接使用http put 文件到/repository/$repo-id/$path-of-file</p>
-<pre><code> curl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom
-</code></pre>
-<p> 我们需要上传的文件：jar和pom.xml</p>
+<li><p>http协议上传<br> 直接使用http put 文件到&#x2F;repository&#x2F;$repo-id&#x2F;$path-of-file<br> curl -v -u admin:admin123 –upload-file pom.xml http:&#x2F;&#x2F;$ip:8081&#x2F;repository&#x2F;maven-releases&#x2F;org&#x2F;foo&#x2F;1.0&#x2F;foo-1.0.pom<br> 我们需要上传的文件：jar和pom.xml</p>
 <p> 创建 mavenimport.sh 脚本如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Get command line params</span><br><span class="line">while getopts &quot;:r:u:p:&quot; opt; do</span><br><span class="line">    case $opt in</span><br><span class="line">        r) REPO_URL=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        u) USERNAME=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        p) PASSWORD=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">find . -type f -not -path &#x27;*/\.*&#x27; -not -path &#x27;*/\^archetype\-catalog\.xml*&#x27; -not -path &#x27;*/\^maven\-metadata\-local*\.xml&#x27; -not -path &#x27;*/\^maven\-metadata\-deployment*\.xml&#x27; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</span><br></pre></td></tr></table></figure>
-
-<p> 登陆到Nexus2.x服务器执行</p>
-<pre><code> cd $releases_dir
- cp $path/mavenimport.sh .
- sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name
-
- cd $snapshots_dir
- cp $path/mavenimport.sh .
- sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name
-</code></pre>
-<p> 需要注意：</p>
-<pre><code> - 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）
- - 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。
- - 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。
- - 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。
-</code></pre>
 </li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Get command line params</span><br><span class="line">while getopts &quot;:r:u:p:&quot; opt; do</span><br><span class="line">    case $opt in</span><br><span class="line">        r) REPO_URL=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        u) USERNAME=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        p) PASSWORD=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">find . -type f -not -path &#x27;*/\.*&#x27; -not -path &#x27;*/\^archetype\-catalog\.xml*&#x27; -not -path &#x27;*/\^maven\-metadata\-local*\.xml&#x27; -not -path &#x27;*/\^maven\-metadata\-deployment*\.xml&#x27; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<pre><code>登陆到Nexus2.x服务器执行
+    cd $releases_dir
+    cp $path/mavenimport.sh .
+    sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name
+
+    cd $snapshots_dir
+    cp $path/mavenimport.sh .
+    sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name
+
+需要注意：
+    - 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）
+    - 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。
+    - 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。
+    - 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。
+</code></pre>
 
                     
                         
@@ -1079,42 +1055,17 @@
 <li>GIT：2.16.2</li>
 </ul>
 <h1 id="迁移步骤："><a href="#迁移步骤：" class="headerlink" title="迁移步骤："></a>迁移步骤：</h1><ol>
-<li>获取指定svn代码库涉及的开发同学名单并转换：<pre><code> svn log $SVN_URL --xml | grep author | sort -u | perl -pe &#39;s/.*&gt;(.*?)&lt;.*/$1 = /&#39; &gt; user.txt
-</code></pre>
-user.txt内容如下：<pre><code> dev1_name =
- dev2_name =
-</code></pre>
-因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。<pre><code> 修改上述命令得到的user.txt如下：
- dev1_name = dev1_name&lt;dev1_email&gt;
- dev2_name = dev2_name&lt;dev2_email&gt;
-</code></pre>
-</li>
-<li>使用git svn cloned代码库到本地：<pre><code> git svn clone $SVN_URL --no-metadata --authors-file=user.txt -s
-</code></pre>
-</li>
-<li>调整本地库目录结构：<pre><code> cd $project_dir
- mv .git/refs/remotes/origin/tags/$tags_name .git/refs/tags/
- mv .git/refs/remotes/origin/$branches_name .git/refs/heads/
- rm -rf .git/refs/remotes/origin
-</code></pre>
-</li>
-<li>上传本地库到remote仓库：<pre><code> git remote add origin $GIT_URL
- git push origin --all
- git push origin --tags
-</code></pre>
-</li>
+<li>获取指定svn代码库涉及的开发同学名单并转换：<br> svn log $SVN_URL –xml | grep author | sort -u | perl -pe ‘s&#x2F;.<em>&gt;(.</em>?)&lt;.*&#x2F;$1 &#x3D; &#x2F;‘ &gt; user.txt<br>user.txt内容如下：<br> dev1_name &#x3D;<br> dev2_name &#x3D;<br>因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。<br> 修改上述命令得到的user.txt如下：<br> dev1_name &#x3D; dev1_name<dev1_email><br> dev2_name &#x3D; dev2_name<dev2_email></dev2_email></dev1_email></li>
+<li>使用git svn cloned代码库到本地：<br> git svn clone $SVN_URL –no-metadata –authors-file&#x3D;user.txt -s</li>
+<li>调整本地库目录结构：<br> cd $project_dir<br> mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;tags&#x2F;$tags_name .git&#x2F;refs&#x2F;tags&#x2F;<br> mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;$branches_name .git&#x2F;refs&#x2F;heads&#x2F;<br> rm -rf .git&#x2F;refs&#x2F;remotes&#x2F;origin</li>
+<li>上传本地库到remote仓库：<br> git remote add origin $GIT_URL<br> git push origin –all<br> git push origin –tags</li>
 </ol>
 <h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><ol>
-<li>如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。<pre><code> git svn clone $SVN_URL -r $指定版本:HEAD
-</code></pre>
-</li>
+<li>如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。<br> git svn clone $SVN_URL -r $指定版本:HEAD</li>
 <li>较新版本的git都原生带了 git svn命令，如果你使用的git版本没有此命令，建议升级新版git或者单独安装git-svn命令。</li>
 <li>git clone命令执行时间主要和 原SVN库大小、log多少有关。</li>
 <li>svn迁移git后需要注意git不支持空目录，需要使用在空目录增加隐藏文件来上传，通常使用.gitkeep文件。</li>
-<li>如果原SVN库结构不是规范的branches、tags、trunk结构<pre><code> git svn clone $SVN_URL --branches=&lt;branches_subdir&gt; --tags=&lt;tags_subdir&gt; --trunk=&lt;trunk_subdir&gt;
- 如果没有tags的话--tags可以不写，branches同理；subdir写相对路径即可
-</code></pre>
- 上面使用的-s参数表示的是–stdlayout适合标准结构的SVN项目。</li>
+<li>如果原SVN库结构不是规范的branches、tags、trunk结构<br> git svn clone $SVN_URL –branches&#x3D;<branches_subdir> –tags&#x3D;<tags_subdir> –trunk&#x3D;<trunk_subdir><br> 如果没有tags的话–tags可以不写，branches同理；subdir写相对路径即可<br> 上面使用的-s参数表示的是–stdlayout适合标准结构的SVN项目。</trunk_subdir></tags_subdir></branches_subdir></li>
 </ol>
 
                     
@@ -1186,7 +1137,7 @@ user.txt内容如下：<pre><code> dev1_name =
 
 <h3 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h3><p>因为我的centos服务器上面已经装了postgresql的8.4.18版本；</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# rpm -qa|grep postgres</span><br><span class="line">postgresql-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-devel-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-libs-8.4.18-1.el6_4.x86_64</span><br></pre></td></tr></table></figure>
-<p>使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。</p>
+<p>使用&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;bin&#x2F;psql的时候找不到对应的库(&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib&#x2F;postgresql)。</p>
 <h3 id="解决方法1"><a href="#解决方法1" class="headerlink" title="解决方法1:"></a>解决方法1:</h3><p>卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。</p>
 <p>卸载gitlab方法如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl uninstall</span><br><span class="line">sudo gitlab-ctl cleanse</span><br><span class="line">sudo rm -rf /opt/gitlab</span><br></pre></td></tr></table></figure>
@@ -1195,7 +1146,7 @@ user.txt内容如下：<pre><code> dev1_name =
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line"></span><br><span class="line">export LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......</span><br><span class="line"></span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line"># echo $LD_LIBRARY_PATH</span><br><span class="line"></span><br><span class="line">/opt/gitlab/embedded/lib:/tmp/product.......</span><br></pre></td></tr></table></figure>
 <p>PS：</p>
 <ol>
-<li>增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。</li>
+<li>增加&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。</li>
 <li>路径之间使用:分隔</li>
 </ol>
 <p>然后再执行#gitlab-ctl reconfigure，即可成功。</p>

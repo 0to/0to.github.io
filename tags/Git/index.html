@@ -410,7 +410,7 @@
                 <div class="postShorten-content">
                     <h1 id="软件版本："><a href="#软件版本：" class="headerlink" title="软件版本："></a>软件版本：</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git version 2.23.0</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用http-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："><a href="#使用http-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：" class="headerlink" title="使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："></a>使用http/https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">记住密码（默认15分钟）：git config --global credential.helper cache</span><br><span class="line">自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;</span><br><span class="line">永久存储密码：git config --global credential.helper store</span><br></pre></td></tr></table></figure>
+<h2 id="使用http-x2F-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："><a href="#使用http-x2F-https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：" class="headerlink" title="使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况："></a>使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">记住密码（默认15分钟）：git config --global credential.helper cache</span><br><span class="line">自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;</span><br><span class="line">永久存储密码：git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 
 <h2 id="行结束符处理："><a href="#行结束符处理：" class="headerlink" title="行结束符处理："></a>行结束符处理：</h2><table>
 <thead>
@@ -431,7 +431,7 @@
 <td align="right">每行结尾只有 &lt;换行&gt; ，即 \n</td>
 </tr>
 <tr>
-<td>Unix/Linux</td>
+<td>Unix&#x2F;Linux</td>
 <td align="center">LF</td>
 <td align="right">每行结尾只有 &lt;换行&gt; ，即 \n</td>
 </tr>
@@ -513,17 +513,12 @@
 <h1 id="场景2"><a href="#场景2" class="headerlink" title="场景2:"></a>场景2:</h1><p>历史版本里面存在敏感、较大、无意义的文件，需要进行清理。</p>
 <h3 id="使用-git-filter-branch"><a href="#使用-git-filter-branch" class="headerlink" title="使用 git filter-branch"></a>使用 git filter-branch</h3><p>git 原生提供的命令，如果没有的话，请先升级机器git版本。</p>
 <ul>
-<li>原理：<br>  扫描代码库所有版本<pre><code>  如果某个版本里面发现了指定的文件OR目录：
-      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。
-      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。
-  如果版本没有包含指定文件OR目录，那么继续遍历。
-</code></pre>
-</li>
+<li>原理：<br>  扫描代码库所有版本<br>  如果某个版本里面发现了指定的文件OR目录：<br>      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。<br>      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。<br>  如果版本没有包含指定文件OR目录，那么继续遍历。</li>
 <li>PS：<ol>
 <li>如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。</li>
 <li>一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。</li>
 <li>一般都在本地仓库根目录执行</li>
-<li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune=now.</li>
+<li>执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune&#x3D;now.</li>
 </ol>
 </li>
 </ul>
@@ -611,42 +606,17 @@
 <li>GIT：2.16.2</li>
 </ul>
 <h1 id="迁移步骤："><a href="#迁移步骤：" class="headerlink" title="迁移步骤："></a>迁移步骤：</h1><ol>
-<li>获取指定svn代码库涉及的开发同学名单并转换：<pre><code> svn log $SVN_URL --xml | grep author | sort -u | perl -pe &#39;s/.*&gt;(.*?)&lt;.*/$1 = /&#39; &gt; user.txt
-</code></pre>
-user.txt内容如下：<pre><code> dev1_name =
- dev2_name =
-</code></pre>
-因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。<pre><code> 修改上述命令得到的user.txt如下：
- dev1_name = dev1_name&lt;dev1_email&gt;
- dev2_name = dev2_name&lt;dev2_email&gt;
-</code></pre>
-</li>
-<li>使用git svn cloned代码库到本地：<pre><code> git svn clone $SVN_URL --no-metadata --authors-file=user.txt -s
-</code></pre>
-</li>
-<li>调整本地库目录结构：<pre><code> cd $project_dir
- mv .git/refs/remotes/origin/tags/$tags_name .git/refs/tags/
- mv .git/refs/remotes/origin/$branches_name .git/refs/heads/
- rm -rf .git/refs/remotes/origin
-</code></pre>
-</li>
-<li>上传本地库到remote仓库：<pre><code> git remote add origin $GIT_URL
- git push origin --all
- git push origin --tags
-</code></pre>
-</li>
+<li>获取指定svn代码库涉及的开发同学名单并转换：<br> svn log $SVN_URL –xml | grep author | sort -u | perl -pe ‘s&#x2F;.<em>&gt;(.</em>?)&lt;.*&#x2F;$1 &#x3D; &#x2F;‘ &gt; user.txt<br>user.txt内容如下：<br> dev1_name &#x3D;<br> dev2_name &#x3D;<br>因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。<br> 修改上述命令得到的user.txt如下：<br> dev1_name &#x3D; dev1_name<dev1_email><br> dev2_name &#x3D; dev2_name<dev2_email></dev2_email></dev1_email></li>
+<li>使用git svn cloned代码库到本地：<br> git svn clone $SVN_URL –no-metadata –authors-file&#x3D;user.txt -s</li>
+<li>调整本地库目录结构：<br> cd $project_dir<br> mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;tags&#x2F;$tags_name .git&#x2F;refs&#x2F;tags&#x2F;<br> mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;$branches_name .git&#x2F;refs&#x2F;heads&#x2F;<br> rm -rf .git&#x2F;refs&#x2F;remotes&#x2F;origin</li>
+<li>上传本地库到remote仓库：<br> git remote add origin $GIT_URL<br> git push origin –all<br> git push origin –tags</li>
 </ol>
 <h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><ol>
-<li>如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。<pre><code> git svn clone $SVN_URL -r $指定版本:HEAD
-</code></pre>
-</li>
+<li>如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。<br> git svn clone $SVN_URL -r $指定版本:HEAD</li>
 <li>较新版本的git都原生带了 git svn命令，如果你使用的git版本没有此命令，建议升级新版git或者单独安装git-svn命令。</li>
 <li>git clone命令执行时间主要和 原SVN库大小、log多少有关。</li>
 <li>svn迁移git后需要注意git不支持空目录，需要使用在空目录增加隐藏文件来上传，通常使用.gitkeep文件。</li>
-<li>如果原SVN库结构不是规范的branches、tags、trunk结构<pre><code> git svn clone $SVN_URL --branches=&lt;branches_subdir&gt; --tags=&lt;tags_subdir&gt; --trunk=&lt;trunk_subdir&gt;
- 如果没有tags的话--tags可以不写，branches同理；subdir写相对路径即可
-</code></pre>
- 上面使用的-s参数表示的是–stdlayout适合标准结构的SVN项目。</li>
+<li>如果原SVN库结构不是规范的branches、tags、trunk结构<br> git svn clone $SVN_URL –branches&#x3D;<branches_subdir> –tags&#x3D;<tags_subdir> –trunk&#x3D;<trunk_subdir><br> 如果没有tags的话–tags可以不写，branches同理；subdir写相对路径即可<br> 上面使用的-s参数表示的是–stdlayout适合标准结构的SVN项目。</trunk_subdir></tags_subdir></branches_subdir></li>
 </ol>
 
                     
@@ -714,7 +684,7 @@ user.txt内容如下：<pre><code> dev1_name =
 <blockquote>
 <p>PS：我们约定：</p>
 <blockquote>
-<p>主干（master/git  trunk/svn）<br>    分支（branch）<br>    标签（tag）<br>如果从版本控制工具实现上来看：<br>        svn： trunk、branch、tag 没有差别<br>        git： master、branch、轻量级tag 没有差别<br>        为了更好的区分和管理，人为的从逻辑上进行区分<br>        tag的作用：里程碑记录，方便回溯（发布回滚等）</p>
+<p>主干（master&#x2F;git  trunk&#x2F;svn）<br>    分支（branch）<br>    标签（tag）<br>如果从版本控制工具实现上来看：<br>        svn： trunk、branch、tag 没有差别<br>        git： master、branch、轻量级tag 没有差别<br>        为了更好的区分和管理，人为的从逻辑上进行区分<br>        tag的作用：里程碑记录，方便回溯（发布回滚等）</p>
 </blockquote>
 </blockquote>
 <h1 id="主干开发，分支发布："><a href="#主干开发，分支发布：" class="headerlink" title="主干开发，分支发布："></a>主干开发，分支发布：</h1><p><img src="/posts/52695/zhugan.png" alt="logo"></p>

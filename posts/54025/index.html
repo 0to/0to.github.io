@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景：Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。\n\n\nPS：\n\nSonarqube根据Key来唯一标示项目。\nResolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：\n如果一个问题本次标记为False Positive 或者 Won’t fix\n以后此项目进行分析时此问题自动标记。\n其他项目(Key不同)还是会报此问题。\n\n\n\n\n思路：Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。\n\n主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：\n例如：修改maven pom文件 artifactId增加 master/admin/scm 后缀\n\n\n更新Dev开发过程项目标记规则到主干。\n\n\n同步不同项目标记规则：\n安装Issue resolver插件：\nExport and import resolved issues (false-positive and won’t fix) from SonarQube projects.\n\n\n更新dev项目标记规则到主干项目：\nweb端操作方法：\n\n\n\nApi调用方法：\n查看：http://ip:9000/web_api/api/issueresolver\n\n\n\n\n\n","dateCreated":"2017-08-02T11:22:16+08:00","dateModified":"2018-05-04T17:47:48+08:00","datePublished":"2017-08-02T11:22:16+08:00","description":"","headline":"持续代码质量平台Sonar-5审计","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/54025/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/54025/","keywords":"Sonar"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景：Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。\n\n\nPS：\n\nSonarqube根据Key来唯一标示项目。\nResolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：\n如果一个问题本次标记为False Positive 或者 Won’t fix\n以后此项目进行分析时此问题自动标记。\n其他项目(Key不同)还是会报此问题。\n\n\n\n\n思路：Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。\n\n主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：\n例如：修改maven pom文件 artifactId增加 master&#x2F;admin&#x2F;scm 后缀\n\n\n更新Dev开发过程项目标记规则到主干。\n\n\n同步不同项目标记规则：\n安装Issue resolver插件：\nExport and import resolved issues (false-positive and won’t fix) from SonarQube projects.\n\n\n更新dev项目标记规则到主干项目：\nweb端操作方法：  \n\n\n\nApi调用方法：\n查看：http://ip:9000/web_api/api/issueresolver  \n\n\n\n\n\n","dateCreated":"2017-08-02T11:22:16+08:00","dateModified":"2018-05-04T17:47:48+08:00","datePublished":"2017-08-02T11:22:16+08:00","description":"","headline":"持续代码质量平台Sonar-5审计","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/54025/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/54025/","keywords":"Sonar"}</script>
     <meta name="description" content="背景：Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。   PS：  Sonarqube根据Key来唯一标示项目。 Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承： 如果一个问题本次标记为False Positive 或者 Won’t fix 以后此项目进行分析时此问题自动标记。 其他项目(K">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="持续代码质量平台Sonar-5审计">
@@ -365,7 +365,7 @@
 <h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。</p>
 <ol>
 <li>主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：<ul>
-<li>例如：修改maven pom文件 artifactId增加 master/admin/scm 后缀</li>
+<li>例如：修改maven pom文件 artifactId增加 master&#x2F;admin&#x2F;scm 后缀</li>
 </ul>
 </li>
 <li>更新Dev开发过程项目标记规则到主干。</li>
@@ -377,12 +377,12 @@
 </ul>
 </li>
 <li>更新dev项目标记规则到主干项目：<ul>
-<li>web端操作方法：<br><img src="/posts/54025/biaoji1.png" alt="logo"><br><img src="/posts/54025/biaoji2.png" alt="logo"></li>
+<li>web端操作方法：<br> <img src="/posts/54025/biaoji1.png" alt="logo"><br> <img src="/posts/54025/biaoji2.png" alt="logo"></li>
 </ul>
 <hr>
 <ul>
 <li>Api调用方法：<ul>
-<li>查看：<a target="_blank" rel="noopener" href="http://ip:9000/web_api/api/issueresolver">http://ip:9000/web_api/api/issueresolver</a><br><img src="/posts/54025/api.png" alt="logo"></li>
+<li>查看：<a target="_blank" rel="noopener" href="http://ip:9000/web_api/api/issueresolver">http://ip:9000/web_api/api/issueresolver</a><br>  <img src="/posts/54025/api.png" alt="logo"></li>
 </ul>
 </li>
 </ul>

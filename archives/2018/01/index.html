@@ -355,7 +355,7 @@
 
 <h3 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h3><p>因为我的centos服务器上面已经装了postgresql的8.4.18版本；</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@gitlab0 ~]# rpm -qa|grep postgres</span><br><span class="line">postgresql-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-devel-8.4.18-1.el6_4.x86_64</span><br><span class="line">postgresql-libs-8.4.18-1.el6_4.x86_64</span><br></pre></td></tr></table></figure>
-<p>使用/opt/gitlab/embedded/bin/psql的时候找不到对应的库(/opt/gitlab/embedded/lib/postgresql)。</p>
+<p>使用&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;bin&#x2F;psql的时候找不到对应的库(&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib&#x2F;postgresql)。</p>
 <h3 id="解决方法1"><a href="#解决方法1" class="headerlink" title="解决方法1:"></a>解决方法1:</h3><p>卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。</p>
 <p>卸载gitlab方法如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl uninstall</span><br><span class="line">sudo gitlab-ctl cleanse</span><br><span class="line">sudo rm -rf /opt/gitlab</span><br></pre></td></tr></table></figure>
@@ -364,7 +364,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line"></span><br><span class="line">export LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......</span><br><span class="line"></span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line"># echo $LD_LIBRARY_PATH</span><br><span class="line"></span><br><span class="line">/opt/gitlab/embedded/lib:/tmp/product.......</span><br></pre></td></tr></table></figure>
 <p>PS：</p>
 <ol>
-<li>增加/opt/gitlab/embedded/lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。</li>
+<li>增加&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。</li>
 <li>路径之间使用:分隔</li>
 </ol>
 <p>然后再执行#gitlab-ctl reconfigure，即可成功。</p>

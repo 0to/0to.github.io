@@ -367,7 +367,8 @@
 <h3 id="3-推送npm包到nexus"><a href="#3-推送npm包到nexus" class="headerlink" title="3.推送npm包到nexus"></a>3.推送npm包到nexus</h3><p>有👇两种方式</p>
 <ul>
 <li><p>命令行 + 发布路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish –registry http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>package.json配置发布路径（推荐）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">项目package.json增加👇配置：</span><br><span class="line"></span><br><span class="line">&quot;publishConfig&quot; : &#123;</span><br><span class="line">  &quot;registry&quot; : &quot;http://$&#123;ip&#125;:8081/repository/$&#123;npm_hosted&#125;/&quot;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行👇命令即可</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure></li>
 </ul>
@@ -440,47 +441,31 @@
 <li>所以不能通过 copy原Nexus2.x服务器上的 repositories目录 到nexus3.X，刷新index方式来迁移。</li>
 </ul>
 <h3 id="迁移导入方法："><a href="#迁移导入方法：" class="headerlink" title="迁移导入方法："></a>迁移导入方法：</h3><ol>
-<li><p><a target="_blank" rel="noopener" href="https://help.sonatype.com/display/NXRM3/Upgrading">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：</p>
-<pre><code> - 需要原nexus版本为2.14.x版本
- - 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3
-</code></pre>
+<li><p><a target="_blank" rel="noopener" href="https://help.sonatype.com/display/NXRM3/Upgrading">官方Upgrading</a><br> 具体实施可以参考上一篇blog。<br> 这种方法有两个小问题：<br> - 需要原nexus版本为2.14.x版本<br> - 每个nexus2导入都会在nexus3上面都会创建一个仓库，不适合有多个nexus2统一迁移到一个nexus3</p>
 </li>
-<li><p>mvn deploy命令上传<br> 如果原nexus2待迁移的jar包并不多，可以使用这种方式。</p>
-<pre><code> 1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）
- mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -Dfile=$path/XX.jar
-
- 2. 上传jar 和 pom.xml (pom里面有依赖)
- mvn deploy:deploy-file -DgroupId=$groupId -DartifactId=$artifactId -Dversion=$version -DgeneratePom=false -Dpackaging=jar -DrepositoryId=nexus -Durl=http://$ip:8081/repository/$repository_name -DpomFile=$path/pom.xml -Dfile=$path/XX.jar
-</code></pre>
-<p> 需要注意：</p>
-<pre><code> - 命令里面-DrepositoryId=nexus对应的是本机mvn settings.xml文件配置&lt;server&gt; &lt;id&gt;
- - 写脚本封装上面命令实现批量迁移
-</code></pre>
+<li><p>mvn deploy命令上传<br> 如果原nexus2待迁移的jar包并不多，可以使用这种方式。<br> 1. 只上传jar，自动生成pom.xml （独立jar，pom不需要依赖其它）<br> mvn deploy:deploy-file -DgroupId&#x3D;$groupId -DartifactId&#x3D;$artifactId -Dversion&#x3D;$version -Dpackaging&#x3D;jar -DrepositoryId&#x3D;nexus -Durl&#x3D;http:&#x2F;&#x2F;$ip:8081&#x2F;repository&#x2F;$repository_name -Dfile&#x3D;$path&#x2F;XX.jar<br><br> 2. 上传jar 和 pom.xml (pom里面有依赖)<br> mvn deploy:deploy-file -DgroupId&#x3D;$groupId -DartifactId&#x3D;$artifactId -Dversion&#x3D;$version -DgeneratePom&#x3D;false -Dpackaging&#x3D;jar -DrepositoryId&#x3D;nexus -Durl&#x3D;http:&#x2F;&#x2F;$ip:8081&#x2F;repository&#x2F;$repository_name -DpomFile&#x3D;$path&#x2F;pom.xml -Dfile&#x3D;$path&#x2F;XX.jar<br> 需要注意：<br> - 命令里面-DrepositoryId&#x3D;nexus对应的是本机mvn settings.xml文件配置<server> <id><br> - 写脚本封装上面命令实现批量迁移</id></server></p>
 </li>
-<li><p>http协议上传<br> 直接使用http put 文件到/repository/$repo-id/$path-of-file</p>
-<pre><code> curl -v -u admin:admin123 --upload-file pom.xml http://$ip:8081/repository/maven-releases/org/foo/1.0/foo-1.0.pom
-</code></pre>
-<p> 我们需要上传的文件：jar和pom.xml</p>
+<li><p>http协议上传<br> 直接使用http put 文件到&#x2F;repository&#x2F;$repo-id&#x2F;$path-of-file<br> curl -v -u admin:admin123 –upload-file pom.xml http:&#x2F;&#x2F;$ip:8081&#x2F;repository&#x2F;maven-releases&#x2F;org&#x2F;foo&#x2F;1.0&#x2F;foo-1.0.pom<br> 我们需要上传的文件：jar和pom.xml</p>
 <p> 创建 mavenimport.sh 脚本如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Get command line params</span><br><span class="line">while getopts &quot;:r:u:p:&quot; opt; do</span><br><span class="line">    case $opt in</span><br><span class="line">        r) REPO_URL=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        u) USERNAME=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        p) PASSWORD=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">find . -type f -not -path &#x27;*/\.*&#x27; -not -path &#x27;*/\^archetype\-catalog\.xml*&#x27; -not -path &#x27;*/\^maven\-metadata\-local*\.xml&#x27; -not -path &#x27;*/\^maven\-metadata\-deployment*\.xml&#x27; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</span><br></pre></td></tr></table></figure>
-
-<p> 登陆到Nexus2.x服务器执行</p>
-<pre><code> cd $releases_dir
- cp $path/mavenimport.sh .
- sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name
-
- cd $snapshots_dir
- cp $path/mavenimport.sh .
- sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name
-</code></pre>
-<p> 需要注意：</p>
-<pre><code> - 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）
- - 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。
- - 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。
- - 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。
-</code></pre>
 </li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Get command line params</span><br><span class="line">while getopts &quot;:r:u:p:&quot; opt; do</span><br><span class="line">    case $opt in</span><br><span class="line">        r) REPO_URL=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        u) USERNAME=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        p) PASSWORD=&quot;$OPTARG&quot;</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">find . -type f -not -path &#x27;*/\.*&#x27; -not -path &#x27;*/\^archetype\-catalog\.xml*&#x27; -not -path &#x27;*/\^maven\-metadata\-local*\.xml&#x27; -not -path &#x27;*/\^maven\-metadata\-deployment*\.xml&#x27; -exec curl -u $USERNAME:$PASSWORD -X PUT -v -T &#123;&#125; $REPO_URL&#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<pre><code>登陆到Nexus2.x服务器执行
+    cd $releases_dir
+    cp $path/mavenimport.sh .
+    sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$release_repository_name
+
+    cd $snapshots_dir
+    cp $path/mavenimport.sh .
+    sh mavenimport.sh -u admin -p admin123 -r http://$ip:8081/repository/$snapshots_repository_name
+
+需要注意：
+    - 上面命令里面 -u admin -p admin123 请更换成nexus管理员帐户密码 （nexus默认管理员/密码 admin/admin123）
+    - 上面命令里面 $releases_dir 是指Nexus2.x服务器上存储releases仓库路径。
+    - 上面命令里面 $snapshots_dir 是指Nexus2.x服务器上存储snapshots仓库路径。
+    - 如果不切换到上面目录里面，那么上传的jar包 group_id会有问题。
+</code></pre>
 
                     
                         
@@ -578,19 +563,19 @@
 <li>搭建nexus2.14.5<ul>
 <li><a target="_blank" rel="noopener" href="https://www.sonatype.com/nexus-repository-oss">官网下载</a> All platforms - Nexus Repository Manager OSS 2.x - bundle.zip</li>
 <li>解压缩、安装运行</li>
-<li>ps：windows遇到的坑,需要使用管理员权限进行cmd安装<br><img src="/posts/7037/win1.png" alt="logo"><br><img src="/posts/7037/win2.png" alt="logo"><br><img src="/posts/7037/win3.png" alt="logo"></li>
+<li>ps：windows遇到的坑,需要使用管理员权限进行cmd安装<br> <img src="/posts/7037/win1.png" alt="logo"><br> <img src="/posts/7037/win2.png" alt="logo"><br> <img src="/posts/7037/win3.png" alt="logo"></li>
 </ul>
 </li>
 <li>迁移原有nexus2.13.0仓库到nexus2.14.5<ul>
 <li>仓库存放目录：sonatype-work\nexus\storage</li>
 <li>拷贝原nexus2.13.0的sonatype-work\nexus\storage\releases目录下的依赖文件</li>
 <li>覆盖nexus2.14.5的releases目录文件</li>
-<li>重启nexus2.14.5并刷新索引<br><img src="/posts/7037/win4.png" alt="logo"><br><img src="/posts/7037/win5.png" alt="logo"><br><img src="/posts/7037/win6.png" alt="logo"></li>
+<li>重启nexus2.14.5并刷新索引<br> <img src="/posts/7037/win4.png" alt="logo"><br> <img src="/posts/7037/win5.png" alt="logo"><br> <img src="/posts/7037/win6.png" alt="logo"></li>
 </ul>
 </li>
 <li>迁移nexus2.14.5仓库到nexus3.6.0<ul>
-<li>在nexus2.14.5上面配置Upgrade Agent<br><img src="/posts/7037/win7.png" alt="logo"><br><img src="/posts/7037/win8.png" alt="logo"></li>
-<li>在nexus3.6.0上面执行Upgrade<br><img src="/posts/7037/win10.png" alt="logo"><br><img src="/posts/7037/win11.png" alt="logo"><br><img src="/posts/7037/win12.png" alt="logo"><br><img src="/posts/7037/win13.png" alt="logo"><br><img src="/posts/7037/win14.png" alt="logo"><br><img src="/posts/7037/win15.png" alt="logo"><br><img src="/posts/7037/win16.png" alt="logo"><br><img src="/posts/7037/win17.png" alt="logo"><br><img src="/posts/7037/win18.png" alt="logo"><br><img src="/posts/7037/win19.png" alt="logo"></li>
+<li>在nexus2.14.5上面配置Upgrade Agent<br> <img src="/posts/7037/win7.png" alt="logo"><br> <img src="/posts/7037/win8.png" alt="logo"></li>
+<li>在nexus3.6.0上面执行Upgrade<br> <img src="/posts/7037/win10.png" alt="logo"><br> <img src="/posts/7037/win11.png" alt="logo"><br> <img src="/posts/7037/win12.png" alt="logo"><br> <img src="/posts/7037/win13.png" alt="logo"><br> <img src="/posts/7037/win14.png" alt="logo"><br> <img src="/posts/7037/win15.png" alt="logo"><br> <img src="/posts/7037/win16.png" alt="logo"><br> <img src="/posts/7037/win17.png" alt="logo"><br> <img src="/posts/7037/win18.png" alt="logo"><br> <img src="/posts/7037/win19.png" alt="logo"></li>
 </ul>
 </li>
 </ol>
@@ -700,8 +685,8 @@
 <li>配置windows服务：<a target="_blank" rel="noopener" href="https://help.sonatype.com/display/NXRM3/Run+as+a+Service">官方文档</a><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$install-dir/bin/nexus.exe /install &lt;optional-service-name&gt;</span><br></pre></td></tr></table></figure></li>
 <li>启动服务：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nexus.exe /start &lt;optional-service-name&gt;</span><br></pre></td></tr></table></figure></li>
 <li>网页端登陆配置Nexus<ul>
-<li>http://$ip:8081</li>
-<li>用户名/密码：admin/admin123</li>
+<li>http:&#x2F;&#x2F;$ip:8081</li>
+<li>用户名&#x2F;密码：admin&#x2F;admin123</li>
 </ul>
 </li>
 </ol>
@@ -721,7 +706,7 @@
 <li>hosted   本地内部仓库</li>
 <li>group    组合仓库<br><img src="/posts/28954/nexus_res.png" alt="logo"></li>
 </ol>
-<h1 id="Maven依赖私服配置"><a href="#Maven依赖私服配置" class="headerlink" title="Maven依赖私服配置"></a>Maven依赖私服配置</h1><p>修改~/.m2/settings.xml</p>
+<h1 id="Maven依赖私服配置"><a href="#Maven依赖私服配置" class="headerlink" title="Maven依赖私服配置"></a>Maven依赖私服配置</h1><p>修改~&#x2F;.m2&#x2F;settings.xml</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">  &lt;servers&gt;</span><br><span class="line">    &lt;server&gt;</span><br><span class="line">      &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">      &lt;username&gt;用户名&lt;/username&gt;</span><br><span class="line">      &lt;password&gt;密码&lt;/password&gt;</span><br><span class="line">    &lt;/server&gt;</span><br><span class="line">  &lt;/servers&gt;</span><br><span class="line">  &lt;mirrors&gt;</span><br><span class="line">    &lt;mirror&gt;</span><br><span class="line">    &lt;!--This sends everything else to /public --&gt;</span><br><span class="line">    &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">    &lt;url&gt;http://$ip:8081/repository/maven-public/&lt;/url&gt;</span><br><span class="line">    &lt;/mirror&gt;</span><br><span class="line">  &lt;/mirrors&gt;</span><br><span class="line">  &lt;profiles&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">    &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">    &lt;!--Enable snapshots for the built in central repo to direct --&gt;</span><br><span class="line">    &lt;!--all requests to nexus via the mirror --&gt;</span><br><span class="line">    &lt;repositories&gt;</span><br><span class="line">        &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">        &lt;/repository&gt;</span><br><span class="line">    &lt;/repositories&gt;</span><br><span class="line">    &lt;pluginRepositories&gt;</span><br><span class="line">        &lt;pluginRepository&gt;</span><br><span class="line">        &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">        &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">        &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">        &lt;/pluginRepository&gt;</span><br><span class="line">    &lt;/pluginRepositories&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">  &lt;/profiles&gt;</span><br><span class="line">  &lt;activeProfiles&gt;</span><br><span class="line">    &lt;!--make the profile active all the time --&gt;</span><br><span class="line">    &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</span><br><span class="line">  &lt;/activeProfiles&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
 
 <h1 id="内部项目上传jar包："><a href="#内部项目上传jar包：" class="headerlink" title="内部项目上传jar包："></a>内部项目上传jar包：</h1><p>修改项目pom.xml文件增加</p>
