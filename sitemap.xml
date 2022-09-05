@@ -214,7 +214,7 @@
 
   <url>
     <loc>https://0to.github.io/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -222,77 +222,77 @@
   
   <url>
     <loc>https://0to.github.io/tags/jira/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/confluence/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/Git/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/Gerrit/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/Sonar/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/Jenkins/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/nexus/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/Gitlab/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/maven/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/OpenGrok/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/tags/Admin/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -301,21 +301,21 @@
   
   <url>
     <loc>https://0to.github.io/categories/PM/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/categories/SCM/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://0to.github.io/categories/SYS/</loc>
-    <lastmod>2022-05-23</lastmod>
+    <lastmod>2022-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
