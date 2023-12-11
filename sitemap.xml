@@ -1,16 +1,383 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://0to.github.io/posts/59499/</loc>
+    
+    <lastmod>2020-11-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/22197/</loc>
+    
+    <lastmod>2020-10-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/15762/</loc>
+    
+    <lastmod>2020-07-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/43943/</loc>
+    
+    <lastmod>2020-03-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/9613/</loc>
+    
+    <lastmod>2020-03-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/42921/</loc>
+    
+    <lastmod>2019-10-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/31267/</loc>
+    
+    <lastmod>2019-09-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/1056/</loc>
+    
+    <lastmod>2018-07-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/20597/</loc>
+    
+    <lastmod>2018-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/60810/</loc>
+    
+    <lastmod>2018-05-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/17688/</loc>
+    
+    <lastmod>2018-05-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/28954/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/7037/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/60120/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/2248/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/61445/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/32389/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/52695/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/54025/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/7875/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/32302/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/all-tags/index.html</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/all-archives/index.html</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/27558/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/all-categories/index.html</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/51385/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/35560/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/62558/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/33032/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/posts/19471/</loc>
+    
+    <lastmod>2018-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
+  <url>
+    <loc>https://0to.github.io/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
 
-    <sitemap>
-        <loc>https://0to.github.io/post-sitemap.xml</loc>
-        <lastmod>2020-11-20T14:45:21.566Z</lastmod>
-    </sitemap>
+  
+  <url>
+    <loc>https://0to.github.io/tags/jira/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/confluence/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/Git/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/Gerrit/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/Sonar/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/Jenkins/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/nexus/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/Gitlab/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/maven/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/OpenGrok/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/Admin/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
-    <sitemap>
-        <loc>https://0to.github.io/page-sitemap.xml</loc>
-        <lastmod>2018-05-04T07:38:27.443Z</lastmod>
-    </sitemap>
-
-</sitemapindex>
-<!-- XML Sitemap generated by Hexo SEO Friendly Sitemap Generator -->
+  
+  <url>
+    <loc>https://0to.github.io/categories/PM/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/categories/SCM/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/categories/SYS/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+</urlset>
