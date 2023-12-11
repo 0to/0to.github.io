@@ -281,6 +281,20 @@
 
   
   <url>
+    <loc>https://0to.github.io/tags/Gerrit/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://0to.github.io/tags/Git/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://0to.github.io/tags/jira/</loc>
     <lastmod>2023-12-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -295,28 +309,7 @@
   </url>
   
   <url>
-    <loc>https://0to.github.io/tags/Git/</loc>
-    <lastmod>2023-12-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://0to.github.io/tags/Gerrit/</loc>
-    <lastmod>2023-12-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://0to.github.io/tags/Sonar/</loc>
-    <lastmod>2023-12-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://0to.github.io/tags/Jenkins/</loc>
     <lastmod>2023-12-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -337,7 +330,7 @@
   </url>
   
   <url>
-    <loc>https://0to.github.io/tags/maven/</loc>
+    <loc>https://0to.github.io/tags/Jenkins/</loc>
     <lastmod>2023-12-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -357,17 +350,24 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://0to.github.io/tags/maven/</loc>
+    <lastmod>2023-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
-    <loc>https://0to.github.io/categories/PM/</loc>
+    <loc>https://0to.github.io/categories/SCM/</loc>
     <lastmod>2023-12-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://0to.github.io/categories/SCM/</loc>
+    <loc>https://0to.github.io/categories/PM/</loc>
     <lastmod>2023-12-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

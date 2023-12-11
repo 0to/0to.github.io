@@ -431,11 +431,9 @@
 <li>GIT：2.16.2</li>
 </ul>
 <h1 id="迁移步骤："><a href="#迁移步骤：" class="headerlink" title="迁移步骤："></a>迁移步骤：</h1><ol>
-<li>获取指定svn代码库涉及的开发同学名单并转换：<br> svn log $SVN_URL –xml | grep author | sort -u | perl -pe ‘s&#x2F;.<em>&gt;(.</em>?)&lt;.*&#x2F;$1 &#x3D; &#x2F;‘ &gt; user.txt<br>user.txt内容如下：<br> dev1_name &#x3D;<br> dev2_name &#x3D;<br>因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。<br> 修改上述命令得到的user.txt如下：<br> dev1_name &#x3D; dev1_name<dev1_email><br> dev2_name &#x3D; dev2_name<dev2_email></dev2_email></dev1_email></li>
-<li>使用git svn cloned代码库到本地：<br> git svn clone $SVN_URL –no-metadata –authors-file&#x3D;user.txt -s</li>
-<li>调整本地库目录结构：<br> cd $project_dir<br> mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;tags&#x2F;$tags_name .git&#x2F;refs&#x2F;tags&#x2F;<br> mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;$branches_name .git&#x2F;refs&#x2F;heads&#x2F;<br> rm -rf .git&#x2F;refs&#x2F;remotes&#x2F;origin</li>
-<li>上传本地库到remote仓库：<br> git remote add origin $GIT_URL<br> git push origin –all<br> git push origin –tags</li>
+<li>获取指定svn代码库涉及的开发同学名单并转换：<br> svn log $SVN_URL –xml | grep author | sort -u | perl -pe ‘s&#x2F;.<em>&gt;(.</em>?)&lt;.*&#x2F;$1 &#x3D; &#x2F;‘ &gt; user.txt</li>
 </ol>
+<p>user.txt内容如下：<br>        dev1_name &#x3D;<br>        dev2_name &#x3D;<br>因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。<br>        修改上述命令得到的user.txt如下：<br>        dev1_name &#x3D; dev1_name<dev1_email><br>        dev2_name &#x3D; dev2_name<dev2_email><br>2. 使用git svn cloned代码库到本地：<br>        git svn clone $SVN_URL –no-metadata –authors-file&#x3D;user.txt -s<br>3. 调整本地库目录结构：<br>        cd $project_dir<br>        mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;tags&#x2F;$tags_name .git&#x2F;refs&#x2F;tags&#x2F;<br>        mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;$branches_name .git&#x2F;refs&#x2F;heads&#x2F;<br>        rm -rf .git&#x2F;refs&#x2F;remotes&#x2F;origin<br>4. 上传本地库到remote仓库：<br>        git remote add origin $GIT_URL<br>        git push origin –all<br>        git push origin –tags</dev2_email></dev1_email></p>
 <h3 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h3><ol>
 <li>如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。<br> git svn clone $SVN_URL -r $指定版本:HEAD</li>
 <li>较新版本的git都原生带了 git svn命令，如果你使用的git版本没有此命令，建议升级新版git或者单独安装git-svn命令。</li>

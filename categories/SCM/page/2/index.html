@@ -697,36 +697,12 @@
                     <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><pre><code>Dev已经习惯使用Sonarqube进行静态代码扫描，现准备进行阶段审计看下使用效果怎么样。
 </code></pre>
 <hr>
-<p>PS：</p>
-<ol>
-<li>Sonarqube根据Key来唯一标示项目。</li>
-<li>Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：<ul>
-<li>如果一个问题本次标记为False Positive 或者 Won’t fix</li>
-<li>以后此项目进行分析时此问题自动标记。</li>
-<li>其他项目(Key不同)还是会报此问题。<br><img src="/posts/54025/resolutions.png" alt="logo"><br><img src="/posts/54025/resolution2.png" alt="logo"></li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。</p>
-<ol>
-<li>主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：<ul>
-<li>例如：修改maven pom文件 artifactId增加 master&#x2F;admin&#x2F;scm 后缀</li>
-</ul>
-</li>
-<li>更新Dev开发过程项目标记规则到主干。</li>
-</ol>
-<hr>
-<h2 id="同步不同项目标记规则："><a href="#同步不同项目标记规则：" class="headerlink" title="同步不同项目标记规则："></a>同步不同项目标记规则：</h2><ol>
+<h2 id="PS：1-Sonarqube根据Key来唯一标示项目。2-Resolution-里面的False-Positive（误报）和-Won’t-fix（暂不处理）会自动继承：-如果一个问题本次标记为False-Positive-或者-Won’t-fix-以后此项目进行分析时此问题自动标记。-其他项目-Key不同-还是会报此问题。"><a href="#PS：1-Sonarqube根据Key来唯一标示项目。2-Resolution-里面的False-Positive（误报）和-Won’t-fix（暂不处理）会自动继承：-如果一个问题本次标记为False-Positive-或者-Won’t-fix-以后此项目进行分析时此问题自动标记。-其他项目-Key不同-还是会报此问题。" class="headerlink" title="PS：1. Sonarqube根据Key来唯一标示项目。2. Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：    - 如果一个问题本次标记为False Positive 或者 Won’t fix    - 以后此项目进行分析时此问题自动标记。    - 其他项目(Key不同)还是会报此问题。"></a>PS：<br>1. Sonarqube根据Key来唯一标示项目。<br>2. Resolution 里面的False Positive（误报）和 Won’t fix（暂不处理）会自动继承：<br>    - 如果一个问题本次标记为False Positive 或者 Won’t fix<br>    - 以后此项目进行分析时此问题自动标记。<br>    - 其他项目(Key不同)还是会报此问题。<br><img src="/posts/54025/resolutions.png" alt="logo"><br><img src="/posts/54025/resolution2.png" alt="logo"></h2><h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><h2 id="Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。1-主干代码静态代码扫描时Project-Key增加统一标志来区分Dev开发过程扫描：-例如：修改maven-pom文件-artifactId增加-master-admin-scm-后缀2-更新Dev开发过程项目标记规则到主干。"><a href="#Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。1-主干代码静态代码扫描时Project-Key增加统一标志来区分Dev开发过程扫描：-例如：修改maven-pom文件-artifactId增加-master-admin-scm-后缀2-更新Dev开发过程项目标记规则到主干。" class="headerlink" title="Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。1. 主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：    - 例如：修改maven pom文件 artifactId增加 master&#x2F;admin&#x2F;scm 后缀2. 更新Dev开发过程项目标记规则到主干。"></a>Dev正常进行开发过程的静态代码扫描，SCM对项目主干（master）代码进行轮询静态代码扫描。<br>1. 主干代码静态代码扫描时Project Key增加统一标志来区分Dev开发过程扫描：<br>    - 例如：修改maven pom文件 artifactId增加 master&#x2F;admin&#x2F;scm 后缀<br>2. 更新Dev开发过程项目标记规则到主干。</h2><h2 id="同步不同项目标记规则："><a href="#同步不同项目标记规则：" class="headerlink" title="同步不同项目标记规则："></a>同步不同项目标记规则：</h2><ol>
 <li>安装Issue resolver插件：<ul>
 <li>Export and import resolved issues (false-positive and won’t fix) from SonarQube projects.</li>
 </ul>
 </li>
-<li>更新dev项目标记规则到主干项目：<ul>
-<li>web端操作方法：<br> <img src="/posts/54025/biaoji1.png" alt="logo"><br> <img src="/posts/54025/biaoji2.png" alt="logo"></li>
-</ul>
-<hr>
-<ul>
+<li><h2 id="更新dev项目标记规则到主干项目：-web端操作方法："><a href="#更新dev项目标记规则到主干项目：-web端操作方法：" class="headerlink" title="更新dev项目标记规则到主干项目： - web端操作方法：  "></a>更新dev项目标记规则到主干项目：<br> - web端操作方法：<br> <img src="/posts/54025/biaoji1.png" alt="logo"><br> <img src="/posts/54025/biaoji2.png" alt="logo"></h2><ul>
 <li>Api调用方法：<ul>
 <li>查看：<a target="_blank" rel="noopener" href="http://ip:9000/web_api/api/issueresolver">http://ip:9000/web_api/api/issueresolver</a><br>  <img src="/posts/54025/api.png" alt="logo"></li>
 </ul>
