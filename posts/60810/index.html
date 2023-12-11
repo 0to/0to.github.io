@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\n下载地址：官方网站\n软硬件需求：官方文档\n安装方法：官方文档\n\nPS：\n\nSonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。\nSonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。\n\n搭建环境\nOS：      Windows Server 2012 R2\nJDK:      1.8.0_71\nDB:       Mysql 5.6.26\nSonar:    6.3.1\n\n搭建步骤\n安装JDK\n1234C:\\Users\\Administrator&gt;java -versionjava version &quot;1.8.0_71&quot;Java(TM) SE Runtime Environment (build 1.8.0_71-b15)Java HotSpot(TM) 64-Bit Server VM (build 25.71-b15, mixed mode)\n安装Mysql\n12C:\\Users\\Administrator&gt;mysql -Vmysql  Ver 14.14 Distrib 5.6.26, for Win64 (x86_64)\n创建数据库和用户\n12345678# 创建sonar数据库CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;# 创建sonar用户CREATE USER &#x27;sonar&#x27; IDENTIFIED BY &#x27;passwd&#x27;;# 赋予sonar用户对sonar数据库权限GRANT ALL ON sonar.* TO &#x27;sonar&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;passwd&#x27;;GRANT ALL ON sonar.* TO &#x27;sonar&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;passwd&#x27;;FLUSH PRIVILEGES;\n安装Sonarqube\n\n解压缩sonarqube-6.3.1.zip到D:\\scm\\sonarqube-6.3.1\n\n修改配置D:\\scm\\sonarqube-6.3.1\\conf\\sonar.properties\n\nsonar.jdbc.username&#x3D;sonar\nsonar.jdbc.password&#x3D;passwd\nsonar.jdbc.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;sonar?useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf8&amp;rewriteBatchedStatements&#x3D;true&amp;useConfigs&#x3D;maxPerformance\nsonar.web.host&#x3D;本机IP\nsonar.web.context&#x3D;\nsonar.web.port&#x3D;9000\nsonar.web.http.maxThreads&#x3D;500\n\n\n配置Sonarqube windows服务\n\n以管理员身份运行D:\\scm\\sonarqube-6.3.1\\bin\\windows-x86-64\\InstallNTService.bat创建服务  \n配置Administrator账户运行Sonarqube服务  \n启动Sonarqube服务\n建议使用上面配置的windows service启动\n也可以直接运行D:\\scm\\sonarqube-6.3.1\\bin\\windows-x86-64\\StartSonar.bat\n\n\n\n\n\n\n网页端登陆配置Sonarqube\n\nhttp:&#x2F;&#x2F;搭建机器ip:9000\n用户名&#x2F;密码：admin\n\n\n\n\nPS1：在安装的过程中遇到问题：\n\n运行InstallNTService.bat生成系统服务的时候没有使用管理员身份；\nSonarqube服务创建成功，但是启动的时候失败；12342017.06.20 14:34:50 ERROR web[][o.a.c.c.C.[.[.[/]] Exception sending context initialized event to listener instance of class org.sonar.server.platform.web.PlatformServletContextListenerorg.sonar.api.utils.MessageException: Current version is too old. Please upgrade to Long Term Support version firstly.2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] One or more listeners failed to start. Full details will be found in the appropriate container log file2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] Context [] startup failed due to previous errors\n查看发现mysql数据库sonar已经有了很多表；\n\n解决方法：\n\n删除sonar数据库里面的表，删除Sonarqube服务\n安装上面过程：先以管理员身份运行InstallNTService.bat，然后配置Administrator账户运行Sonarqube服务\n重新启动Sonarqube服务即可。\n\n\nPS2:如果Mysql数据库启用了binarylog的话，请设置为row格式。否则在启动Sonarqube的时候创建数据库表会报下面错误：\n12Error updating database.  Cause: java.sql.SQLException: Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.\n","dateCreated":"2017-06-20T16:33:00+08:00","dateModified":"2018-05-29T18:03:51+08:00","datePublished":"2017-06-20T16:33:00+08:00","description":"","headline":"持续代码质量平台Sonar-1搭建","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/60810/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/60810/","keywords":"Sonar"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\n下载地址：官方网站\n软硬件需求：官方文档\n安装方法：官方文档\n\nPS：\n\nSonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。\nSonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。\n\n搭建环境\nOS：      Windows Server 2012 R2\nJDK:      1.8.0_71\nDB:       Mysql 5.6.26\nSonar:    6.3.1\n\n搭建步骤\n安装JDK\n1234C:\\Users\\Administrator&gt;java -versionjava version &quot;1.8.0_71&quot;Java(TM) SE Runtime Environment (build 1.8.0_71-b15)Java HotSpot(TM) 64-Bit Server VM (build 25.71-b15, mixed mode)\n安装Mysql\n12C:\\Users\\Administrator&gt;mysql -Vmysql  Ver 14.14 Distrib 5.6.26, for Win64 (x86_64)\n创建数据库和用户\n12345678# 创建sonar数据库CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;# 创建sonar用户CREATE USER &#x27;sonar&#x27; IDENTIFIED BY &#x27;passwd&#x27;;# 赋予sonar用户对sonar数据库权限GRANT ALL ON sonar.* TO &#x27;sonar&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;passwd&#x27;;GRANT ALL ON sonar.* TO &#x27;sonar&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;passwd&#x27;;FLUSH PRIVILEGES;\n安装Sonarqube\n\n解压缩sonarqube-6.3.1.zip到D:\\scm\\sonarqube-6.3.1\n\n修改配置D:\\scm\\sonarqube-6.3.1\\conf\\sonar.properties\n\nsonar.jdbc.username&#x3D;sonar\nsonar.jdbc.password&#x3D;passwd\nsonar.jdbc.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;sonar?useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf8&amp;rewriteBatchedStatements&#x3D;true&amp;useConfigs&#x3D;maxPerformance\nsonar.web.host&#x3D;本机IP\nsonar.web.context&#x3D;\nsonar.web.port&#x3D;9000\nsonar.web.http.maxThreads&#x3D;500\n\n\n配置Sonarqube windows服务\n\n以管理员身份运行D:\\scm\\sonarqube-6.3.1\\bin\\windows-x86-64\\InstallNTService.bat创建服务  \n配置Administrator账户运行Sonarqube服务  \n启动Sonarqube服务\n建议使用上面配置的windows service启动\n也可以直接运行D:\\scm\\sonarqube-6.3.1\\bin\\windows-x86-64\\StartSonar.bat\n\n\n\n\n\n\n网页端登陆配置Sonarqube\n\nhttp:&#x2F;&#x2F;搭建机器ip:9000\n用户名&#x2F;密码：admin\n\n\n\n\nPS1：在安装的过程中遇到问题：\n\n运行InstallNTService.bat生成系统服务的时候没有使用管理员身份；\nSonarqube服务创建成功，但是启动的时候失败；12342017.06.20 14:34:50 ERROR web[][o.a.c.c.C.[.[.[/]] Exception sending context initialized event to listener instance of class org.sonar.server.platform.web.PlatformServletContextListenerorg.sonar.api.utils.MessageException: Current version is too old. Please upgrade to Long Term Support version firstly.2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] One or more listeners failed to start. Full details will be found in the appropriate container log file2017.06.20 14:34:50 ERROR web[][o.a.c.c.StandardContext] Context [] startup failed due to previous errors\n查看发现mysql数据库sonar已经有了很多表；\n\n解决方法：\n\n删除sonar数据库里面的表，删除Sonarqube服务\n安装上面过程：先以管理员身份运行InstallNTService.bat，然后配置Administrator账户运行Sonarqube服务\n重新启动Sonarqube服务即可。\n\n\nPS2:如果Mysql数据库启用了binarylog的话，请设置为row格式。否则在启动Sonarqube的时候创建数据库表会报下面错误：\n12Error updating database.  Cause: java.sql.SQLException: Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.\n","dateCreated":"2017-06-20T16:33:00+08:00","dateModified":"2018-05-29T18:03:51+08:00","datePublished":"2017-06-20T16:33:00+08:00","description":"","headline":"持续代码质量平台Sonar-1搭建","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/60810/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/60810/","keywords":"Sonar"}</script>
     <meta name="description" content="参考链接： 下载地址：官方网站 软硬件需求：官方文档 安装方法：官方文档  PS：  Sonarqube自带了轻量级的H2数据库，测试和跑少量项目是没有问题的。基于后期的性能、运维、扩展等考虑，我们选择使用Mysql数据库。 Sonarqube自带了web server，也可以使用Tomcat来进行加载。基于以往的使用经验默认的web server足够使用，我们选择默认。  搭建环境 OS：">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="持续代码质量平台Sonar-1搭建">
@@ -141,8 +141,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </h5>
                 
             </div>
         
@@ -250,22 +249,6 @@
                         >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="LinkedIn"
-                        >
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -557,7 +540,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Weilong. All Rights Reserved.
+        Copyrights &copy; 2023 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -739,8 +722,7 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </div>
         
         
             <div id="about-card-job">

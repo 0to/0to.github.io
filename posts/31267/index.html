@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"软件版本：1git version 2.23.0\n\n使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;永久存储密码：git config --global credential.helper store\n\n行结束符处理：\n\n\nOS\nLine Endings\nComments\n\n\n\nWindows\nCRLF\n每行结尾是 &lt;换行&gt;&lt;回车 &gt; ，即 \\n\\r\n\n\nMac OS X\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nUnix&#x2F;Linux\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nClassic macOS\nCR\n每行结尾是 &lt;回车&gt;，即 \\r\n\n\n1234567891011排除老Mac系统不讨论，项目组如果不是全Windows环境开发/部署的话，还是要自动处理下行结束符。# Windows用户执行下面配置命令：$ git config --global core.autocrlf true # 在提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF# Linux 和 Mac用户执行下面配置命令：（预防代码库已经有CRLF结束符的代码）$ git config --global core.autocrlf input # 在提交时把CRLF转换成LF，签出时不转换# 默认配置：$ git config --global core.autocrlf false # 提交和签出时都不对代码行结束符做转换\n","dateCreated":"2019-09-23T18:51:04+08:00","dateModified":"2019-09-23T19:45:10+08:00","datePublished":"2019-09-23T18:51:04+08:00","description":"","headline":"Git tips two","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/31267/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/31267/","keywords":"Git"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"软件版本：1git version 2.23.0\n\n使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &#x27;cache --timeout=3600&#x27;永久存储密码：git config --global credential.helper store\n\n行结束符处理：\n\n\nOS\nLine Endings\nComments\n\n\n\nWindows\nCRLF\n每行结尾是 &lt;换行&gt;&lt;回车 &gt; ，即 \\n\\r\n\n\nMac OS X\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nUnix&#x2F;Linux\nLF\n每行结尾只有 &lt;换行&gt; ，即 \\n\n\n\nClassic macOS\nCR\n每行结尾是 &lt;回车&gt;，即 \\r\n\n\n1234567891011排除老Mac系统不讨论，项目组如果不是全Windows环境开发/部署的话，还是要自动处理下行结束符。# Windows用户执行下面配置命令：$ git config --global core.autocrlf true # 在提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF# Linux 和 Mac用户执行下面配置命令：（预防代码库已经有CRLF结束符的代码）$ git config --global core.autocrlf input # 在提交时把CRLF转换成LF，签出时不转换# 默认配置：$ git config --global core.autocrlf false # 提交和签出时都不对代码行结束符做转换\n","dateCreated":"2019-09-23T18:51:04+08:00","dateModified":"2019-09-23T19:45:10+08:00","datePublished":"2019-09-23T18:51:04+08:00","description":"","headline":"Git tips two","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/31267/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/31267/","keywords":"Git"}</script>
     <meta name="description" content="软件版本：1git version 2.23.0  使用http&#x2F;https协议代码库地址，有时会出现不能存储密码，每次交互操作都需要输入帐户密码情况：123记住密码（默认15分钟）：git config --global credential.helper cache自己定义时间（一小时后失效）：git config credential.helper &amp;#x27;cache --ti">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Git tips two">
@@ -138,8 +138,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </h5>
                 
             </div>
         
@@ -247,22 +246,6 @@
                         >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="LinkedIn"
-                        >
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -514,7 +497,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Weilong. All Rights Reserved.
+        Copyrights &copy; 2023 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -696,8 +679,7 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </div>
         
         
             <div id="about-card-job">

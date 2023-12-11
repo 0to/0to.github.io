@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nAnalyzing with SonarQube Scanner for Gradle：官方文档\nGradle sonarqube插件：官方文档\nSonarqube Android Lint plugin：Github\n\n系统环境：\nGradle:       2.10\nSonarqube:    6.3.1\n\n背景：123公司使用java语言开发Android项目，使用Gradle作为构建工具。默认的Sonarway java规则也可以进行静态代码扫描。希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。\n\n\nSonarqube 安装 Android lint插件点击Quality Profiles查看Android Lint规则\n\nSonarqube 配置Android项目扫描规则我们配置一个新的Quality Profiles／java用于Android项目扫描。\n新规则 包含Java Sonar way的Bugs、Vulnerabilities 和 Android Lint的Code Smells\n\n本地配置使用\n配置系统gradle.properties增加下面内容 （～&#x2F;.gradle&#x2F;gradle.properties）\n\n123systemProp.sonar.host.url=http://ip:9000#----- Security (when &#x27;sonar.forceAuthentication&#x27; is set to &#x27;true&#x27;)systemProp.sonar.login=个人token\n\n\n\n修改项目build.gradle 相应位置增加下面配置\n\n1234567891011121314151617181920apply plugin: &quot;org.sonarqube&quot;buildscript &#123;    repositories &#123;        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;    &#125;    dependencies &#123;        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;    &#125;&#125;sonarqube &#123;    androidVariant &#x27;fullDebug&#x27;\tproperties &#123;        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;\t&#125;&#125;\n\n执行gradle lintDebug    生成lint-results-debug.xml\n\n执行gradle Sonarqube    构建、分析、上传\n\n\n","dateCreated":"2017-07-18T18:51:03+08:00","dateModified":"2018-05-04T17:47:33+08:00","datePublished":"2017-07-18T18:51:03+08:00","description":"","headline":"持续代码质量平台Sonar-4Android","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/7875/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/7875/","keywords":"Sonar"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nAnalyzing with SonarQube Scanner for Gradle：官方文档\nGradle sonarqube插件：官方文档\nSonarqube Android Lint plugin：Github\n\n系统环境：\nGradle:       2.10\nSonarqube:    6.3.1\n\n背景：123公司使用java语言开发Android项目，使用Gradle作为构建工具。默认的Sonarway java规则也可以进行静态代码扫描。希望增加业界常用的Android lint规则进行扫描，本文记录配置使用方法。\n\n\nSonarqube 安装 Android lint插件点击Quality Profiles查看Android Lint规则\n\nSonarqube 配置Android项目扫描规则我们配置一个新的Quality Profiles／java用于Android项目扫描。\n新规则 包含Java Sonar way的Bugs、Vulnerabilities 和 Android Lint的Code Smells\n\n本地配置使用\n配置系统gradle.properties增加下面内容 （～&#x2F;.gradle&#x2F;gradle.properties）\n\n123systemProp.sonar.host.url=http://ip:9000#----- Security (when &#x27;sonar.forceAuthentication&#x27; is set to &#x27;true&#x27;)systemProp.sonar.login=个人token\n\n\n\n修改项目build.gradle 相应位置增加下面配置\n\n1234567891011121314151617181920apply plugin: &quot;org.sonarqube&quot;buildscript &#123;    repositories &#123;        maven&#123;url &quot;https://plugins.gradle.org/m2/&quot;&#125;    &#125;    dependencies &#123;        classpath &quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5&quot;    &#125;&#125;sonarqube &#123;    androidVariant &#x27;fullDebug&#x27;\tproperties &#123;        property &quot;sonar.projectName&quot;, &quot;项目名称&quot;        property &quot;sonar.projectKey&quot;, &quot;项目Key&quot;        property &quot;sonar.projectDescription&quot;, &quot;项目描述&quot;        property &quot;sonar.projectVersion&quot;, &quot;项目版本&quot;        property &quot;sonar.profile&quot;, &quot;Android(上面新建的profile名称)&quot;        property &quot;sonar.android.lint.report&quot;, &quot;./build/outputs/lint-results-debug.xml&quot;\t&#125;&#125;\n\n执行gradle lintDebug    生成lint-results-debug.xml\n\n执行gradle Sonarqube    构建、分析、上传\n\n\n","dateCreated":"2017-07-18T18:51:03+08:00","dateModified":"2018-05-04T17:47:33+08:00","datePublished":"2017-07-18T18:51:03+08:00","description":"","headline":"持续代码质量平台Sonar-4Android","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/7875/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/7875/","keywords":"Sonar"}</script>
     <meta name="description" content="参考链接： Analyzing with SonarQube Scanner for Gradle：官方文档 Gradle sonarqube插件：官方文档 Sonarqube Android Lint plugin：Github  系统环境： Gradle:       2.10 Sonarqube:    6.3.1  背景：123公司使用java语言开发Android项目，使用Gradle作">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="持续代码质量平台Sonar-4Android">
@@ -148,8 +148,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </h5>
                 
             </div>
         
@@ -257,22 +256,6 @@
                         >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="LinkedIn"
-                        >
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -523,7 +506,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Weilong. All Rights Reserved.
+        Copyrights &copy; 2023 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -705,8 +688,7 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </div>
         
         
             <div id="about-card-job">

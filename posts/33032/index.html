@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nWiki：Static_program_analysis\nWiki：List_of_tools_for_static_code_analysis\n工具对比：checkstyle-vs-pmd-vs-findbugs\n工具对比：findbugs-checkstyle-pmd-coverity-sonarqube\n\n\n静态代码分析：\n定义：不运行计算机程序的条件下，进行程序分析的方法。\n目的：验证代码是否满足规范性、安全性、可靠性、可维护性等指标，发现代码缺陷并提高代码的质量。\n范围：源代码（主要）、编译产生的字节码。\n常用技术：\n词法分析：通过正则表达式匹配将源代码转换成标记序列。\n语法分析：判断源程序结构上是否正确，通过使用上下文无关语法将相关符号整理为语法树。\n语义分析：对结构上正确的源程序进行上下文有关性质的审查。\n抽象语法树：将程序组织成树形结构，树中相关节点代表了程序中的相关代码。\n控制流分析：生成有向控制流图，用节点表示基本代码块，节点间的有向边代表控制流路径，反向边表示可能存在的循环；还可生成函数调用关系图，表示函数间的嵌套关系。\n无效代码分析：根据控制流图可分析孤立的节点部分为无效代码。数据流分析：对控制流图进行遍历，记录变量的初始化点和引用点，保存切片相关数据信息。\n污点分析：基于数据流图判断源代码中哪些变量可能受到攻击，是验证程序输入、识别代码表达缺陷的关键。\n缺陷模式匹配：缺陷模式匹配事先从代码分析经验中收集足够多的共性缺陷模式，将待分析代码与已有的共性缺陷模式进行模式匹配，从而完成软件的安全分析。\n\n\n\n\nJava开源静态代码分析工具对比：\n\n\n工具\n源代码分析\n字节码分析\n定位\n官网地址\n版本\n其它语言支持\n\n\n\nCheckstyle\nY\n\n验证符合编码规则\nhttp://checkstyle.sourceforge.net\n7.8.2（2017.6.18）\n\n\n\nFindBugs\n\nY\n发现Bugs\nhttp://findbugs.sourceforge.net\n3.0.1（2015.3.6）\n\n\n\nPMD\nY\n\n发现缺陷\nhttps://pmd.github.io\n5.8.0（2017.6.24）\nY\n\n\nSonarqube\nY\nY\n持续质量平台\nhttps://www.sonarqube.org\n6.3.1（2017.4.12）\nY\n\n\nPS:1234567最初Sonarqube只是做静态代码分析结果聚类展示。后来随项目的发展，考虑到静态代码分析工具发展的不可控性（毕竟不属于自身项目），Sonarqube开始也涉及静态代码分析。在此过程中，Sonarqube借鉴了Checkstyle、FindBugs、PMD的规则方法。所以，本篇所指的Sonarqube既包含静态代码分析SonarJava（主要）又包含结果展示。以上参考下面链接：      https://groups.google.com/forum/#!topic/sonarqube/9M0iZ4OILVM      https://blog.sonarsource.com/sonarqube-java-analyzer-the-only-rule-engine-you-need/\n\n\nCheckstyle：官网：检查规则\n主要涉及以下几个方面：\n\n注解\njavadoc注释\n命名规范\n文件头\n导入包规范\n尺寸设置\n空格\n正则表达式\n修饰符\n代码块\n编码问题\n类设计问题\n重复、度量以及一些杂项\n\n\nFindBugs：官网：检查规则\n主要涉及以下几个方面：\n\nMultithreaded correctness - 如多线程编程时常见的同步、线程调度问题。\nPerformance - 如由变量定义、方法调用导致的代码低效问题。\nInternationalization - 如错误的字符串转换带来的国际化问题。\ncode vulnerabilities - 可能受到的恶意攻击，如访问权限修饰符的定义等。\npossible bugs - 可能导致错误的代码，如空指针引用，常见代码错误，序列化错误。\nBad practice - 如命名不规范（类名应以大写字母开头），没有finally来关闭IO流，不检查方法返回值等。\nCorrectness - 正确性问题，如instanceof永远返回false。\n\n\nPMD：官网：Java检查规则\n主要涉及以下几个方面：\n\nPossible bugs - empty try&#x2F;catch&#x2F;finally&#x2F;switch statements\nDead code - unused local variables, parameters and private methods\nSuboptimal code - wasteful String&#x2F;StringBuffer usage\nOvercomplicated expressions - unnecessary if statements, for loops that could be while loops\nDuplicate code - copied&#x2F;pasted code means copied&#x2F;pasted bugs\n\n\nSonarqube官网：Java检查规则\n主要涉及以下几个方面：\n\nBugs\nVulnerability\nCode Smell\n\n\nVS：规则覆盖：\n目前Sonarqube自带的SonarJava插件检查规则几乎包含了Checkstyle、FindBugs、PMD的规则。\n在具体的一些问题上面，几款工具各有千秋。\n存在同一个问题几款工具分别对其进行不同标注情况。\n\n结果输出展示：\nCheckstyle、FindBugs、PMD 运行结果输出支持Xml和Html格式。\nSonarqube 运行结果存入数据库，web端展示。支持和上次结果对比。可视化做的很赞！\n\n工具更新：\nFindBugs已经很久不更新了。\nCheckstyle、PMD、Sonarqube更新频率都挺高的。\n\n检查范围：\nFindBugs 只对编译产生的class文件进行检查\nCheckstyle、PMD 只对源代码进行插件\nSonarqube：\n对于所有支持的编程语言，SonarQube 都提供源了代码的静态分析功能；\n对于某些特定的编程语言，SonarQube 提供了对编译后代码的静态分析功能，比如 java 中的 class file 和 jar 和 C# 中的 dll file 等；\n对于某些特定的编程语言，SonarQube 还可以提供对于代码的动态分析功能，比如 java 和 C# 中的单元测试的执行等。\n\n\n\n\n结论：\n推荐使用Sonarqube来进行Java代码静态扫描。\n自带的SonarJava插件规则已经够用，建议直接上手使用。\n在使用过程中可以补充Checkstyle、FindBugs、PMD相应规则到Sonar检查。\n\n","dateCreated":"2017-06-20T16:32:48+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2017-06-20T16:32:48+08:00","description":"","headline":"Java static code analysis","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/33032/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/33032/","keywords":"Sonar"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nWiki：Static_program_analysis\nWiki：List_of_tools_for_static_code_analysis\n工具对比：checkstyle-vs-pmd-vs-findbugs\n工具对比：findbugs-checkstyle-pmd-coverity-sonarqube\n\n\n静态代码分析：\n定义：不运行计算机程序的条件下，进行程序分析的方法。\n目的：验证代码是否满足规范性、安全性、可靠性、可维护性等指标，发现代码缺陷并提高代码的质量。\n范围：源代码（主要）、编译产生的字节码。\n常用技术：\n词法分析：通过正则表达式匹配将源代码转换成标记序列。\n语法分析：判断源程序结构上是否正确，通过使用上下文无关语法将相关符号整理为语法树。\n语义分析：对结构上正确的源程序进行上下文有关性质的审查。\n抽象语法树：将程序组织成树形结构，树中相关节点代表了程序中的相关代码。\n控制流分析：生成有向控制流图，用节点表示基本代码块，节点间的有向边代表控制流路径，反向边表示可能存在的循环；还可生成函数调用关系图，表示函数间的嵌套关系。\n无效代码分析：根据控制流图可分析孤立的节点部分为无效代码。数据流分析：对控制流图进行遍历，记录变量的初始化点和引用点，保存切片相关数据信息。\n污点分析：基于数据流图判断源代码中哪些变量可能受到攻击，是验证程序输入、识别代码表达缺陷的关键。\n缺陷模式匹配：缺陷模式匹配事先从代码分析经验中收集足够多的共性缺陷模式，将待分析代码与已有的共性缺陷模式进行模式匹配，从而完成软件的安全分析。\n\n\n\n\nJava开源静态代码分析工具对比：\n\n\n工具\n源代码分析\n字节码分析\n定位\n官网地址\n版本\n其它语言支持\n\n\n\nCheckstyle\nY\n\n验证符合编码规则\nhttp://checkstyle.sourceforge.net\n7.8.2（2017.6.18）\n\n\n\nFindBugs\n\nY\n发现Bugs\nhttp://findbugs.sourceforge.net\n3.0.1（2015.3.6）\n\n\n\nPMD\nY\n\n发现缺陷\nhttps://pmd.github.io\n5.8.0（2017.6.24）\nY\n\n\nSonarqube\nY\nY\n持续质量平台\nhttps://www.sonarqube.org\n6.3.1（2017.4.12）\nY\n\n\nPS:1234567最初Sonarqube只是做静态代码分析结果聚类展示。后来随项目的发展，考虑到静态代码分析工具发展的不可控性（毕竟不属于自身项目），Sonarqube开始也涉及静态代码分析。在此过程中，Sonarqube借鉴了Checkstyle、FindBugs、PMD的规则方法。所以，本篇所指的Sonarqube既包含静态代码分析SonarJava（主要）又包含结果展示。以上参考下面链接：      https://groups.google.com/forum/#!topic/sonarqube/9M0iZ4OILVM      https://blog.sonarsource.com/sonarqube-java-analyzer-the-only-rule-engine-you-need/\n\n\nCheckstyle：官网：检查规则\n主要涉及以下几个方面：\n\n注解\njavadoc注释\n命名规范\n文件头\n导入包规范\n尺寸设置\n空格\n正则表达式\n修饰符\n代码块\n编码问题\n类设计问题\n重复、度量以及一些杂项\n\n\nFindBugs：官网：检查规则\n主要涉及以下几个方面：\n\nMultithreaded correctness - 如多线程编程时常见的同步、线程调度问题。\nPerformance - 如由变量定义、方法调用导致的代码低效问题。\nInternationalization - 如错误的字符串转换带来的国际化问题。\ncode vulnerabilities - 可能受到的恶意攻击，如访问权限修饰符的定义等。\npossible bugs - 可能导致错误的代码，如空指针引用，常见代码错误，序列化错误。\nBad practice - 如命名不规范（类名应以大写字母开头），没有finally来关闭IO流，不检查方法返回值等。\nCorrectness - 正确性问题，如instanceof永远返回false。\n\n\nPMD：官网：Java检查规则\n主要涉及以下几个方面：\n\nPossible bugs - empty try&#x2F;catch&#x2F;finally&#x2F;switch statements\nDead code - unused local variables, parameters and private methods\nSuboptimal code - wasteful String&#x2F;StringBuffer usage\nOvercomplicated expressions - unnecessary if statements, for loops that could be while loops\nDuplicate code - copied&#x2F;pasted code means copied&#x2F;pasted bugs\n\n\nSonarqube官网：Java检查规则\n主要涉及以下几个方面：\n\nBugs\nVulnerability\nCode Smell\n\n\nVS：规则覆盖：\n目前Sonarqube自带的SonarJava插件检查规则几乎包含了Checkstyle、FindBugs、PMD的规则。\n在具体的一些问题上面，几款工具各有千秋。\n存在同一个问题几款工具分别对其进行不同标注情况。\n\n结果输出展示：\nCheckstyle、FindBugs、PMD 运行结果输出支持Xml和Html格式。\nSonarqube 运行结果存入数据库，web端展示。支持和上次结果对比。可视化做的很赞！\n\n工具更新：\nFindBugs已经很久不更新了。\nCheckstyle、PMD、Sonarqube更新频率都挺高的。\n\n检查范围：\nFindBugs 只对编译产生的class文件进行检查\nCheckstyle、PMD 只对源代码进行插件\nSonarqube：\n对于所有支持的编程语言，SonarQube 都提供源了代码的静态分析功能；\n对于某些特定的编程语言，SonarQube 提供了对编译后代码的静态分析功能，比如 java 中的 class file 和 jar 和 C# 中的 dll file 等；\n对于某些特定的编程语言，SonarQube 还可以提供对于代码的动态分析功能，比如 java 和 C# 中的单元测试的执行等。\n\n\n\n\n结论：\n推荐使用Sonarqube来进行Java代码静态扫描。\n自带的SonarJava插件规则已经够用，建议直接上手使用。\n在使用过程中可以补充Checkstyle、FindBugs、PMD相应规则到Sonar检查。\n\n","dateCreated":"2017-06-20T16:32:48+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2017-06-20T16:32:48+08:00","description":"","headline":"Java static code analysis","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/33032/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/33032/","keywords":"Sonar"}</script>
     <meta name="description" content="参考链接： Wiki：Static_program_analysis Wiki：List_of_tools_for_static_code_analysis 工具对比：checkstyle-vs-pmd-vs-findbugs 工具对比：findbugs-checkstyle-pmd-coverity-sonarqube   静态代码分析： 定义：不运行计算机程序的条件下，进行程序分析的方法。 目">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Java static code analysis">
@@ -138,8 +138,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </h5>
                 
             </div>
         
@@ -247,22 +246,6 @@
                         >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="LinkedIn"
-                        >
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -633,7 +616,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Weilong. All Rights Reserved.
+        Copyrights &copy; 2023 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -815,8 +798,7 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </div>
         
         
             <div id="about-card-job">

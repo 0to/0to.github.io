@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景公司拆分子公司，需要把现有Gitlab也分离出来。\n搭建环境：\ncentos6.5\ngitlab8.8.5\n\n搭建方法：\nOmnibus package installation\n\n遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：\n123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams================================================================================Error executing action `run` on resource &#x27;execute[create gitlab database user]&#x27;================================================================================Mixlib::ShellOut::ShellCommandFailed------------------------------------Expected process to exit with [0], but received &#x27;127&#x27;---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----STDOUT:STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127\n\n问题分析：因为我的centos服务器上面已经装了postgresql的8.4.18版本；\n1234[root@gitlab0 ~]# rpm -qa|grep postgrespostgresql-8.4.18-1.el6_4.x86_64postgresql-devel-8.4.18-1.el6_4.x86_64postgresql-libs-8.4.18-1.el6_4.x86_64\n使用&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;bin&#x2F;psql的时候找不到对应的库(&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib&#x2F;postgresql)。\n解决方法1:卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。\n卸载gitlab方法如下：\n1234sudo gitlab-ctl stopsudo gitlab-ctl uninstallsudo gitlab-ctl cleansesudo rm -rf /opt/gitlab\n\n解决方法2:增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH\n123456789# vi /etc/profileexport LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......# source /etc/profile# echo $LD_LIBRARY_PATH/opt/gitlab/embedded/lib:/tmp/product.......\nPS：\n\n增加&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。\n路径之间使用:分隔\n\n然后再执行#gitlab-ctl reconfigure，即可成功。\n1gitlab Reconfigured!\n查看postgresql版本:\n1234[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --versionpsql (PostgreSQL) 9.2.16[root@gitlab0 ~]# psql --versionpsql (PostgreSQL) 8.4.18\n\n参考链接：http://dreamlikes.cn/archives/78\n","dateCreated":"2018-01-02T14:48:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-01-02T14:48:04+08:00","description":"","headline":"gitlab psql: undefined symbol: PQconnectdbParams","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/35560/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/35560/","keywords":"Gitlab"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景公司拆分子公司，需要把现有Gitlab也分离出来。\n搭建环境：\ncentos6.5\ngitlab8.8.5\n\n搭建方法：\nOmnibus package installation\n\n遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下：\n123456789101112131415[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams[execute] /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams================================================================================Error executing action `run` on resource &#x27;execute[create gitlab database user]&#x27;================================================================================Mixlib::ShellOut::ShellCommandFailed------------------------------------Expected process to exit with [0], but received &#x27;127&#x27;---- Begin output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----STDOUT:STDERR: /opt/gitlab/embedded/bin/psql: symbol lookup error: /opt/gitlab/embedded/bin/psql: undefined symbol: PQconnectdbParams---- End output of /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; ----Ran /opt/gitlab/embedded/bin/psql --port 5432 -h /var/opt/gitlab/postgresql -d template1 -c &quot;CREATE USER gitlab&quot; returned 127\n\n问题分析：因为我的centos服务器上面已经装了postgresql的8.4.18版本；\n1234[root@gitlab0 ~]# rpm -qa|grep postgrespostgresql-8.4.18-1.el6_4.x86_64postgresql-devel-8.4.18-1.el6_4.x86_64postgresql-libs-8.4.18-1.el6_4.x86_64\n使用&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;bin&#x2F;psql的时候找不到对应的库(&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib&#x2F;postgresql)。\n解决方法1:卸载postgresql-8.4.18,卸载gitlab,然后重新安装gitlab。\n卸载gitlab方法如下：\n1234sudo gitlab-ctl stopsudo gitlab-ctl uninstallsudo gitlab-ctl cleansesudo rm -rf /opt/gitlab\n\n解决方法2:增加gitlab带的psql所需lib路径到系统LD_LIBRARY_PATH\n123456789# vi /etc/profileexport LD_LIBRARY_PATH=/opt/gitlab/embedded/lib:/tmp/product.......# source /etc/profile# echo $LD_LIBRARY_PATH/opt/gitlab/embedded/lib:/tmp/product.......\nPS：\n\n增加&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;lib路径到$LD_LIBRARY_PATH最前面，因为是按顺序加载路径，所以如果加到最后面还是不能成功。\n路径之间使用:分隔\n\n然后再执行#gitlab-ctl reconfigure，即可成功。\n1gitlab Reconfigured!\n查看postgresql版本:\n1234[root@gitlab0 ~]# /opt/gitlab/embedded/bin/psql --versionpsql (PostgreSQL) 9.2.16[root@gitlab0 ~]# psql --versionpsql (PostgreSQL) 8.4.18\n\n参考链接：http://dreamlikes.cn/archives/78\n","dateCreated":"2018-01-02T14:48:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-01-02T14:48:04+08:00","description":"","headline":"gitlab psql: undefined symbol: PQconnectdbParams","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/35560/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/35560/","keywords":"Gitlab"}</script>
     <meta name="description" content="背景公司拆分子公司，需要把现有Gitlab也分离出来。 搭建环境： centos6.5 gitlab8.8.5  搭建方法： Omnibus package installation  遇到问题：安装完成，执行 #gitlab-ctl reconfigure 报错如下： 123456789101112131415[execute] &#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;bin&#x2F;psql: sy">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="gitlab psql: undefined symbol: PQconnectdbParams">
@@ -138,8 +138,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </h5>
                 
             </div>
         
@@ -247,22 +246,6 @@
                         >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="LinkedIn"
-                        >
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -511,7 +494,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Weilong. All Rights Reserved.
+        Copyrights &copy; 2023 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -693,8 +676,7 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </div>
         
         
             <div id="about-card-job">

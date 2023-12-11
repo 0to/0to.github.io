@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nGithub: Removing files from a repository’s history\nGithub: Removing sensitive data from a repository\n\nGit-scm: git-filter-branch\nbfg-repo-cleaner: bfg-repo-cleaner\n\n\n场景1:最新的一个提交版本里面新增了敏感、较大、无意义的文件，需要进行清理。\n12345678910111. 删除文件    $ git rm --cached $&#123;文件绝对地址&#125;2. 增加到上述文件到 .gitignore    $ vim .gitignore3. 修复最新提交版本    $ git commit --amend4. 推送新版本到远端仓库    如果刚才版本已经推送到远端仓库：        $ git push -f    如果刚才版本只是在本地仓库：        $ git push\n\n场景2:历史版本里面存在敏感、较大、无意义的文件，需要进行清理。\n使用 git filter-branchgit 原生提供的命令，如果没有的话，请先升级机器git版本。\n\n原理：  扫描代码库所有版本  如果某个版本里面发现了指定的文件OR目录：      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。  如果版本没有包含指定文件OR目录，那么继续遍历。\nPS：\n如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。\n一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。\n一般都在本地仓库根目录执行\n执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune&#x3D;now.\n\n\n\n123456789101. 执行命令    $ git filter-branch --force --index-filter &#x27;git rm --cached -r --ignore-unmatch $&#123;要清理的文件OR目录的绝对地址&#125;&#x27; --prune-empty --tag-name-filter cat -- --all2. 增加到上述文件OR目录到 .gitignore    $ vim .gitignore3. 推送新版本到远端仓库    $ git push -f --all    $ git push -f --tags4. 清理本地仓库残留的git objects    $ git reflog expire --expire=now --all    $ git gc --prune=now\n\n\n\n使用 bfg-repo-cleanerRoberto Tyley使用Scala语言写了 bfg-repo-cleaner工具。可以简单理解为一个轻量级的 git filter-branch。使用比较简单，功能比较强大，只需要下载最新的jar包，然后执行👇命令：\n1234# 删除大于50M的文件$ java -jar bfg.jar --no-blob-protection --strip-blobs-bigger-than 50M# 删除指定文件$ java -jar bfg.jar --no-blob-protection --delete-files $&#123;要清理的文件的绝对地址&#125;\nPS:    1. bfg-repo-cleaner 有个protect功能，默认HEAD是受保护的。        受保护的分支最新版本如果涉及需要清理文件，那么并不会成功。        –no-blob-protection  关闭protect功能        –protect-blobs-from ${分支1},${分支2} 增加受保护的分支    2. 建议在本地仓库根目录执行。\n\n场景3:查找代码库里面较大文件方法：    - 如果当前版本还存在的文件，可以直接du排序来识别；    - 如果当前版本不存在，但是历史中出现过的大文件，可以按照下面步骤来查询。\n121. 显示比较大的pack$ du -ah .git/objects/pack\n\n122. 识别object,对输出的第三列信息即文件大小进行排序$ git verify-pack -v .git/objects/pack/$&#123;pack-XXX.pack&#125; | sort -k 3 -n | tail -5\n\n123. 识别object对应的文件$ git rev-list --objects --all | grep $&#123;👆获取的object&#125;\n\n","dateCreated":"2018-07-18T15:23:19+08:00","dateModified":"2018-07-18T18:50:49+08:00","datePublished":"2018-07-18T15:23:19+08:00","description":"","headline":"Git 历史删除文件","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/1056/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/1056/","keywords":"Git"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"参考链接：\nGithub: Removing files from a repository’s history\nGithub: Removing sensitive data from a repository\n\nGit-scm: git-filter-branch\nbfg-repo-cleaner: bfg-repo-cleaner\n\n\n场景1:最新的一个提交版本里面新增了敏感、较大、无意义的文件，需要进行清理。\n12345678910111. 删除文件    $ git rm --cached $&#123;文件绝对地址&#125;2. 增加到上述文件到 .gitignore    $ vim .gitignore3. 修复最新提交版本    $ git commit --amend4. 推送新版本到远端仓库    如果刚才版本已经推送到远端仓库：        $ git push -f    如果刚才版本只是在本地仓库：        $ git push\n\n场景2:历史版本里面存在敏感、较大、无意义的文件，需要进行清理。\n使用 git filter-branchgit 原生提供的命令，如果没有的话，请先升级机器git版本。\n\n原理：  扫描代码库所有版本  如果某个版本里面发现了指定的文件OR目录：      如果此版本包含要清理的文件OR目录 和 其它变更的话，对此版本进行删除指定文件OR目录（保留其它变更），并生成新的版本。同时后面的版本会变基到新版本。      如果此版本只包含要清理的文件OR目录变更的话，那么此版本会被清除。同时后面的版本会变基到上一个版本。  如果版本没有包含指定文件OR目录，那么继续遍历。\nPS：\n如果代码库历史比较多 OR 涉及到指定文件OR目录的版本比较多，那么命令执行会比较慢。\n一般会导致代码库版本树变化，对于涉及开发同学，建议开始前提交本地修改变更到远端仓库，完成后本机重新clone代码库进行开发。\n一般都在本地仓库根目录执行\n执行命令后历史版本里面已经清理了文件, 但是我们的本地仓库里面仍然保留了这些objects, 等待垃圾回收(GC), 如果想立即回收本地仓库空间可以执行 git gc –prune&#x3D;now.\n\n\n\n123456789101. 执行命令    $ git filter-branch --force --index-filter &#x27;git rm --cached -r --ignore-unmatch $&#123;要清理的文件OR目录的绝对地址&#125;&#x27; --prune-empty --tag-name-filter cat -- --all2. 增加到上述文件OR目录到 .gitignore    $ vim .gitignore3. 推送新版本到远端仓库    $ git push -f --all    $ git push -f --tags4. 清理本地仓库残留的git objects    $ git reflog expire --expire=now --all    $ git gc --prune=now\n\n\n\n使用 bfg-repo-cleanerRoberto Tyley使用Scala语言写了 bfg-repo-cleaner工具。可以简单理解为一个轻量级的 git filter-branch。使用比较简单，功能比较强大，只需要下载最新的jar包，然后执行👇命令：\n1234# 删除大于50M的文件$ java -jar bfg.jar --no-blob-protection --strip-blobs-bigger-than 50M# 删除指定文件$ java -jar bfg.jar --no-blob-protection --delete-files $&#123;要清理的文件的绝对地址&#125;\nPS:    1. bfg-repo-cleaner 有个protect功能，默认HEAD是受保护的。        受保护的分支最新版本如果涉及需要清理文件，那么并不会成功。        –no-blob-protection  关闭protect功能        –protect-blobs-from ${分支1},${分支2} 增加受保护的分支    2. 建议在本地仓库根目录执行。\n\n场景3:查找代码库里面较大文件方法：    - 如果当前版本还存在的文件，可以直接du排序来识别；    - 如果当前版本不存在，但是历史中出现过的大文件，可以按照下面步骤来查询。\n121. 显示比较大的pack$ du -ah .git/objects/pack\n\n122. 识别object,对输出的第三列信息即文件大小进行排序$ git verify-pack -v .git/objects/pack/$&#123;pack-XXX.pack&#125; | sort -k 3 -n | tail -5\n\n123. 识别object对应的文件$ git rev-list --objects --all | grep $&#123;👆获取的object&#125;\n\n","dateCreated":"2018-07-18T15:23:19+08:00","dateModified":"2018-07-18T18:50:49+08:00","datePublished":"2018-07-18T15:23:19+08:00","description":"","headline":"Git 历史删除文件","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/1056/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/1056/","keywords":"Git"}</script>
     <meta name="description" content="参考链接： Github: Removing files from a repository’s history Github: Removing sensitive data from a repository  Git-scm: git-filter-branch bfg-repo-cleaner: bfg-repo-cleaner   场景1:最新的一个提交版本里面新增了敏感、较大、无意义的">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Git 历史删除文件">
@@ -142,8 +142,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </h5>
                 
             </div>
         
@@ -251,22 +250,6 @@
                         >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="LinkedIn"
-                        >
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -522,7 +505,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Weilong. All Rights Reserved.
+        Copyrights &copy; 2023 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -704,8 +687,7 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </div>
         
         
             <div id="about-card-job">

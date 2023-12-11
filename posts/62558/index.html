@@ -17,7 +17,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。\n需求：需要保留所有 branches、主干、tags的历史记录。\n迁移方法：使用git官方提供的git svn命令\n\n参考链接：官方文档\n\n系统环境：\nOS: macOS 10.13.3\nSVN：1.9.4\nGIT：2.16.2\n\n迁移步骤：\n获取指定svn代码库涉及的开发同学名单并转换： svn log $SVN_URL –xml | grep author | sort -u | perl -pe ‘s&#x2F;.&gt;(.?)&lt;.*&#x2F;$1 &#x3D; &#x2F;‘ &gt; user.txtuser.txt内容如下： dev1_name &#x3D; dev2_name &#x3D;因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。 修改上述命令得到的user.txt如下： dev1_name &#x3D; dev1_name dev2_name &#x3D; dev2_name\n使用git svn cloned代码库到本地： git svn clone $SVN_URL –no-metadata –authors-file&#x3D;user.txt -s\n调整本地库目录结构： cd $project_dir mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;tags&#x2F;$tags_name .git&#x2F;refs&#x2F;tags&#x2F; mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;$branches_name .git&#x2F;refs&#x2F;heads&#x2F; rm -rf .git&#x2F;refs&#x2F;remotes&#x2F;origin\n上传本地库到remote仓库： git remote add origin $GIT_URL git push origin –all git push origin –tags\n\nPS:\n如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。 git svn clone $SVN_URL -r $指定版本:HEAD\n较新版本的git都原生带了 git svn命令，如果你使用的git版本没有此命令，建议升级新版git或者单独安装git-svn命令。\ngit clone命令执行时间主要和 原SVN库大小、log多少有关。\nsvn迁移git后需要注意git不支持空目录，需要使用在空目录增加隐藏文件来上传，通常使用.gitkeep文件。\n如果原SVN库结构不是规范的branches、tags、trunk结构 git svn clone $SVN_URL –branches&#x3D; –tags&#x3D; –trunk&#x3D; 如果没有tags的话–tags可以不写，branches同理；subdir写相对路径即可 上面使用的-s参数表示的是–stdlayout适合标准结构的SVN项目。\n\n","dateCreated":"2018-03-07T10:30:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-07T10:30:04+08:00","description":"","headline":"svn代码库迁移到git","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/62558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/62558/","keywords":"Git"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png"},"articleBody":"背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。\n需求：需要保留所有 branches、主干、tags的历史记录。\n迁移方法：使用git官方提供的git svn命令\n\n参考链接：官方文档\n\n系统环境：\nOS: macOS 10.13.3\nSVN：1.9.4\nGIT：2.16.2\n\n迁移步骤：\n获取指定svn代码库涉及的开发同学名单并转换： svn log $SVN_URL –xml | grep author | sort -u | perl -pe ‘s&#x2F;.&gt;(.?)&lt;.*&#x2F;$1 &#x3D; &#x2F;‘ &gt; user.txtuser.txt内容如下： dev1_name &#x3D; dev2_name &#x3D;因为svn只有用户名，而git需要提供用户名和邮箱，所以我们需要做下用户转换。 修改上述命令得到的user.txt如下： dev1_name &#x3D; dev1_name dev2_name &#x3D; dev2_name\n使用git svn cloned代码库到本地： git svn clone $SVN_URL –no-metadata –authors-file&#x3D;user.txt -s\n调整本地库目录结构： cd $project_dir mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;tags&#x2F;$tags_name .git&#x2F;refs&#x2F;tags&#x2F; mv .git&#x2F;refs&#x2F;remotes&#x2F;origin&#x2F;$branches_name .git&#x2F;refs&#x2F;heads&#x2F; rm -rf .git&#x2F;refs&#x2F;remotes&#x2F;origin\n上传本地库到remote仓库： git remote add origin $GIT_URL git push origin –all git push origin –tags\n\nPS:\n如果svn历史记录太多，而且并不需要很久之前的版本的话，可以选择从指定版本进行转换。 git svn clone $SVN_URL -r $指定版本:HEAD\n较新版本的git都原生带了 git svn命令，如果你使用的git版本没有此命令，建议升级新版git或者单独安装git-svn命令。\ngit clone命令执行时间主要和 原SVN库大小、log多少有关。\nsvn迁移git后需要注意git不支持空目录，需要使用在空目录增加隐藏文件来上传，通常使用.gitkeep文件。\n如果原SVN库结构不是规范的branches、tags、trunk结构 git svn clone $SVN_URL –branches&#x3D; –tags&#x3D; –trunk&#x3D; 如果没有tags的话–tags可以不写，branches同理；subdir写相对路径即可 上面使用的-s参数表示的是–stdlayout适合标准结构的SVN项目。\n\n","dateCreated":"2018-03-07T10:30:04+08:00","dateModified":"2018-05-04T15:38:27+08:00","datePublished":"2018-03-07T10:30:04+08:00","description":"","headline":"svn代码库迁移到git","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://0to.github.io/posts/62558/"},"publisher":{"@type":"Organization","name":"Weilong","sameAs":["https://github.com/0to","mailto:326688025@qq.com"],"image":"owl.png","logo":{"@type":"ImageObject","url":"owl.png"}},"url":"https://0to.github.io/posts/62558/","keywords":"Git"}</script>
     <meta name="description" content="背景：公司主要使用git作为代码管理仓库，现需要把部分使用svn管理的代码迁移到git。 需求：需要保留所有 branches、主干、tags的历史记录。 迁移方法：使用git官方提供的git svn命令  参考链接：官方文档  系统环境： OS: macOS 10.13.3 SVN：1.9.4 GIT：2.16.2  迁移步骤： 获取指定svn代码库涉及的开发同学名单并转换： svn log $">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="svn代码库迁移到git">
@@ -138,8 +138,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Weilong</h4>
                 
-                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </h5>
+                    <h5 class="sidebar-profile-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </h5>
                 
             </div>
         
@@ -247,22 +246,6 @@
                         >
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://www.linkedin.cn/incareer/in/%E9%BE%99-%E5%A8%81-73303298"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="LinkedIn"
-                        >
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -504,7 +487,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Weilong. All Rights Reserved.
+        Copyrights &copy; 2023 Weilong. All Rights Reserved.
     </span>
 </footer>
 
@@ -686,8 +669,7 @@
         
             <h4 id="about-card-name">Weilong</h4>
         
-            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Configuration management</li> <li align="left">Process improvement</li> <li align="left">Continuous deploy</li> <li align="left">Python program</li> </ul>
-</ul> </div>
+            <div id="about-card-bio"> <ul> Write something about work-life: <ul class="nav pull-left"> <li align="left">Project management</li> <li align="left">Process improvement</li> </ul> </ul> </div>
         
         
             <div id="about-card-job">
